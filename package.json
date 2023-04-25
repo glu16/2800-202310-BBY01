@@ -1,0 +1,20 @@
+{
+  "name": "2800-202310-bby01",
+  "version": "1.0.0",
+  "description": "COMP2800 BBY-01 Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js --chrome"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glu16/2800-202310-BBY01.git"
+  },
+  "author": "BBY-01",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glu16/2800-202310-BBY01/issues"
+  },
+  "homepage": "https://github.com/glu16/2800-202310-BBY01#readme"
+}
