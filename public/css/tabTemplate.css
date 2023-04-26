@@ -1,0 +1,42 @@
+/* THESE ARE THE DEFAUL SETTINGS */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@600&display=swap');
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif!important;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+#mainCon{
+    background-color: #46494C;
+}
+.nav-link {
+  color: white;
+}
+
+.nav-link:hover {
+  color: #b5b5b5;
+
+}
+
+#footer{  
+ background-color: black;
+ bottom: 0;
+ width: 100%;
+ position: absolute;
+
+}
+/* END OF DEFAULT SETTINGS */
