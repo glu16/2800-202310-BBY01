@@ -11,6 +11,10 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
+  background-image: url("/img/atlas.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* This is from w3Schools
@@ -31,20 +35,18 @@ img {
 
 #mainCon {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   align-content: space-around;
   justify-content: space-between;
-  background-image: url("/img/atlas.webp");
-  background-size: cover;
-  background-repeat: no-repeat;
+  
 }
 
 #hero {
-  width: 100%;
   display: flex;
+  flex-direction: column;
   text-align: center;
   align-items: center;
-  flex-direction: column;
+  justify-content: center;
   padding-bottom: 50px;
   background: linear-gradient(transparent, #000000 75%);
 }
@@ -71,3 +73,33 @@ img {
   text-decoration: none;
   color: rgb(0, 0, 0);
 }
+
+#formContainer{
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  align-items:center;
+  text-align:center;
+  justify-content: center;
+  
+}
+
+#signup {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  align-items:center;
+  text-align:center;
+  justify-content: center;
+}
+
+#signupCon{
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  align-items:center;
+  text-align:center;
+  justify-content: center;
+  
+}
+
