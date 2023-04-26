@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.json());
 
-// mapping file system paths to the app's virtual paths
+// Mapping file system paths to the app's virtual paths
 app.use("/js", express.static("./public/js"));
 app.use("/css", express.static("./public/css"));
 app.use("/img", express.static("./public/img"));
@@ -27,7 +27,7 @@ app.get("/", function (req, res) {
   res.send(doc);
 });
 
-// for page not found
+// For page not found
 app.use(function (req, res, next) {
   res
     .status(404)
@@ -42,3 +42,5 @@ app.listen(port, function (err) {
   if (err) console.log(err);
   else open(`http://localhost:${port}`, { app: "google chrome" });
 });
+
+
