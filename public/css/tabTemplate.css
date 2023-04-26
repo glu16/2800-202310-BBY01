@@ -16,6 +16,9 @@ body {
   
 }
 
+/* This is from w3Schools
+https://www.w3schools.com/howto/howto_css_div_full_height.asp
+ */
 .fullHeight {
   height: 100%;
 }
