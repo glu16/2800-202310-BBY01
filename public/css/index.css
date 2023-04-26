@@ -1,0 +1,23 @@
+html,body{
+    height: 100%;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.fullHeight{
+    height: 100%;
+}
+
+
+#mainCon{
+    color: blue;
+}
+
+
+#test{
+    color: red;
+    height: 1000vh;
+}   
