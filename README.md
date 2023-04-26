@@ -1,12 +1,11 @@
-<h1 align="center"> 2800-202310-BBY01 </h1> 
+<h1 align="center"> ChatGPT (ChatGymPersonalTrainer) </h1> 
 <div align="center">
-  <a align="center" href="https://github.com/gdcho/1800_202310_BBY10"></a>
+  <a align="center" href="https://github.com/glu16/2800-202310-BBY01"></a>
 </div>
 
 ## Project Description
 
-<br>
-<br>
+An AI fitness app that allows users to customize their dietary and fitness plans.
 
 ## Contributors
 
@@ -53,5 +52,5 @@
 ├── package-lock.json               # JSON files
 ├── package.json                    # JSON files
 ├── README.md                       # Project description
-└── server.js                         # Serves the website on Port 8000
+└── server.js                       # Serves the website on Port 8000
 ```
