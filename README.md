@@ -29,7 +29,7 @@ Healthify is a comprehensive fitness and dietary app designed to help users achi
 Installation:
 * Download this entire project folder and navigate to the root folder using Command Prompt or Terminal.
 ```sh
-git clone https://github.com/gdcho/1800_202310_BBY10
+git clone https://github.com/glu16/2800-202310-BBY01
 ```
 * Install node.js by running this in Command Prompt or Terminal 
 ```sh

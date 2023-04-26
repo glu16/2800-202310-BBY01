@@ -18,6 +18,7 @@ body {
   background-color: #46494C;
   padding: 40px;
 
+  padding-bottom: 80px;
 
 
 /* This is from stackoverflow
@@ -45,7 +46,7 @@ https://stackoverflow.com/questions/7527152/div-with-dynamic-min-height-based-on
  position: sticky;
 
 
- 
+
 /* This is from stackoverflow
 https://stackoverflow.com/questions/7527152/div-with-dynamic-min-height-based-on-browser-window-height
  */
