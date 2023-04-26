@@ -48,69 +48,24 @@ app.use(
 );
 
 app.get("/", (req, res) => {
-  if (!req.session.authenticated) {
-    const buttons = `
-      <button onclick="window.location.href='/signup'">Sign up</button>
-      <button onclick="window.location.href='/login'">Log in</button>
-    `;
-    res.send(`<h1>Create an account or log in</h1>${buttons}`);
-  } else {
-    const buttons = `
-      <button onclick="window.location.href='/members'">Go to Members Area</button>
-      <button onclick="window.location.href='/logout'">Log out</button>
-    `;
-    res.send(`<h1>Hello, ${req.session.username}!</h1>${buttons}`);
-  }
+  // if (!req.session.authenticated) {
+    res.sendFile(__dirname + '/app/html/index.html');
+  // } else {
+  //   const buttons = `
+  //     <button onclick="window.location.href='/members'">Go to Members Area</button>
+  //     <button onclick="window.location.href='/logout'">Log out</button>
+  //   `;
+  //   res.send(`<h1>Hello, ${req.session.username}!</h1>${buttons}`);
+  // }
 });
 
-app.get("/nosql-injection", async (req, res) => {
-  var username = req.query.user;
-
-  if (!username) {
-    res.send(
-      `<h3>No user provided - try /nosql-injection?user=name</h3> <h3>or /nosql-injection?user[$ne]=name</h3>`
-    );
-    return;
-  }
-  console.log("user: " + username);
-
-  const schema = Joi.string().max(20).required();
-  const validationResult = schema.validate(username);
-
-  // If we didn't use Joi to validate and check for a valid URL parameter below
-  // we could run our userCollection.find and it would be possible to attack.
-  // A URL parameter of user[$ne]=name would get executed as a MongoDB command
-  // and may result in revealing information about all users or a successful
-  // login without knowing the correct password.
-  if (validationResult.error != null) {
-    console.log(validationResult.error);
-    res.send(
-      "<h1 style='color:darkred;'>A NoSQL injection attack was detected!!</h1>"
-    );
-    return;
-  }
-
-  const result = await userCollection
-    .find({ username: username })
-    .project({ username: 1, password: 1, _id: 1 })
-    .toArray();
-
-  console.log(result);
-
-  res.send(`<h1>Hello, ${username}!</h1>`);
+app.get('/index.html', (req, res) => {
+  res.sendFile(__dirname + '/app/html/index.html');
 });
+
 
 app.get("/signup", (req, res) => {
-  var html = `
-    <h1>Create user</h1>
-    <form action='/submitUser' method='post'>
-    <input name='username' type='text' placeholder='Username'>
-    <input name='email' type='email' placeholder='Email'>
-    <input name='password' type='password' placeholder='Password'>
-    <button>Submit</button>
-    </form>
-    `;
-  res.send(html);
+  res.sendFile(__dirname + '/app/html/signup.html');
 });
 
 app.get("/login", (req, res) => {
