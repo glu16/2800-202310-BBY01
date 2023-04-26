@@ -1,23 +1,67 @@
-html,body{
-    height: 100%;
+html,
+body {
+  height: 100%;
+  margin: 0;
 }
 
-body{
-    margin: 0;
-    padding: 0;
+body {
+  margin: 0;
+  padding: 0;
+  position: relative;
 }
 
-.fullHeight{
-    height: 100%;
+.fullHeight {
+  height: 100%;
 }
 
-
-#mainCon{
-    color: blue;
+#navBar {
+  background-color: #000;
 }
 
+img {
+  height: 50px;
+  width: auto;
+}
 
-#test{
-    color: red;
-    height: 1000vh;
-}   
+#mainCon {
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  justify-content: space-between;
+  background-image: url("/img/atlas.webp");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#hero {
+  width: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+  padding-bottom: 50px;
+  background: linear-gradient(transparent, #000000 75%);
+}
+
+.text {
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+    1px 1px 0 #000;
+  background-color: transparent;
+}
+
+#nextbtn {
+  width: 200px;
+  height: 50px;
+  background-color: #ffffff;
+  border-color: #ffffff;
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+
+  font-size: 1rem;
+}
+
+#link {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
