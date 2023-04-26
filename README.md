@@ -1,11 +1,11 @@
-<h1 align="center"> ChatGPT (ChatGymPersonalTrainer) </h1> 
+<h1 align="center"> Healthify </h1> 
 <div align="center">
   <a align="center" href="https://github.com/glu16/2800-202310-BBY01"></a>
 </div>
 
 ## Project Description
 
-An AI fitness app that allows users to customize their dietary and fitness plans.
+Healthify is a comprehensive fitness and dietary app designed to help users achieve their health goals. The app provides personalized fitness plans, workout routines, and meal plans based on users' unique needs, preferences, and goals. It also includes a variety of tracking features to help users monitor their progress, including calorie and nutrient tracking, weight tracking, and exercise tracking.
 
 ## Contributors
 
@@ -47,7 +47,6 @@ An AI fitness app that allows users to customize their dietary and fitness plans
  /2800-202310-BBY01
 ├── app                             # Firebase and HTML files
 ├── public                          # CSS, JS, and img files
-├── text                            # Navbar and footer files
 ├── .gitignore                      # Git ignore file
 ├── package-lock.json               # JSON files
 ├── package.json                    # JSON files
