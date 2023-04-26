@@ -11,6 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/glu16/2800-202310-BBY01.git"
   },
+  "type": "module",
   "author": "BBY-01",
   "license": "ISC",
   "bugs": {
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/glu16/2800-202310-BBY01#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "open": "^9.1.0"
   }
 }
