@@ -11,13 +11,8 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
-  background-image: url("");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background-color: black;
 }
-
-/* This is from w3Schools https://www.w3schools.com/howto/howto_css_div_full_height.asp */
 
 img {
   height: 50px;
@@ -30,6 +25,14 @@ img {
   align-content: space-around;
   justify-content: space-between;
 }
+
+.container {
+  position: relative;
+  margin-top: 160px;
+  max-width: 1000px;
+  border-radius: 10px;
+}
+
 
 
 
