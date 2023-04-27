@@ -69,29 +69,23 @@ app.get("/signup.html", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  var html = `
-    <h1>Log in</h1>
-    <form action='/loggingin' method='post'>
-    <input name='email' type='text' placeholder='Email'>
-    <input name='password' type='password' placeholder='Password'>
-    <button>Submit</button>
-    </form>
-    `;
-  res.send(html);
+  res.sendFile(__dirname + '/app/html/login.html');
 });
 
 app.post("/submitUser", async (req, res) => {
-  var username = req.body.username;
+  var userFirstName = req.body.firstName;
+  var userLastName = req.body.lastName;
   var password = req.body.password;
   var email = req.body.email;
 
   const schema = Joi.object({
-    username: Joi.string().alphanum().max(20).required(),
+    userFirstName: Joi.string().alphanum().max(20).required(),
+    userLastName: Joi.string().alphanum().max(20).required(),
     password: Joi.string().max(20).required(),
     email: Joi.string().email().required(),
   });
 
-  const validationResult = schema.validate({ username, password, email });
+  const validationResult = schema.validate({ userFirstName, userLastName, password, email });
   if (validationResult.error != null) {
     console.log(validationResult.error);
     var errorMessage = validationResult.error.details[0].message;
@@ -102,14 +96,15 @@ app.post("/submitUser", async (req, res) => {
   var hashedPassword = await bcrypt.hash(password, saltRounds);
 
   await userCollection.insertOne({
-    username: username,
+    firstName: userFirstName,
+    lastName: userLastName,
     password: hashedPassword,
     email: email,
   });
   console.log("Inserted user");
 
   req.session.authenticated = true;
-  req.session.username = username;
+  req.session.firstName = userFirstName;
 
   res.redirect("/");
 });
@@ -129,7 +124,7 @@ app.post("/loggingin", async (req, res) => {
 
   const result = await userCollection
     .find({ email: email })
-    .project({ username: 1, email: 1, password: 1, _id: 1 })
+    .project({ firstName: 1, email: 1, password: 1, _id: 1 })
     .toArray();
 
   console.log(result);
@@ -142,7 +137,7 @@ app.post("/loggingin", async (req, res) => {
     console.log("Correct password");
     req.session.authenticated = true;
     req.session.email = email;
-    req.session.username = result[0].username;
+    req.session.firstName = result[0].firstName;
     req.session.cookie.maxAge = expireTime;
 
     res.redirect("/loggedin");
