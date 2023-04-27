@@ -70,6 +70,7 @@ img {
   color: rgb(0, 0, 0);
 }
 
+/*Sign-up page */
 #formContainer{
   display: flex;
   flex-direction: column;
@@ -80,8 +81,16 @@ img {
   border-radius: 10px;
   box-shadow:3px 0px 10px 0px rgb(0, 0, 0); 
   padding: 20px;
-  
 }
+
+#formContainer > p {
+padding-top: 20px;
+font-size: 9pt;
+}
+
+#formContainer > p > a {
+  text-decoration: none;
+  }
 
 #signup {
   padding: 0px 100px;
@@ -93,9 +102,8 @@ img {
   flex-direction: column;
   align-items: center;
   padding: 10px;
-
-  
 }
+
 .user-input {
   border: none;
   border-bottom: solid 1px black;
@@ -106,7 +114,9 @@ img {
   border: none;
   border-radius: 10px;
   transition: 0.2s;
+  width: 100%;
 }
+
 #signupCon{
   display: flex;
   margin: 0;
@@ -116,4 +126,30 @@ img {
   justify-content: center;
   
 }
+
+/*Login page*/
+#loginCon{
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  align-items:center;
+  text-align:center;
+  justify-content: center;
+}
+
+#login {
+  padding: 0 75px 30px 75px;
+  
+}
+
+#login > input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+
+
+
 
