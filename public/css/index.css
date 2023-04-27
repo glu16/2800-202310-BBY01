@@ -104,6 +104,7 @@ img {
 .user-input {
   border: none;
   border-bottom: solid 1px black;
+  width: 100%;
 }
 
 #submit-btn {
@@ -143,3 +144,8 @@ img {
   align-items: center;
   padding: 10px;
 }
+
+
+
+
+
