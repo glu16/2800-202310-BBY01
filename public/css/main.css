@@ -1,0 +1,37 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: "Roboto", sans-serif !important;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background-image: url("");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* This is from w3Schools https://www.w3schools.com/howto/howto_css_div_full_height.asp */
+
+.fullHeight {
+  height: 100%;
+}
+
+img {
+  height: 50px;
+  width: auto;
+}
+
+#mainCon {
+  display: flex;
+  flex-direction: column-reverse;
+  align-content: space-around;
+  justify-content: space-between;
+}
+
+
+

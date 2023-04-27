@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@600&display=swap");
 
 html,
 body {
@@ -7,7 +7,7 @@ body {
 }
 
 body {
-  font-family: 'Roboto', sans-serif!important;
+  font-family: "Roboto", sans-serif !important;
   margin: 0;
   padding: 0;
   position: relative;
@@ -17,9 +17,8 @@ body {
   background-repeat: no-repeat;
 }
 
-/* This is from w3Schools
-https://www.w3schools.com/howto/howto_css_div_full_height.asp
- */
+/* This is from w3Schools https://www.w3schools.com/howto/howto_css_div_full_height.asp */
+
 .fullHeight {
   height: 100%;
 }
@@ -34,7 +33,6 @@ img {
   flex-direction: column-reverse;
   align-content: space-around;
   justify-content: space-between;
-  
 }
 
 #hero {
@@ -61,7 +59,7 @@ img {
   border-color: #ffffff;
   border-radius: 10px;
   color: rgb(0, 0, 0);
-  
+
   font-size: 1rem;
 }
 
@@ -71,30 +69,29 @@ img {
 }
 
 /*Sign-up page */
-#formContainer{
+#formContainer {
   display: flex;
   flex-direction: column;
-  align-items:center;
-  text-align:center;
+  align-items: center;
+  text-align: center;
   justify-content: center;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow:3px 0px 10px 0px rgb(0, 0, 0); 
+  box-shadow: 3px 0px 10px 0px rgb(0, 0, 0);
   padding: 20px;
 }
 
 #formContainer > p {
-padding-top: 20px;
-font-size: 9pt;
+  padding-top: 20px;
+  font-size: 9pt;
 }
 
 #formContainer > p > a {
   text-decoration: none;
-  }
+}
 
 #signup {
   padding: 0px 100px;
-  
 }
 
 #signup > input {
@@ -109,37 +106,35 @@ font-size: 9pt;
   border-bottom: solid 1px black;
 }
 
-#submit-btn{
-  box-shadow:0px 1px 4px 0px rgba(0, 0, 0, 0.685); 
+#submit-btn {
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
   border: none;
   border-radius: 10px;
   transition: 0.2s;
   width: 100%;
 }
 
-#signupCon{
+#signupCon {
   display: flex;
   margin: 0;
   flex-direction: column;
-  align-items:center;
-  text-align:center;
+  align-items: center;
+  text-align: center;
   justify-content: center;
-  
 }
 
 /*Login page*/
-#loginCon{
+#loginCon {
   display: flex;
   margin: 0;
   flex-direction: column;
-  align-items:center;
-  text-align:center;
+  align-items: center;
+  text-align: center;
   justify-content: center;
 }
 
 #login {
   padding: 0 75px 30px 75px;
-  
 }
 
 #login > input {
@@ -148,8 +143,3 @@ font-size: 9pt;
   align-items: center;
   padding: 10px;
 }
-
-
-
-
-
