@@ -64,7 +64,7 @@ app.get('/index.html', (req, res) => {
 });
 
 
-app.get("/signup", (req, res) => {
+app.get("/signup.html", (req, res) => {
   res.sendFile(__dirname + '/app/html/signup.html');
 });
 

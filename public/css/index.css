@@ -24,10 +24,6 @@ https://www.w3schools.com/howto/howto_css_div_full_height.asp
   height: 100%;
 }
 
-#navBar {
-  background-color: #000;
-}
-
 img {
   height: 50px;
   width: auto;
@@ -76,23 +72,41 @@ img {
 
 #formContainer{
   display: flex;
-  margin: 0;
   flex-direction: column;
   align-items:center;
   text-align:center;
   justify-content: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow:3px 0px 10px 0px rgb(0, 0, 0); 
+  padding: 20px;
   
 }
 
 #signup {
-  display: flex;
-  margin: auto;
-  flex-direction: column;
-  align-items:center;
-  text-align:center;
-  justify-content: center;
+  padding: 0px 100px;
+  
 }
 
+#signup > input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+
+  
+}
+.user-input {
+  border: none;
+  border-bottom: solid 1px black;
+}
+
+#submit-btn{
+  box-shadow:0px 1px 4px 0px rgba(0, 0, 0, 0.685); 
+  border: none;
+  border-radius: 10px;
+  transition: 0.2s;
+}
 #signupCon{
   display: flex;
   margin: 0;
