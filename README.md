@@ -31,24 +31,24 @@ Installation:
 ```sh
 git clone https://github.com/glu16/2800-202310-BBY01
 ```
-* Install node.js by running this in Command Prompt or Terminal 
+* Install node.js by running this in Command Prompt or Terminal.
 ```sh
 npm install -g npm (Mac)
 npm install express (Windows)
 ```
-* Check to make sure node was installed successfully
+* Check to make sure node was installed successfully.
 ```sh
 node -v
 ```
-* Check to make sure npm was installed successfully
+* Check to make sure npm was installed successfully.
 ```sh
 npm -v
 ```
-* Navigate to the root folder for this app and run this in Command Prompt or Terminal
+* Navigate to the root folder for this app and run this in Command Prompt or Terminal.
 ```sh
 node node.js
 ```
-* Open a web browser and type this in the address bar
+* Open a web browser and type this in the address bar.
 ```sh
 localhost:8000 or 127.0.0.1:8000
 ```
@@ -71,6 +71,7 @@ localhost:8000 or 127.0.0.1:8000
  /2800-202310-BBY01
 ├── app                             # Firebase and HTML files
 ├── public                          # CSS, JS, and img files
+├── text                            # Navbar and footer files
 ├── .gitignore                      # Git ignore file
 ├── package-lock.json               # JSON files
 ├── package.json                    # JSON files
