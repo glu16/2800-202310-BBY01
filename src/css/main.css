@@ -6,6 +6,16 @@ body {
   margin: 0;
 }
 
+#root{
+  /* display: flex;
+  justify-content: space-around; */
+  height: 100%;
+}
+
+.navbar {
+  display: block;
+}
+
 body {
   font-family: "Roboto", sans-serif !important;
   margin: 0;
