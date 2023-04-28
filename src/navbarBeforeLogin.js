@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './css/navfooter.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./css/navfooter.css";
 
 function NavbarBeforeLogin() {
   return (
@@ -22,18 +22,15 @@ function NavbarBeforeLogin() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <a className="nav-link" href="/fitness">
-              <span className="material-symbols-outlined"> vital_signs </span> Fitness
-            </a>
-            <a className="nav-link" href="/diet">
-              <span className="material-symbols-outlined"> nutrition </span>Diet
-            </a>
-            <a className="nav-link" href="/leaderboard">
-              <span className="material-symbols-outlined"> leaderboard </span> Ranks
-            </a>
-            <a className="nav-link" href="/profile">
-              <span className="material-symbols-outlined"> account_circle</span> Profile
-            </a>
+            <Link to="/about" className="nav-link">
+              <span class="material-symbols-outlined"> info </span>About Us
+            </Link>
+            <Link to="/contact" className="nav-link">
+              <span class="material-symbols-outlined"> help </span>Contact Us
+            </Link>
+            <Link to="/careers" className="nav-link">
+              <span class="material-symbols-outlined"> work </span>Careers
+            </Link>
           </div>
         </div>
       </div>
