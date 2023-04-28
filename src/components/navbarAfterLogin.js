@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "./css/navfooter.css";
+import "../css/navfooter.css";
 
 function NavbarAfterLogin() {
   return (

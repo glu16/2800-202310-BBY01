@@ -11,7 +11,7 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
 }
 
 #mainCon {
