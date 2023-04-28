@@ -17,10 +17,11 @@ Healthify is a comprehensive fitness and dietary app designed to help users achi
 ## Technologies & Resources Used
 
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![HTML5](https://img.shields.io/badge/HTML-239120?style=for-the-badge&logo=html5&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![React-Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 
@@ -31,7 +32,7 @@ Installation:
 ```sh
 git clone https://github.com/glu16/2800-202310-BBY01
 ```
-* Install node.js by running this in Command Prompt or Terminal.
+* Install Node.js by running this in Command Prompt or Terminal.
 ```sh
 npm install -g npm (Mac)
 npm install express (Windows)
@@ -46,11 +47,11 @@ npm -v
 ```
 * Navigate to the root folder for this app and run this in Command Prompt or Terminal.
 ```sh
-node node.js
+npm start
 ```
 * Open a web browser and type this in the address bar.
 ```sh
-localhost:8000 or 127.0.0.1:8000
+localhost:3000
 ```
 
 ## Known Bugs & Limitations
@@ -69,12 +70,14 @@ localhost:8000 or 127.0.0.1:8000
  Top level of project folder:
 
  /2800-202310-BBY01
-├── app                             # Firebase and HTML files
-├── public                          # CSS, JS, and img files
-├── text                            # Navbar and footer files
+├── datasets                        # Dataset CSV files
+├── openAItester                    # OpenAI files
+├── public                          # React static files
+├── src                             # CSS, JS and image files
 ├── .gitignore                      # Git ignore file
 ├── package-lock.json               # JSON files
 ├── package.json                    # JSON files
 ├── README.md                       # Project description
-└── server.js                       # Serves the website on Port 8000
+├── server.js                       # Serves the website on Port 8000
+└── utils.js                        # Global path file
 ```
