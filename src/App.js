@@ -1,15 +1,15 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import NavbarAfterLogin from './components/NavbarAfterLogin';
-import Home from './components/Home';
-import Fitness from './components/Fitness';
-import Diet from './components/Diet';
-import Leaderboard from './components/Leaderboard';
-import Profile from './components/Profile';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NavbarAfterLogin from "./components/NavbarAfterLogin";
+import Home from "./components/Home";
+import Fitness from "./components/Fitness";
+import Diet from "./components/Diet";
+import Leaderboard from "./components/Leaderboard";
+import Profile from "./components/Profile";
 
-import './css/App.css';
-import './css/main.css';
-import './css/navfooter.css';
+import "./css/App.css";
+import "./css/main.css";
+import "./css/navfooter.css";
 
 function App() {
   return (
