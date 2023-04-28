@@ -1,6 +1,6 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './css/navfooter.css';
+import React from "react";
+import { Link } from "react-router-dom";
+import "./css/navfooter.css";
 
 function NavbarAfterLogin() {
   return (
@@ -22,18 +22,22 @@ function NavbarAfterLogin() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <a className="nav-link" href="/fitness">
-              <span className="material-symbols-outlined"> vital_signs </span> Fitness
-            </a>
-            <a className="nav-link" href="/diet">
-              <span className="material-symbols-outlined"> nutrition </span>Diet
-            </a>
-            <a className="nav-link" href="/leaderboard">
-              <span className="material-symbols-outlined"> leaderboard </span> Ranks
-            </a>
-            <a className="nav-link" href="/profile">
-              <span className="material-symbols-outlined"> account_circle</span> Profile
-            </a>
+            <Link to="/fitness" className="nav-link">
+              <span className="material-symbols-outlined"> vital_signs </span>{" "}
+              Fitness
+            </Link>
+            <Link to="/diet" className="nav-link">
+              <span className="material-symbols-outlined"> nutrition </span>{" "}
+              Diet
+            </Link>
+            <Link to="/leaderboard" className="nav-link">
+              <span className="material-symbols-outlined"> leaderboard </span>{" "}
+              Ranks
+            </Link>
+            <Link to="/profile" className="nav-link">
+              <span className="material-symbols-outlined"> account_circle</span>{" "}
+              Profile
+            </Link>
           </div>
         </div>
       </div>
