@@ -33,3 +33,7 @@ img {
   border-radius: 10px;
 }
 
+.container-fluid {
+  /* Sets dropdown of navbar to be same colour as actual navbar */
+  background-color: inherit;
+}
