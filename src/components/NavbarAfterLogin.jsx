@@ -13,7 +13,7 @@ function NavbarAfterLogin() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand">
+        <Link to="/" className="navbar-brand" onClick={handleNavClose}>
           Healthify
         </Link>
         <button
@@ -24,7 +24,7 @@ function NavbarAfterLogin() {
           aria-controls="navbarNavAltMarkup"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          onClick={() => setIsNavOpen(!isNavOpen)}
+          onClick={setIsNavOpen}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
