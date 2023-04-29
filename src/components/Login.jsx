@@ -5,7 +5,7 @@ function Login() {
     <div className="fullHeight" id="loginCon">
       <div id="formContainer">
         <h1>Login</h1>
-        <form id="login" action="/loggingin">
+        <form id="login" action="/login">
           <label htmlFor="email-input"></label>
           <input
             type="email"
