@@ -42,6 +42,10 @@ function NavbarAfterLogin() {
               <span className="material-symbols-outlined"> leaderboard </span>{" "}
               Ranks
             </Link>
+            <Link to="/calendar" className="nav-link" onClick={handleNavClose}>
+              <span className="material-symbols-outlined"> calendar_month </span>{" "}
+              Calendar
+            </Link>
             <Link to="/profile" className="nav-link" onClick={handleNavClose}>
               <span className="material-symbols-outlined"> account_circle</span>{" "}
               Profile
