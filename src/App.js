@@ -14,8 +14,9 @@ import "./css/navfooter.css";
 function App() {
   return (
     <Router>
-      {/* <div> */}
-        <NavbarAfterLogin />
+      <NavbarAfterLogin />
+      <div id="uiContainer">
+        
         
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,7 +26,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
         </Routes>
         
-      {/* </div> */}
+      </div>
     </Router>
   );
 }
