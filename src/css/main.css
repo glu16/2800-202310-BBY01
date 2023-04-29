@@ -14,6 +14,7 @@ body {
   background-image: url("../img/gradient.png");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 h1 {
@@ -37,9 +38,10 @@ p {
 }
 
 .container {
-  position: relative;
-  margin-top: 160px;
-  max-width: 1000px;
+  /* position: relative; */
+  padding-top: 160px;
+  height: 100%;
+  /* max-width: 1000px; */
   border-radius: 10px;
 }
 
