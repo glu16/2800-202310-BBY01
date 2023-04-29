@@ -6,11 +6,11 @@ body {
   margin: 0;
 }
 
-#root{
+#root {
   /* display: flex;
   justify-content: space-around; */
   height: 100%;
-  color: white;
+  color: black;
 }
 
 #uiContainer {

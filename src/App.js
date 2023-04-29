@@ -15,9 +15,6 @@ function App() {
   return (
     <Router>
       <NavbarAfterLogin />
-      <div id="uiContainer">
-        
-        
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/fitness" element={<Fitness />} />
@@ -25,8 +22,6 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-        
-      </div>
     </Router>
   );
 }
