@@ -7,9 +7,9 @@ function NavbarAfterLogin() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">
+        <Link to="/" className="navbar-brand">
           <img src="logo.png" title="Logo" alt="Logo" />
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
