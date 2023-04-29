@@ -5,7 +5,7 @@ const Calendar = () => {
   return (
     <div>
       <div id="uiContainer">
-        <h1>Calendar Page</h1>
+        <h1>Welcome to the Calendar Page</h1>
         <p>Track your daily goals here</p>
       </div>
     </div>
