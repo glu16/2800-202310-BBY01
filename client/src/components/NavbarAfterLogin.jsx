@@ -30,13 +30,13 @@ function NavbarAfterLogin() {
         </button>
         <div className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`} id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <Link to="/fitness" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> vital_signs </span>{" "}
-              Fitness
-            </Link>
             <Link to="/diet" className="nav-link" onClick={handleNavClose}>
               <span className="material-symbols-outlined"> nutrition </span>{" "}
               Diet
+            </Link>
+            <Link to="/fitness" className="nav-link" onClick={handleNavClose}>
+              <span className="material-symbols-outlined"> exercise </span>{" "}
+              Fitness
             </Link>
             <Link to="/leaderboard" className="nav-link" onClick={handleNavClose}>
               <span className="material-symbols-outlined"> leaderboard </span>{" "}
