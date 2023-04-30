@@ -32,7 +32,7 @@ Installation:
 ```sh
 git clone https://github.com/glu16/2800-202310-BBY01
 ```
-* Install Node.js by running this in Command Prompt or Terminal.
+* Install Node.js by running this in Command Prompt or Terminal in the \server folder.
 ```sh
 npm install -g npm (Mac)
 npm install express (Windows)
@@ -45,11 +45,15 @@ node -v
 ```sh
 npm -v
 ```
-* Navigate to the root folder for this app and run this in Command Prompt or Terminal.
+*  Navigate to the \client folder and run this in Command Prompt or Terminal.
+```sh
+npm install
+```
+* While still in the \client folder run this in the Command Promt or Terminal. The page should open automatically.
 ```sh
 npm start
 ```
-* Open a web browser and type this in the address bar.
+* If not, open a web browser and type this in the address bar.
 ```sh
 localhost:3000
 ```
