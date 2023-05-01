@@ -8,10 +8,6 @@ import Leaderboard from "./components/Leaderboard";
 import Calendar from "./components/Calendar";
 import Profile from "./components/Profile";
 
-import "./css/App.css";
-import "./css/main.css";
-import "./css/navfooter.css";
-
 function App() {
   return (
     <Router>

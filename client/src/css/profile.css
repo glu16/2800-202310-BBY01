@@ -1,0 +1,67 @@
+body {
+  height: 100vh;
+  background-image: url("../img/gradient.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.btn {
+  background-color: #5b809e;
+}
+
+.btn:hover {
+  background-color: #78a7bd;
+  border-color: #78a7bd;
+}
+
+.card {
+  border-radius: 10px;
+}
+
+.img-profile {
+  margin-top: 10px;
+}
+
+.container {
+  margin-top: 40px;
+  max-width: 1000px;
+}
+
+.profile-image {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-bottom: 12px;
+  border-radius: 50%;
+}
+
+.profile-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.profile-image label {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: black;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  font-size: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.profile-image label:hover {
+  background: #666666;
+}
+
+.profile-image input[type="file"] {
+  display: none;
+}
