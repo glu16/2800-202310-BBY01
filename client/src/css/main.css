@@ -25,6 +25,11 @@ p {
   color: black;
 }
 
+#uiContainer {
+  padding-top: 100px;
+  height: 100%;
+}
+
 .container {
   position: relative;
   padding-top: 160px;
@@ -38,7 +43,7 @@ p {
   background-color: inherit;
 }
 
-.home-container {
+.homeContainer {
   height: 100%;
   margin-top: 40px;
   max-width: 1000px;

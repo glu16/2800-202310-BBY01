@@ -13,7 +13,7 @@ function NavbarAfterLogin() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
       <div className="container-fluid">
-        <Link to="/" className="navbar-brand" onClick={handleNavClose}>
+        <Link to="/home" className="navbar-brand" onClick={handleNavClose}>
           Healthify
         </Link>
         <button
