@@ -18,18 +18,11 @@ body {
 }
 
 h1 {
-  color: white;
+  color: black;
 }
 
 p {
-  color: white;
-}
-
-#mainCon {
-  display: flex;
-  flex-direction: column-reverse;
-  align-content: space-around;
-  justify-content: space-between;
+  color: black;
 }
 
 #uiContainer {
@@ -38,10 +31,10 @@ p {
 }
 
 .container {
-  /* position: relative; */
+  position: relative;
   padding-top: 160px;
   height: 100%;
-  /* max-width: 1000px; */
+  max-width: 1000px;
   border-radius: 10px;
 }
 
@@ -49,3 +42,12 @@ p {
   /* Sets dropdown of navbar to be same colour as actual navbar */
   background-color: inherit;
 }
+
+.home-container {
+  height: 100%;
+  margin-top: 40px;
+  max-width: 1000px;
+  padding-top: 160px;
+  border-radius: 10px;
+}
+

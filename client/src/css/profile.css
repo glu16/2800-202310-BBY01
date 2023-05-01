@@ -22,9 +22,12 @@ body {
   margin-top: 10px;
 }
 
-.container {
+.profile-container {
+  height: 100%;
   margin-top: 40px;
   max-width: 1000px;
+  padding-top: 160px;
+  border-radius: 10px;
 }
 
 .profile-image {

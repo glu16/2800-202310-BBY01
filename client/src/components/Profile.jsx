@@ -13,7 +13,7 @@ const Profile = () => {
   return (
     <div>
       <div>
-        <div className="container">
+        <div className="container profile-container">
           <div className="card h-100">
             <div className="card-body">
               <div className="d-flex flex-column align-items-center text-center">
