@@ -1,11 +1,7 @@
 /* Signup CSS */
 
-#signup > p {
-  padding-top: 20px;
-}
-
 #signup {
-  padding: 0px 100px;
+  padding: 40px;
 }
 
 #signup > input {
@@ -34,7 +30,6 @@
   height: 100%;
   margin-top: 40px;
   max-width: 600px;
-  padding-top: 160px;
   border-radius: 10px;
 }
 

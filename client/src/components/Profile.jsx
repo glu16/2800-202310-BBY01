@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import "../css/profile.css";
-import profile from "../img/placeholder-profile.png"
+import profile from "../img/placeholder-profile.png";
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -11,52 +11,48 @@ const Profile = () => {
   const handleSaveChanges = () => {};
 
   return (
-    <div>
-      <div>
-        <div className="container profile-container">
-          <div className="card h-100">
-            <div className="card-body">
-              <div className="d-flex flex-column align-items-center text-center">
-                <div className="profile-image">
-                  <img
-                    className="img-profile"
-                    src={profile}
-                    alt="Profile Image"
-                    id="profile-picture"
-                  />
-                  <label htmlFor="img-upload">
-                    <i className="fa fa-camera"></i>
-                  </label>
-                  <input type="file" id="img-upload" />
-                </div>
-                <div className="mt-3">
-                <div className="email">
-                    <h5>Name</h5>
-                    <p>
-                      <span id="name-goes-here">{name}</span>
-                    </p>
-                  </div>
-                  <div className="email">
-                    <h5>Email</h5>
-                    <p>
-                      <span id="email-goes-here">{email}</span>
-                    </p>
-                  </div>
-                  <div className="phone">
-                    <h5>Phone</h5>
-                    <p>
-                      <span id="phone-goes-here">{phone}</span>
-                    </p>
-                  </div>
-                  <button
-                    className="btn btn-primary"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal"
-                  >
-                    Edit Profile
-                  </button>
-                </div>
+    <div className="container profile-container">
+      <div className="card h-100">
+        <div className="card-body">
+          <div className="d-flex flex-column align-items-center text-center">
+            <div className="profile-image">
+              <img
+                className="img-profile"
+                src={profile}
+                alt="Profile Image"
+                id="profile-picture"
+              />
+              <label htmlFor="img-upload">
+                <i className="fa fa-camera"></i>
+              </label>
+              <input type="file" id="img-upload" />
+            </div>
+            <div className="mt-3">
+              <div className="email">
+                <h5>Name</h5>
+                <p>
+                  <span id="name-goes-here">{name}</span>
+                </p>
               </div>
+              <div className="email">
+                <h5>Email</h5>
+                <p>
+                  <span id="email-goes-here">{email}</span>
+                </p>
+              </div>
+              <div className="phone">
+                <h5>Phone</h5>
+                <p>
+                  <span id="phone-goes-here">{phone}</span>
+                </p>
+              </div>
+              <button
+                className="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#editModal"
+              >
+                Edit Profile
+              </button>
             </div>
           </div>
         </div>
