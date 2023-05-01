@@ -1,0 +1,78 @@
+/* Signup CSS */
+
+h1 {
+  padding-top: 40px;
+}
+
+#signup > p {
+  padding-top: 20px;
+}
+
+#signup {
+  padding: 0px 100px;
+}
+
+#signup > input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+.user-input {
+  border: none;
+  border-bottom: solid 1px black;
+  width: 100%;
+}
+
+#submit-btn {
+  padding-top: 20px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
+  border: none;
+  border-radius: 10px;
+  transition: 0.2s;
+  width: 100%;
+}
+
+#signupContainer {
+  height: 100%;
+  margin-top: 40px;
+  max-width: 600px;
+  padding-top: 160px;
+  border-radius: 10px;
+}
+
+#signupContainer > p {
+  padding-top: 20px;
+}
+
+/* Login CSS */
+
+#loginCon {
+  display: flex;
+  margin: 0;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+#login {
+  padding: 0 75px 30px 75px;
+}
+
+#login > input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+#login-btn {
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
+  border: none;
+  border-radius: 10px;
+  transition: 0.2s;
+  width: 100%;
+  margin-top: 70px;
+}

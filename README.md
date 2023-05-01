@@ -74,14 +74,20 @@ localhost:3000
  Top level of project folder:
 
  /2800-202310-BBY01
-├── datasets                        # Dataset CSV files
-├── openAItester                    # OpenAI files
-├── public                          # React static files
-├── src                             # CSS, JS and image files
+├── client                          # Client-side files
+├── server                          # Server-side files 
 ├── .gitignore                      # Git ignore file
-├── package-lock.json               # JSON files
-├── package.json                    # JSON files
-├── README.md                       # Project description
-├── server.js                       # Serves the website on Port 8000
-└── utils.js                        # Global path file
+└── README.md                       # Project description
+
+It has the following subfolders:
+├── client/                         # Client-side files
+│   ├── datasets                    # CSV files
+│   ├── public                      # Static React files
+│   ├── src                         # Components, CSS and image files
+│   └── openAITester                # OpenAI test files
+│
+└── server/                         # Server-side files 
+    ├── package-lock.json           # JSON file
+    ├── package.json                # JSON file
+    └── server.js                   # JS file
 ```

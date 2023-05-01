@@ -25,11 +25,6 @@ p {
   color: black;
 }
 
-#uiContainer {
-  padding-top: 100px;
-  height: 100%;
-}
-
 .container {
   position: relative;
   padding-top: 160px;
