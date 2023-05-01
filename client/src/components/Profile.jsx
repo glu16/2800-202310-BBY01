@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 
 import "../css/profile.css";
+import profile from "../img/placeholder-profile.png"
 
 const Profile = () => {
   const [name, setName] = useState("");
@@ -20,7 +20,7 @@ const Profile = () => {
                 <div className="profile-image">
                   <img
                     className="img-profile"
-                    src="/img/placeholder-profile.png"
+                    src={profile}
                     alt="Profile Image"
                     id="profile-picture"
                   />
