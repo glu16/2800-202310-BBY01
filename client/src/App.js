@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavbarAfterLogin from "./components/NavbarAfterLogin";
 import SignUp from "./components/SignUp";
+import Login from "./components/Login";
+
 import Home from "./components/Home";
 import SignupDetails from "./components/SignupDetails"
 import Coach from "./components/Coach";
@@ -18,6 +20,7 @@ function App() {
       <NavbarAfterLogin />
         <Routes>
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signupdetails" element={<SignupDetails />} />
           <Route path="/home" element={<Home />} />
           <Route path="/coach" element={<Coach />} />
