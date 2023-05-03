@@ -41,31 +41,18 @@ userInterface.on("line", async input => {
     // loading animation
     startProgress();  
 
-    // const res = await openai.createChatCompletion({
-    // model: "gpt-3.5-turbo",  // change this
-    // messages: [{ role: "user", content: input}]  // input
-
-    const res = await openai.createCompletion({
-        engine: "text-davinci-002",
-        prompt: input,
-        maxTokens: 1024,
-        n: 1,
-        stop: ["\n"]
-})
+    const res = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",  // change this
+    messages: [{ role: "user", content: input}]  // input
+    })
 
     // loading animation
     stopProgress();  
 
     // print out chatgpt response string
-    // const fullResponse = res.data.choices[0].message.content
-    // console.log(fullResponse);  
+    const fullResponse = res.data.choices[0].message.content
+    console.log(fullResponse);  
 
-    // split response by newline and store each paragraph in an array
-    const paragraphs = res.data.choices[0].text.split("\n");
-    // print out each paragraph separately
-    paragraphs.forEach((paragraph) => {
-        console.log(paragraph);
-    });
     
     // reprompt user for new input
     userInterface.prompt()
