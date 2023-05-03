@@ -6,14 +6,11 @@ config()
 
 // import openAIAPI
 import { Configuration, OpenAIApi } from "openai"
-// use nodejs library readline to get user input from console
-import readline from "readline"
 
-// create user interface
-const userInterface = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-})
+// create "instance" of the ai model to use with API key
+const openai = new OpenAIApi( new Configuration({
+    apiKey: process.env.API_KEY
+}))
 
 // create progress wheel animation, code src: chatgpt
 const PWD = ['|', '/', '-', '\\'];
@@ -30,49 +27,35 @@ const stopProgress = () => {
     process.stdout.cursorTo(0);
 };
 
-// prompt user for input
-userInterface.prompt()
+// define input strings
+const inputPrompt = 
+    "Give me a 7-day workout routine with a focus on back muscles."
+;
 
-// listener
-userInterface.on("line", async input => {
-
-    // console.log("loading...");
-
+// run the AI
+const runAI = async (input) => {
+    
     // loading animation
+    console.log("loading...");
     startProgress();  
 
-    // const res = await openai.createChatCompletion({
-    // model: "gpt-3.5-turbo",  // change this
-    // messages: [{ role: "user", content: input}]  // input
-
-    const res = await openai.createCompletion({
-        engine: "text-davinci-002",
-        prompt: input,
-        maxTokens: 1024,
-        n: 1,
-        stop: ["\n"]
-})
+    const res = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",  // change this
+    messages: [{ role: "user", content: input}]  // input
+    })
 
     // loading animation
     stopProgress();  
 
     // print out chatgpt response string
-    // const fullResponse = res.data.choices[0].message.content
-    // console.log(fullResponse);  
-
-    // split response by newline and store each paragraph in an array
-    const paragraphs = res.data.choices[0].text.split("\n");
-    // print out each paragraph separately
-    paragraphs.forEach((paragraph) => {
+    const fullResponse = res.data.choices[0].message.content
+    const paragraphs = fullResponse.split('\n\n');
+    for (let i = 0; i < paragraphs.length; i++) {
+        let paragraph = paragraphs[i];
+        console.log(`Paragraph ${i + 1}:`);
         console.log(paragraph);
-    });
-    
-    // reprompt user for new input
-    userInterface.prompt()
-})
+    }
+}
+runAI(inputPrompt);
 
-// create "instance" of the ai model to use with API key
-const openai = new OpenAIApi( new Configuration({
-    apiKey: process.env.API_KEY
-}))
 
