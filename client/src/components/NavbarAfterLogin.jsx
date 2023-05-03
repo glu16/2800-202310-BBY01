@@ -34,6 +34,12 @@ function NavbarAfterLogin() {
         >
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
+              <Link to="/coach" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> smart_toy </span>{" "}
+                Coach
+              </Link>
+            </li>
+            <li class="nav-item">
               <Link to="/diet" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> nutrition </span>{" "}
                 Diet
