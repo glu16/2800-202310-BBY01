@@ -13,7 +13,6 @@
   border-radius: 10px;
 }
 
-
 #signupDetails {
   padding: 0 75px 30px 75px;
 }
@@ -38,15 +37,13 @@
   align-items: center;
   justify-content: center;
   padding-top: 5%;
-  
 }
 
-input[type='radio']{
+input[type="radio"] {
   transform: scale(1.25);
-
 }
 
-#detailsLabel{
+#detailsLabel {
   font-size: 30pt;
   /* padding: 20px; */
 }

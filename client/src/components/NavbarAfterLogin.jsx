@@ -32,7 +32,7 @@ function NavbarAfterLogin() {
           className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
           id="navbarNavAltMarkup"
         >
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
               <Link to="/home" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> home </span>{" "}
@@ -45,19 +45,19 @@ function NavbarAfterLogin() {
                 Coach
               </Link>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <Link to="/diet" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> nutrition </span>{" "}
                 Diet
               </Link>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <Link to="/fitness" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> exercise </span>{" "}
                 Fitness
               </Link>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <Link
                 to="/leaderboard"
                 className="nav-link"
@@ -67,7 +67,7 @@ function NavbarAfterLogin() {
                 Ranks
               </Link>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <Link
                 to="/calendar"
                 className="nav-link"
@@ -80,8 +80,8 @@ function NavbarAfterLogin() {
               </Link>
             </li>
           </ul>
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
               <Link to="/profile" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined">
                   account_circle
@@ -89,7 +89,7 @@ function NavbarAfterLogin() {
                 Profile
               </Link>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <Link
                 to="/settings"
                 className="nav-link"
@@ -99,7 +99,7 @@ function NavbarAfterLogin() {
                 Settings
               </Link>
             </li>
-            <li className="nav-item">
+            <li class="nav-item">
               <Link to="" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> logout </span> Log
                 out

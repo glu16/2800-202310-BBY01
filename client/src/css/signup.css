@@ -25,12 +25,10 @@
   border-radius: 10px;
   transition: 0.2s;
   width: 60%;
-  
 }
 
 .signupContainer {
   height: 100%;
-  margin-top: 40px;
   border-radius: 10px;
   display: flex;
   justify-self: center;

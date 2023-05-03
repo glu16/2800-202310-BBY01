@@ -11,7 +11,7 @@ const Settings = () => {
             <div className="settings">
               <h1>Notification Preferences</h1>
               <div class="form-check form-switch">
-                <label htmlFor="diet-reminders">Diet Progress Reminders</label>
+              <label htmlFor="diet-reminders">Diet Progress Reminders</label>
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -27,15 +27,11 @@ const Settings = () => {
                   role="switch"
                   id="flexSwitchCheckChecked"
                 ></input>
-                <label htmlFor="fitness-reminders">
-                  Fitness Progress Reminders
-                </label>
+                <label htmlFor="fitness-reminders">Fitness Progress Reminders</label>
               </div>
               <br />
               <div class="form-check form-switch">
-                <label htmlFor="leaderboard-reminders">
-                  Leaderboard Reminders
-                </label>
+              <label htmlFor="leaderboard-reminders">Leaderboard Reminders</label>
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -51,9 +47,7 @@ const Settings = () => {
                   role="switch"
                   id="flexSwitchCheckChecked"
                 ></input>
-                <label htmlFor="challenge-reminders">
-                  Mini Challenge Reminders
-                </label>
+                <label htmlFor="challenge-reminders">Mini Challenge Reminders</label>
               </div>
             </div>
           </div>
