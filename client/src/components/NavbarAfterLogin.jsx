@@ -33,6 +33,12 @@ function NavbarAfterLogin() {
           id="navbarNavAltMarkup"
         >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+              <Link to="/home" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> home </span>{" "}
+                Home
+              </Link>
+            </li>
             <li class="nav-item">
               <Link to="/coach" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> smart_toy </span>{" "}
