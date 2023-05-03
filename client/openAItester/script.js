@@ -13,9 +13,11 @@ const openai = new OpenAIApi( new Configuration({
 }))
 
 
+// import file system module
+import { readFileSync, writeFileSync, writeFile } from 'fs';
+
 // open and read .csv files
 // import { parse } from 'csv-parse';
-import { readFileSync } from 'fs';
 const csv = readFileSync('../Datasets/Exercise/COMPILED_ACTIVITIES.csv', 'utf-8');
 
 
@@ -69,6 +71,14 @@ const runAI = async (input) => {
     // print out chatgpt response string
     const fullResponse = res.data.choices[0].message.content
     const paragraphs = fullResponse.split('\n\n');
+
+    // save the paragraphs as a JSON file
+    writeFileSync('workoutPlan.json', JSON.stringify(fullResponse));
+    // writeFile('workoutPlan.js', paragraphs, (err) => {
+    //     if (err) throw err;
+    //     console.log('The file has been saved!');
+    //   });
+
     for (let i = 0; i < paragraphs.length; i++) {  
         let paragraph = paragraphs[i];
         // console.log(`Paragraph ${i + 1}:`);
