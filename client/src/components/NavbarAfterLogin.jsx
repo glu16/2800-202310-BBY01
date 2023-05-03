@@ -11,7 +11,7 @@ function NavbarAfterLogin() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-black fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
       <div className="container-fluid">
         <Link to="/home" className="navbar-brand" onClick={handleNavClose}>
           Healthify
@@ -24,12 +24,14 @@ function NavbarAfterLogin() {
           aria-controls="navbarNavAltMarkup"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          onClick={setIsNavOpen}>
+          onClick={setIsNavOpen}
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
           className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
-          id="navbarNavAltMarkup">
+          id="navbarNavAltMarkup"
+        >
           <div className="navbar-nav">
             <Link to="/diet" className="nav-link" onClick={handleNavClose}>
               <span className="material-symbols-outlined"> nutrition </span>{" "}
@@ -42,7 +44,8 @@ function NavbarAfterLogin() {
             <Link
               to="/leaderboard"
               className="nav-link"
-              onClick={handleNavClose}>
+              onClick={handleNavClose}
+            >
               <span className="material-symbols-outlined"> leaderboard </span>{" "}
               Ranks
             </Link>
@@ -60,7 +63,7 @@ function NavbarAfterLogin() {
               </span>{" "}
               Profile
             </Link>
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ml-auto">
               <li class="nav-item">
                 <Link to="" className="nav-link" onClick={handleNavClose}>
                   <span className="material-symbols-outlined"> logout </span>{" "}
