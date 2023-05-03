@@ -24,7 +24,7 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/profile" element={<Settings />} />
+          <Route path="/settings" element={<Settings />} />
         </Routes>
     </Router>
   );
