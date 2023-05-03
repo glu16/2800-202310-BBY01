@@ -12,13 +12,6 @@ const openai = new OpenAIApi( new Configuration({
     apiKey: process.env.API_KEY
 }))
 
-
-// open and read .csv files
-// import { parse } from 'csv-parse';
-import { readFileSync } from 'fs';
-const csv = readFileSync('../Datasets/Exercise/COMPILED_ACTIVITIES.csv', 'utf-8');
-
-
 // create progress wheel animation, code src: chatgpt
 const PWD = ['|', '/', '-', '\\'];
 let idx = 0;
@@ -36,19 +29,7 @@ const stopProgress = () => {
 
 // define input strings
 const muscles = ['back', 'chest']; // replace with the user's personsalized list
-const level = "intermediate"; // beginner, intermediate, expert
-var inputPrompt = "Give me a " + level + " level, 7-day workout routine with a focus on the following muscle groups:" + muscles.join(', ') + ". ";
-
-const environment = "indoor" // indoor, outdoor, either
-inputPrompt += "I only want " + environment + " activities. ";
-
-// const equipment = ['bike','gym'];
-// inputPrompt += "\n In terms of equipment I am limited to " + equipment.join(', ');
-
-inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
-inputPrompt += "Give an estimated number of calories burned. "
-
-console.log("Prompt: " + inputPrompt);
+const inputPrompt = "Give me a 7-day workout routine with a focus on the following muscle groups:" + muscles.join(', ') + ".";
 
 // run the AI
 const runAI = async (input) => {
@@ -57,10 +38,9 @@ const runAI = async (input) => {
     console.log("loading...");
     startProgress();  
 
-    //default max tokens = 4096
     const res = await openai.createChatCompletion({
-    model: "gpt-3.5-turbo",  
-    messages: [{ role: "user", content: input}]  
+    model: "gpt-3.5-turbo",  // change this
+    messages: [{ role: "user", content: input}]  // input
     })
 
     // loading animation
@@ -69,12 +49,10 @@ const runAI = async (input) => {
     // print out chatgpt response string
     const fullResponse = res.data.choices[0].message.content
     const paragraphs = fullResponse.split('\n\n');
-    for (let i = 0; i < paragraphs.length; i++) {  
+    for (let i = 0; i < paragraphs.length - 1; i++) {  //-1 to paragraph.length to omit last useless paragraph
         let paragraph = paragraphs[i];
         // console.log(`Paragraph ${i + 1}:`);
         console.log(paragraph);
     }
 }
 runAI(inputPrompt);
-
-
