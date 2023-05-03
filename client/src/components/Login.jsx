@@ -4,7 +4,7 @@ import "../css/login.css";
 function Login() {
   return (
     <div className="container loginContainer">
-      <div className="card h-100">
+      <div className="login-card card h-100">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <h1>Login</h1>
