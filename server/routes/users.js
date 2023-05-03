@@ -1,3 +1,4 @@
+//A LARGE MARJORITY OF THIS CODE WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 //https://www.youtube.com/watch?v=HGgyd1bYWsE
 
 const router = require('express').Router();
@@ -7,7 +8,7 @@ const bcrypt = require('bcrypt');
 
 
 
-router.get('/', async(req, res) => {
+router.post('/', async(req, res) => {
     try{
         const{ error } = validate(req.body);
         if(error){

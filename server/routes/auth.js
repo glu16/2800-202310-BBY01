@@ -1,3 +1,4 @@
+//A LARGE MARJORITY OF THIS CODE WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 //https://www.youtube.com/watch?v=HGgyd1bYWsE
 
 const router = require("express").Router();
@@ -8,6 +9,14 @@ const bcrypt = require("bcrypt");
 
 router.post("/", async (req, res) => {
     try {
+
+        const validate = (user) => {
+            const scheme = joi.object({
+                email: joi.string().required().email(),
+                password: joi.string().required()
+            });
+            return scheme.validate(user);
+        }
 
         const{error} = validate(req.body);
         if(error){
@@ -32,13 +41,6 @@ router.post("/", async (req, res) => {
         console.log(e);
     }
 
-    const validate = (user) => {
-        const scheme = joi.object({
-            email: joi.string().required().email(),
-            password: joi.string().required()
-        });
-        return scheme.validate(user);
-    }
 });
 
 module.exports = router;
