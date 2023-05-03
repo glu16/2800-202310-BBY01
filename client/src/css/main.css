@@ -4,9 +4,11 @@ html,
 body {
   height: 100%;
   margin: 0;
+  overflow: hidden;
 }
 
 body {
+
   font-family: "Roboto", sans-serif !important;
   margin: 0;
   padding: 0;
