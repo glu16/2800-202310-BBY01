@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import NavbarAfterLogin from "./components/NavbarAfterLogin";
 import SignUp from "./components/SignUp";
+import Login from "./components/Login";
 import Home from "./components/Home";
 import Diet from "./components/Diet";
 import Fitness from "./components/Fitness";
@@ -15,6 +16,7 @@ function App() {
       <NavbarAfterLogin />
         <Routes>
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/diet" element={<Diet />} />
           <Route path="/fitness" element={<Fitness />} />
