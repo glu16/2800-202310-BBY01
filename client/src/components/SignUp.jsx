@@ -26,6 +26,7 @@ const handleSubmit = async(event) => {
     
 
   }catch(error){
+    //ERROR IS CAUGHT HERE
     console.log(error);
 
     setError(error.response.data.message);
@@ -96,7 +97,9 @@ const handleChange = ({currentTarget:input}) => {
                 required
               />
 
+              {/* ERROR IS DISPLAYED HERE  */}
               {error && <div>{error}</div>}
+
               <label htmlFor="submit-btn"></label>
               <input type="submit" id="submit-btn" value="Submit" />
             </form>

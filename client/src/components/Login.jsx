@@ -23,6 +23,7 @@ const handleSubmit = async(event) => {
     window.location = "/home";
 
   }catch(error){
+    //ERROR IS CAUGHT HERE
     console.log(error);
 
     setError(error.response.data.message);
@@ -69,7 +70,7 @@ const handleChange = ({currentTarget:input}) => {
                 placeholder="Password"
                 required
               />
-
+{/* ERROR IS DISPLAYED */}
 {error && <div>{error}</div>}
 
               <label htmlFor="submit-btn"></label>
