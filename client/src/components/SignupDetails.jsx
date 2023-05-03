@@ -95,9 +95,6 @@ function SignUp() {
               <label htmlFor="submit-btn"></label>
               <input type="submit" id="submit-btn" value="Submit" />
             </form>
-            <p>
-              Already have an account? <a href="/login"> Sign in</a>
-            </p>
           </div>
         </div>
       </div>
