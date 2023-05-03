@@ -28,3 +28,7 @@ img {
 .material-symbols-outlined {
   display: block !important;
 }
+
+#logout {
+  right: 0;
+}

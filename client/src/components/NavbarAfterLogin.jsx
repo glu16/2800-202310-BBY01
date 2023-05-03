@@ -32,46 +32,68 @@ function NavbarAfterLogin() {
           className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
           id="navbarNavAltMarkup"
         >
-          <div className="navbar-nav">
-            <Link to="/diet" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> nutrition </span>{" "}
-              Diet
-            </Link>
-            <Link to="/fitness" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> exercise </span>{" "}
-              Fitness
-            </Link>
-            <Link
-              to="/leaderboard"
-              className="nav-link"
-              onClick={handleNavClose}
-            >
-              <span className="material-symbols-outlined"> leaderboard </span>{" "}
-              Ranks
-            </Link>
-            <Link to="/calendar" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined">
-                {" "}
-                calendar_month{" "}
-              </span>{" "}
-              Calendar
-            </Link>
-            <Link to="/profile" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined">
-                {" "}
-                account_circle{" "}
-              </span>{" "}
-              Profile
-            </Link>
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-                <Link to="" className="nav-link" onClick={handleNavClose}>
-                  <span className="material-symbols-outlined"> logout </span>{" "}
-                  Log out
-                </Link>
-              </li>
-            </ul>
-          </div>
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <Link to="/diet" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> nutrition </span>{" "}
+                Diet
+              </Link>
+            </li>
+            <li class="nav-item">
+              <Link to="/fitness" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> exercise </span>{" "}
+                Fitness
+              </Link>
+            </li>
+            <li class="nav-item">
+              <Link
+                to="/leaderboard"
+                className="nav-link"
+                onClick={handleNavClose}
+              >
+                <span className="material-symbols-outlined"> leaderboard </span>{" "}
+                Ranks
+              </Link>
+            </li>
+            <li class="nav-item">
+              <Link
+                to="/calendar"
+                className="nav-link"
+                onClick={handleNavClose}
+              >
+                <span className="material-symbols-outlined">
+                  calendar_month
+                </span>{" "}
+                Calendar
+              </Link>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <Link to="/profile" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined">
+                  account_circle
+                </span>{" "}
+                Profile
+              </Link>
+            </li>
+            <li class="nav-item">
+              <Link
+                to="/settings"
+                className="nav-link"
+                onClick={handleNavClose}
+              >
+                <span className="material-symbols-outlined"> settings </span>{" "}
+                Settings
+              </Link>
+            </li>
+            <li class="nav-item">
+              <Link to="" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> logout </span> Log
+                out
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>

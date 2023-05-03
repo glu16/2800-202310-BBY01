@@ -8,6 +8,7 @@ import Fitness from "./components/Fitness";
 import Leaderboard from "./components/Leaderboard";
 import Calendar from "./components/Calendar";
 import Profile from "./components/Profile";
+import Settings from "./components/Settings";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Settings />} />
         </Routes>
     </Router>
   );
