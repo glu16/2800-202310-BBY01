@@ -19,7 +19,6 @@
 
 .loginContainer {
   height: 100%;
-  margin-top: 40px;
   border-radius: 10px;
   display: flex;
   justify-self: center;
@@ -31,8 +30,6 @@
 }
 
 /* Login CSS */
-
-
 
 #login > input {
   display: flex;
