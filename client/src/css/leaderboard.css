@@ -1,0 +1,52 @@
+body {
+  height: 100vh;
+  background-image: url("../img/gradient.png");
+  background-size: cover;
+  background-position: center;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 20px;
+}
+
+tr {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+th {
+  background-color: #d4d4d4;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+td img {
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center;
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.ranksContainer {
+  height: 100%;
+  margin-top: 40px;
+  max-width: 1000px;
+  padding-top: 160px;
+  border-radius: 10px;
+}
