@@ -8,7 +8,7 @@ function SignUp() {
       <div className="card h-100">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1>Sign Up</h1>
+            <h1 id="signupLabel">Sign Up</h1>
             <form id="signup" action="/submitUser">
               <label htmlFor="first-name"></label>
               <input
