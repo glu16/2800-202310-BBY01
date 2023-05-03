@@ -68,23 +68,25 @@ const runAI = async (input) => {
     // loading animation
     stopProgress();  
 
-    // print out chatgpt response string
+    // store AI response
     const fullResponse = res.data.choices[0].message.content
-    const paragraphs = fullResponse.split('\n\n');
+    const paragraphs = fullResponse.split('\n\n'); //an array of paragraphs
 
-    // save the paragraphs as a JSON file
-    writeFileSync('workoutPlan.json', JSON.stringify(fullResponse));
-    // writeFile('workoutPlan.js', paragraphs, (err) => {
-    //     if (err) throw err;
-    //     console.log('The file has been saved!');
-    //   });
-
+    // print to console
     for (let i = 0; i < paragraphs.length; i++) {  
-        let paragraph = paragraphs[i];
-        // console.log(`Paragraph ${i + 1}:`);
-        console.log(paragraph);
+        console.log(paragraphs[i]);
     }
+
+    // parse and save output as a JSON file
+    var workoutPlan = {};
+    for (let i = 0; i < paragraphs.length; i++) {  
+        workoutPlan = Object.assign(workoutPlan, {
+            ["Day" + (i + 1)] : paragraphs[i]
+        });
+    }
+
+    writeFileSync('workoutPlan.json', JSON.stringify(workoutPlan));
+    console.log("Output saved to workoutPlan.json.");
+
 }
 runAI(inputPrompt);
-
-
