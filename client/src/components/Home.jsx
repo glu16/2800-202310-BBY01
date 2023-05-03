@@ -5,7 +5,7 @@ import { useSpring, animated } from "react-spring";
 import "../css/main.css";
 
 const Home = () => {
-  const greetingProps = useSpring({
+  const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 500,
@@ -15,13 +15,14 @@ const Home = () => {
     <div className="container homeContainer">
       <div className="card h-100">
         <div className="card-body">
-          <div className="d-flex flex-column align-items-center text-center"></div>
-          <animated.h1 className="display-4" style={greetingProps}>
-            Hello BBY-01!
-          </animated.h1>
-          <animated.h1 className="display-6" style={greetingProps}>
-            Welcome to Healthify!
-          </animated.h1>
+          <div className="d-flex flex-column align-items-center text-center">
+            <animated.h1 className="display-4" style={greetings}>
+              Hello BBY-01!
+            </animated.h1>
+            <animated.h1 className="display-6" style={greetings}>
+              Welcome to Healthify!
+            </animated.h1>
+          </div>
         </div>
       </div>
     </div>

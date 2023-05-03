@@ -24,14 +24,12 @@ function NavbarAfterLogin() {
           aria-controls="navbarNavAltMarkup"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          onClick={setIsNavOpen}
-        >
+          onClick={setIsNavOpen}>
           <span className="navbar-toggler-icon"></span>
         </button>
         <div
           className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
-          id="navbarNavAltMarkup"
-        >
+          id="navbarNavAltMarkup">
           <div className="navbar-nav">
             <Link to="/diet" className="nav-link" onClick={handleNavClose}>
               <span className="material-symbols-outlined"> nutrition </span>{" "}
@@ -44,8 +42,7 @@ function NavbarAfterLogin() {
             <Link
               to="/leaderboard"
               className="nav-link"
-              onClick={handleNavClose}
-            >
+              onClick={handleNavClose}>
               <span className="material-symbols-outlined"> leaderboard </span>{" "}
               Ranks
             </Link>
