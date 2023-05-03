@@ -5,10 +5,6 @@ body {
   background-position: center;
 }
 
-.settings input {
-  margin-right: 6px;
-}
-
 .settings label {
   font-size: 1.1rem;
   font-weight: bold;

@@ -10,17 +10,51 @@ const Settings = () => {
           <div className="d-flex flex-column align-items-center text-center">
             <div className="settings">
               <h1>Notification Preferences</h1>
-              <label htmlFor="diet-reminders">Diet Progress Reminders</label>
-              <input type="checkbox" data-toggle="toggle"></input>
+              <div class="form-check form-switch">
+                <label htmlFor="diet-reminders">Diet Progress Reminders</label>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckChecked"
+                ></input>
+              </div>
               <br />
-              <label htmlFor="fitness-reminders">Fitness Progress Reminders</label>
-              <input type="checkbox" data-toggle="toggle"></input>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckChecked"
+                ></input>
+                <label htmlFor="fitness-reminders">
+                  Fitness Progress Reminders
+                </label>
+              </div>
               <br />
-              <label htmlFor="fitness-reminders">Leaderboard Reminders</label>
-              <input type="checkbox" data-toggle="toggle"></input>
+              <div class="form-check form-switch">
+                <label htmlFor="leaderboard-reminders">
+                  Leaderboard Reminders
+                </label>
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckChecked"
+                ></input>
+              </div>
               <br />
-              <label htmlFor="fitness-reminders">Mini-challenge Releases</label>
-              <input type="checkbox" data-toggle="toggle"></input>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  role="switch"
+                  id="flexSwitchCheckChecked"
+                ></input>
+                <label htmlFor="challenge-reminders">
+                  Mini Challenge Reminders
+                </label>
+              </div>
             </div>
           </div>
         </div>
