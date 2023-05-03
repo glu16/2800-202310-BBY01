@@ -28,7 +28,10 @@ function NavbarAfterLogin() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`} id="navbarNavAltMarkup">
+        <div
+          className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
+          id="navbarNavAltMarkup"
+        >
           <div className="navbar-nav">
             <Link to="/diet" className="nav-link" onClick={handleNavClose}>
               <span className="material-symbols-outlined"> nutrition </span>{" "}
@@ -38,18 +41,36 @@ function NavbarAfterLogin() {
               <span className="material-symbols-outlined"> exercise </span>{" "}
               Fitness
             </Link>
-            <Link to="/leaderboard" className="nav-link" onClick={handleNavClose}>
+            <Link
+              to="/leaderboard"
+              className="nav-link"
+              onClick={handleNavClose}
+            >
               <span className="material-symbols-outlined"> leaderboard </span>{" "}
               Ranks
             </Link>
             <Link to="/calendar" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> calendar_month </span>{" "}
+              <span className="material-symbols-outlined">
+                {" "}
+                calendar_month{" "}
+              </span>{" "}
               Calendar
             </Link>
             <Link to="/profile" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> account_circle</span>{" "}
+              <span className="material-symbols-outlined">
+                {" "}
+                account_circle{" "}
+              </span>{" "}
               Profile
             </Link>
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <Link to="" className="nav-link" onClick={handleNavClose}>
+                  <span className="material-symbols-outlined"> logout </span>{" "}
+                  Log out
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
       </div>
