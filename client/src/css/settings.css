@@ -5,10 +5,8 @@ body {
   background-position: center;
 }
 
-.settings label {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+.form-check-input:checked {
+  background-color: #78a7bd;
 }
 
 .settingsContainer {
@@ -16,4 +14,18 @@ body {
   max-width: 1000px;
   padding-top: 160px;
   border-radius: 10px;
+}
+
+.settings h1 {
+  margin-bottom: 24px;
+}
+
+.settings label {
+  width: 350px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
