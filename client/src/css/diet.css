@@ -8,7 +8,6 @@ body {
 }
 
 body {
-
   font-family: "Roboto", sans-serif !important;
   /* position: relative; */
   background-image: url("../img/gradient.png");
@@ -25,12 +24,13 @@ p {
   color: black;
 }
 
-.container {
+.dietContainer {
   position: relative;
   padding-top: 160px;
   height: 100%;
   max-width: 1000px;
   border-radius: 10px;
+  margin-bottom: 80px;
 }
 
 .container-fluid {
@@ -42,5 +42,3 @@ p {
   padding: 0 10%;
   border-radius: 10px;
 }
-
-
