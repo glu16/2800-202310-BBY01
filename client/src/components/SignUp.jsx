@@ -1,50 +1,45 @@
 import React from "react";
-import{ useState} from "react";
-import axios from "axios"; 
+import { useState } from "react";
+import axios from "axios";
 
 import "../css/signup.css";
 
 function SignUp() {
-//THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONT WHEN WAS PRIMARLY FROM THIS VIDEO
-//https://www.youtube.com/watch?v=HGgyd1bYWsE
-const [data, setData] = useState({
+  //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONT WHEN WAS PRIMARLY FROM THIS VIDEO
+  //https://www.youtube.com/watch?v=HGgyd1bYWsE
+  const [data, setData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    password: ""
-});
-const [error, setError] = useState("");
+    password: "",
+  });
+  const [error, setError] = useState("");
 
-const handleSubmit = async(event) => {
-  event.preventDefault();
-  try{
-    const url = "http://localhost:5000/api/users";
-    const {data:res} = await axios.post(url, data);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const url = "http://localhost:5000/api/users";
+      const { data: res } = await axios.post(url, data);
 
-    console.log(res);
-    window.location = "/home";
-    
+      console.log(res);
+      window.location = "/home";
+    } catch (error) {
+      //ERROR IS CAUGHT HERE
+      console.log(error);
 
-  }catch(error){
-    //ERROR IS CAUGHT HERE
-    console.log(error);
+      setError(error.response.data.message);
+    }
+  };
 
-    setError(error.response.data.message);
-  }
-
-}
-
-
-const handleChange = ({currentTarget:input}) => {
-  setData({...data, [input.name]: input.value});
-};
-
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+  };
 
   return (
-    <div className="signupContainer container">
-      <div className="signup-card card h-100">
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className="card">
         <div className="card-body">
-          <div className="d-flex flex-column align-items-center text-center justify-content-center">
+          <div className="d-flex flex-column align-items-center text-center">
             <h1 id="signupHeader">Sign Up</h1>
             <form id="signup" onSubmit={handleSubmit}>
               <label htmlFor="first-name"></label>

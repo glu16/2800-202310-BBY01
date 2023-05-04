@@ -20,8 +20,8 @@ const Settings = () => {
   };
 
   return (
-    <div className="container settingsContainer">
-      <div className="card h-100">
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className="card">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <div className="settings">
