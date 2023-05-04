@@ -49,6 +49,8 @@ inputPrompt += "I only want " + environment + " activities. ";
 
 inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
 inputPrompt += "Give an estimated number of calories burned. "
+inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. "
+inputPrompt += "Format each exercise with the following structure: exercise name, number of sets and reps, estimated time to complete, and calories burned. "
 
 console.log("Prompt: " + inputPrompt);
 
@@ -71,7 +73,7 @@ const runAI = async (input) => {
     // store AI response
     const fullResponse = res.data.choices[0].message.content
     // console.log(fullResponse);
-    // writeFileSync('fullresponse.json', JSON.stringify(fullResponse));
+    writeFileSync('fullresponse.json', JSON.stringify(fullResponse));
 
     const paragraphs = fullResponse.split('Day '); //an array of paragraphs, '\n\n' is too inconsistent
     // writeFileSync('paragraphs.json', JSON.stringify(paragraphs));
@@ -87,13 +89,41 @@ const runAI = async (input) => {
         var day = paragraphs[i].split('\n'); //an array of sentences in this paragraph
         var exercises = {};
         for (let j = 1; j < day.length; j++) {  //starting j=1 because 1st line is unwanted
-            console.log("i=" + i + ", j=" + j + " - " + day[j]);
-            // for (let k = 0; k < day.length; k++) { }
+            
+            if (day[j].length < 3 || day[j].includes("Total")) {
+                // console.log("Skipped j=" + j);
+                continue;
+            }
+            
+            var name = day[j].substring(day[j].indexOf(" ") + 1, day[j].indexOf(","));
+            var setsAndReps = day[j].substring(day[j].indexOf("sets") - 2, day[j].indexOf("reps") + "reps".length);
+            var calories = 0;
+            const matches = day[j].match(/\d+/g);
+            for (let i = 0; i < matches.length; i++) {
+                const num = parseInt(matches[i]); // Convert the matched string to a number
+                if (num > calories) { 
+                  calories = num;
+                }
+              }
+            // console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
 
+            var exercises_details = {};
+            exercises_details = Object.assign(exercises_details, {
+                ['name'] : name,
+                ['setsAndReps'] : setsAndReps,
+                ['calories'] : calories
+            })
+            // console.log(exercises_details);
             exercises = Object.assign(exercises, {
-                ["Exercise" + j] : day[j]
+                // ["Exercise" + j] : day[j]
+                ["Exercise" + j] : exercises_details
             });
         }
+        
+        if (exercises == "{}") {
+            exercises = "Rest day";
+        }
+        
         workoutPlan = Object.assign(workoutPlan, {
             ["Day" + (i)] : exercises
         });
@@ -103,3 +133,8 @@ const runAI = async (input) => {
     console.log("Output saved to workoutPlan.json.");
 }
 runAI(inputPrompt);
+
+// reruns the program incase workoutPlan output empty
+// while (JSON.stringify(JSON.parse(fs.readFileSync('example.json'))) === '{}') {
+//     runAI(inputPrompt);
+//   }
