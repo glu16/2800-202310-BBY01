@@ -4,7 +4,7 @@ import "../css/diet.css";
 
 const meals = [
   {
-    day: 1,
+    day: "Day 1",
     meal1: "Oatmeal",
     meal2: "chicken and broccoli",
     meal3: "Meat lasagna",
@@ -13,7 +13,7 @@ const meals = [
     calories3: 1000,
   },
   {
-    day: 2,
+    day: "Day 2",
     meal1: "Bacon and Eggs",
     meal2: "chicken salad",
     meal3: "Veggie lasagna",
@@ -22,7 +22,7 @@ const meals = [
     calories3: 1000,
   },
   {
-    day: 3,
+    day: "Day 3",
     meal1: "Granola Bar",
     meal2: "chicken nuggets",
     meal3: "Food lasagna",
@@ -31,7 +31,7 @@ const meals = [
     calories3: 1000,
   },
   {
-    day: 4,
+    day: "Day 4",
     meal1: "Yogurt",
     meal2: "popcorn chicken",
     meal3: "Dessert lasagna",
@@ -40,7 +40,7 @@ const meals = [
     calories3: 1000,
   },
   {
-    day: 5,
+    day: "Day 5",
     meal1: "Coffee",
     meal2: "McChicken",
     meal3: "Pasta",
@@ -49,7 +49,7 @@ const meals = [
     calories3: 1000,
   },
   {
-    day: 6,
+    day: "Day 6",
     meal1: "Overnight Oats",
     meal2: "Alfredo chicken",
     meal3: "Baked Chicken Rice",
@@ -61,7 +61,7 @@ const meals = [
 const Meals = (props) => {
   return (
     <div className="card mealCard">
-      <h1>{props.dayNumber}</h1>
+      <h1>{props.day}</h1>
       <h3>Breakfast</h3>
       <p>
         <b>{props.meal1}</b>
@@ -88,8 +88,9 @@ const Diet = () => {
     <div className="container dietContainer">
       <div className="card h-100">
         <div className="card-body">
+        <h1>Meal suggestions</h1>
           <div className="d-flex flex-column align-items-center text-center">
-            <h1>Meal suggestions</h1>
+          
             {meals.map((meal) => (
               <Meals
                 day={meal.day}

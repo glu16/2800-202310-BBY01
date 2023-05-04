@@ -41,4 +41,5 @@ p {
 .mealCard {
   padding: 0 10%;
   border-radius: 10px;
+  width: 400px;
 }
