@@ -1,5 +1,4 @@
 import React from "react";
-
 import "../css/settings.css";
 
 const Settings = () => {
@@ -11,48 +10,59 @@ const Settings = () => {
             <div className="settings">
               <h1>Notification Preferences</h1>
               <div class="form-check form-switch">
-                <label htmlFor="diet-reminders">Diet Progress Reminders</label>
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckChecked"
-                ></input>
+                <label htmlFor="diet-reminders" className="form-switch-label">
+                  Diet Progress Reminders
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckChecked"
+                  ></input>
+                </label>
               </div>
               <br />
               <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckChecked"
-                ></input>
-                <label htmlFor="fitness-reminders">
+                <label
+                  htmlFor="fitness-reminders"
+                  className="form-switch-label"
+                >
                   Fitness Progress Reminders
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckChecked"
+                  ></input>
                 </label>
               </div>
               <br />
               <div class="form-check form-switch">
-                <label htmlFor="leaderboard-reminders">
+                <label
+                  htmlFor="leaderboard-reminders"
+                  className="form-switch-label"
+                >
                   Leaderboard Reminders
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckChecked"
+                  ></input>
                 </label>
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckChecked"
-                ></input>
               </div>
               <br />
               <div class="form-check form-switch">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  role="switch"
-                  id="flexSwitchCheckChecked"
-                ></input>
-                <label htmlFor="challenge-reminders">
+                <label
+                  htmlFor="challenge-reminders"
+                  className="form-switch-label"
+                >
                   Mini Challenge Reminders
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckChecked"
+                  ></input>
                 </label>
               </div>
             </div>
