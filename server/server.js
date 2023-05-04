@@ -20,7 +20,7 @@ const authRouter = require("./routes/auth");
 const cors = require("cors");
 require("dotenv").config();
 
-const port = 5000;
+const port = 8000;
 
 const configuration = new Configuration({
   organization: process.env.ORG,
