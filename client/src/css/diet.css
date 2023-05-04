@@ -28,7 +28,7 @@ p {
   position: relative;
   padding-top: 160px;
   height: 100%;
-  max-width: 1000px;
+  max-width: 1500px;
   border-radius: 10px;
   margin-bottom: 80px;
 }
@@ -39,7 +39,7 @@ p {
 }
 
 .mealCard {
-  padding: 0 10%;
+  /* padding: 0 10%; */
   border-radius: 10px;
   width: 400px;
 }

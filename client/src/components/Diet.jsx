@@ -57,10 +57,19 @@ const meals = [
     calories2: 500,
     calories3: 1000,
   },
+  {
+    day: "Day 7",
+    meal1: "Overnight Oats",
+    meal2: "Alfredo chicken",
+    meal3: "Baked Chicken Rice",
+    calories1: 300,
+    calories2: 500,
+    calories3: 1000,
+  },
 ];
 const Meals = (props) => {
   return (
-    <div className="card mealCard">
+    <div className="mealCard card col-md">
       <h1>{props.day}</h1>
       <h3>Breakfast</h3>
       <p>
@@ -89,7 +98,7 @@ const Diet = () => {
       <div className="card h-100">
         <div className="card-body">
         <h1>Meal suggestions</h1>
-          <div className="d-flex flex-column align-items-center text-center">
+          <div className="align-items-center justify-content-center text-center row">
           
             {meals.map((meal) => (
               <Meals
