@@ -9,7 +9,7 @@ body {
   background-color: black;
 }
 
-h1, p {
+h1, h3, h5, label, p {
   color: white;
 }
 
@@ -19,9 +19,4 @@ h1, p {
   width: 1000px;
   margin-top: 160px;
   background-color: #2b2b2b;
-}
-
-.container-fluid {
-  /* Sets dropdown of navbar to be same colour as actual navbar */
-  background-color: inherit;
 }
