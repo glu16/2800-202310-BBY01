@@ -1,0 +1,30 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: scroll;
+}
+
+.fitnessContainer {
+  position: relative;
+  padding-top: 160px;
+  height: 100%;
+  max-width: 1500px;
+  border-radius: 10px;
+  margin-bottom: 80px;
+}
+
+.container-fluid {
+  /* Sets dropdown of navbar to be same colour as actual navbar */
+  background-color: inherit;
+}
+
+.fitness-card-body {
+  padding: 0 100px;
+}
+
+.exerciseCard {
+  margin: 20px 0 ;
+  border-radius: 10px;
+  width: 400px;
+}
