@@ -23,8 +23,8 @@ require("dotenv").config();
 const port = 5000;
 
 const configuration = new Configuration({
-  organization: "org-TW4Ny8qZFMzrG0ireRk1JdRh",
-  apiKey: "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",
+  organization: process.env.ORG,
+  apiKey: process.env.AI,
 });
 const openai = new OpenAIApi(configuration);
 
