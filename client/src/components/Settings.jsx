@@ -64,7 +64,7 @@ const Settings = () => {
                 <label htmlFor="diet-reminders" className="form-switch-label">
                   Diet Progress Reminders
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="flexSwitchCheckChecked"
@@ -72,14 +72,14 @@ const Settings = () => {
                 </label>
               </div>
               <br />
-              <div class="form-check form-switch">
+              <div className="form-check form-switch">
                 <label
                   htmlFor="fitness-reminders"
                   className="form-switch-label"
                 >
                   Fitness Progress Reminders
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="flexSwitchCheckChecked"
@@ -87,14 +87,14 @@ const Settings = () => {
                 </label>
               </div>
               <br />
-              <div class="form-check form-switch">
+              <div className="form-check form-switch">
                 <label
                   htmlFor="leaderboard-reminders"
                   className="form-switch-label"
                 >
                   Leaderboard Reminders
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="flexSwitchCheckChecked"
@@ -102,14 +102,14 @@ const Settings = () => {
                 </label>
               </div>
               <br />
-              <div class="form-check form-switch">
+              <div className="form-check form-switch">
                 <label
                   htmlFor="challenge-reminders"
                   className="form-switch-label"
                 >
                   Mini Challenge Reminders
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="flexSwitchCheckChecked"
