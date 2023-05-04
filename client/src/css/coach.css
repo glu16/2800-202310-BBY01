@@ -10,6 +10,7 @@
   padding: 24px;
   margin-top: 100px;
   overflow-y: auto;
+  color: white;
 }
 
 .chatMessageContainer {
@@ -35,7 +36,7 @@
 }
 
 .textInputContainer {
-  background-color: rgb(73, 102, 128);
+  background-color: #d4d4d4;
   padding: 12px;
   position: absolute;
   bottom: 0;

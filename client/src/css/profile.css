@@ -1,10 +1,10 @@
 .btn {
-  background-color: #5b809e;
+  background-color: #f06553;
 }
 
 .btn:hover {
-  background-color: #78a7bd;
-  border-color: #78a7bd;
+  background-color: #f06553;
+  border-color: #f06553;
 }
 
 .card {
