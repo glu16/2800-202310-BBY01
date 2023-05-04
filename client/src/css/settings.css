@@ -5,6 +5,11 @@ body {
   background-position: center;
 }
 
+.btn-settings {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
 .form-check-input:checked {
   background-color: #78a7bd;
 }
@@ -21,9 +26,12 @@ body {
   margin-bottom: 24px;
 }
 
+.settings input {
+  margin-left: 16px;
+}
+
 .settings label {
-  width: 350px;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: bold;
   margin-bottom: 10px;
   display: flex;
