@@ -39,7 +39,11 @@ p {
 }
 
 .mealCard {
-  /* padding: 0 10%; */
   border-radius: 10px;
-  width: 400px;
+  margin: 0 10px 20px 10px;
+  padding-bottom: 30px;
+}
+
+.diet-card-body {
+  padding: 50px;
 }

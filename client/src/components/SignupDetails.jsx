@@ -46,6 +46,7 @@ function SignUp() {
               <label htmlFor="heightInput"></label>
               <input
                 type="number"
+                step="any"
                 id="heightInput"
                 name="heightInput"
                 className="user-input"
@@ -56,6 +57,7 @@ function SignUp() {
               <label htmlFor="weightInput"></label>
               <input
                 type="number"
+                step="any"
                 id="weightInput"
                 name="weightInput"
                 className="user-input"

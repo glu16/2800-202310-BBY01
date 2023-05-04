@@ -96,7 +96,7 @@ const Diet = () => {
   return (
     <div className="container dietContainer">
       <div className="card h-100">
-        <div className="card-body">
+        <div className="card-body diet-card-body">
         <h1>Meal suggestions</h1>
           <div className="align-items-center justify-content-center text-center row">
           
