@@ -1,0 +1,55 @@
+.coach {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+}
+
+.chatLogContainer {
+  padding: 24px;
+  margin-top: 100px;
+  overflow-y: auto;
+}
+
+.chatMessageContainer {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  background-color: white;
+  width: 40px;
+  height: 40px;
+}
+
+.avatar.AI {
+  background-color: rgb(4, 246, 61);
+  width: 40px;
+  height: 40px;
+}
+
+.message {
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.textInputContainer {
+  background-color: rgb(73, 102, 128);
+  padding: 12px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.textInput {
+  width: 100%;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  font-size: 1.25rem;
+  padding: 12px;
+  margin: 0;
+}
+
