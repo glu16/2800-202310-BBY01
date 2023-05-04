@@ -68,23 +68,38 @@ const runAI = async (input) => {
     // loading animation
     stopProgress();  
 
-    // print out chatgpt response string
+    // store AI response
     const fullResponse = res.data.choices[0].message.content
-    const paragraphs = fullResponse.split('\n\n');
+    // console.log(fullResponse);
+    // writeFileSync('fullresponse.json', JSON.stringify(fullResponse));
 
-    // save the paragraphs as a JSON file
-    writeFileSync('workoutPlan.json', JSON.stringify(fullResponse));
-    // writeFile('workoutPlan.js', paragraphs, (err) => {
-    //     if (err) throw err;
-    //     console.log('The file has been saved!');
-    //   });
+    const paragraphs = fullResponse.split('Day '); //an array of paragraphs, '\n\n' is too inconsistent
+    // writeFileSync('paragraphs.json', JSON.stringify(paragraphs));
 
-    for (let i = 0; i < paragraphs.length; i++) {  
-        let paragraph = paragraphs[i];
-        // console.log(`Paragraph ${i + 1}:`);
-        console.log(paragraph);
+    // print to console
+    // for (let i = 0; i < paragraphs.length; i++) {  
+    //     console.log(paragraphs[i]);
+    // }
+
+    // parse and save output as a JSON file
+    var workoutPlan = {};
+    for (let i = 1; i < paragraphs.length; i++) {  
+        var day = paragraphs[i].split('\n'); //an array of sentences in this paragraph
+        var exercises = {};
+        for (let j = 1; j < day.length; j++) {  //starting j=1 because 1st line is unwanted
+            console.log("i=" + i + ", j=" + j + " - " + day[j]);
+            // for (let k = 0; k < day.length; k++) { }
+
+            exercises = Object.assign(exercises, {
+                ["Exercise" + j] : day[j]
+            });
+        }
+        workoutPlan = Object.assign(workoutPlan, {
+            ["Day" + (i)] : exercises
+        });
     }
+
+    writeFileSync('workoutPlan.json', JSON.stringify(workoutPlan));
+    console.log("Output saved to workoutPlan.json.");
 }
 runAI(inputPrompt);
-
-

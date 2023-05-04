@@ -1,1 +1,65 @@
-"Day 1 (Monday):\n- Warm-up: Skipping rope (5 mins; ~50 calories)\n- Push-ups: 4 sets of 10 reps (15 mins; ~100 calories)\n- Incline bench press: 3 sets of 12 reps (20 mins; ~150 calories)\n- Seated cable row: 3 sets of 12 reps (20 mins; ~150 calories)\n- Cool-down: Stretching (10 mins)\n\nTotal estimated time: 70 minutes\nTotal estimated calories burned: ~450 calories\n\nDay 2 (Tuesday):\n- Warm-up: Jogging in place (5 mins; ~50 calories)\n- Dumbbell pullover: 4 sets of 10 reps (15 mins; ~100 calories)\n- Dumbbell flyes: 3 sets of 12 reps (20 mins; ~150 calories)\n- Lat pulldowns: 3 sets of 12 reps (20 mins; ~150 calories)\n- Cool-down: Stretching (10 mins)\n\nTotal estimated time: 70 minutes\nTotal estimated calories burned: ~450 calories\n\nDay 3 (Wednesday): Rest day\n\nDay 4 (Thursday):\n- Warm-up: High knees (5 mins; ~50 calories)\n- Dumbbell bench press: 4 sets of 10 reps (15 mins; ~100 calories)\n- Incline dumbbell flyes: 3 sets of 12 reps (20 mins; ~150 calories)\n- Dumbbell rows: 3 sets of 12 reps (20 mins; ~150 calories)\n- Cool-down: Stretching (10 mins)\n\nTotal estimated time: 70 minutes\nTotal estimated calories burned: ~450 calories\n\nDay 5 (Friday):\n- Warm-up: Jumping jacks (5 mins; ~50 calories)\n- Cable crossovers: 4 sets of 10 reps (15 mins; ~100 calories)\n- Hammer strength chest press: 3 sets of 12 reps (20 mins; ~150 calories)\n- T-bar rows: 3 sets of 12 reps (20 mins; ~150 calories)\n- Cool-down: Stretching (10 mins)\n\nTotal estimated time: 70 minutes\nTotal estimated calories burned: ~450 calories\n\nDay 6 (Saturday):\n- Warm-up: Burpees (5 mins; ~50 calories)\n- Barbell bench press: 4 sets of 10 reps (15 mins; ~100 calories)\n- Push-ups with feet elevated: 3 sets of 12 reps (20 mins; ~150 calories)\n- Lat pulldown with V bar: 3 sets of 12 reps (20 mins; ~150 calories)\n- Cool-down: Stretching (10 mins)\n\nTotal estimated time: 70 minutes\nTotal estimated calories burned: ~450 calories\n\nDay 7 (Sunday):\n- Warm-up: Butt kicks (5 mins; ~50 calories)\n- Chest dips: 4 sets of 10 reps (15 mins; ~100 calories)\n- Dumbbell pullover: 3 sets of 12 reps (20 mins; ~150 calories)\n- Cable rows with narrow grip handle: 3 sets of 12 reps (20 mins; ~150 calories)\n- Cool-down: Stretching (10 mins)\n\nTotal estimated time: 70 minutes\nTotal estimated calories burned: ~450 calories\n\nNote: The estimated calories burned are based on a person weighing 150 pounds and may vary based on individual attributes."
+{
+    "Day1": {
+        "Exercise1": "1. Warm-up: 10 minutes of jumping jacks or brisk walk. (Calories burned: 100)",
+        "Exercise2": "2. Chest: Push-ups (3 sets x 10 reps) - 15 minutes. (Calories burned: 150)",
+        "Exercise3": "3. Back: Dumbbell Rows (3 sets x 10 reps) - 20 minutes. (Calories burned: 200)",
+        "Exercise4": "4. Cool down: Stretching - 10 minutes. (Calories burned: 50)",
+        "Exercise5": "Total time: 55 minutes. Total estimated calories burned: 500",
+        "Exercise6": "",
+        "Exercise7": ""
+    },
+    "Day2": {
+        "Exercise1": "1. Warm-up: 10 minutes of high knees or jumping jacks. (Calories burned: 100)",
+        "Exercise2": "2. Chest: Dumbbell chest press (3 sets x 10 reps) - 15 minutes. (Calories burned: 150)",
+        "Exercise3": "3. Back: Lat pulldown (3 sets x 10 reps) - 20 minutes. (Calories burned: 200)",
+        "Exercise4": "4. Cool down: Stretching - 10 minutes. (Calories burned: 50)",
+        "Exercise5": "Total time: 55 minutes. Total estimated calories burned: 500",
+        "Exercise6": "",
+        "Exercise7": ""
+    },
+    "Day3": {
+        "Exercise1": "1. Warm-up: 10 minutes of treadmill walking or doing stair climbing. (Calories burned: 100)",
+        "Exercise2": "2. Chest: Incline bench press (3 sets x 10 reps) - 15 minutes. (Calories burned: 150)",
+        "Exercise3": "3. Back: Cable row (3 sets x 10 reps) - 20 minutes. (Calories burned: 200)",
+        "Exercise4": "4. Cool down: Stretching - 10 minutes. (Calories burned: 50)",
+        "Exercise5": "Total time: 55 minutes. Total estimated calories burned: 500",
+        "Exercise6": "",
+        "Exercise7": ""
+    },
+    "Day4": {
+        "Exercise1": "1. Warm-up: 10 minutes of jumping jacks, high knees, or jump rope. (Calories burned: 100)",
+        "Exercise2": "2. Chest: Decline bench press (3 sets x 10 reps) - 15 minutes. (Calories burned: 150)",
+        "Exercise3": "3. Back: Deadlift (3 sets x 10 reps) - 20 minutes. (Calories burned: 200)",
+        "Exercise4": "4. Cool down: Stretching - 10 minutes. (Calories burned: 50)",
+        "Exercise5": "Total time: 55 minutes. Total estimated calories burned: 500",
+        "Exercise6": "",
+        "Exercise7": ""
+    },
+    "Day5": {
+        "Exercise1": "1. Warm-up: 10 minutes of jogging on the spot. (Calories burned: 100)",
+        "Exercise2": "2. Chest: Dumbbell fly (3 sets x 10 reps) - 15 minutes. (Calories burned: 150)",
+        "Exercise3": "3. Back: Seated cable row (3 sets x 10 reps) - 20 minutes. (Calories burned: 200)",
+        "Exercise4": "4. Cool down: Stretching - 10 minutes. (Calories burned: 50)",
+        "Exercise5": "Total time: 55 minutes. Total estimated calories burned: 500",
+        "Exercise6": "",
+        "Exercise7": ""
+    },
+    "Day6": {
+        "Exercise1": "1. Warm-up: 10 minutes of brisk walk or jump rope. (Calories burned: 100)",
+        "Exercise2": "2. Chest: Diamond push-ups or chest dips (3 sets x 10 reps) - 15 minutes. (Calories burned: 150)",
+        "Exercise3": "3. Back: Pull-ups or chin-ups (3 sets x 10 reps) - 20 minutes. (Calories burned: 200)",
+        "Exercise4": "4. Cool down: Stretching - 10 minutes. (Calories burned: 50)",
+        "Exercise5": "Total time: 55 minutes. Total estimated calories burned: 500",
+        "Exercise6": "",
+        "Exercise7": ""
+    },
+    "Day7": {
+        "Exercise1": "1. Warm-up: 10 minutes of jumping jacks, high knees or any other cardio of your choice. (Calories burned: 100)",
+        "Exercise2": "2. Chest: Cable Fly (3 sets x 10 reps) - 15 minutes. (Calories burned: 150)",
+        "Exercise3": "3. Back: T-bar row or bent-over row (3 sets x 10 reps) - 20 minutes. (Calories burned: 200)",
+        "Exercise4": "4. Cool down: Stretching - 10 minutes. (Calories burned: 50)",
+        "Exercise5": "Total time: 55 minutes. Total estimated calories burned: 500",
+        "Exercise6": "",
+        "Exercise7": "Overall, this workout routine is designed to engage your chest and back muscles, focusing on strength and endurance. It should take around 55 minutes a day to complete each activity, with an estimated calorie burn of around 500 calories per day."
+    }
+}
