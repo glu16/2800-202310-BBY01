@@ -30,7 +30,7 @@ const Coach = () => {
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
-    const response = await fetch("http://localhost:3080/", {
+    const response = await fetch("http://localhost:5000/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
