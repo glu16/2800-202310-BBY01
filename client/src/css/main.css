@@ -4,7 +4,7 @@ html,
 body {
   height: 100%;
   margin: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 body {
@@ -12,9 +12,10 @@ body {
   font-family: "Roboto", sans-serif !important;
   margin: 0;
   padding: 0;
-  position: relative;
-  background-image: url("../img/gradient.png");
+  /* position: relative; */
+  /* background-image: url("../img/gradient.png"); */
   background-size: cover;
+  background-color: black;
   background-position: center;
   background-repeat: no-repeat;
 }

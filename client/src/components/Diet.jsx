@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Meals from "./Meals";
 
 import "../css/main.css";
 
@@ -9,8 +9,9 @@ const Diet = () => {
       <div className="card h-100">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1>Welcome to the Diet Page</h1>
-            <p>This is the Diet page of our application</p>
+            <h1>Meal suggestions</h1>
+            <Meals meal1="Oatmeal" meal2="Chicken breast and rice" meal3="Lasagna"
+            calories1="200" calories2="500" calories3="700"/>
           </div>
         </div>
       </div>
