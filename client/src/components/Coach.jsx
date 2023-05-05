@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 
-import "../css/coach.css";
+import styles from "../css/coach.module.css";
 
 const ChatMessage = ({ message }) => {
   const lines = message.message.split("\n");
 
   if (lines.length > 1) {
     return (
-      <div className="chatMessageContainer">
-        <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
-        <ul className="message" style={{}}>
+      <div className={styles.chatMessageContainer}>
+        <div
+          className={`avatar ${message.user === "gpt" && "AI"} ${
+            styles.gptAvatar
+          }`}
+        ></div>
+        <ul className={styles.message} style={{}}>
           {lines.map((line, index) => {
             if (line.includes("Day")) {
               return (
@@ -30,9 +34,11 @@ const ChatMessage = ({ message }) => {
   }
 
   return (
-    <div className="chatMessageContainer">
-      <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
-      <div className="message">{message.message}</div>
+    <div className={styles.chatMessageContainer}>
+      <div
+        className={`avatar ${message.user === "gpt" && "AI"} ${styles.userAvatar}`}
+      ></div>
+      <div className={styles.message}>{message.message}</div>
     </div>
   );
 };
@@ -87,19 +93,19 @@ const Coach = () => {
   }
 
   return (
-    <div className="coach">
-      <div className="chatLogContainer">
-        <animated.h1 className="display-4" style={greetings}>
+    <div className={styles.coach}>
+      <div className={styles.chatLogContainer}>
+        <animated.h1 className={styles.coachTitle} style={greetings}>
           Welcome to your AI Coach!
         </animated.h1>
         {chatLog.map((message, index) => (
           <ChatMessage key={index} message={message} />
         ))}
       </div>
-      <div className="textInputContainer">
+      <div className={styles.textInputContainer}>
         <form onSubmit={handleSubmit}>
           <input
-            className="textInput"
+            className={styles.textInput}
             placeholder="Enter your prompt here"
             rows="1"
             value={input}
