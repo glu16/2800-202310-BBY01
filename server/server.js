@@ -71,6 +71,26 @@ app.put('/users/:email',  async (req, res) => {
 });
 //END OF NEW CODE
 
+app.get('/coach/:email', async(req, res) => {
+
+  const userEmail = req.params.email;
+
+
+  try{
+  const user = await User.findOne({ email: userEmail });
+  if(!user){
+    return res.status(400).send('Email not registered' + userEmail);
+
+  }
+  const messages = user.messages;
+  const chatHistory = messages;
+  res.json(chatHistory);
+  }catch(e){
+    console.log(e);
+  }
+
+});
+
 
 app.post('/', async (req, res) => {
   const { message } = req.body;

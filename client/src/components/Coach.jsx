@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 
@@ -20,6 +20,21 @@ const Coach = () => {
 
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
+
+  useEffect(() => {
+    const userEmail = localStorage.getItem("email");
+
+    async function fetchChatLog() {
+      const response3 = await fetch(`http://localhost:8000/coach/${userEmail}`);
+      const data3 = await response3.json();
+      
+      console.log(data3 + "this is the data");
+      setChatLog(data3);
+
+    }
+    fetchChatLog();
+  }, []);
+
 
   async function handleSubmit(event) {
     event.preventDefault();
