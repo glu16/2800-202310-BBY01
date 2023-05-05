@@ -1,7 +1,3 @@
-body {
-  overflow: auto;
-}
-
 ul {
   list-style: none;
   margin: 0;
@@ -14,6 +10,10 @@ ul {
   left: 0;
   right: 0;
   position: absolute;
+}
+
+.coachTitle {
+  color: white;
 }
 
 .chatLogContainer {
@@ -30,13 +30,13 @@ ul {
   margin-bottom: 16px;
 }
 
-.avatar {
+.userAvatar {
   background-color: white;
   width: 40px;
   height: 40px;
 }
 
-.avatar.AI {
+.gptAvatar {
   background-color: rgb(4, 246, 61);
   width: 40px;
   height: 40px;
