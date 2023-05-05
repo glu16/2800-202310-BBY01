@@ -19,8 +19,16 @@
   background-color: #d4d4d4;
 }
 
+.progressHeader {
+  text-align: center;
+  color: white;
+}
+
 .progressCard {
-  height: 100%;
+  width: 100%;
+  max-height: 240px;
+  border-radius: 10px;
+  text-align: center;
 }
 
 .progressBar {
@@ -34,8 +42,8 @@
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background-color: #fff;
-  color: #333;
+  background-color: white;
+  color: white;
   font-size: 0.8rem;
   text-align: center;
   line-height: 30px;
@@ -45,5 +53,10 @@
 
 .step.completed {
   background-color: #f0bb31;
-  color: #fff;
+  color: white;
+}
+
+.title {
+  text-align: center;
+  color: black;
 }

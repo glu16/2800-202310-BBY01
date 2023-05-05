@@ -43,13 +43,13 @@ const Home = () => {
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1
-              className={`display-4 ${styles.title}`}
+              className={styles.title}
               style={greetings}
             >
               Hello BBY-01!
             </animated.h1>
             <animated.h1
-              className={`display-6 ${styles.subtitle}`}
+              className={styles.title}
               style={greetings}
             >
               Track your diet and fitness progresses below.
@@ -60,8 +60,8 @@ const Home = () => {
       <div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
       >
-        <div className="card">
-          <h4 className={styles.cardHeader}>Diet Tracker</h4>
+        <div className={styles.progressCard}>
+          <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className="card-body">
             <ProgressBar
               className={styles.progressBar}
@@ -110,8 +110,8 @@ const Home = () => {
       <div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
       >
-        <div className="card">
-          <h4 className={styles.cardHeader}>Fitness Tracker</h4>
+        <div className={styles.progressCard}>
+          <h4 className={styles.progressHeader}>Fitness Tracker</h4>
           <div className="card-body">
             <ProgressBar
               className={styles.progressBar}
