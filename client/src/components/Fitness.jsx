@@ -93,13 +93,13 @@ const Fitness = () => {
     const workout = {}
 
     const data = { [workoutKey]: workout };
-    const response = await fetch(`http://localhost:8000/users/${userEmail}`, {
+    const response = await fetch(`http://localhost:8000/fitness/${userEmail}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
     });
     const updatedUser = await response.json();
-    console.log("New workout " + updatedUser + " added to " + userEmail);
+    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userEmail);
   }
 
   return (

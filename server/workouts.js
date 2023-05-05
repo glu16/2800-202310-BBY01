@@ -1,7 +1,5 @@
 // make sure you add API_KEY to .env in server folder
 
-console.log("generated workout plan");
-
 // get api key from .env file
 require('dotenv').config();
 
@@ -52,7 +50,7 @@ inputPrompt += "Format each exercise with the following structure: exercise name
 const runAI = async (input) => {
     
     // loading animation
-    console.log("loading...");
+    console.log("generating workout plan...");
     startProgress();  
 
     //default max tokens = 4096
@@ -116,8 +114,18 @@ const runAI = async (input) => {
         });
     }
 
-    console.log(workoutPlan);
+    // console.log(workoutPlan);
     console.log("...workout plan successfully generated.");
     return(JSON.stringify(workoutPlan));
 }
-runAI(inputPrompt);
+
+function generate(callback) {
+    runAI(inputPrompt).then((result) => {
+        const newWorkout = result;
+        callback(newWorkout);
+      });
+}
+
+module.exports = {
+    generate: generate
+  };
