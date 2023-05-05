@@ -1,15 +1,31 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import "../css/leaderboard.css";
+import styles from "../css/leaderboard.module.css";
 
 const Leaderboard = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("");
+        setUsers(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="card">
+    <div className={styles.cardWrapper}>
+      <div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.ranksCard}`}
+      >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1>Leaderboard Ranks</h1>
+            <h1 className={styles.title}>Leaderboard Ranks</h1>
             <table>
               <thead>
                 <tr>
@@ -18,7 +34,15 @@ const Leaderboard = () => {
                   <th>Points</th>
                 </tr>
               </thead>
-              <tbody id="leaderboard-body"></tbody>
+              <tbody>
+                {users.map((user, index) => (
+                  <tr key={user._id}>
+                    <td>{index + 1}</td>
+                    <td>{user.name}</td>
+                    <td>{user.points}</td>
+                  </tr>
+                ))}
+              </tbody>
             </table>
           </div>
         </div>
