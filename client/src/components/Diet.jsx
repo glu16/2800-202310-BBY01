@@ -69,7 +69,7 @@ const meals = [
 ];
 const Meals = (props) => {
   return (
-    <div className="mealCard card col-md">
+    <div className=" card mealCard col-md">
       <h1>{props.day}</h1>
       <h3>Breakfast</h3>
       <p>
@@ -95,10 +95,10 @@ const Meals = (props) => {
 const Diet = () => {
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="card">
-        <div className="card-body">
-          <div className="d-flex flex-column align-items-center text-center">
-            <h1>Meal suggestions</h1>
+      <div className="dietCard card">
+        <div className="diet-card-body card-body">
+          <h1>Meal suggestions</h1>
+          <div className="d-flex align-items-center text-center justify-content-center row">
             {meals.map((meal) => (
               <Meals
                 day={meal.day}

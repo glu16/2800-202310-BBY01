@@ -7,9 +7,8 @@ body {
 
 .dietContainer {
   position: relative;
-  padding-top: 160px;
   height: 100%;
-  max-width: 1500px;
+  max-width: 1800px;
   border-radius: 10px;
   margin-bottom: 80px;
 }
@@ -20,11 +19,16 @@ body {
 }
 
 .mealCard {
+  margin: 20px 0px ;
   border-radius: 10px;
-  margin: 0 10px 20px 10px;
-  padding-bottom: 30px;
+  padding: 0px;
+  /* min-width: 120px; */
 }
 
+.dietCard{
+  width: 1300px;
+}
 .diet-card-body {
-  padding: 50px;
+  padding: 0 100px;
+  /* width: 1200px; */
 }
