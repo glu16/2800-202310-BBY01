@@ -99,8 +99,9 @@ const Diet = () => {
         <div className="diet-card-body card-body">
           <h1>Meal suggestions</h1>
           <div className="d-flex align-items-center text-center justify-content-center row">
-            {meals.map((meal) => (
+            {meals.map((meal, index) => (
               <Meals
+                key={index}
                 day={meal.day}
                 meal1={meal.meal1}
                 meal2={meal.meal2}
