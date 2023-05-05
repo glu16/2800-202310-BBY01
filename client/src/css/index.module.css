@@ -1,21 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=ProximaNova:wght@400;700&display=swap");
+
 html,
 body {
   height: 100%;
   margin: 0;
+  font-family: ProximaNova, Arial, sans-serif;
 }
 
 .button-group {
-  margin-top: 80px;
+  margin-top: 40px;
 }
 
 .indexBody {
   height: 100%;
   width: 100%;
-  background-color: black;
 }
 
 .indexBtn {
-  margin: 0px 12px 0px 12px;
+  margin: 0px 12px 36px 12px;
+  background-color: #154b54;
+  border-color: #154b54;
+}
+
+.indexBtn:hover {
+  background-color: #95a4a9;
 }
 
 .indexCard {
@@ -28,7 +36,7 @@ body {
 }
 
 .indexTitle {
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 .indexBody h1 {
@@ -43,5 +51,5 @@ body {
 .indexBody h4 {
   color: white;
   max-width: 1000px;
-  margin-top: 80px;
+  margin-top: 60px;
 }
