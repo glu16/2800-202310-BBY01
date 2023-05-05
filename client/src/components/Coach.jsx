@@ -19,17 +19,28 @@ const Coach = () => {
   });
 
   const [input, setInput] = useState("");
-  const [chatLog, setChatLog] = useState([]);
+  const [chatLog, setChatLog] = useState([
+
+    
+  ]);
 
   useEffect(() => {
     const userEmail = localStorage.getItem("email");
 
     async function fetchChatLog() {
-      const response3 = await fetch(`http://localhost:8000/coach/${userEmail}`);
+
+      const response3 = await fetch(`http://localhost:8000/coach/${userEmail}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(),
+      });
+
       const data3 = await response3.json();
       
       console.log(data3 + "this is the data");
-      setChatLog(data3);
+      setChatLog([{user: 'user',message: data3}]);
 
     }
     fetchChatLog();
