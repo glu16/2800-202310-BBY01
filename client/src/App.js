@@ -3,11 +3,10 @@ import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom
 import NavbarAfterLogin from "./components/NavbarAfterLogin";
 import NavbarBeforeLogin from "./components/NavbarBeforeLogin";
 import Index from "./components/Index";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
 import About from "./components/About";
 import Contact from "./components/Contact";
-import Careers from "./components/Careers";
+import SignUp from "./components/SignUp";
+import Login from "./components/Login";
 import Home from "./components/Home";
 import SignupDetails from "./components/SignupDetails";
 import Coach from "./components/Coach";
@@ -35,7 +34,6 @@ function App() {
             <Route path="/signupdetails" element={<SignupDetails />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/careers" element={<Careers />} />
             <Route path="/" element={<Index />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

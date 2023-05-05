@@ -39,9 +39,6 @@ function NavbarBeforeLogin() {
             <Link to="/contact" className="nav-link" onClick={handleNavClose}>
               <span className="material-symbols-outlined"> help </span>Contact Us
             </Link>
-            <Link to="/careers" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> work </span>Careers
-            </Link>
           </div>
         </div>
       </div>
