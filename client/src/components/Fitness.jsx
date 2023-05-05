@@ -50,6 +50,7 @@ const exercises = [
   },
   
   
+  
 ];
 const Exercises = (props) => {
   return (

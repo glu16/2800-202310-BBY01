@@ -19,12 +19,12 @@ body {
   background-color: inherit;
 }
 
-.fitness-card-body {
-  padding: 0 100px;
-}
-
 .exerciseCard {
   margin: 20px 0 ;
   border-radius: 10px;
   width: 400px;
+}
+
+.fitness-card-body {
+  padding: 0 100px;
 }
