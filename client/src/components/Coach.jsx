@@ -1,17 +1,56 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 
 import "../css/coach.css";
 
-const ChatMessage = ({ message }) => (
-  <div className="chatMessageContainer">
-    <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
-    <div className="message">{message.message}</div>
-  </div>
-);
+const ChatMessage = ({ message }) => {
+  const lines = message.message.split("\n");
+
+  if (lines.length > 1) {
+    return (
+      <div className="chatMessageContainer">
+        <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
+        <ul className="message" style={{}}>
+          {lines.map((line, index) => {
+            if (line.includes("Day")) {
+              return (
+                <React.Fragment key={index}>
+                  <br />
+                  <li>{line}</li>
+                  <br />
+                </React.Fragment>
+              );
+            } else {
+              return <li key={index}>{line}</li>;
+            }
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+  return (
+    <div className="chatMessageContainer">
+      <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
+      <div className="message">{message.message}</div>
+    </div>
+  );
+};
 
 const Coach = () => {
+  const [scrollPos, setScrollPos] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPos(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },

@@ -37,7 +37,7 @@ function Login() {
       <div className="card">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1>Log In</h1>
+            <h1>Login</h1>
             <form id="login" onSubmit={handleSubmit}>
               <label htmlFor="email-input"></label>
               <input
