@@ -37,7 +37,7 @@ const Profile = () => {
                 </p>
               </div>
               <div className={`${styles.profileItem} email`}>
-              <h5 className={styles.subtitle}>Email</h5>
+              <h5 className={styles.profileTitle}>Email</h5>
                 <p>
                   <span id="email-goes-here">{email}</span>
                 </p>

@@ -1,0 +1,27 @@
+h1 {
+  color: black;
+}
+
+h4 {
+  color: black;
+  margin-bottom: 40px;
+}
+
+.calendar {
+  width: 100%;
+}
+
+.calendarCard {
+  height: 100%;
+  width: 100%;
+  max-width: 1000px;
+  border-radius: 10px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 60px;
+}
+
