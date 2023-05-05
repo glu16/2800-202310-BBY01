@@ -4,7 +4,7 @@ import "../css/login.css";
 import { useState } from "react";
 import axois from "axios";
 
-function Login() {
+function Login({ setToken }) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONT WHEN WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
@@ -18,8 +18,9 @@ function Login() {
     try {
       const url = "http://localhost:8000/api/auth";
       const { data: res } = await axois.post(url, data);
-      localStorage.setItem("token", res.data);
-      window.location = "/home";
+      // localStorage.setItem("token", res.data);
+      setToken(res.data);
+      // window.location = "/home";
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error);
