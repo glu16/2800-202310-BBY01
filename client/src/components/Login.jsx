@@ -20,7 +20,7 @@ function Login({ setToken }) {
       const { data: res } = await axois.post(url, data);
       // localStorage.setItem("token", res.data);
       setToken(res.data);
-      // window.location = "/home";
+      window.location = "/";
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error);
