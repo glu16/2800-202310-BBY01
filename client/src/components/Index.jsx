@@ -9,12 +9,12 @@ const Index = () => {
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
-    config: { duration: 1000 }
+    config: { duration: 1000 },
   });
 
   return (
-    <div className={styles["indexBody"]}>
-      <div className="d-flex justify-content-center align-items-center h-100">
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className={styles["indexBody"]}>
         <div className={`card-body ${styles["indexCard"]}`}>
           <div className="d-flex flex-column align-items-center text-center">
             <h1 className={styles["indexTitle"]}>Welcome to Healthify!</h1>
@@ -32,12 +32,16 @@ const Index = () => {
             </h4>
             <div className={styles["button-group"]}>
               <Link to="/signup">
-                <button className={`btn btn-primary btn-lg ${styles["indexBtn"]}`}>
+                <button
+                  className={`btn btn-primary btn-lg ${styles["indexBtn"]}`}
+                >
                   Sign Up
                 </button>
               </Link>
               <Link to="/login">
-                <button className={`btn btn-primary btn-lg ${styles["indexBtn"]}`}>
+                <button
+                  className={`btn btn-primary btn-lg ${styles["indexBtn"]}`}
+                >
                   Log In
                 </button>
               </Link>
