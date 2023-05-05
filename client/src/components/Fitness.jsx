@@ -85,16 +85,130 @@ const Fitness = () => {
   // used to update user in database with workout plan
   async function handleSubmit(event) {
     event.preventDefault();
-    const data = { ["workouts"]: 'test' };
+
+    // key to store individual workout
+    const today = new Date().toISOString().slice(0, 10);
+    const workoutKey = "workout_" + today;
+    const workout = {
+      "Day1": {
+          "Exercise1": {
+              "name": "Push-ups",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          },
+          "Exercise2": {
+              "name": "Bench press",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 150
+          },
+          "Exercise3": {
+              "name": "Cable fly",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          }
+      },
+      "Day2": {
+          "Exercise1": {
+              "name": "Lat pulldown",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          },
+          "Exercise2": {
+              "name": "Seated cable row",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 150
+          },
+          "Exercise3": {
+              "name": "Bent over row",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          }
+      },
+      "Day3": {
+          "Exercise1": {
+              "name": "Dumbbell fly",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          },
+          "Exercise2": {
+              "name": "Incline press",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 150
+          },
+          "Exercise3": {
+              "name": "Dumbbell pullover",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          }
+      },
+      "Day4": {
+          "Exercise1": {
+              "name": "Cable chest press",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          },
+          "Exercise2": {
+              "name": "Chest dip",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 150
+          },
+          "Exercise3": {
+              "name": "Push-up with rotation",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          }
+      },
+      "Day5": {
+          "Exercise1": {
+              "name": "Rowing machine",
+              "setsAndReps": "Rowing machine, ",
+              "calories": 300
+          },
+          "Exercise2": {
+              "name": "Treadmill walk incline",
+              "setsAndReps": "Treadmill walk incline, ",
+              "calories": 300
+          }
+      },
+      "Day6": {
+          "Exercise1": {
+              "name": "Elliptical machine",
+              "setsAndReps": "Elliptical machine, ",
+              "calories": 300
+          },
+          "Exercise2": {
+              "name": "Stationary bike",
+              "setsAndReps": "Stationary bike, ",
+              "calories": 300
+          }
+      },
+      "Day7": {
+          "Exercise1": {
+              "name": "Bodyweight squats",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          },
+          "Exercise2": {
+              "name": "Lunges",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 150
+          },
+          "Exercise3": {
+              "name": "Leg press",
+              "setsAndReps": "3 sets of 12 reps",
+              "calories": 100
+          }
+      }
+  }
+
+    const data = { [workoutKey]: workout };
     const response = await fetch(`http://localhost:8000/users/${userEmail}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
     });
     const updatedUser = await response.json();
-    console.log("updatedUser: " + updatedUser);
+    console.log("New workout " + updatedUser + " added to " + userEmail);
   }
 
   return (
@@ -105,11 +219,6 @@ const Fitness = () => {
 
         <div>
           {userEmail}
-          {/* <form method="post" action="/users/addItem">
-            <input type="hidden" name="userEmail" value={userEmail}></input>
-            <button type="submit" className="btn btn-danger">Add workout plan to user</button>
-          </form> */}
-          
           <form id="addWorkout" onSubmit={handleSubmit}>
             <input type="hidden" name="userEmail" value={userEmail}></input>
             <button type="submit" className="btn btn-danger">Add workout plan to user</button>

@@ -45,18 +45,14 @@ app.use("/api/auth", authRouter);
 //GETS THE USER FROM THE EMAIL NEW CODE
 app.put('/users/:email',  async (req, res) => {
   const userEmail = req.params.email;
-  const updatedUserData = req.body;
-  console.log("updatedUserData.workouts: " + updatedUserData.workouts);
+  const newWorkout = req.body;
   try {
     const user = await User.findOneAndUpdate(
       { email: userEmail },
-      { $set: { workouts: updatedUserData.workouts } }
+      { $push: { workouts: newWorkout } }
     );
-    console.log(user.email);
-    console.log(user.workouts);
-    
     res.status(200).json({
-      message: `User with email ${userEmail} updated successfully`,
+      message: `New workout added to ${userEmail}.`,
       user,
     });
   } catch (err) {
