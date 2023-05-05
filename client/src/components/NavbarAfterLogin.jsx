@@ -10,6 +10,11 @@ function NavbarAfterLogin() {
     setIsNavOpen(false);
   };
 
+  function logout() {
+    localStorage.removeItem('user');
+    window.location.href = '/index';
+  }
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
       <div className="container-fluid">
@@ -118,7 +123,7 @@ function NavbarAfterLogin() {
               </ul>
             </li>
             <li className="nav-item">
-              <Link to="" className="nav-link" onClick={handleNavClose}>
+              <Link to="/index" className="nav-link" onClick={logout}>
                 <span className="material-symbols-outlined"> logout </span> Log
                 out
               </Link>
