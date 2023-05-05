@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "../css/profile.css";
+import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = () => {
@@ -11,13 +11,15 @@ const Profile = () => {
   const handleSaveChanges = () => {};
 
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="card">
-        <div className="card-body">
+    <div
+      className={`${styles.profileContainer} d-flex justify-content-center align-items-center h-100`}
+    >
+      <div className={`card ${styles.card}`}>
+        <div className={`card-body ${styles.cardBody}`}>
           <div className="d-flex flex-column align-items-center text-center">
-            <div className="profile-image">
+            <div className={`${styles.profileImage} profile-image`}>
               <img
-                className="img-profile"
+                className={`${styles.imgProfile}`}
                 src={profile}
                 alt="Profile Image"
                 id="profile-picture"
@@ -27,27 +29,27 @@ const Profile = () => {
               </label>
               <input type="file" id="img-upload" />
             </div>
-            <div className="mt-3">
-              <div className="email">
-                <h5>Name</h5>
+            <div className={`mt-3 ${styles.profileInfo}`}>
+              <div className={`${styles.profileItem} email`}>
+                <h5 className={styles.subtitle}>Name</h5>
                 <p>
                   <span id="name-goes-here">{name}</span>
                 </p>
               </div>
-              <div className="email">
-                <h5>Email</h5>
+              <div className={`${styles.profileItem} email`}>
+              <h5 className={styles.subtitle}>Email</h5>
                 <p>
                   <span id="email-goes-here">{email}</span>
                 </p>
               </div>
-              <div className="phone">
-                <h5>Phone</h5>
+              <div className={`${styles.profileItem} phone`}>
+              <h5 className={styles.subtitle}>Phone</h5>
                 <p>
                   <span id="phone-goes-here">{phone}</span>
                 </p>
               </div>
               <button
-                className="btn btn-primary"
+                className={`btn btn-primary ${styles.editProfileButton}`}
                 data-bs-toggle="modal"
                 data-bs-target="#editModal"
               >
