@@ -3,39 +3,45 @@ import { useSpring, animated } from "react-spring";
 
 import "../css/coach.css";
 
-const ChatMessage = ({ message }) => {
-  const lines = message.message.split("\n");
+// const ChatMessage = ({ message }) => {
+//   const lines = message.message.split("\n");
 
-  if (lines.length > 1) {
-    return (
-      <div className="chatMessageContainer">
-        <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
-        <ul className="message" style={{}}>
-          {lines.map((line, index) => {
-            if (line.includes("Day")) {
-              return (
-                <React.Fragment key={index}>
-                  <br />
-                  <li>{line}</li>
-                  <br />
-                </React.Fragment>
-              );
-            } else {
-              return <li key={index}>{line}</li>;
-            }
-          })}
-        </ul>
-      </div>
-    );
-  }
+//   if (lines.length > 1) {
+//     return (
+//       <div className="chatMessageContainer">
+//         <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
+//         <ul className="message" style={{}}>
+//           {lines.map((line, index) => {
+//             if (line.includes("Day")) {
+//               return (
+//                 <React.Fragment key={index}>
+//                   <br />
+//                   <li>{line}</li>
+//                   <br />
+//                 </React.Fragment>
+//               );
+//             } else {
+//               return <li key={index}>{line}</li>;
+//             }
+//           })}
+//         </ul>
+//       </div>
+//     );
+//   }
 
-  return (
-    <div className="chatMessageContainer">
-      <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
-      <div className="message">{message.message}</div>
-    </div>
-  );
-};
+//   return (
+//     <div className="chatMessageContainer">
+//       <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
+//       <div className="message">{message.message}</div>
+//     </div>
+//   );
+// };
+const ChatMessage = ({ message }) => (
+  <div className="chatMessageContainer" style={{ whiteSpace: 'pre-wrap' }}>
+    <div className={`avatar ${message.user === "gpt" && "AI"}`}></div>
+    <div className="message">{message.message}</div>
+  </div>
+);
 
 const Coach = () => {
   const [scrollPos, setScrollPos] = useState(0);
