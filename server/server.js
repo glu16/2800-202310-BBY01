@@ -42,10 +42,15 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
-//GETS THE USER FROM THE EMAIL NEW CODE
+//to generate and store a user's workout plan
 app.put('/users/:email',  async (req, res) => {
   const userEmail = req.params.email;
-  const newWorkout = req.body;
+  // const newWorkout = req.body;
+
+  // call and execute workouts.js
+  const path = require('path');
+  const newWorkout = await require(path.join(__dirname, 'workouts.js'));
+  // console.log("newWorkout: " + newWorkout);
   try {
     const user = await User.findOneAndUpdate(
       { email: userEmail },
@@ -60,6 +65,7 @@ app.put('/users/:email',  async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 app.post('/', async (req, res) => {
   const { message } = req.body;
