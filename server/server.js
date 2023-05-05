@@ -17,6 +17,10 @@ const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 
+const { User } = require('./models/users');
+
+
+
 const cors = require("cors");
 require("dotenv").config();
 
@@ -40,6 +44,32 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
+
+//GETS THE USER FROM THE EMAIL NEW CODE
+app.put('/users/:email',  async (req, res) => {
+  const userEmail = req.params.email;
+  const updatedUserData = req.body;
+
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { email: userEmail },
+      { $push: { messages: updatedUserData.messages } },
+      { new: true, upsert: true }
+    );
+    
+    // const user =  await User.updateOne({ email: userEmail, title: { $exists: false } }, { title: 'boss' });
+
+    res.status(200).json({
+      message: `User with email ${userEmail} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+//END OF NEW CODE
 
 
 app.post('/', async (req, res) => {
@@ -91,13 +121,6 @@ app.post('/', async (req, res) => {
         }
       });
  
-  //   const messageOut = "Day: " + parsedJson.Day + "\n" +
-  //   "BreakFast: " + parsedJson.Breakfast + "\n" +
-  //   "Lunch: " + parsedJson.Lunch + "\n" +
-  //   "Dinner: " + parsedJson.Dinner + "\n" +
-  //   "Snack: " + parsedJson.Snack + "\n"
-  //   ;
-
     console.log(messageOutTest);
 
 

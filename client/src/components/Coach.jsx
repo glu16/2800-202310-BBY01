@@ -45,6 +45,24 @@ const Coach = () => {
     console.log(data);
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
+
+    //NEW CODE FOR PUT REQUEST
+    const key = "messages";
+    const value = messages + "\n" + data.message;
+    const data2 = { [key]: value };
+
+    const userEmail = localStorage.getItem("email");
+    const response2 = await fetch(`http://localhost:8000/users/${userEmail}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data2),
+    });
+
+    const updatedUser = await response2.json();
+    console.log(updatedUser);
+    //END OF NEW CODE FOR PUT REQUEST
   }
 
   return (
