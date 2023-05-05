@@ -14,15 +14,26 @@ import Leaderboard from "./components/Leaderboard";
 import Calendar from "./components/Calendar";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
+import useToken from './components/useToken';
+
+
 
 function App() {
+
+  const { token, setToken } = useToken();
+  
+  console.log(token);
+
+  if (!token) {
+    return <Login setToken={setToken}/>
+  }
+
   return (
     <Router>
       <NavbarAfterLogin />
       <Routes>
         <Route path="/index" element={<Index />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/signupdetails" element={<SignupDetails />} />
         <Route path="/home" element={<Home />} />
         <Route path="/coach" element={<Coach />} />
