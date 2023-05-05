@@ -10,6 +10,11 @@
     lastName: { type: String, required: true, trim: true},
     email: { type: String, required: true},
     password: { type: String, required: true, trim: true, minlength: 4},
+
+    //CREATES A LIST OF MESSAGES FOR EACH USER NEW CODE
+    messages: [{ type: String }],
+    workouts: { type: String }
+    //END OF NEW CODE
  });
 
  userSchema.methods.generateAuthToken = function(){

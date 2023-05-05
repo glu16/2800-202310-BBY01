@@ -78,23 +78,25 @@ const Exercises = (props) => {
   );
 };
 
-// to access user in database with email then add new field workout plan
+// used to identify user for database modification
 const userEmail = localStorage.getItem("email");
-const data = {email:userEmail};
-
-const handleSubmit = async (event) => {
-  event.preventDefault();
-  try {
-    const url = "http://localhost:8000/api/users";
-    const { data: res } = await axios.post(url, data);
-    console.log("res" + res);
-    // window.location = "/fitness";
-  } catch (error) {
-    console.log(error);
-  }
-};
 
 const Fitness = () => {
+  // used to update user in database with workout plan
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const data = { ["workouts"]: 'test' };
+    const response = await fetch(`http://localhost:8000/users/${userEmail}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const updatedUser = await response.json();
+    console.log("updatedUser: " + updatedUser);
+  }
+
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
       <div className="card">
