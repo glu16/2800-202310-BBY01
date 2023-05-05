@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { ProgressBar, Step } from "react-step-progress-bar";
 
 import "react-step-progress-bar/styles.css";
-import "../css/main.css";
+import styles from "../css/home.module.css";
 
 const Home = () => {
   const [progress, setProgress] = useState(0);
@@ -36,26 +36,35 @@ const Home = () => {
   };
 
   return (
-    <div className="card-wrapper">
-      <div className="d-flex justify-content-center align-items-center h-100">
-        <div className="card">
-          <div className="card-body">
-            <div className="d-flex flex-column align-items-center text-center">
-              <animated.h1 className="display-4" style={greetings}>
-                Hello BBY-01!
-              </animated.h1>
-              <animated.h1 className="display-6" style={greetings}>
-                Track your diet and fitness progresses below.
-              </animated.h1>
-            </div>
+    <div className={styles.cardWrapper}>
+      <div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
+      >
+        <div className="card-body">
+          <div className="d-flex flex-column align-items-center text-center">
+            <animated.h1
+              className={`display-4 ${styles.title}`}
+              style={greetings}
+            >
+              Hello BBY-01!
+            </animated.h1>
+            <animated.h1
+              className={`display-6 ${styles.subtitle}`}
+              style={greetings}
+            >
+              Track your diet and fitness progresses below.
+            </animated.h1>
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-center align-items-center h-100">
+      <div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
+      >
         <div className="card">
-          <h4>Diet Tracker</h4>
+          <h4 className={styles.cardHeader}>Diet Tracker</h4>
           <div className="card-body">
             <ProgressBar
+              className={styles.progressBar}
               percent={progress}
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
             >
@@ -98,11 +107,14 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="d-flex justify-content-center align-items-center h-100">
+      <div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
+      >
         <div className="card">
-          <h4>Fitness Tracker</h4>
+          <h4 className={styles.cardHeader}>Fitness Tracker</h4>
           <div className="card-body">
             <ProgressBar
+              className={styles.progressBar}
               percent={progress}
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
             >

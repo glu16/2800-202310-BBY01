@@ -10,8 +10,8 @@ body {
   overflow: auto;
 }
 
-h1, h3, h5, label, p {
-  color: black;
+h1, h3, h4, h5, label, p {
+  color: white;
 }
 
 .card {

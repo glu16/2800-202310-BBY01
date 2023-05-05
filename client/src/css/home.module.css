@@ -1,0 +1,53 @@
+body {
+  margin-top: 160px;
+  overflow: auto;
+}
+
+.cardWrapper {
+  height: 100%;
+  max-width: 1000px;
+  border-radius: 10px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.homeCard {
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #d4d4d4;
+}
+
+.progressCard {
+  height: 100%;
+}
+
+.progressBar {
+  width: 100%;
+  margin-top: 40px;
+}
+
+.step {
+  display: inline-block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #fff;
+  color: #333;
+  font-size: 0.8rem;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.step.completed {
+  background-color: #f0bb31;
+  color: #fff;
+}
