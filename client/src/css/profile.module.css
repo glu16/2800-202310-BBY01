@@ -1,3 +1,7 @@
+h5, label {
+  color: black;
+}
+
 .btn {
   background-color: green;
 }
@@ -11,18 +15,23 @@
   border-radius: 10px;
 }
 
-.img-profile {
+.imgProfile {
   margin-top: 10px;
 }
 
-.profile-container {
+.profileContainer {
   height: 100%;
   max-width: 1000px;
-  padding-top: 160px;
   border-radius: 10px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
-.profile-image {
+.profileImage {
   position: relative;
   width: 150px;
   height: 150px;
@@ -30,13 +39,13 @@
   border-radius: 50%;
 }
 
-.profile-image img {
+.profileImage img {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.profile-image label {
+.profileImage label {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -53,10 +62,14 @@
   transition: background-color 0.3s ease;
 }
 
-.profile-image label:hover {
+.profileImage label:hover {
   background: #666666;
 }
 
-.profile-image input[type="file"] {
+.profileImage input[type="file"] {
   display: none;
+}
+
+.subtitle {
+  color: black;
 }
