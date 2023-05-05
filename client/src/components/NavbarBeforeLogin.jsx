@@ -32,14 +32,28 @@ function NavbarBeforeLogin() {
           className={`collapse navbar-collapse ${isNavOpen ? "show" : ""}`}
           id="navbarNavAltMarkup"
         >
-          <div className="navbar-nav">
-            <Link to="/about" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> info </span>About Us
-            </Link>
-            <Link to="/contact" className="nav-link" onClick={handleNavClose}>
-              <span className="material-symbols-outlined"> help </span>Contact Us
-            </Link>
-          </div>
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link to="/about" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> info </span>About
+                Us
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/contact" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> help </span>
+                Contact Us
+              </Link>
+            </li>
+          </ul>
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link to="/login" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> login </span> Log
+                In
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
