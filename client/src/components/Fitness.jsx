@@ -85,8 +85,9 @@ const Fitness = () => {
         <h1>Exercises</h1>
           <div className="d-flex align-items-center text-center justify-content-center row">
             
-            {exercises.map((exercise) => (
+            {exercises.map((exercise, index) => (
               <Exercises
+                key = {index}
                 day={exercise.day}
                 exercise1={exercise.exercise1}
                 exercise2={exercise.exercise2}
