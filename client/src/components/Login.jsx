@@ -19,7 +19,7 @@ const handleSubmit = async(event) => {
     const url = "http://localhost:8000/api/auth";
     const {data:res} = await axios.post(url, data);
     // localStorage.setItem("token", res.data);
-
+    setToken(res.data);
     // email added to localStorage to pull for accessing database
     localStorage.setItem("email", data.email);
 
