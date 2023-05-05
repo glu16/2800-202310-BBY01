@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios"; 
 
+
 import "../css/fitness.css";
 
 const exercises = [
@@ -79,6 +80,19 @@ const Exercises = (props) => {
 
 // to access user in database with email then add new field workout plan
 const userEmail = localStorage.getItem("email");
+const data = {email:userEmail};
+
+const handleSubmit = async (event) => {
+  event.preventDefault();
+  try {
+    const url = "http://localhost:8000/api/users";
+    const { data: res } = await axios.post(url, data);
+    console.log("res" + res);
+    // window.location = "/fitness";
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const Fitness = () => {
   return (
@@ -89,7 +103,12 @@ const Fitness = () => {
 
         <div>
           {userEmail}
-          <form method="post" action="/users/addItem">
+          {/* <form method="post" action="/users/addItem">
+            <input type="hidden" name="userEmail" value={userEmail}></input>
+            <button type="submit" className="btn btn-danger">Add workout plan to user</button>
+          </form> */}
+          
+          <form id="addWorkout" onSubmit={handleSubmit}>
             <input type="hidden" name="userEmail" value={userEmail}></input>
             <button type="submit" className="btn btn-danger">Add workout plan to user</button>
           </form>

@@ -31,19 +31,5 @@ router.post('/', async(req, res) => {
     }
 });
 
-router.post('/users/addItem', async (req, res) => {
-    const { userEmail } = req.body;
-    try {
-      const user = await User.findOneAndUpdate({ email: userEmail }, { $push: { workouts: "test" } });
-      res.status(200).json({ message: 'Workout plan added to user' });
-      res.redirect("/Fitness");
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
-      res.redirect("/Fitness");
-    }
-  });
-  
-
 
 module.exports = router;
