@@ -10,6 +10,8 @@
     lastName: { type: String, required: true, trim: true},
     email: { type: String, required: true},
     password: { type: String, required: true, trim: true, minlength: 4},
+    messages: [{ type: String }],
+    workouts: { type: Array }
  });
 
  userSchema.methods.generateAuthToken = function(){

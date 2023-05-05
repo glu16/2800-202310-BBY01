@@ -17,6 +17,8 @@ const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 
+const { User } = require('./models/users');
+
 const cors = require("cors");
 require("dotenv").config();
 
@@ -40,6 +42,51 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
+//to generate and store a user's workout plan
+app.put('/fitness/:email',  async (req, res) => {
+  const userEmail = req.params.email;
+  // const newWorkout = req.body;
+
+  // call and execute workouts.js
+  const workouts = require('./workouts');
+
+  function generateWorkout(callback) {
+    workouts.generate((newWorkout) => {
+      updateWorkouts(newWorkout, callback);
+    });
+  }
+
+  async function updateWorkouts(newWorkout, callback) {
+    
+    // console.log("newWorkout: " + newWorkout);
+    // console.log("typeof newWorkout: " + typeof newWorkout);
+    // console.log("typeof JSON.parse(newWorkout): " + typeof JSON.parse(newWorkout));
+    // console.log("newWorkout stringified: " + JSON.stringify(newWorkout));  
+    // console.log("callback: " + callback);
+
+    try {
+      const user = await User.findOneAndUpdate(
+        { email: userEmail },
+        // { $push: { workouts: newWorkout } }
+        { $push: { workouts: { $each: [JSON.parse(newWorkout)], $position: 0 } } } 
+      );
+      res.status(200).json({
+        message: `New workout added to ${userEmail}.`,
+        user,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+    if (callback) {
+      callback();
+    }
+  }
+
+  // call the updateWorkouts function
+  generateWorkout();
+  
+});
 
 
 app.post('/', async (req, res) => {

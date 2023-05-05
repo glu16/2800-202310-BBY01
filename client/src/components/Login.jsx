@@ -1,6 +1,8 @@
 import React from "react";
 import "../css/login.css";
 
+import{ useState} from "react";
+import axios from "axios"; 
 import { useState } from "react";
 import axios from "axios";
 
@@ -13,17 +15,17 @@ function Login({ setToken }) {
   });
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const url = "http://localhost:8000/api/auth";
-      const { data: res } = await axios.post(url, data);
-      // localStorage.setItem("token", res.data);
-      setToken(res.data);
-      window.location = "/";
-    } catch (error) {
-      //ERROR IS CAUGHT HERE
-      console.log(error);
+const handleSubmit = async(event) => {
+  event.preventDefault();
+  try{
+    const url = "http://localhost:8000/api/auth";
+    const {data:res} = await axois.post(url, data);
+    localStorage.setItem("token", res.data);
+    window.location = "/home";
+
+  }catch(error){
+    //ERROR IS CAUGHT HERE
+    console.log(error);
 
       setError(error.response.data.message);
     }

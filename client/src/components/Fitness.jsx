@@ -1,4 +1,6 @@
 import React from "react";
+import axios from "axios"; 
+
 
 import "../css/fitness.css";
 
@@ -77,12 +79,46 @@ const Exercises = (props) => {
   );
 };
 
+// used to identify user for database modification
+const userEmail = localStorage.getItem("email");
+
 const Fitness = () => {
+  // used to update user in database with workout plan
+  async function addWorkoutToUser(event) {
+    event.preventDefault();
+
+    // key to store individual workout
+    const today = new Date().toISOString().slice(0, 10);
+    const workoutKey = "workout_" + today;
+    // workout to write into user database, will generate with server side call to workouts.js
+    const workout = {}
+
+    const data = { [workoutKey]: workout };
+    const response = await fetch(`http://localhost:8000/fitness/${userEmail}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", },
+      body: JSON.stringify(data),
+    });
+    const updatedUser = await response.json();
+    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userEmail);
+  }
+
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
       <div className="card">
         <div className="fitness-card-body card-body">
         <h1>Exercises</h1>
+
+        <div>
+          {userEmail}
+          <form id="addWorkout" onSubmit={addWorkoutToUser}>
+            <input type="hidden" name="userEmail" value={userEmail}></input>
+            <button type="submit" className="btn btn-success">Add workout plan to user</button>
+          </form>
+
+        </div>
+
+
           <div className="d-flex align-items-center text-center justify-content-center row">
             
             {exercises.map((exercise, index) => (
