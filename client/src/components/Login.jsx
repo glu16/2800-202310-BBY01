@@ -1,51 +1,44 @@
 import React from "react";
 import "../css/login.css";
 
-import{ useState} from "react";
-import axois from "axios"; 
+import { useState } from "react";
+import axois from "axios";
 
 function Login() {
-
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONT WHEN WAS PRIMARLY FROM THIS VIDEO
-//https://www.youtube.com/watch?v=HGgyd1bYWsE
+  //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
-const [error, setError] = useState("");
+  const [error, setError] = useState("");
 
-const handleSubmit = async(event) => {
-  event.preventDefault();
-  try{
-    const url = "http://localhost:8000/api/auth";
-    const {data:res} = await axois.post(url, data);
-    localStorage.setItem("token", res.data);
-    window.location = "/home";
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const url = "http://localhost:8000/api/auth";
+      const { data: res } = await axois.post(url, data);
+      localStorage.setItem("token", res.data);
+      window.location = "/home";
+    } catch (error) {
+      //ERROR IS CAUGHT HERE
+      console.log(error);
 
-  }catch(error){
-    //ERROR IS CAUGHT HERE
-    console.log(error);
+      setError(error.response.data.message);
+    }
+  };
 
-    setError(error.response.data.message);
-  }
-
-}
-
-
-const handleChange = ({currentTarget:input}) => {
-  setData({...data, [input.name]: input.value});
-};
-
-
-
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
       <div className="card">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1>Login</h1>
-            <form id="login" onSubmit={handleSubmit} >
+            <h1>Log In</h1>
+            <form id="login" onSubmit={handleSubmit}>
               <label htmlFor="email-input"></label>
               <input
                 type="email"
@@ -70,8 +63,8 @@ const handleChange = ({currentTarget:input}) => {
                 placeholder="Password"
                 required
               />
-{/* ERROR IS DISPLAYED */}
-{error && <div>{error}</div>}
+              {/* ERROR IS DISPLAYED */}
+              {error && <div>{error}</div>}
 
               <label htmlFor="submit-btn"></label>
               <input type="submit" id="login-btn" value="Login" />
