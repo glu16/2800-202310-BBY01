@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios"; 
 
 import "../css/fitness.css";
 
@@ -76,12 +77,25 @@ const Exercises = (props) => {
   );
 };
 
+// to access user in database with email then add new field workout plan
+const userEmail = localStorage.getItem("email");
+
 const Fitness = () => {
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
       <div className="card">
         <div className="fitness-card-body card-body">
         <h1>Exercises</h1>
+
+        <div>
+          {userEmail}
+          <form method="post" action="/users/addItem">
+            <input type="hidden" name="userEmail" value={userEmail}></input>
+            <button type="submit" className="btn btn-danger">Add workout plan to user</button>
+          </form>
+        </div>
+
+
           <div className="d-flex align-items-center text-center justify-content-center row">
             
             {exercises.map((exercise) => (

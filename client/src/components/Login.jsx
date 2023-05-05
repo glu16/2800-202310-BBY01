@@ -2,7 +2,7 @@ import React from "react";
 import "../css/login.css";
 
 import{ useState} from "react";
-import axois from "axios"; 
+import axios from "axios"; 
 
 function Login() {
 
@@ -18,8 +18,12 @@ const handleSubmit = async(event) => {
   event.preventDefault();
   try{
     const url = "http://localhost:8000/api/auth";
-    const {data:res} = await axois.post(url, data);
+    const {data:res} = await axios.post(url, data);
     localStorage.setItem("token", res.data);
+
+    // email added to localStorage to pull for accessing database
+    localStorage.setItem("email", data.email);
+
     window.location = "/home";
 
   }catch(error){

@@ -66,19 +66,6 @@ function NavbarAfterLogin() {
                 Ranks
               </Link>
             </li>
-
-            {/* test button for debugging */}
-            <li className="nav-item">
-              <Link
-                to="/leaderboard"
-                className="nav-link"
-                onClick={handleNavClose}
-              >
-                <span className="material-symbols-outlined"> Adb </span>{" "}
-                debug_test
-              </Link>
-            </li>
-
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item dropdown">
