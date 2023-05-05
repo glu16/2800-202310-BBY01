@@ -1,20 +1,32 @@
-body {
-  height: 100vh;
-  background-image: url("../img/gradient.png");
-  background-size: cover;
-  background-position: center;
+.btn-settings {
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
-.settings label {
-  font-size: 1.1rem;
-  font-weight: bold;
-  margin-bottom: 10px;
+.form-check-input:checked {
+  background-color: #78a7bd;
 }
 
 .settingsContainer {
   height: 100%;
-  margin-top: 40px;
   max-width: 1000px;
   padding-top: 160px;
   border-radius: 10px;
+}
+
+.settings h1 {
+  margin-bottom: 24px;
+}
+
+.settings input {
+  margin-left: 16px;
+}
+
+.settings label {
+  font-size: 1.15rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

@@ -12,8 +12,8 @@ const Home = () => {
   });
 
   return (
-    <div className="container homeContainer">
-      <div className="card h-100">
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className="card">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className="display-4" style={greetings}>

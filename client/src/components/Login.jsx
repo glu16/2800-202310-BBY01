@@ -17,7 +17,7 @@ const [error, setError] = useState("");
 const handleSubmit = async(event) => {
   event.preventDefault();
   try{
-    const url = "http://localhost:5000/api/auth";
+    const url = "http://localhost:8000/api/auth";
     const {data:res} = await axois.post(url, data);
     localStorage.setItem("token", res.data);
     window.location = "/home";
@@ -40,8 +40,8 @@ const handleChange = ({currentTarget:input}) => {
 
 
   return (
-    <div className="container loginContainer">
-      <div className="login-card card h-100">
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className="card">
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <h1>Login</h1>

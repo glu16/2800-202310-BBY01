@@ -94,12 +94,11 @@ const Meals = (props) => {
 
 const Diet = () => {
   return (
-    <div className="container dietContainer">
-      <div className="card h-100">
-        <div className="card-body diet-card-body">
-        <h1>Meal suggestions</h1>
-          <div className="align-items-center justify-content-center text-center row">
-          
+    <div className="d-flex justify-content-center align-items-center h-100">
+      <div className="card">
+        <div className="card-body">
+          <div className="d-flex flex-column align-items-center text-center">
+            <h1>Meal suggestions</h1>
             {meals.map((meal) => (
               <Meals
                 day={meal.day}

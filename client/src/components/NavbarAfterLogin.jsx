@@ -33,7 +33,12 @@ function NavbarAfterLogin() {
           id="navbarNavAltMarkup"
         >
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
+            <li className="nav-item">
+              <Link to="/home" className="nav-link" onClick={handleNavClose}>
+                <span className="material-symbols-outlined"> home </span> Home
+              </Link>
+            </li>
+            <li className="nav-item">
               <Link to="/coach" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> smart_toy </span>{" "}
                 Coach
@@ -61,37 +66,56 @@ function NavbarAfterLogin() {
                 Ranks
               </Link>
             </li>
-            <li className="nav-item">
-              <Link
-                to="/calendar"
-                className="nav-link"
-                onClick={handleNavClose}
-              >
-                <span className="material-symbols-outlined">
-                  calendar_month
-                </span>{" "}
-                Calendar
-              </Link>
-            </li>
           </ul>
           <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link to="/profile" className="nav-link" onClick={handleNavClose}>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <span className="material-symbols-outlined">
+                  {" "}
                   account_circle
                 </span>{" "}
-                Profile
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link
-                to="/settings"
-                className="nav-link"
-                onClick={handleNavClose}
+                Account
+              </a>
+              <ul
+                className="dropdown-menu custom-dropdown-menu"
+                aria-labelledby="navbarDropdown"
               >
-                <span className="material-symbols-outlined"> settings </span>{" "}
-                Settings
-              </Link>
+                <Link
+                  to="/profile"
+                  className="nav-link"
+                  onClick={handleNavClose}
+                >
+                  <span className="material-symbols-outlined">
+                    account_circle
+                  </span>{" "}
+                  Profile
+                </Link>
+                <Link
+                  to="/calendar"
+                  className="nav-link"
+                  onClick={handleNavClose}
+                >
+                  <span className="material-symbols-outlined">
+                    calendar_month
+                  </span>{" "}
+                  Calendar
+                </Link>
+                <Link
+                  to="/settings"
+                  className="nav-link"
+                  onClick={handleNavClose}
+                >
+                  <span className="material-symbols-outlined">settings</span>{" "}
+                  Settings
+                </Link>
+              </ul>
             </li>
             <li className="nav-item">
               <Link to="" className="nav-link" onClick={handleNavClose}>

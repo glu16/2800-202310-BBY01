@@ -5,7 +5,7 @@ body {
   overflow: scroll;
 }
 
-.dietContainer {
+.fitnessContainer {
   position: relative;
   padding-top: 160px;
   height: 100%;
@@ -19,12 +19,12 @@ body {
   background-color: inherit;
 }
 
-.mealCard {
-  border-radius: 10px;
-  margin: 0 10px 20px 10px;
-  padding-bottom: 30px;
+.fitness-card-body {
+  padding: 0 100px;
 }
 
-.diet-card-body {
-  padding: 50px;
+.exerciseCard {
+  margin: 20px 0 ;
+  border-radius: 10px;
+  width: 400px;
 }

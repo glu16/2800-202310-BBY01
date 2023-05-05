@@ -12,7 +12,7 @@ router.post("/", async (req, res) => {
 
         const validate = (user) => {
             const scheme = joi.object({
-                email: joi.string().required().email(),
+                email: joi.string().required(),
                 password: joi.string().required()
             });
             return scheme.validate(user);
