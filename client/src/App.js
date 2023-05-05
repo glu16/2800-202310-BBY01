@@ -1,6 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import NavbarAfterLogin from "./components/NavbarAfterLogin";
+import NavbarBeforeLogin from "./components/NavbarBeforeLogin";
 import Index from "./components/Index";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
@@ -14,28 +15,35 @@ import Leaderboard from "./components/Leaderboard";
 import Calendar from "./components/Calendar";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
-import useToken from './components/useToken';
-
-
+import useToken from "./components/useToken";
 
 function App() {
+  const {token, setToken} = useToken();
 
-  const { token, setToken } = useToken();
-  
   console.log(token);
 
   if (!token) {
-    return <Login setToken={setToken}/>
+    return (
+      <>
+        <Router>
+          <NavbarBeforeLogin />
+          <Routes>
+            <Route path="/login" element={<Login setToken={setToken} />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signupdetails" element={<SignupDetails />} />
+            <Route path="/" element={<Index />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Router>
+      </>
+    );
   }
 
   return (
     <Router>
       <NavbarAfterLogin />
       <Routes>
-        <Route path="/index" element={<Index />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signupdetails" element={<SignupDetails />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/coach" element={<Coach />} />
         <Route path="/diet" element={<Diet />} />
         <Route path="/fitness" element={<Fitness />} />
