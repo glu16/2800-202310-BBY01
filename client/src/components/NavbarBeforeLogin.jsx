@@ -34,13 +34,13 @@ function NavbarBeforeLogin() {
         >
           <div className="navbar-nav">
             <Link to="/about" className="nav-link" onClick={handleNavClose}>
-              <span class="material-symbols-outlined"> info </span>About Us
+              <span className="material-symbols-outlined"> info </span>About Us
             </Link>
             <Link to="/contact" className="nav-link" onClick={handleNavClose}>
-              <span class="material-symbols-outlined"> help </span>Contact Us
+              <span className="material-symbols-outlined"> help </span>Contact Us
             </Link>
             <Link to="/careers" className="nav-link" onClick={handleNavClose}>
-              <span class="material-symbols-outlined"> work </span>Careers
+              <span className="material-symbols-outlined"> work </span>Careers
             </Link>
           </div>
         </div>
