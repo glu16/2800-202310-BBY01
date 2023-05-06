@@ -27,10 +27,10 @@ body {
 
 .dietCard {
   width: 1300px;
+  margin-bottom: 50px;
 }
-.diet-card-body {
+.dietCardBody {
   padding: 0 50px;
-  /* width: 1200px; */
 }
 
 .title {
