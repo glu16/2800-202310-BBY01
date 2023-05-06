@@ -28,3 +28,10 @@ body {
 .fitness-card-body {
   padding: 0 100px;
 }
+
+.title {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: black;
+}

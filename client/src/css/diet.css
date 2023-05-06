@@ -19,16 +19,23 @@ body {
 }
 
 .mealCard {
-  margin: 20px 0px ;
+  margin: 20px 0px;
   border-radius: 10px;
   padding: 0px;
   /* min-width: 120px; */
 }
 
-.dietCard{
+.dietCard {
   width: 1300px;
 }
 .diet-card-body {
-  padding: 0 100px;
+  padding: 0 50px;
   /* width: 1200px; */
+}
+
+.title {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: black;
 }
