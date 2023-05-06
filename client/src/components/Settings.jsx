@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import "../css/settings.css";
+import styles from "../css/settings.module.css";
 
 const Settings = () => {
   const [notificationSettings, setNotificationSettings] = useState({
@@ -20,11 +20,13 @@ const Settings = () => {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="card">
+    <div
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`}
+    >
+      <div className={`card ${styles.settingsCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <div className="settings">
+            <div className={styles.settings}>
               <h1>Notification Preferences</h1>
               <div className="form-check form-switch">
                 <label htmlFor="diet-reminders" className="form-switch-label">
@@ -112,10 +114,10 @@ const Settings = () => {
               </div>
               <button
                 type="button"
-                className="btn btn-primary btn-settings"
+                className={`btn btn-primary ${styles.settingsBtn}`}
                 onClick={saveNotificationSettings}
               >
-                Save Settings
+                Save Changes
               </button>
             </div>
           </div>

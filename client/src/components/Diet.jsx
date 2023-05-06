@@ -1,6 +1,6 @@
 import React from "react";
 
-import "../css/diet.css";
+import styles from "../css/diet.module.css";
 
 const meals = [
   {
@@ -69,7 +69,7 @@ const meals = [
 ];
 const Meals = (props) => {
   return (
-    <div className=" card mealCard col-md">
+    <div className={`card col-md ${styles.mealCard}`}>
       <h1>{props.day}</h1>
       <h3>Breakfast</h3>
       <p>
@@ -94,11 +94,11 @@ const Meals = (props) => {
 
 const Diet = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="dietCard card">
-        <div className="diet-card-body card-body">
-          <h1>Meal suggestions</h1>
-          <div className="d-flex align-items-center text-center justify-content-center row">
+    <div className={`d-flex justify-content-center align-items-center h-100`}>
+      <div className={`card ${styles.dietCard}`}>
+        <div className={`card-body ${styles.dietCardBody}`}>
+          <h1 className={`${styles.title}`}>Meal Suggestions</h1>
+          <div className={`d-flex align-items-center text-center justify-content-center row`}>
             {meals.map((meal, index) => (
               <Meals
                 key={index}

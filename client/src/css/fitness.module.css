@@ -25,6 +25,13 @@ body {
   width: 400px;
 }
 
-.fitness-card-body {
+.fitnessCardBody {
   padding: 0 100px;
+}
+
+.title {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: black;
 }

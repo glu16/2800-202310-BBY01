@@ -11,7 +11,7 @@ function NavbarAfterLogin() {
   };
 
   function logout() {
-    localStorage.removeItem('user');
+    sessionStorage.removeItem('token');
     window.location.href = '/index';
   }
 

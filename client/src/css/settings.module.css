@@ -1,17 +1,22 @@
-.btn-settings {
+.settingsBtn {
   margin-top: 12px;
   margin-bottom: 12px;
 }
 
-.form-check-input:checked {
-  background-color: #78a7bd;
+.settingsCard {
+  width: 800px;
+  border-radius: 10px;
+  margin: 0 auto;
 }
 
 .settingsContainer {
   height: 100%;
-  max-width: 1000px;
   padding-top: 160px;
   border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
 }
 
 .settings h1 {

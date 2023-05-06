@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios"; 
 
 
-import "../css/fitness.css";
+import styles from "../css/fitness.module.css";
 
 const exercises = [
   {
@@ -56,7 +56,7 @@ const exercises = [
 ];
 const Exercises = (props) => {
   return (
-    <div className="card exerciseCard col-md">
+    <div className={`card col-md ${styles.exerciseCard}`}>
       <h1>{props.day}</h1>
       <h3>Exercise 1</h3>
       <p>
@@ -104,10 +104,10 @@ const Fitness = () => {
   }
 
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="card">
-        <div className="fitness-card-body card-body">
-        <h1>Exercises</h1>
+    <div className={`d-flex justify-content-center align-items-center h-100`}>
+      <div className={`card`}>
+        <div className={`card-body ${styles.fitnessCardBody}`}>
+        <h1 className={`${styles.title}`}>Exercises</h1>
 
         <div>
           {userEmail}
@@ -119,7 +119,7 @@ const Fitness = () => {
         </div>
 
 
-          <div className="d-flex align-items-center text-center justify-content-center row">
+          <div className={`d-flex align-items-center text-center justify-content-center row`}>
             
             {exercises.map((exercise, index) => (
               <Exercises
