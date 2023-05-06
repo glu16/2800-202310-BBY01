@@ -1,0 +1,66 @@
+#submitBtn {
+  padding-top: 20px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
+  border: none;
+  border-radius: 10px;
+  transition: 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+#signupDetails {
+  padding: 0 75px 30px 75px;
+}
+
+#signupDetails > input {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+#detailsLabel {
+  font-size: 30pt;
+  /* padding: 20px; */
+}
+
+#activityLevel {
+  margin: 25px 0 20px 0;
+  padding: 10px;
+  background-color: white;
+}
+
+#fitnessGoals {
+  margin: 5px 0 20px 0;
+  padding: 10px;
+  background-color: white;
+}
+
+.detailsContainer {
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  justify-self: center;
+  justify-content: center;
+}
+
+.radioInput {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5%;
+}
+
+input[type="radio"] {
+  transform: scale(1.25);
+}
+
+.signupCard {
+  width: 600px;
+  border-radius: 10px;
+}
+
+.userInput {
+  border: none;
+  border-bottom: solid 1px black;
+  width: 100%;
+}

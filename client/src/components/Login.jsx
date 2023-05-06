@@ -71,7 +71,7 @@ function Login({ setToken }) {
                 type="submit"
                 id="login-btn"
                 value="Login"
-                className={`btn btn-primary ${styles.loginBtn}`}
+                className={styles.loginBtn}
               />
             </form>
           </div>

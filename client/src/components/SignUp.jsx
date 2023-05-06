@@ -100,9 +100,9 @@ function SignUp() {
               <label htmlFor="submit-btn"></label>
               <input
                 type="submit"
-                id="submit-btn"
+                id={styles.submitBtn}
                 value="Submit"
-                className={styles.submitBtn}
+                className="submit-btn"
               />
             </form>
             <p>

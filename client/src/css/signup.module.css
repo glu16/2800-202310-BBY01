@@ -24,7 +24,8 @@
   border: none;
   border-radius: 10px;
   transition: 0.2s;
-  width: 60%;
+  width: 100%;
+  justify-content: center;
 }
 
 .userInput {
