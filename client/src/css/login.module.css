@@ -1,17 +1,15 @@
-/* Signup CSS */
-
-#login {
+.login {
   padding: 40px;
 }
 
-#login > input {
+.login > input {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 10px;
 }
 
-.user-input {
+.userInput {
   border: none;
   border-bottom: solid 1px black;
   width: 100%;
@@ -29,16 +27,7 @@
   padding-top: 20px;
 }
 
-/* Login CSS */
-
-#login > input {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-}
-
-#login-btn {
+.loginBtn {
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
   border: none;
   border-radius: 10px;
@@ -47,6 +36,7 @@
   margin-top: 70px;
 }
 
-.login-card {
+.loginCard {
   width: 600px;
+  border-radius: 10px;
 }
