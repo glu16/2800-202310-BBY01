@@ -3,12 +3,50 @@ import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
 
-const ChatMessage = ({ message }) => (
-  <div className="chatMessageContainer" style={{ whiteSpace: 'pre-wrap' }}>
-    <div className={`avatar ${message.user === "gpt" && "AI"} ${styles.userAvatar}`}></div>
-    <div className={styles.message}>{message.message}</div>
-  </div>
-);
+const ChatMessage = ({ message }) => {
+  if (!message || typeof message.message !== "string") {
+    return null;
+  }
+  const lines = message.message.split("\n");
+
+  if (lines.length > 1) {
+    return (
+      <div className={styles.chatMessageContainer}>
+        <div
+          className={`avatar ${message.user === "gpt" && "AI"} ${
+            styles.gptAvatar
+          }`}
+        ></div>
+        <ul className={styles.message} style={{}}>
+          {lines.map((line, index) => {
+            if (line.includes("Day")) {
+              return (
+                <React.Fragment key={index}>
+                  <br />
+                  <li>{line}</li>
+                  <br />
+                </React.Fragment>
+              );
+            } else {
+              return <li key={index}>{line}</li>;
+            }
+          })}
+        </ul>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.chatMessageContainer}>
+      <div
+        className={`avatar ${message.user === "gpt" && "AI"} ${
+          styles.userAvatar
+        }`}
+      ></div>
+      <div className={styles.message}>{message.message}</div>
+    </div>
+  );
+};
 
 const Coach = () => {
   const [scrollPos, setScrollPos] = useState(0);
@@ -31,33 +69,14 @@ const Coach = () => {
   });
 
   const [input, setInput] = useState("");
-  const [chatLog, setChatLog] = useState([
-
-    
-  ]);
+  const [chatLog, setChatLog] = useState(() => {
+    const storedChatLog = localStorage.getItem("chatLog");
+    return storedChatLog ? JSON.parse(storedChatLog) : [];
+  });
 
   useEffect(() => {
-    const userEmail = localStorage.getItem("email");
-
-    async function fetchChatLog() {
-
-      const response3 = await fetch(`http://localhost:8000/coach/${userEmail}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(),
-      });
-
-      const data3 = await response3.json();
-      
-      console.log(data3 + "this is the data");
-      setChatLog([{user: 'user',message: data3}]);
-
-    }
-    fetchChatLog();
-  }, []);
-
+    localStorage.setItem("chatLog", JSON.stringify(chatLog));
+  }, [chatLog]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -83,7 +102,6 @@ const Coach = () => {
     console.log(data);
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
-
     //NEW CODE FOR PUT REQUEST
     const key = "messages";
     const value = messages + "\n" + data.message;
