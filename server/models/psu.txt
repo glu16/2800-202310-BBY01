@@ -1,0 +1,22 @@
+firstName: String 
+lastName: String 
+email: String 
+password: String
+
+
+chatHistory:[
+    {   
+        userInput: "input",
+        aiOutput: "output" 
+    },
+    {   
+        userInput: "input",
+        aiOutput: "output" 
+    },
+    ...
+
+
+]       
+
+
+

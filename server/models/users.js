@@ -10,7 +10,7 @@
     lastName: { type: String, required: true, trim: true},
     email: { type: String, required: true},
     password: { type: String, required: true, trim: true, minlength: 4},
-    messages: [{ type: String }],
+    messages: { type: Array },
     workouts: { type: Array }
  });
 

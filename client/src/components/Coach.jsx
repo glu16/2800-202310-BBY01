@@ -50,9 +50,12 @@ const Coach = () => {
       });
 
       const data3 = await response3.json();
-      
+
+      const chatMessages = data3[data3.length-1];
+
+    //THIS NEEDS TO BE EDITED LATER TO DIFF USER AND AI
       console.log(data3 + "this is the data");
-      setChatLog([{user: 'user',message: data3}]);
+      setChatLog([{user:'user', message: chatMessages}]);
 
     }
     fetchChatLog();
