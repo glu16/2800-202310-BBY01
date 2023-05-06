@@ -2,10 +2,10 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 
-import "../css/signup.css";
+import styles from "../css/signup.module.css";
 
 function SignUp() {
-  //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONT WHEN WAS PRIMARLY FROM THIS VIDEO
+  //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
     firstName: "",
@@ -36,12 +36,14 @@ function SignUp() {
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className="card">
+    <div
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.signupContainer}`}
+    >
+      <div className={`card ${styles.signupCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1 id="signupHeader">Sign Up</h1>
-            <form id="signup" onSubmit={handleSubmit}>
+            <h1 id={styles.signupHeader}>Sign Up</h1>
+            <form id={styles.signup} onSubmit={handleSubmit}>
               <label htmlFor="first-name"></label>
               <input
                 type="text"
@@ -49,7 +51,7 @@ function SignUp() {
                 name="firstName"
                 value={data.firstName}
                 onChange={handleChange}
-                className="user-input"
+                className={`user-input ${styles.userInput}`}
                 placeholder="First Name"
                 size="30"
                 pattern="[A-Za-z]{2-40}"
@@ -63,7 +65,7 @@ function SignUp() {
                 name="lastName"
                 value={data.lastName}
                 onChange={handleChange}
-                className="user-input"
+                className={`user-input ${styles.userInput}`}
                 placeholder="Last Name"
                 required
               />
@@ -75,7 +77,7 @@ function SignUp() {
                 name="email"
                 value={data.email}
                 onChange={handleChange}
-                className="user-input"
+                className={`user-input ${styles.userInput}`}
                 placeholder="Email"
                 required
               />
@@ -87,7 +89,7 @@ function SignUp() {
                 name="password"
                 value={data.password}
                 onChange={handleChange}
-                className="user-input"
+                className={`user-input ${styles.userInput}`}
                 placeholder="Password"
                 required
               />
@@ -96,7 +98,12 @@ function SignUp() {
               {error && <div>{error}</div>}
 
               <label htmlFor="submit-btn"></label>
-              <input type="submit" id="submit-btn" value="Submit" />
+              <input
+                type="submit"
+                id="submit-btn"
+                value="Submit"
+                className={styles.submitBtn}
+              />
             </form>
             <p>
               Already have an account? <a href="/login"> Sign in</a>

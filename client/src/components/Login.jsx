@@ -5,6 +5,8 @@ import axios from "axios";
 import styles from "../css/login.module.css";
 
 function Login({ setToken }) {
+  //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
+  //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -20,6 +22,7 @@ function Login({ setToken }) {
       localStorage.setItem("email", data.email);
       window.location = "/";
     } catch (error) {
+      //ERROR IS CAUGHT HERE
       setError(error.response.data.message);
     }
   };
@@ -36,7 +39,7 @@ function Login({ setToken }) {
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <h1>Login</h1>
-            <form className={styles.login} onSubmit={handleSubmit}>
+            <form id={styles.login} onSubmit={handleSubmit}>
               <label htmlFor="email-input"></label>
               <input
                 type="email"
