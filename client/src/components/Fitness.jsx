@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import "../css/fitness.css";
+import styles from "../css/fitness.module.css";
 
 const exercises = [
   {
