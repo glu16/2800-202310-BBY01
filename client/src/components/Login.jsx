@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import styles from "../css/login.module.css";
 
@@ -38,13 +39,13 @@ function Login({ setToken }) {
       <div className={`card ${styles.loginCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1>Login</h1>
+            <h1 className={styles.title}>Login</h1>
             <form id={styles.login} onSubmit={handleSubmit}>
               <label htmlFor="email-input"></label>
               <input
                 type="email"
                 id="email-input"
-                className={`user-input ${styles.userInput}`}
+                className={`${styles.userInput}`}
                 placeholder="Email"
                 name="email"
                 value={data.email}
@@ -74,6 +75,7 @@ function Login({ setToken }) {
                 className={styles.loginBtn}
               />
             </form>
+            <p className={`${styles.signupRedirect}`}>New to Healthify? <Link to='/signup' className={`${styles.signupLink}`}>Sign up</Link></p>
           </div>
         </div>
       </div>

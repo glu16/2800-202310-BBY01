@@ -1,5 +1,5 @@
 #login {
-  padding: 40px;
+  padding-bottom: 40px;
 }
 
 #login > input {
@@ -10,9 +10,14 @@
 }
 
 .userInput {
-  border: none;
-  border-bottom: solid 1px black;
+  border: 2px solid #c0c0c0;
   width: 100%;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.userInput:focus {
+  outline: solid rgb(129, 126, 126) 2px;
 }
 
 .loginContainer {
@@ -40,4 +45,14 @@
 .loginCard {
   width: 600px;
   border-radius: 10px;
+}
+
+.signupRedirect{
+  color: black;
+}
+
+.signupLink {
+    text-decoration: none;
+    color: rgb(69, 182, 148);
+   
 }
