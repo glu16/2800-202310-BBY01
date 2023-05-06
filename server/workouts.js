@@ -130,6 +130,14 @@ const runAI = async (input) => {
                   }
                 // console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
 
+
+                // catch any invalid exercise and skip adding it 
+                if (name==null || setsAndReps==null || calories==null ||
+                    calories == 0 || name.length < 4 || setsAndReps < 4) {
+                    console.log("Invalid exercise tossed: " + day[j]);
+                    continue;
+                }
+
                 var exercises_details = {};
                 try {
                     exercises_details = Object.assign(exercises_details, {
@@ -166,7 +174,7 @@ const runAI = async (input) => {
     }
 
     // console.log(workoutPlan);
-    console.log("...workout plan successfully generated.");
+    console.log("...workout plan generated.");
     return(JSON.stringify(workoutPlan));
 }
 

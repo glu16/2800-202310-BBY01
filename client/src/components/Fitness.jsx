@@ -1,7 +1,4 @@
-import React from "react";
-import axios from "axios"; 
-
-
+import React, { useState } from 'react';
 import "../css/fitness.css";
 
 const exercises = [
@@ -83,9 +80,19 @@ const Exercises = (props) => {
 const userEmail = localStorage.getItem("email");
 
 const Fitness = () => {
-  // used to update user in database with workout plan
+
+  // used to disable button after clicking until current execution is finished
+  const [isFormSubmitting, setFormSubmitting] = useState(false);
+
+  // function to update user in database with workout plan
   async function addWorkoutToUser(event) {
     event.preventDefault();
+
+    // ignore form submission if already submitting
+    if (isFormSubmitting) {
+      return; 
+    }
+    setFormSubmitting(true);
 
     // key to store individual workout
     const today = new Date().toISOString().slice(0, 10);
@@ -101,6 +108,8 @@ const Fitness = () => {
     });
     const updatedUser = await response.json();
     console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userEmail);
+    // re-enable button after finishing code
+    setFormSubmitting(false);
   }
 
   return (
@@ -113,7 +122,9 @@ const Fitness = () => {
           {userEmail}
           <form id="addWorkout" onSubmit={addWorkoutToUser}>
             <input type="hidden" name="userEmail" value={userEmail}></input>
-            <button type="submit" className="btn btn-success">Add workout plan to user</button>
+            <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
+              {isFormSubmitting ? 'Generating...' : 'Create workout plan'}
+              </button>
           </form>
 
         </div>
