@@ -18,6 +18,7 @@ ul {
 
 .chatLogContainer {
   padding: 24px;
+  padding-bottom: 5rem;
   margin-top: 100px;
   margin-bottom: 50px;
   overflow-y: auto;
@@ -29,7 +30,6 @@ ul {
   align-items: center;
   margin-top: 16px;
   margin-bottom: 16px;
-  overflow: scroll;
 }
 
 .userAvatar {
