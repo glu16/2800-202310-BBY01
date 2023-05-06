@@ -54,12 +54,10 @@ app.put('/users/:email',  async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       { email: userEmail },
-      { $push: { messages: updatedUserData.messages } },
+      { $set: { messages: updatedUserData.messages } },
       { new: true, upsert: true }
     );
     
-    // const user =  await User.updateOne({ email: userEmail, title: { $exists: false } }, { title: 'boss' });
-
     res.status(200).json({
       message: `User with email ${userEmail} updated successfully`,
       user,

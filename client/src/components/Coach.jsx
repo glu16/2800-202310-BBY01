@@ -70,6 +70,7 @@ const Coach = () => {
 
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState(() => {
+    //THE CHAT HISTORY IS FROM LOCAL STORAGE WHICH MAY NEED TO BE CHANGED
     const storedChatLog = localStorage.getItem("chatLog");
     return storedChatLog ? JSON.parse(storedChatLog) : [];
   });
