@@ -97,7 +97,7 @@ const Diet = () => {
     <div className="d-flex justify-content-center align-items-center h-100">
       <div className="dietCard card">
         <div className="diet-card-body card-body">
-          <h1>Meal suggestions</h1>
+          <h1 className="title">Meal Suggestions</h1>
           <div className="d-flex align-items-center text-center justify-content-center row">
             {meals.map((meal, index) => (
               <Meals

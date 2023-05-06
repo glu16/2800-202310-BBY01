@@ -107,7 +107,7 @@ const Fitness = () => {
     <div className="d-flex justify-content-center align-items-center h-100">
       <div className="card">
         <div className="fitness-card-body card-body">
-        <h1>Exercises</h1>
+        <h1 className="title">Exercises</h1>
 
         <div>
           {userEmail}
