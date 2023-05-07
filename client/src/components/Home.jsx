@@ -27,7 +27,6 @@ const Home = () => {
         setTip(data[randomIndex].tip);
       })
       .catch((error) => {
-        console.error(error);
         console.log("Failed to fetch tip from the server");
       });
   }, []);
@@ -39,7 +38,7 @@ const Home = () => {
       const data = await response.json();
       setProgress(data.completed ? 100 : 50);
     } catch (error) {
-      console.log(error);
+      console.log("Failed to retrieve completion status from the server");
     }
   };
 
