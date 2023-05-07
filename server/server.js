@@ -17,12 +17,9 @@ const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 
-
-
-//THE MODELS
+// THE MODELS
 const { User } = require("./models/users");
-const  Tips  = require("./models/tips");
-
+const Tips = require("./models/tips");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -36,7 +33,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-//THE CONNECTION TO DATABASE
+// THE CONNECTION TO DATABASE
 db();
 
 // MIDDELWARE
@@ -48,21 +45,36 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 // app.use("/api/tips", tipsRouter);
 
-//STORES USER'S CHAT HISTORY TO THE DATABASE
+// GETS THE USER'S NAME FROM THE DATABASE
+app.get("/users/:firstName", async (req, res) => {
+  try {
+    // FIND THE USER BY FIRST NAME
+    const user = await User.findById(req.params.firstName).select("firstName");
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.send(user.firstName);
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Server error");
+  }
+});
+
+// STORES USER'S CHAT HISTORY TO THE DATABASE
 app.put("/users/:email", async (req, res) => {
-  //THE USER'S EMAIL
+  // THE USER'S EMAIL
   const userEmail = req.params.email;
-  //USERS CHAT HITORY
+  // USERS CHAT HITORY
   const updatedUserData = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
-      //FIND BY EMAIL
+      // FIND BY EMAIL
       { email: userEmail },
-      //SET THE MESSAGES TO THE UPDATED MESSAGES
+      // SET THE MESSAGES TO THE UPDATED MESSAGES
       { $set: { messages: updatedUserData.messages } },
-      //NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      //UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
       { new: true, upsert: true }
     );
 
@@ -79,29 +91,29 @@ app.put("/users/:email", async (req, res) => {
   }
 });
 
-//GETS THE USER'S CHAT HISTORY FROM THE DATABASE
+// GETS THE USER'S CHAT HISTORY FROM THE DATABASE
 app.get("/coach/:email", async (req, res) => {
-  //USERS EMAIL
+  // USERS EMAIL
   const userEmail = req.params.email;
 
   try {
-    //FINDS THE USER BY EMAIL
+    // FINDS THE USER BY EMAIL
     const user = await User.findOne({ email: userEmail });
     if (!user) {
       return res.status(400).send("Email not registered" + userEmail);
     }
-    //GETS THE USER'S CHAT HISTORY
+    // GETS THE USER'S CHAT HISTORY
     const messages = user.messages;
-    //STORES THE USER'S CHAT HISTORY
+    // STORES THE USER'S CHAT HISTORY
     const chatHistory = messages;
-    //SENDS THE USER'S CHAT HISTORY
+    // SENDS THE USER'S CHAT HISTORY
     res.json(chatHistory);
   } catch (e) {
     console.log(e);
   }
 });
 
-//to generate and store a user's workout plan
+// to generate and store a user's workout plan
 app.put("/fitness/:email", async (req, res) => {
   const userEmail = req.params.email;
   // const newWorkout = req.body;
@@ -155,7 +167,7 @@ app.put("/fitness/:email", async (req, res) => {
   generateWorkout();
 });
 
-// VARIABLES TO CHECK IF THE CURRENT DATE IS 
+// VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
 let selectedTip = null;
 let selectedDate = null;
@@ -186,14 +198,14 @@ setInterval(() => {
     selectedTip = null;
     selectedDate = null;
   }
-}, 1000 * 60 * 60 * 24); 
+}, 1000 * 60 * 60 * 24);
 
-//THE CURRENT AI IN THE COACH TAB
+// THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
   const { message } = req.body;
   console.log(message);
 
-  //THE RESPONSE FROM OPENAI
+  // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
     model: "text-davinci-003",
     prompt:
@@ -217,9 +229,7 @@ app.post("/", async (req, res) => {
     temperature: 0,
   });
 
-
   const parsableJson = response.data.choices[0].text;
-
 
   console.log(parsableJson);
   console.log(parsableJson);
@@ -227,8 +237,8 @@ app.post("/", async (req, res) => {
   const parsedJson = JSON.parse(parsableJson);
   let messageOutTest = "";
 
-  //IF/ELSE THAT CHECKS IF THE PLAN IS A FITNESS PLAN OR DIET PLAN.
-  //CURRENTLY ASSUMES THAT ANYTHING THAT IS NOT A FITNESS PLAN IS A DIET PLAN.
+  // IF/ELSE THAT CHECKS IF THE PLAN IS A FITNESS PLAN OR DIET PLAN.
+  // CURRENTLY ASSUMES THAT ANYTHING THAT IS NOT A FITNESS PLAN IS A DIET PLAN.
   parsedJson.forEach((choice) => {
     if (choice.planType === "fitness") {
       messageOutTest +=
@@ -271,12 +281,11 @@ app.post("/", async (req, res) => {
 
   console.log(messageOutTest);
 
-  //THE MESSAGE SENT TO THE USER
+  // THE MESSAGE SENT TO THE USER
   res.json({
     message: messageOutTest,
   });
 });
-
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

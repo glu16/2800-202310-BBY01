@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
-import { ProgressBar, Step } from "react-step-progress-bar";
+import { ProgressBar } from "react-step-progress-bar";
 import axios from "axios";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
-
   /* Text animation */
   const greetings = useSpring({
     opacity: 1,
@@ -15,6 +14,33 @@ const Home = () => {
     delay: 500,
   });
   /* End of text animation */
+
+  const [userName, setUserName] = useState("");
+
+  /* Retrieves logged in user's name */
+  useEffect(() => {
+    async function fetchUserName() {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/users/${localStorage.getItem(
+            "_id"
+          )}/firstName`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const firstName = response.data;
+        setUserName(firstName);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchUserName();
+  }, []);
+  /* End of user name retrieval */
 
   /* Retrieves and displays a random diet or fitness tip from MongoDB */
   const [tip, setTip] = useState("");
@@ -62,11 +88,11 @@ const Home = () => {
 
   /* Increments the progress bar based on completion */
   const [progress, setProgress] = useState(0);
-  
+
   const handleIncrement = (incrementValue) => {
     setProgress((prevProgress) => {
       const newProgress = prevProgress + incrementValue;
-      return newProgress > 100 ? 100 : newProgress;
+      return newProgress < 0 ? 0 : newProgress > 100 ? 100 : newProgress;
     });
   };
   /* End of progress bar increment */
@@ -79,9 +105,7 @@ const Home = () => {
       >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <animated.h1 className={styles.title} style={greetings}>
-              Hello BBY-01!
-            </animated.h1>
+            <animated.h1 style={greetings}>Welcome, {userName}!</animated.h1>
             <animated.h4 style={greetings}>Here's your daily tip:</animated.h4>
             <animated.h4 style={greetings}>{tip}</animated.h4>
             <animated.h4 className={styles.title} style={greetings}>
@@ -95,99 +119,16 @@ const Home = () => {
       >
         <div className={styles.progressCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
-          <div className="card-body">
-            <ProgressBar
-              className={styles.progressBar}
-              percent={progress}
-              filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
-            >
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    0
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    25
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    50
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    75
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    100
-                  </div>
-                )}
-              </Step>
-            </ProgressBar>
-          </div>
+          <ProgressBar animated now={progress} label={`${progress}%`} />
         </div>
       </div>
+      <br />
       <div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
       >
         <div className={styles.progressCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
-          <div className="card-body">
-            <ProgressBar
-              className={styles.progressBar}
-              percent={progress}
-              filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
-            >
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    0
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    25
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    50
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    75
-                  </div>
-                )}
-              </Step>
-              <Step>
-                {({ accomplished }) => (
-                  <div className={`step ${accomplished ? "completed" : null}`}>
-                    100
-                  </div>
-                )}
-              </Step>
-            </ProgressBar>
-          </div>
+          <ProgressBar animated now={progress} label={`${progress}%`} />
         </div>
       </div>
     </div>
