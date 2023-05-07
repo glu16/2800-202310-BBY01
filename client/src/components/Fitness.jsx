@@ -113,8 +113,8 @@ const Fitness = () => {
   }
 
   return (
-    <div className={`d-flex justify-content-center align-items-center h-100`}>
-      <div className={`card`}>
+    <div className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}>
+      <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
         <h1 className={`${styles.title}`}>Exercises</h1>
 

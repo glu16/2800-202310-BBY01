@@ -1,5 +1,6 @@
 .dietContainer {
   position: relative;
+  padding-top: 160px;
   height: 100%;
   max-width: 1800px;
   border-radius: 10px;
@@ -21,7 +22,9 @@
 .dietCard {
   width: 1300px;
   margin-bottom: 50px;
+  border-radius: 10px;
 }
+
 .dietCardBody {
   padding: 0 50px;
 }

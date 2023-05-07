@@ -1,10 +1,14 @@
 .fitnessContainer {
-  position: relative;
-  padding-top: 160px;
   height: 100%;
-  max-width: 1500px;
+  max-width: 1000px;
   border-radius: 10px;
-  margin-bottom: 80px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 140px;
 }
 
 .container-fluid {
@@ -13,13 +17,13 @@
 }
 
 .exerciseCard {
-  margin: 20px 0 ;
+  margin: 20px 0px;
   border-radius: 10px;
-  width: 400px;
+  margin-bottom: 50px;
 }
 
 .fitnessCardBody {
-  padding: 0 100px;
+  padding: 0 50px;
 }
 
 .title {

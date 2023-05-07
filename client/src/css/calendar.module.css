@@ -12,6 +12,11 @@ h4 {
 }
 
 .calendarCard {
+  margin-bottom: 50px;
+  border-radius: 10px;
+}
+
+.calendarContainer {
   height: 100%;
   width: 100%;
   max-width: 1000px;
