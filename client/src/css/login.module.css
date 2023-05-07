@@ -1,18 +1,28 @@
 #login {
-  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 40px;
 }
 
 #login > input {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center;
+  justify-content: center; */
   padding: 10px;
 }
 
 .userInput {
-  border: none;
-  border-bottom: solid 1px black;
-  width: 100%;
+  border: 2px solid #c0c0c0;
+  width: 300px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.userInput:focus {
+  outline: solid rgb(129, 126, 126) 2px;
 }
 
 .loginContainer {
@@ -28,16 +38,29 @@
 }
 
 .loginBtn {
-  padding-top: 20px;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
   border: none;
   border-radius: 10px;
   transition: 0.2s;
-  width: 100%;
-  justify-content: center;
+  width: 300px;
+  background-color: rgb(92, 208, 216);
+}
+
+.loginBtn:hover {
+  background-color: hsl(184, 62%, 73%);
 }
 
 .loginCard {
   width: 600px;
   border-radius: 10px;
+}
+
+.signupRedirect{
+  color: black;
+}
+
+.signupLink {
+    text-decoration: none;
+    color: rgb(69, 182, 148);
+   
 }
