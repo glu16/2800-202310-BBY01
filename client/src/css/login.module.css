@@ -38,12 +38,15 @@
 }
 
 .loginBtn {
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border: none;
   border-radius: 10px;
   transition: 0.2s;
   width: 300px;
   background-color: rgb(92, 208, 216);
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
 }
 
 .loginBtn:hover {
@@ -55,12 +58,11 @@
   border-radius: 10px;
 }
 
-.signupRedirect{
+.signupRedirect {
   color: black;
 }
 
 .signupLink {
-    text-decoration: none;
-    color: rgb(69, 182, 148);
-   
+  text-decoration: none;
+  color: rgb(69, 182, 148);
 }

@@ -50,7 +50,7 @@ function NavbarBeforeLogin() {
             <li className="nav-item">
               <Link to="/login" className="nav-link" onClick={handleNavClose}>
                 <span className="material-symbols-outlined"> login </span> Log
-                In
+                in
               </Link>
             </li>
           </ul>
