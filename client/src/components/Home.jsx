@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { ProgressBar, Step } from "react-step-progress-bar";
+import axios from "axios";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
@@ -19,16 +20,17 @@ const Home = () => {
   const [tip, setTip] = useState("");
 
   useEffect(() => {
-    fetch("/home/tips")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        const randomIndex = Math.floor(Math.random() * data.length);
-        setTip(data[randomIndex].tip);
-      })
-      .catch((error) => {
-        console.log("Failed to fetch tip from the server");
-      });
+    async function fetchTip() {
+      try {
+        const response = await axios.get("http://localhost:8000/home/tips");
+        // console.log(response.data[0].tip);
+        setTip(response.data[0].tip);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchTip();
   }, []);
 
   /* Retrieves user's completion status from MongoDB */
