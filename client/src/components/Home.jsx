@@ -24,9 +24,11 @@ const Home = () => {
       .then((data) => {
         console.log(data);
         const randomIndex = Math.floor(Math.random() * data.length);
-        setTip(data[randomIndex].text);
+        setTip(data[randomIndex].tip);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.log("Failed to fetch tip from the server");
+      });
   }, []);
 
   /* Retrieves user's completion status from MongoDB */
@@ -36,7 +38,7 @@ const Home = () => {
       const data = await response.json();
       setProgress(data.completed ? 100 : 50);
     } catch (error) {
-      console.log(error);
+      console.log("Failed to retrieve completion status from the server");
     }
   };
 

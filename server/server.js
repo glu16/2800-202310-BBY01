@@ -158,8 +158,8 @@ app.put("/fitness/:email", async (req, res) => {
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
-    const tips = await Tips.find({});
-    res.status(200).json(tips);
+    const tip = await Tips.find({});
+    res.status(200).json(tip);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
