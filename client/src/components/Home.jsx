@@ -23,8 +23,8 @@ const Home = () => {
       try {
         const response = await axios.get(
           `http://localhost:8000/users/${localStorage.getItem(
-            "_id"
-          )}/firstName`,
+            "email"
+          )}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

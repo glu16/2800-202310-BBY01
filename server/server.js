@@ -46,10 +46,11 @@ app.use("/api/auth", authRouter);
 // app.use("/api/tips", tipsRouter);
 
 // GETS THE USER'S NAME FROM THE DATABASE
-app.get("/users/:firstName", async (req, res) => {
+app.get("/users/:email", async (req, res) => {
+  const userEmail = req.params.email;
   try {
     // FIND THE USER BY FIRST NAME
-    const user = await User.findById(req.params.firstName).select("firstName");
+    const user = await User.findOne({ email: userEmail });
     if (!user) {
       return res.status(404).send("User not found");
     }
