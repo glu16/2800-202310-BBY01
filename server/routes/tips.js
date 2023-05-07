@@ -3,11 +3,11 @@
 
 const express = require("express");
 const router = express.Router();
-const db = require("../models/tips");
+const Tips = require("../models/tips");
 
 router.get("/", async (req, res) => {
   try {
-    const tips = await db.Tips.find();
+    const tips = await Tips.find({}, { tip: 1 });
     res.status(200).json(tips);
   } catch (error) {
     res.status(500).json({ message: error.message });

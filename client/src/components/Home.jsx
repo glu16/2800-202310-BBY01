@@ -24,9 +24,12 @@ const Home = () => {
       .then((data) => {
         console.log(data);
         const randomIndex = Math.floor(Math.random() * data.length);
-        setTip(data[randomIndex].text);
+        setTip(data[randomIndex].tip);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.error(error);
+        console.log("Failed to fetch tip from the server");
+      });
   }, []);
 
   /* Retrieves user's completion status from MongoDB */
