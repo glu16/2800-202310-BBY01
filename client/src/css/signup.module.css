@@ -26,6 +26,11 @@
   transition: 0.2s;
   width: 100%;
   justify-content: center;
+  background-color: rgb(92, 208, 216);
+}
+
+#submitBtn:hover {
+  background-color: hsl(184, 62%, 73%);
 }
 
 .userInput {
