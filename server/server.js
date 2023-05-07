@@ -131,7 +131,7 @@ app.put("/fitness/:email", async (req, res) => {
           $push: {
             workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
           },
-        }
+        },
         {
           $push: {
             workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
@@ -179,8 +179,6 @@ app.post("/", async (req, res) => {
       `. Return response in the following parsable JSON format:
     model: "text-davinci-003",
     prompt:
-      `${message}` +
-      `. Return response in the following parsable JSON format:
       [
       {
           "Day": "day",
@@ -196,12 +194,10 @@ app.post("/", async (req, res) => {
     max_tokens: 1000,
     temperature: 0,
   });
-    max_tokens: 1000,
-    temperature: 0,
-  });
+
 
   const parsableJson = response.data.choices[0].text;
-  const parsableJson = response.data.choices[0].text;
+
 
   console.log(parsableJson);
   console.log(parsableJson);
