@@ -21,7 +21,7 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
-//THE NAME OF THE COLLECTION 'Users', the schema
+//THE NAME OF THE COLLECTION 'User', the schema
 const User = mongoose.model("User", userSchema);
 
 // JOI VALIDATION
