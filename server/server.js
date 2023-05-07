@@ -155,17 +155,28 @@ app.put("/fitness/:email", async (req, res) => {
   generateWorkout();
 });
 
+// VARIABLES TO CHECK IF THE CURRENT DATE IS 
+// THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
+let selectedTip = null;
+let selectedDate = null;
+
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
-    const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
-    res.status(200).json(tips);
+    const currentDate = new Date().toISOString().slice(0, 10);
+
+    if (!selectedTip || selectedDate !== currentDate) {
+      const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
+      selectedTip = tips[0];
+      selectedDate = currentDate;
+    }
+
+    res.status(200).json(selectedTip);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 
 //THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {

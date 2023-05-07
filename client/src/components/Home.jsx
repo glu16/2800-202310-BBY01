@@ -22,9 +22,19 @@ const Home = () => {
   useEffect(() => {
     async function fetchTip() {
       try {
-        const response = await axios.get("http://localhost:8000/home/tips");
-        // console.log(response.data[0].tip);
-        setTip(response.data[0].tip);
+        const currentDate = new Date().toISOString().slice(0, 10);
+        const storedDate = localStorage.getItem("tipDate");
+        const storedTip = localStorage.getItem("tip");
+
+        if (storedDate === currentDate && storedTip) {
+          setTip(storedTip);
+        } else {
+          const response = await axios.get("http://localhost:8000/home/tips");
+          const newTip = response.data[0].tip;
+          setTip(newTip);
+          localStorage.setItem("tipDate", currentDate);
+          localStorage.setItem("tip", newTip);
+        }
       } catch (error) {
         console.error(error);
       }
