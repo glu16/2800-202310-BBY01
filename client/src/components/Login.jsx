@@ -24,7 +24,7 @@ function Login({ setToken }) {
       window.location = "/";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      setError(error.response.data.message);
+      setError(error.request.response);
     }
   };
 
@@ -58,7 +58,7 @@ function Login({ setToken }) {
               <input
                 type="password"
                 id="password-input"
-                className={`user-input ${styles.userInput}`}
+                className={`form-control user-input ${styles.userInput}`}
                 name="password"
                 value={data.password}
                 onChange={handleChange}
@@ -66,6 +66,7 @@ function Login({ setToken }) {
                 required
               />
               {error && <div>{error}</div>}
+              
 
               <label htmlFor="submit-btn"></label>
               <input
