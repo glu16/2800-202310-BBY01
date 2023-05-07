@@ -178,6 +178,16 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
+// RESET SELECTED TIP AND DATE AT MIDNIGHT
+setInterval(() => {
+  const currentDate = new Date().toISOString().slice(0, 10);
+
+  if (selectedDate !== currentDate) {
+    selectedTip = null;
+    selectedDate = null;
+  }
+}, 1000 * 60 * 60 * 24); 
+
 //THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
   const { message } = req.body;
