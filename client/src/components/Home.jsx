@@ -6,7 +6,6 @@ import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
-  const [progress, setProgress] = useState(0);
 
   /* Text animation */
   const greetings = useSpring({
@@ -14,6 +13,7 @@ const Home = () => {
     from: { opacity: 0 },
     delay: 500,
   });
+  /* End of text animation */
 
   /* Retrieves and displays a random diet or fitness tip from MongoDB */
   const [tip, setTip] = useState("");
@@ -30,6 +30,7 @@ const Home = () => {
         console.log("Failed to fetch tip from the server");
       });
   }, []);
+  /* End of tip retrieval */
 
   /* Retrieves user's completion status from MongoDB */
   const fetchCompletionStatus = async () => {
@@ -45,15 +46,20 @@ const Home = () => {
   useEffect(() => {
     fetchCompletionStatus();
   }, []);
+  /* End of completion status retrieval */
 
   /* Increments the progress bar based on completion */
+  const [progress, setProgress] = useState(0);
+  
   const handleIncrement = (incrementValue) => {
     setProgress((prevProgress) => {
       const newProgress = prevProgress + incrementValue;
       return newProgress > 100 ? 100 : newProgress;
     });
   };
+  /* End of progress bar increment */
 
+  /* Renders Home.jsx component */
   return (
     <div className={styles.cardWrapper}>
       <div
@@ -174,6 +180,7 @@ const Home = () => {
       </div>
     </div>
   );
+  /* End of Home.jsx component render */
 };
 
 export default Home;
