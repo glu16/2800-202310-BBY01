@@ -1,9 +1,9 @@
-//A LARGE MARJORITY OF THIS CODE WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
-//https://www.youtube.com/watch?v=HGgyd1bYWsE
-
-const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
-const joi = require("joi");
+// LARGE MARJORITY OF THIS CODE WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
+// https://www.youtube.com/watch?v=HGgyd1bYWsE
+ 
+ const mongoose = require('mongoose');
+ const jwt = require('jsonwebtoken');
+ const joi = require('joi');
 
 //THE SCHEMA FOR THE USER COLLECTION
 const userSchema = new mongoose.Schema({
@@ -33,7 +33,7 @@ const validate = (user) => {
     password: joi.string().required(),
   });
   return scheme.validate(user);
-};
+}
 
 //ALLOWS ACCESS TO THE USER MODEL OUTSIDE OF THIS FILE
 module.exports = { User, validate };
