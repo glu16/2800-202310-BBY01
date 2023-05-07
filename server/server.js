@@ -6,7 +6,7 @@ https://www.youtube.com/watch?v=HGgyd1bYWsE
 
 /* 
 A LARGE MARJORITY OF THIS CODE THAT HOOKS UP OPENAI
-TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
+TO FRONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=qwM23_kF4v4
 */
 
@@ -16,6 +16,10 @@ const app = express();
 const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const tipsRouter = require("./routes/tips");
+
+const { User } = require("./models/users");
+const { Tips } = require("./models/tips");
 
 //THE USER MODEL
 const { User } = require("./models/users");
@@ -35,13 +39,14 @@ const openai = new OpenAIApi(configuration);
 //THE CONNECTION TO DATABASE
 db();
 
-//MIDDELWARE
+// MIDDELWARE
 app.use(cors());
 app.use(express.json());
 
-//ROUTES
+// ROUTES
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/tips", tipsRouter);
 
 //STORES USER'S CHAT HISTORY TO THE DATABASE
 app.put("/users/:email", async (req, res) => {
@@ -61,12 +66,15 @@ app.put("/users/:email", async (req, res) => {
       { new: true, upsert: true }
     );
 
+    // const user =  await User.updateOne({ email: userEmail, title: { $exists: false } }, { title: 'boss' });
+
     res.status(200).json({
       message: `User with email ${userEmail} updated successfully`,
       user,
     });
   } catch (err) {
     console.error(err);
+    res.status(500).json({ error: "Internal server error" });
     res.status(500).json({ error: "Internal server error" });
   }
 });
@@ -112,12 +120,18 @@ app.put("/fitness/:email", async (req, res) => {
     // console.log("typeof newWorkout: " + typeof newWorkout);
     // console.log("typeof JSON.parse(newWorkout): " + typeof JSON.parse(newWorkout));
     // console.log("newWorkout stringified: " + JSON.stringify(newWorkout));
+    // console.log("newWorkout stringified: " + JSON.stringify(newWorkout));
     // console.log("callback: " + callback);
 
     try {
       const user = await User.findOneAndUpdate(
         { email: userEmail },
         // { $push: { workouts: newWorkout } }
+        {
+          $push: {
+            workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
+          },
+        }
         {
           $push: {
             workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
@@ -137,8 +151,19 @@ app.put("/fitness/:email", async (req, res) => {
     }
   }
 
-  // call the updateWorkouts function
+  // Call the updateWorkouts function
   generateWorkout();
+});
+
+// GET TIPS FROM COLLECTION IN DATABASE
+app.get("/api/tips", async (req, res) => {
+  try {
+    const tips = await Tips.find({});
+    res.status(200).json(tips);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 //THE CURRENT AI IN THE COACH TAB
@@ -148,6 +173,10 @@ app.post("/", async (req, res) => {
 
   //THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt:
+      `${message}` +
+      `. Return response in the following parsable JSON format:
     model: "text-davinci-003",
     prompt:
       `${message}` +
@@ -167,9 +196,14 @@ app.post("/", async (req, res) => {
     max_tokens: 1000,
     temperature: 0,
   });
+    max_tokens: 1000,
+    temperature: 0,
+  });
 
   const parsableJson = response.data.choices[0].text;
+  const parsableJson = response.data.choices[0].text;
 
+  console.log(parsableJson);
   console.log(parsableJson);
 
   const parsedJson = JSON.parse(parsableJson);
@@ -224,6 +258,7 @@ app.post("/", async (req, res) => {
     message: messageOutTest,
   });
 });
+
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);

@@ -8,12 +8,28 @@ import styles from "../css/home.module.css";
 const Home = () => {
   const [progress, setProgress] = useState(0);
 
+  /* Text animation */
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 500,
   });
 
+  /* Retrieves and displays a random diet or fitness tip from MongoDB */
+  const [tip, setTip] = useState("");
+
+  useEffect(() => {
+    fetch("/api/tips")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        const randomIndex = Math.floor(Math.random() * data.length);
+        setTip(data[randomIndex].text);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  /* Retrieves user's completion status from MongoDB */
   const fetchCompletionStatus = async () => {
     try {
       const response = await fetch("MongoDB status here");
@@ -28,6 +44,7 @@ const Home = () => {
     fetchCompletionStatus();
   }, []);
 
+  /* Increments the progress bar based on completion */
   const handleIncrement = (incrementValue) => {
     setProgress((prevProgress) => {
       const newProgress = prevProgress + incrementValue;
@@ -42,18 +59,14 @@ const Home = () => {
       >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <animated.h1
-              className={styles.title}
-              style={greetings}
-            >
+            <animated.h1 className={styles.title} style={greetings}>
               Hello BBY-01!
             </animated.h1>
-            <animated.h1
-              className={styles.title}
-              style={greetings}
-            >
+            <animated.h4 style={greetings}>Here's your daily tip:</animated.h4>
+            <animated.h4 style={greetings}>{tip}</animated.h4>
+            <animated.h4 className={styles.title} style={greetings}>
               Track your diet and fitness progresses below.
-            </animated.h1>
+            </animated.h4>
           </div>
         </div>
       </div>
