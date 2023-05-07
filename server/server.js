@@ -43,9 +43,9 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
-//STORES USERS CHAT HISTORY TO THE DATABASE
+//STORES USER'S CHAT HISTORY TO THE DATABASE
 app.put("/users/:email", async (req, res) => {
-  //THE USERS EMAIL
+  //THE USER'S EMAIL
   const userEmail = req.params.email;
   //USERS CHAT HITORY
   const updatedUserData = req.body;
@@ -71,7 +71,7 @@ app.put("/users/:email", async (req, res) => {
   }
 });
 
-//GETS THE USERS CHAT HISTORY FROM THE DATABASE
+//GETS THE USER'S CHAT HISTORY FROM THE DATABASE
 app.get("/coach/:email", async (req, res) => {
   //USERS EMAIL
   const userEmail = req.params.email;
@@ -82,11 +82,11 @@ app.get("/coach/:email", async (req, res) => {
     if (!user) {
       return res.status(400).send("Email not registered" + userEmail);
     }
-    //GETS THE USERS CHAT HISTORY
+    //GETS THE USER'S CHAT HISTORY
     const messages = user.messages;
-    //STORES THE USERS CHAT HISTORY
+    //STORES THE USER'S CHAT HISTORY
     const chatHistory = messages;
-    //SENDS THE USERS CHAT HISTORY
+    //SENDS THE USER'S CHAT HISTORY
     res.json(chatHistory);
   } catch (e) {
     console.log(e);
@@ -141,10 +141,12 @@ app.put("/fitness/:email", async (req, res) => {
   generateWorkout();
 });
 
+//THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
   const { message } = req.body;
   console.log(message);
 
+  //THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
     model: "text-davinci-003",
     prompt:
@@ -173,6 +175,8 @@ app.post("/", async (req, res) => {
   const parsedJson = JSON.parse(parsableJson);
   let messageOutTest = "";
 
+  //IF/ELSE THAT CHECKS IF THE PLAN IS A FITNESS PLAN OR DIET PLAN.
+  //CURRENTLY ASSUMES THAT ANYTHING THAT IS NOT A FITNESS PLAN IS A DIET PLAN.
   parsedJson.forEach((choice) => {
     if (choice.planType === "fitness") {
       messageOutTest +=
@@ -215,6 +219,7 @@ app.post("/", async (req, res) => {
 
   console.log(messageOutTest);
 
+  //THE MESSAGE SENT TO THE USER
   res.json({
     message: messageOutTest,
   });

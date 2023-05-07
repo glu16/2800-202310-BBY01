@@ -49,6 +49,7 @@ const ChatMessage = ({ message }) => {
 };
 
 const Coach = () => {
+  //VISUAL EFFECTS
   const [scrollPos, setScrollPos] = useState(0);
 
   useEffect(() => {
@@ -67,21 +68,27 @@ const Coach = () => {
     from: { opacity: 0 },
     delay: 500,
   });
+  //END OF VISUAL EFFECTS
 
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState(() => {
-    //THE CHAT HISTORY IS FROM LOCAL STORAGE WHICH MAY NEED TO BE CHANGED
+    //THE CHAT HISTORY IS FROM LOCAL STORAGE AND NOT DATABASE WHICH MAY NEED TO BE CHANGED
+    //NOTE THAT APP.GET("/COACH/:EMAIL") IS NO LONGER USED
     const storedChatLog = localStorage.getItem("chatLog");
     return storedChatLog ? JSON.parse(storedChatLog) : [];
   });
 
+  //OLD CODE THAT USED APP.GET("/COACH/:EMAIL") USED TO BE HERE
+  //THE OLD CODE RETRIEVED THE CHAT HISTORY FROM THE DATABASE
   useEffect(() => {
     localStorage.setItem("chatLog", JSON.stringify(chatLog));
   }, [chatLog]);
+  //END OF OLD CODE
 
   async function handleSubmit(event) {
     event.preventDefault();
 
+    //CODE THAT HANDLES USER AND AI INTERACTION
     let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
     setInput("");
     setChatLog(chatLogNew);
@@ -103,7 +110,9 @@ const Coach = () => {
     console.log(data);
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
-    //NEW CODE FOR PUT REQUEST
+    //END OF CODE THAT HANDLES USER AND AI INTERACTION
+
+    //PUT REQUEST THAT SEND THE UPDATED CHATLOG TO THE DATABASE
     const key = "messages";
     const value = messages + "\n" + data.message;
     const data2 = { [key]: value };
@@ -119,7 +128,7 @@ const Coach = () => {
 
     const updatedUser = await response2.json();
     console.log(updatedUser);
-    //END OF NEW CODE FOR PUT REQUEST
+    //END OF PUT REQUEST
   }
 
   return (
