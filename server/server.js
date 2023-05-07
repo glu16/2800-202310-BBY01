@@ -19,7 +19,7 @@ const authRouter = require("./routes/auth");
 
 
 
-//THE USER MODEL
+//THE MODELS
 const { User } = require("./models/users");
 const  Tips  = require("./models/tips");
 
@@ -158,24 +158,13 @@ app.put("/fitness/:email", async (req, res) => {
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
-    const tip = await Tips.find({});
-    res.status(200).json(tip);
+    const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
+    res.status(200).json(tips);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
-// app.get("/getusers", async (req, res) => {
-//   try {
-//     const users = await Tips.find({});
-//     res.status(200).json(users);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Internal server error" });
-//   }
-// });
-
 
 
 //THE CURRENT AI IN THE COACH TAB
