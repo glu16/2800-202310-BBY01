@@ -45,16 +45,20 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 // app.use("/api/tips", tipsRouter);
 
-// GETS THE USER'S NAME FROM THE DATABASE
+// GETS THE USER'S DATA FROM THE DATABASE
 app.get("/users/:email", async (req, res) => {
+  // THE USER'S EMAIL
   const userEmail = req.params.email;
   try {
-    // FIND THE USER BY FIRST NAME
+    // FIND THE USER BY EMAIL
     const user = await User.findOne({ email: userEmail });
     if (!user) {
       return res.status(404).send("User not found");
     }
-    res.send(user.firstName);
+    res.send({
+      firstName: user.firstName,
+      email: user.email,
+    });
   } catch (e) {
     console.log(e);
     res.status(500).send("Server error");
@@ -94,7 +98,7 @@ app.put("/users/:email", async (req, res) => {
 
 // GETS THE USER'S CHAT HISTORY FROM THE DATABASE
 app.get("/coach/:email", async (req, res) => {
-  // USERS EMAIL
+  // THE USER'S EMAIL
   const userEmail = req.params.email;
 
   try {

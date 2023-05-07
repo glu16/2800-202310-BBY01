@@ -5,7 +5,7 @@
  const jwt = require('jsonwebtoken');
  const joi = require('joi');
 
-//THE SCHEMA FOR THE USER COLLECTION
+// THE SCHEMA FOR THE USER COLLECTION
 const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
@@ -15,13 +15,13 @@ const userSchema = new mongoose.Schema({
   workouts: { type: Array },
 });
 
-//GENERATES A TOKEN FOR THE USER
+// GENERATES A TOKEN FOR THE USER
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ _id: this._id }, process.env.JWT_KEY);
   return token;
 };
 
-//THE NAME OF THE COLLECTION 'User', the schema
+// THE NAME OF THE COLLECTION 'User', the schema
 const User = mongoose.model("User", userSchema);
 
 // JOI VALIDATION
@@ -35,5 +35,5 @@ const validate = (user) => {
   return scheme.validate(user);
 }
 
-//ALLOWS ACCESS TO THE USER MODEL OUTSIDE OF THIS FILE
+// ALLOWS ACCESS TO THE USER MODEL OUTSIDE OF THIS FILE
 module.exports = { User, validate };
