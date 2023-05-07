@@ -1,5 +1,5 @@
-//A LARGE MARJORITY OF THIS CODE WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
-//https://www.youtube.com/watch?v=HGgyd1bYWsE
+// LARGE MARJORITY OF THIS CODE WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
+// https://www.youtube.com/watch?v=HGgyd1bYWsE
  
  const mongoose = require('mongoose');
  const jwt = require('jsonwebtoken');
