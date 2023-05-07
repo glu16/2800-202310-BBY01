@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
 
+//THE CHAT MESSAGE CODE THAT DISPLAYS THE CHAT HISTORY
 const ChatMessage = ({ message }) => {
   if (!message || typeof message.message !== "string") {
     return null;
@@ -47,6 +48,7 @@ const ChatMessage = ({ message }) => {
     </div>
   );
 };
+//END OF CHAT MESSAGE CODE
 
 const Coach = () => {
   //VISUAL EFFECTS
