@@ -17,7 +17,7 @@ function NavbarAfterLogin() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
-      <div className="container-fluid">
+      <div className="container-fluid nav-dropdown">
         <Link to="/" className="navbar-brand" onClick={handleNavClose}>
           Healthify
         </Link>
