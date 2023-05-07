@@ -19,7 +19,7 @@ const Home = () => {
   const [tip, setTip] = useState("");
 
   useEffect(() => {
-    fetch("/api/tips")
+    fetch("/home/tips")
       .then((response) => response.json())
       .then((data) => {
         console.log(data);

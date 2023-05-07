@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 import styles from "../css/signup.module.css";
 
@@ -105,8 +106,8 @@ function SignUp() {
                 className="submit-btn"
               />
             </form>
-            <p>
-              Already have an account? <a href="/login"> Sign in</a>
+            <p className={styles.loginRedirect}>
+              Already have an account? <Link to="/login" className={`${styles.loginLink}`}> Log in</Link>
             </p>
           </div>
         </div>

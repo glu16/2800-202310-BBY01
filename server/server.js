@@ -16,13 +16,13 @@ const app = express();
 const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
-const tipsRouter = require("./routes/tips");
 
-//THE USER MODEL
+
+
+//THE MODELS
 const { User } = require("./models/users");
+const  Tips  = require("./models/tips");
 
-//THE TIPS MODEL
-const { Tips } = require("./models/tips");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -46,7 +46,7 @@ app.use(express.json());
 // ROUTES
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
-app.use("/api/tips", tipsRouter);
+// app.use("/api/tips", tipsRouter);
 
 //STORES USER'S CHAT HISTORY TO THE DATABASE
 app.put("/users/:email", async (req, res) => {
@@ -156,15 +156,16 @@ app.put("/fitness/:email", async (req, res) => {
 });
 
 // GET TIPS FROM COLLECTION IN DATABASE
-app.get("/api/tips", async (req, res) => {
+app.get("/home/tips", async (req, res) => {
   try {
-    const tip = await Tips.find({});
-    res.status(200).json(tip);
+    const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
+    res.status(200).json(tips);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 //THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
