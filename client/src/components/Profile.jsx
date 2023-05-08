@@ -13,7 +13,7 @@ const Profile = () => {
     async function fetchUserData() {
       try {
         const response = await axios.get(
-          `http://localhost:8000/users/${localStorage.getItem("email")}`,
+          `http://localhost:5050/users/${localStorage.getItem("email")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

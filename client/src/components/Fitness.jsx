@@ -101,7 +101,7 @@ const Fitness = () => {
     const workout = {}
 
     const data = { [workoutKey]: workout };
-    const response = await fetch(`http://localhost:8000/fitness/${userEmail}`, {
+    const response = await fetch(`http://localhost:5050/fitness/${userEmail}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),

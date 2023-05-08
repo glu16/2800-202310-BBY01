@@ -22,7 +22,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:8000/users/${localStorage.getItem(
+          `http://localhost:5050/users/${localStorage.getItem(
             "email"
           )}`,
           {
@@ -34,7 +34,7 @@ const Home = () => {
         const firstName = response.data.firstName;
         setUserName(firstName);
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
       }
     }
 
@@ -55,14 +55,14 @@ const Home = () => {
         if (storedDate === currentDate && storedTip) {
           setTip(storedTip);
         } else {
-          const response = await axios.get("http://localhost:8000/home/tips");
+          const response = await axios.get("http://localhost:5050/home/tips");
           const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);
           localStorage.setItem("tip", newTip);
         }
       } catch (error) {
-        console.error(error);
+        console.error(error.message);
       }
     }
 

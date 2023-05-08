@@ -97,7 +97,7 @@ const Coach = () => {
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
-    const response = await fetch("http://localhost:8000/", {
+    const response = await fetch("http://localhost:5050/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -120,7 +120,7 @@ const Coach = () => {
     const data2 = { [key]: value };
 
     const userEmail = localStorage.getItem("email");
-    const response2 = await fetch(`http://localhost:8000/users/${userEmail}`, {
+    const response2 = await fetch(`http://localhost:5050/users/${userEmail}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

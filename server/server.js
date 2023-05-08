@@ -24,7 +24,7 @@ const Tips = require("./models/tips");
 const cors = require("cors");
 require("dotenv").config();
 
-const port = 8000;
+const port = 5050;
 
 // OPENAI CONFIGURATION
 const configuration = new Configuration({
