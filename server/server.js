@@ -43,7 +43,26 @@ app.use(express.json());
 // ROUTES
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
-// app.use("/api/tips", tipsRouter);
+
+//GENERIC TEMPLATE FOR GETTING DATA FROM USER
+//COPY THIS CODE DON'T OVERWRITE IT
+app.get("/getFromUser/:email", async (req, res) => {
+  // THE USER'S EMAIL
+  const userEmail = req.params.email;
+
+  try {
+    // FINDS THE USER BY EMAIL
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      return res.status(400).send("Email not registered" + userEmail);
+    }
+    //REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
+    const item = user.REPLACE_ME;
+    res.json(item);
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 // GETS THE USER'S DATA FROM THE DATABASE
 app.get("/users/:email", async (req, res) => {
