@@ -85,6 +85,7 @@ const Coach = () => {
   useEffect(() => {
     localStorage.setItem("chatLog", JSON.stringify(chatLog));
   }, [chatLog]);
+  console.log(chatLog + "This is chatlog");
   //END OF OLD CODE
 
   async function handleSubmit(event) {
@@ -94,6 +95,8 @@ const Coach = () => {
     let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
     setInput("");
     setChatLog(chatLogNew);
+
+    console.log(chatLogNew + " This is user");
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
@@ -112,6 +115,8 @@ const Coach = () => {
     console.log(data);
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
+    console.log(chatLogNew + " This is AI");
+
     //END OF CODE THAT HANDLES USER AND AI INTERACTION
 
     //PUT REQUEST THAT SEND THE UPDATED CHATLOG TO THE DATABASE
