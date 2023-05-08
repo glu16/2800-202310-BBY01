@@ -44,8 +44,11 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 
-//GENERIC TEMPLATE FOR GETTING DATA FROM USER
-//COPY THIS CODE DON'T OVERWRITE IT
+/*  
+GENERIC TEMPLATE FOR GETTING DATA FROM USER
+COPY THIS CODE DON'T OVERWRITE IT
+CHANGE URL TO SOMETHING ELSE
+*/
 app.get("/getFromUser/:email", async (req, res) => {
   // THE USER'S EMAIL
   const userEmail = req.params.email;
