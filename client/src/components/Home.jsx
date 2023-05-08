@@ -31,7 +31,7 @@ const Home = () => {
             },
           }
         );
-        const firstName = response.data;
+        const firstName = response.data.firstName;
         setUserName(firstName);
       } catch (error) {
         console.error(error);
