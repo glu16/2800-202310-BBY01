@@ -56,7 +56,7 @@ const Home = () => {
           setTip(storedTip);
         } else {
           const response = await axios.get("http://localhost:8000/home/tips");
-          const newTip = response.data[0].tip;
+          const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);
           localStorage.setItem("tip", newTip);
