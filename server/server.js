@@ -26,7 +26,7 @@ require("dotenv").config();
 
 const port = 5050;
 
-// OPENAI CONFIGURATION
+//OPENAI CONFIGURATION
 const configuration = new Configuration({
   organization: process.env.ORG,
   apiKey: process.env.AI,
@@ -59,7 +59,7 @@ app.get("/getFromUser/:email", async (req, res) => {
     if (!user) {
       return res.status(400).send("Email not registered" + userEmail);
     }
-    // REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
+    //REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
     const item = user.REPLACE_ME;
     res.json(item);
   } catch (e) {
@@ -238,7 +238,6 @@ app.post("/", async (req, res) => {
     prompt:
       `${message}` +
       `. Return response in the following parsable JSON format:
-    model: "text-davinci-003",
     prompt:
       [
       {
