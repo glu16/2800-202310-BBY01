@@ -5,31 +5,31 @@ import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = () => {
-  // const [userName, setUserName] = useState("");
-  // const userEmail = localStorage.getItem("email");
+  const [userName, setUserName] = useState("");
+  const userEmail = localStorage.getItem("email");
 
-  // /* Retrieves logged in user's data */
-  // useEffect(() => {
-  //   async function fetchUserData() {
-  //     try {
-  //       const response = await axios.get(
-  //         `http://localhost:8000/users/${localStorage.getItem("email")}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //           },
-  //         }
-  //       );
-  //       const firstName = response.data;
-  //       setUserName(firstName);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
+  /* Retrieves logged in user's data */
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/users/${localStorage.getItem("email")}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const firstName = response.data;
+        setUserName(firstName);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-  //   fetchUserData();
-  // }, []);
-  // /* End of user data retrieval */
+    fetchUserData();
+  }, []);
+  /* End of user data retrieval */
 
   const handleSaveChanges = () => {};
 
@@ -56,13 +56,13 @@ const Profile = () => {
               <div className={`${styles.profileItem} email`}>
                 <h5 className={styles.subtitle}>Name</h5>
                 <p>
-                  <span id="name-goes-here"></span>
+                  <span id="name-goes-here">{userName}</span>
                 </p>
               </div>
               <div className={`${styles.profileItem} email`}>
                 <h5 className={styles.profileTitle}>Email</h5>
                 <p>
-                  <span id="email-goes-here"></span>
+                  <span id="email-goes-here">{userEmail}</span>
                 </p>
               </div>
               <div className={`${styles.profileItem} phone`}>
@@ -114,7 +114,8 @@ const Profile = () => {
                     type="text"
                     className="form-control"
                     id="nameInput"
-                    value=""
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                   />
                 </div>
                 <div className="mb-3">
@@ -125,7 +126,7 @@ const Profile = () => {
                     type="email"
                     className="form-control"
                     id="emailInput"
-                    value=""
+                    value={userEmail}
                   />
                 </div>
                 <div className="mb-3">
