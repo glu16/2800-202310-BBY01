@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "../css/fitness.css";
 
 // import server hosting port
@@ -59,28 +59,47 @@ const Exercises = (props) => {
 
 
 // get user's workout from database, async parts
+var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:${port}/fitness/`);
-  console.log(response);
+  var response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json", },
+  });
   var data = await response.json(); 
-  console.log(data);
-  var dataString = JSON.stringify(data);
-  console.log(dataString);
+  workout = data[0];
+
+  // console.log(data[0]); //full week
+  // console.log(data[0].Day1); //day
+  // console.log(data[0].Day1.Exercise2); //exericse
+  // console.log(data[0].Day1.Exercise2.calories); //exercise-details
+  console.log(data[0])
+
+  return data[0];
 }
-getWorkout();
+
 
 // display user's workout, can't be async
 function Workout() {
+  const [workout, setWorkout] = useState(null);
 
+  useEffect(() => {
+    async function fetchData() {
+      const data = await getWorkout();
+      setWorkout(data.Day1.Exercise2.calories);
+    }
+    fetchData();
+  }, []);
+  
   return (
     <div>
       <h2>Your Workout</h2>
-
+      <p>{workout}</p>
     </div>
   );
 }
 
 
+// page render
 const Fitness = () => {
 
   // used to disable button after clicking until current execution is finished

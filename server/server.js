@@ -48,22 +48,18 @@ app.put('/fitness/:email',  async (req, res) => {
   // call and execute workouts.js
   const workouts = require('./workouts');
 
+  // generates workout plan in workout.js
   function generateWorkout(callback) {
     workouts.generate((newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
 
+  // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
-    // console.log("newWorkout: " + newWorkout);
-    // console.log("typeof newWorkout: " + typeof newWorkout);
-    // console.log("typeof JSON.parse(newWorkout): " + typeof JSON.parse(newWorkout));
-    // console.log("newWorkout stringified: " + JSON.stringify(newWorkout));  
-    // console.log("callback: " + callback);
     try {
       const user = await User.findOneAndUpdate(
         { email: userEmail },
-        // { $push: { workouts: newWorkout } }
         { $push: { workouts: { $each: [JSON.parse(newWorkout)], $position: 0 } } } 
       );
       res.status(200).json({
@@ -84,10 +80,21 @@ app.put('/fitness/:email',  async (req, res) => {
   
 });
 
-// get workout plan
-app.get('/fitness', async (req,res) => {
-  res.send(`hello testing`);
+// send workout plan to client
+app.get('/fitness/:email',  async (req, res) => {
+  const userEmail = req.params.email;
+  try {
+    const user = await User.findOne({ email: userEmail });
+    res.send(user.workouts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
+
+
+
+
 
 
 app.post('/', async (req, res) => {
