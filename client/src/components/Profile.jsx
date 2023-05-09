@@ -37,7 +37,7 @@ const Profile = () => {
     <div
       className={`${styles.profileContainer} d-flex justify-content-center align-items-center h-100`}
     >
-      <div className={`card ${styles.card}`}>
+      <div className={`card ${styles.profileCard}`}>
         <div className={`card-body ${styles.cardBody}`}>
           <div className="d-flex flex-column align-items-center text-center">
             <div className={`${styles.profileImage} profile-image`}>
