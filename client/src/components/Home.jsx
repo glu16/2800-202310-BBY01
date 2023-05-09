@@ -22,7 +22,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://healthify-app.onrender.com/users/${localStorage.getItem(
+          `https://healthify-enxj.onrender.com/users/${localStorage.getItem(
             "email"
           )}`,
           {
@@ -55,7 +55,7 @@ const Home = () => {
         if (storedDate === currentDate && storedTip) {
           setTip(storedTip);
         } else {
-          const response = await axios.get("http://healthify-app.onrender.com/home/tips");
+          const response = await axios.get("https://healthify-enxj.onrender.com/home/tips");
           const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);

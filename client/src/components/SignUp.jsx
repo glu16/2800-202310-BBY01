@@ -19,7 +19,7 @@ function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "http://healthify-app.onrender.com/api/users";
+      const url = "https://healthify-enxj.onrender.com/api/users";
       const { data: res } = await axios.post(url, data);
 
       console.log(res);
