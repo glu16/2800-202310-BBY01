@@ -21,7 +21,7 @@ import useToken from "./components/useToken";
 function App() {
   const {token, setToken} = useToken();
 
-  console.log(token);
+  // console.log(token);
 
   if (!token) {
     return (

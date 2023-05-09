@@ -57,6 +57,30 @@ const Exercises = (props) => {
 
 
 
+
+// get user's workout from database, async parts
+async function getWorkout() {
+  var response = await fetch(`http://localhost:${port}/fitness/`);
+  console.log(response);
+  var data = await response.json(); 
+  console.log(data);
+  var dataString = JSON.stringify(data);
+  console.log(dataString);
+}
+getWorkout();
+
+// display user's workout, can't be async
+function Workout() {
+
+  return (
+    <div>
+      <h2>Your Workout</h2>
+
+    </div>
+  );
+}
+
+
 const Fitness = () => {
 
   // used to disable button after clicking until current execution is finished
@@ -104,8 +128,11 @@ const Fitness = () => {
               {isFormSubmitting ? 'Generating...' : 'Create workout plan'}
               </button>
           </form>
-
         </div>
+
+
+        <Workout/>
+
 
 
           <div className="d-flex align-items-center text-center justify-content-center row">

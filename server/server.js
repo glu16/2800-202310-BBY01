@@ -55,13 +55,11 @@ app.put('/fitness/:email',  async (req, res) => {
   }
 
   async function updateWorkouts(newWorkout, callback) {
-    
     // console.log("newWorkout: " + newWorkout);
     // console.log("typeof newWorkout: " + typeof newWorkout);
     // console.log("typeof JSON.parse(newWorkout): " + typeof JSON.parse(newWorkout));
     // console.log("newWorkout stringified: " + JSON.stringify(newWorkout));  
     // console.log("callback: " + callback);
-
     try {
       const user = await User.findOneAndUpdate(
         { email: userEmail },
@@ -84,6 +82,11 @@ app.put('/fitness/:email',  async (req, res) => {
   // call the updateWorkouts function
   generateWorkout();
   
+});
+
+// get workout plan
+app.get('/fitness', async (req,res) => {
+  res.send(`hello testing`);
 });
 
 
