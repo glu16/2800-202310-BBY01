@@ -99,13 +99,11 @@ app.put("/users/:email", async (req, res) => {
       // FIND BY EMAIL
       { email: userEmail },
       // SET THE MESSAGES TO THE UPDATED MESSAGES
-      { $set: { messages: updatedUserData.messages } },
+      { $push: { messages: updatedUserData } },
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
       { new: true, upsert: true }
     );
-
-    // const user =  await User.updateOne({ email: userEmail, title: { $exists: false } }, { title: 'boss' });
 
     res.status(200).json({
       message: `User with email ${userEmail} updated successfully`,

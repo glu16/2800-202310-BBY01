@@ -71,22 +71,51 @@ const Coach = () => {
     delay: 500,
   });
   //END OF VISUAL EFFECTS
+  const email = localStorage.getItem("email");
 
   const [input, setInput] = useState("");
-  const [chatLog, setChatLog] = useState(() => {
-    //THE CHAT HISTORY IS FROM LOCAL STORAGE AND NOT DATABASE WHICH MAY NEED TO BE CHANGED
-    //NOTE THAT APP.GET("/COACH/:EMAIL") IS NO LONGER USED
-    const storedChatLog = localStorage.getItem("chatLog");
-    return storedChatLog ? JSON.parse(storedChatLog) : [];
-  });
+  const [chatLog, setChatLog] = useState([
 
-  //OLD CODE THAT USED APP.GET("/COACH/:EMAIL") USED TO BE HERE
-  //THE OLD CODE RETRIEVED THE CHAT HISTORY FROM THE DATABASE
+  ]);
+
   useEffect(() => {
-    localStorage.setItem("chatLog", JSON.stringify(chatLog));
-  }, [chatLog]);
-  console.log(chatLog + "This is chatlog");
-  //END OF OLD CODE
+    async function getChatLog() {
+      const response = await fetch(`http://localhost:5050/coach/${email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data3 = await response.json();
+      console.log(data3);
+      console.log(JSON.stringify(data3));
+      return JSON.parse(JSON.stringify(data3));
+    }
+    getChatLog();
+  }, []);
+
+  /* 
+  SENDS THE CHAT LOG TO THE DATABASEIN THE FORM
+  [
+    { user: "me", message: "Some message" },
+    { user: "gpt", message: "Some message" },
+    ...
+  ]
+  */
+  async function sendChatLog(user, messages) {
+    const email = localStorage.getItem("email");
+    const response = await fetch(`http://localhost:5050/users/${email}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user,
+        messages,
+      }),
+    });
+  }
+  // END OF CODE THAT SENDS THE CHAT LOG TO THE DATABASE
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -95,8 +124,7 @@ const Coach = () => {
     let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
     setInput("");
     setChatLog(chatLogNew);
-
-    console.log(chatLogNew + " This is user");
+    await sendChatLog("me", input);
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
@@ -115,27 +143,9 @@ const Coach = () => {
     console.log(data);
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
-    console.log(chatLogNew + " This is AI");
+    await sendChatLog("gpt", data.message);
 
     //END OF CODE THAT HANDLES USER AND AI INTERACTION
-
-    //PUT REQUEST THAT SEND THE UPDATED CHATLOG TO THE DATABASE
-    const key = "messages";
-    const value = messages + "\n" + data.message;
-    const data2 = { [key]: value };
-
-    const userEmail = localStorage.getItem("email");
-    const response2 = await fetch(`http://localhost:5050/users/${userEmail}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data2),
-    });
-
-    const updatedUser = await response2.json();
-    console.log(updatedUser);
-    //END OF PUT REQUEST
   }
 
   return (
