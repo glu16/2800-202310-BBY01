@@ -22,7 +22,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
+          `https://healthify-olh6.onrender.com/users/${localStorage.getItem(
             "email"
           )}`,
           {

@@ -19,7 +19,7 @@ function SignUp() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "http://localhost:5050/api/users";
+      const url = "https://healthify-olh6.onrender.com/api/users";
       const { data: res } = await axios.post(url, data);
 
       console.log(res);

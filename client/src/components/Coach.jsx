@@ -83,7 +83,7 @@ const Coach = () => {
   useEffect(
     () => {
       async function getChatLog() {
-        const response = await fetch(`http://localhost:5050/coach/${email}`, {
+        const response = await fetch(`https://healthify-olh6.onrender.com/coach/${email}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -119,7 +119,7 @@ const Coach = () => {
   */
   async function sendChatLog(user, messages) {
     const email = localStorage.getItem("email");
-    const response = await fetch(`http://localhost:5050/users/${email}`, {
+    const response = await fetch(`https://healthify-olh6.onrender.com/users/${email}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -145,7 +145,7 @@ const Coach = () => {
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
-    const response = await fetch("http://localhost:5050/", {
+    const response = await fetch("https://healthify-olh6.onrender.com/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
