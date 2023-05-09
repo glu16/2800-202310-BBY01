@@ -22,8 +22,6 @@ const { User } = require('./models/users');
 const cors = require("cors");
 require("dotenv").config();
 
-const port = 8000;
-
 const configuration = new Configuration({
   organization: process.env.ORG,
   apiKey: process.env.AI,
@@ -155,8 +153,14 @@ app.post('/', async (req, res) => {
     );
 
 });
- 
+
+// server hosting
+const localPort = 8000;
+const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
-
+// send server port info to client
+app.get('/api/port', (req, res) => {
+  res.json({ port });
+});

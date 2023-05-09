@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import "../css/fitness.css";
 
+// import server hosting port
+const port = '8000';
+
+// used to identify user for database modification
+const userEmail = localStorage.getItem("email");
+
+// get workout from user database
+
 const exercises = [
   {
     day: "Day 1",
@@ -20,37 +28,8 @@ const exercises = [
     calories2: 100,
     calories3: 100,
   },
-  {
-    day: "Day 3",
-    exercise1: "Lat pulldowns",
-    exercise2: "Cable rows",
-    exercise3: "Deadlifts",
-    calories1: 300,
-    calories2: 200,
-    calories3: 100,
-  },
-  {
-    day: "Day 4",
-    exercise1: "Bench Press",
-    exercise2: "Shoulder Press",
-    exercise3: "Tricep pulldowns",
-    calories1: 200,
-    calories2: 200,
-    calories3: 100,
-  },
-  {
-    day: "Day 5",
-    exercise1: "Cable Flyes",
-    exercise2: "Dips",
-    exercise3: "Skull crushers",
-    calories1: 100,
-    calories2: 100,
-    calories3: 100,
-  },
-  
-  
-  
 ];
+
 const Exercises = (props) => {
   return (
     <div className="card exerciseCard col-md">
@@ -76,8 +55,7 @@ const Exercises = (props) => {
   );
 };
 
-// used to identify user for database modification
-const userEmail = localStorage.getItem("email");
+
 
 const Fitness = () => {
 
@@ -101,7 +79,7 @@ const Fitness = () => {
     const workout = {}
 
     const data = { [workoutKey]: workout };
-    const response = await fetch(`http://localhost:8000/fitness/${userEmail}`, {
+    const response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
