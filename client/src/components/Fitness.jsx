@@ -86,42 +86,45 @@ async function getWorkout() {
 function Workout() {
   const [workout, setWorkout] = useState(null);
 
-  // if (getWorkout() == "empty") {
-  //   useEffect(()
-  // }
-
   useEffect(() => {
     async function fetchData() {
+      const workoutData = await getWorkout();
 
-      // recursive use of Array.map() to iterate through nested JSON object sent from server
-      function renderNestedObject(obj) {
-        // Check if the object is an array
-        if (Array.isArray(obj)) {
-          // If it's an array, recursively render its elements
-          return obj.map((item, index) => (
-            <div key={index}>{renderNestedObject(item)}</div>
-          ));
+      // check if workouts in database is empty, then set default value
+      if (workoutData == "empty") {
+        setWorkout("No workout available");
+        
+      } else {
+        // recursive use of Array.map() to iterate through nested JSON object sent from server
+        function renderNestedObject(obj) {
+          // Check if the object is an array
+          if (Array.isArray(obj)) {
+            // If it's an array, recursively render its elements
+            return obj.map((item, index) => (
+              <div key={index}>{renderNestedObject(item)}</div>
+            ));
+          }
+          // Check if the object is a nested object
+          if (typeof obj === 'object' && obj !== null) {
+            // If it's a nested object, recursively render its properties
+            return Object.keys(obj).map((key, index) => (
+              <div key={index}>
+                <strong>{key}:</strong> {renderNestedObject(obj[key])}
+              </div>
+            ));
+          }
+          // Base case: render the value as is
+          return obj;
         }
-        // Check if the object is a nested object
-        if (typeof obj === 'object' && obj !== null) {
-          // If it's a nested object, recursively render its properties
-          return Object.keys(obj).map((key, index) => (
-            <div key={index}>
-              <strong>{key}:</strong> {renderNestedObject(obj[key])}
-            </div>
-          ));
-        }
-        // Base case: render the value as is
-        return obj;
+        setWorkout(renderNestedObject(workoutData));
       }
-      setWorkout(renderNestedObject(await getWorkout()));
     }
     fetchData();
   }, []);
-  
+
   return (
     <div>
-      <h2>Your Workout</h2>
+      <h2>Your Workout Plan</h2>
       <div>{workout}</div>
     </div>
   );
