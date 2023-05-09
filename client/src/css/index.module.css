@@ -11,10 +11,13 @@ body {
 .indexBody {
   height: 100%;
   width: 100%;
+  background-image: url("../img/abstract.png");
+  background-size: cover;
+  background-position: center;
 }
 
 .indexBtn {
-  margin: 0px 12px 36px 12px;
+  margin: 4px 12px 36px 12px;
   background-color: #154b54;
   border-color: #154b54;
 }
@@ -24,6 +27,7 @@ body {
 }
 
 .indexCard {
+  width: 100%;
   margin-top: 120px;
 }
 
