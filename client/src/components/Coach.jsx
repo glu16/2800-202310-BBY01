@@ -78,7 +78,7 @@ const Coach = () => {
 
   ]);
 
-  useEffect(() => {
+
     async function getChatLog() {
       const response = await fetch(`http://localhost:5050/coach/${email}`, {
         method: "GET",
@@ -92,7 +92,7 @@ const Coach = () => {
       return JSON.parse(JSON.stringify(data3));
     }
     getChatLog();
-  }, []);
+
 
   /* 
   SENDS THE CHAT LOG TO THE DATABASEIN THE FORM
