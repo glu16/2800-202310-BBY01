@@ -17,7 +17,7 @@ function Login({ setToken }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "http://localhost:5050/api/auth";
+      const url = "http://healthify-app.onrender.com/api/auth";
       const { data: res } = await axios.post(url, data);
       setToken(res.data);
       localStorage.setItem("email", data.email);
