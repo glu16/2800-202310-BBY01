@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { ProgressBar } from "react-step-progress-bar";
 import axios from "axios";
 
-import "react-step-progress-bar/styles.css";
+// import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
