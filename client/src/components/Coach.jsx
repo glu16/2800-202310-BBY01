@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
 
-//THE CHAT MESSAGE CODE THAT DISPLAYS THE CHAT HISTORY
+// THE CHAT MESSAGE CODE THAT DISPLAYS THE CHAT HISTORY
 const ChatMessage = ({ message }) => {
   if (!message || typeof message.message !== "string") {
     return null;
@@ -48,10 +48,10 @@ const ChatMessage = ({ message }) => {
     </div>
   );
 };
-//END OF CHAT MESSAGE CODE
+// END OF CHAT MESSAGE CODE
 
 const Coach = () => {
-  //VISUAL EFFECTS
+  // VISUAL EFFECTS
   const [scrollPos, setScrollPos] = useState(0);
 
   useEffect(() => {
@@ -70,29 +70,44 @@ const Coach = () => {
     from: { opacity: 0 },
     delay: 500,
   });
-  //END OF VISUAL EFFECTS
+  // END OF VISUAL EFFECTS
   const email = localStorage.getItem("email");
 
   const [input, setInput] = useState("");
-  const [chatLog, setChatLog] = useState([
+  const [chatLog, setChatLog] = useState([]);
 
-  ]);
-
-
-    async function getChatLog() {
-      const response = await fetch(`http://localhost:5050/coach/${email}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data3 = await response.json();
-      console.log(data3);
-      console.log(JSON.stringify(data3));
-      return JSON.parse(JSON.stringify(data3));
-    }
-    getChatLog();
-
+  /* 
+  THIS CODE GETS THE CHAT LOG FROM THE DATABASE
+  AND DISPLAYS IT
+  */
+  useEffect(
+    () => {
+      async function getChatLog() {
+        const response = await fetch(`http://localhost:5050/coach/${email}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data3 = await response.json();
+        console.log(data3);
+        const messages = data3
+          .map((item) => {
+            return item.messages.split().map((message) => ({
+              user: item.user,
+              message: message.trim(),
+            }));
+          })
+          // THE flat() METHOD CONCATENATES THE SUB-ARRAY ELEMENTS
+          .flat();
+        setChatLog(messages);
+      }
+      getChatLog();
+    },
+    //[email] STOPS THE LOOP
+    [email]
+  );
+  // END OF CODE THAT GETS THE CHAT LOG FROM THE DATABASE
 
   /* 
   SENDS THE CHAT LOG TO THE DATABASEIN THE FORM
@@ -117,6 +132,8 @@ const Coach = () => {
   }
   // END OF CODE THAT SENDS THE CHAT LOG TO THE DATABASE
 
+  // THE CODE COMES LARGELY FROM THIS VIDEO
+  // https://www.youtube.com/watch?v=qwM23_kF4v4
   async function handleSubmit(event) {
     event.preventDefault();
 
@@ -144,9 +161,8 @@ const Coach = () => {
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
     await sendChatLog("gpt", data.message);
-
-    //END OF CODE THAT HANDLES USER AND AI INTERACTION
   }
+  // END OF CODE THAT HANDLES USER AND AI INTERACTION
 
   return (
     <div className={styles.coach}>
