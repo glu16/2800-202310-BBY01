@@ -74,13 +74,13 @@ const Settings = () => {
                   htmlFor="leaderboard-reminders"
                   className="form-switch-label"
                 >
-                  Mini Challenge Reminders
+                  Leaderboard Reminders
                   <input
                     className="form-check-input"
                     type="checkbox"
                     role="switch"
                     id="diet-reminders"
-                    checked={notificationSettings.challengeReminders}
+                    checked={notificationSettings.leaderboardReminders}
                     onChange={(event) =>
                       setNotificationSettings({
                         ...notificationSettings,
@@ -102,7 +102,7 @@ const Settings = () => {
                     type="checkbox"
                     role="switch"
                     id="diet-reminders"
-                    checked={notificationSettings.leaderboardReminders}
+                    checked={notificationSettings.challengeReminders}
                     onChange={(event) =>
                       setNotificationSettings({
                         ...notificationSettings,
