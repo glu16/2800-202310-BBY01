@@ -14,17 +14,17 @@ const Index = () => {
 
   return (
     <div className="d-flex justify-content-center align-items-center h-100">
-      <div className={styles["indexBody"]}>
-        <div className={`card-body ${styles["indexCard"]}`}>
+      <div className={styles.indexBody}>
+        <div className={`card-body ${styles.indexCard}`}>
           <div className="d-flex flex-column align-items-center text-center">
-            <h1 className={styles["indexTitle"]}>Welcome to Healthify!</h1>
+            <h1 className={styles.indexTitle}>Welcome to Healthify!</h1>
             <animated.img
               style={fadeIn}
               src={image}
               alt="Fitness"
-              className={styles["indexImage"]}
+              className={styles.indexImage}
             />
-            <h4 className={styles["indexDescription"]}>
+            <h4 className={styles.indexDescription}>
               Healthify is a comprehensive fitness and dietary app designed to
               help users achieve their health goals. The app provides
               personalized fitness plans, workout routines, and meal plans based
@@ -33,14 +33,14 @@ const Index = () => {
             <div className={styles["button-group"]}>
               <Link to="/signup">
                 <button
-                  className={`btn btn-primary btn-lg ${styles["indexBtn"]}`}
+                  className={`btn btn-primary btn-lg ${styles.indexBtn}`}
                 >
                   Sign Up
                 </button>
               </Link>
               <Link to="/login">
                 <button
-                  className={`btn btn-primary btn-lg ${styles["indexBtn"]}`}
+                  className={`btn btn-primary btn-lg ${styles.indexBtn}`}
                 >
                   Log In
                 </button>
