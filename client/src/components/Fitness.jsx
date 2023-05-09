@@ -7,57 +7,6 @@ const port = '8000';
 // used to identify user for database modification
 const userEmail = localStorage.getItem("email");
 
-// get workout from user database
-
-const exercises = [
-  {
-    day: "Day 1",
-    exercise1: "Pull-ups",
-    exercise2: "Push-ups",
-    exercise3: "Running",
-    calories1: 100,
-    calories2: 100,
-    calories3: 100,
-  },
-  {
-    day: "Day 2",
-    exercise1: "Squats",
-    exercise2: "Leg Press",
-    exercise3: "Lunges",
-    calories1: 200,
-    calories2: 100,
-    calories3: 100,
-  },
-];
-
-const Exercises = (props) => {
-  return (
-    <div className="card exerciseCard col-md">
-      <h1>{props.day}</h1>
-      <h3>Exercise 1</h3>
-      <p>
-        <b>{props.exercise1}</b>
-      </p>
-      <p>{props.calories1}</p>
-
-      <h3>Exercise 2</h3>
-      <p>
-        <b>{props.exercise2}</b>
-      </p>
-      <p>{props.calories2}</p>
-
-      <h3>Exercise 3</h3>
-      <p>
-        <b>{props.exercise3}</b>
-      </p>
-      <p>{props.calories3}</p>
-    </div>
-  );
-};
-
-
-
-
 // get user's workout from database, async parts
 var workout;
 async function getWorkout() {
@@ -81,19 +30,18 @@ async function getWorkout() {
   }
 }
 
-
 // display user's workout, can't be async
 function Workout() {
   const [workout, setWorkout] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
   useEffect(() => {
     async function fetchData() {
       const workoutData = await getWorkout();
 
-      // check if workouts in database is empty, then set default value
-      if (workoutData == "empty") {
-        setWorkout("No workout available");
-        
+      if (workoutData === "empty") {
+        setWorkout("No workout available"); // Set default value
       } else {
         // recursive use of Array.map() to iterate through nested JSON object sent from server
         function renderNestedObject(obj) {
@@ -116,16 +64,49 @@ function Workout() {
           // Base case: render the value as is
           return obj;
         }
+
         setWorkout(renderNestedObject(workoutData));
       }
     }
+
     fetchData();
   }, []);
 
+  const handleExerciseClick = (exercise) => {
+    setSelectedExercise(exercise);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div>
-      <h2>Your Workout Plan</h2>
-      <div>{workout}</div>
+      <h2>Your Workout</h2>
+      <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
+      {showModal && (
+        <Modal onClose={handleCloseModal}>
+          <h3>{selectedExercise}</h3>
+          {/* Render the details of the selected exercise */}
+          {/* For example: */}
+          {/* <div>{selectedExercise.details.details_values}</div> */}
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+// Example Modal component
+function Modal({ onClose, children }) {
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
+        {children}
+      </div>
     </div>
   );
 }
@@ -184,23 +165,6 @@ const Fitness = () => {
 
         <Workout/>
 
-
-
-          <div className="d-flex align-items-center text-center justify-content-center row">
-            
-            {exercises.map((exercise, index) => (
-              <Exercises
-                key = {index}
-                day={exercise.day}
-                exercise1={exercise.exercise1}
-                exercise2={exercise.exercise2}
-                exercise3={exercise.exercise3}
-                calories1={exercise.calories1}
-                calories2={exercise.calories2}
-                calories3={exercise.calories3}
-              />
-            ))}
-          </div>
         </div>
       </div>
     </div>
