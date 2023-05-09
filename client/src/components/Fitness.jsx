@@ -84,8 +84,29 @@ function Workout() {
 
   useEffect(() => {
     async function fetchData() {
-      const data = await getWorkout();
-      setWorkout(data.Day1.Exercise2.calories);
+
+      // recursive use of Array.map() to iterate through nested JSON object sent from server
+      function renderNestedObject(obj) {
+        // Check if the object is an array
+        if (Array.isArray(obj)) {
+          // If it's an array, recursively render its elements
+          return obj.map((item, index) => (
+            <div key={index}>{renderNestedObject(item)}</div>
+          ));
+        }
+        // Check if the object is a nested object
+        if (typeof obj === 'object' && obj !== null) {
+          // If it's a nested object, recursively render its properties
+          return Object.keys(obj).map((key, index) => (
+            <div key={index}>
+              <strong>{key}:</strong> {renderNestedObject(obj[key])}
+            </div>
+          ));
+        }
+        // Base case: render the value as is
+        return obj;
+      }
+      setWorkout(renderNestedObject(await getWorkout()));
     }
     fetchData();
   }, []);
@@ -93,7 +114,7 @@ function Workout() {
   return (
     <div>
       <h2>Your Workout</h2>
-      <p>{workout}</p>
+      <div>{workout}</div>
     </div>
   );
 }
