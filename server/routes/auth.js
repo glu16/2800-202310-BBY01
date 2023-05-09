@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
 
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
+      // THE ERROR MESSAGE IF DOES NOT EXIST
       return res.status(400).send("Invalid email or password");
     }
 
@@ -31,6 +32,7 @@ router.post("/", async (req, res) => {
       user.password
     );
     if (!validPassword) {
+      // THE ERROR MESSAGE IF PASSWORD IS WRONG
       return res.status(400).send("Invalid email or password");
     }
 

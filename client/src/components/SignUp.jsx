@@ -26,9 +26,8 @@ function SignUp() {
       window.location = "/home";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      console.log(error);
-
-      setError(error.response.data.message);
+      console.log(error.response.data);
+      setError(error.response.data);
     }
   };
 

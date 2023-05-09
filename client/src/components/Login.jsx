@@ -24,7 +24,8 @@ function Login({ setToken }) {
       window.location = "/";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      setError(error.request.response);
+      console.log(error.response.data);
+      setError(error.response.data);
     }
   };
 
@@ -65,9 +66,10 @@ function Login({ setToken }) {
                 placeholder="Password"
                 required
               />
+
+              {/* ERROR IS DISPLAYED HERE  */}
               {error && <div>{error}</div>}
               
-
               <label htmlFor="submit-btn"></label>
               <input
                 type="submit"
