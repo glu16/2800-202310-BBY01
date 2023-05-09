@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { ProgressBar } from "react-step-progress-bar";
 import axios from "axios";
 
-import "react-step-progress-bar/styles.css";
+// import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
@@ -22,7 +22,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
+          `https://healthify-enxj.onrender.com/users/${localStorage.getItem(
             "email"
           )}`,
           {
@@ -55,7 +55,7 @@ const Home = () => {
         if (storedDate === currentDate && storedTip) {
           setTip(storedTip);
         } else {
-          const response = await axios.get("http://localhost:5050/home/tips");
+          const response = await axios.get("https://healthify-enxj.onrender.com/home/tips");
           const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);
