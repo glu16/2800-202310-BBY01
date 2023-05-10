@@ -1,12 +1,10 @@
-/* @import url("https://fonts.googleapis.com/css2?family=ProximaNova:wght@400;700&display=swap"); */
-/* commented out because was throwing console errors */
+@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
 
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: "Exo", sans-serif;
-  font-family: "Inter", sans-serif;
+  font-family: 'Varela Round', sans-serif;
 }
 
 .indexBody {
