@@ -21,8 +21,11 @@ router.post("/", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-    await new User({ ...req.body, password: hashedPassword }).save();
-    res.send("User created");
+    const newUser = await new User({ ...req.body, password: hashedPassword }).save();
+
+    const token = newUser.generateAuthToken();
+    res.send({ data: token });
+    
   } catch (e) {
     console.log(e);
   }
