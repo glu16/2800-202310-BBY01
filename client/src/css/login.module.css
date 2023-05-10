@@ -49,7 +49,7 @@
   width: 300px;
   justify-content: center;
   background-color: rgb(92, 208, 216);
-  margin-top: 12px;
+  margin-top: 24px;
 }
 
 .loginBtn:hover {
@@ -69,7 +69,7 @@
   border: 2px solid #c0c0c0;
   width: 300px;
   border-radius: 10px;
-  margin-top: 12px;
+  margin-top: 24px;
 }
 
 .userInput:focus {
