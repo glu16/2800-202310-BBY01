@@ -1,0 +1,29 @@
+.aboutBody {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: "Varela Round", sans-serif;
+  background-image: url("../img/abstract.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  overflow: scroll;
+}
+
+.aboutHeader {
+  color: white;
+  margin-top: 30px;
+  font-size: 30pt;
+  font-weight: bold;
+}
+
+.aboutDescription {
+  color: white;
+}
+
+.aboutCard {
+  max-width: 1400px;
+  border-radius: 10px;
+  text-align: center;
+}
