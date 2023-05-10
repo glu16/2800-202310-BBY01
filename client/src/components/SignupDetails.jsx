@@ -2,7 +2,24 @@ import React from "react";
 
 import styles from "../css/signupDetails.module.css";
 
-function SignUp() {
+function SignupDetails() {
+
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+
+      window.location = "/home";
+    } catch (error) {
+      //ERROR IS CAUGHT HERE
+      console.log(error.response.data);
+    }
+  };
+
+
+
+
+
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.detailsContainer}`}
@@ -11,7 +28,7 @@ function SignUp() {
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <h1 id={styles.detailsLabel}>Details</h1>
-            <form id={styles.signupDetails}>
+            <form id={styles.signupDetails} onSubmit={handleSubmit}>
               <div className={styles.radioInput}>
                 <label htmlFor="sex">Male</label>
                 <input
@@ -114,4 +131,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignupDetails;

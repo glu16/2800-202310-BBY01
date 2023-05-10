@@ -23,7 +23,7 @@ function SignUp() {
       const { data: res } = await axios.post(url, data);
 
       console.log(res);
-      window.location = "/home";
+      window.location = "/signupDetails";
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error.response.data);

@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   weight: { type: Number, required: true, trim: true },
   activityLevel: { type: String, required: true, trim: true },
   goal: { type: String, required: true, trim: true },
-  
+
   messages: { type: Array },
   workouts: { type: Array },
 });
@@ -37,6 +37,7 @@ const User = mongoose.model("User", userSchema);
 // JOI VALIDATION
 const validate = (user) => {
   const scheme = joi.object({
+    userName: joi.string().required(),
     firstName: joi.string().required(),
     lastName: joi.string().required(),
     email: joi.string().required(),
