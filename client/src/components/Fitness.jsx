@@ -30,6 +30,7 @@ async function getWorkout() {
   }
 }
 
+
 // display user's workout, can't be async
 function Workout() {
   const [workout, setWorkout] = useState(null);
