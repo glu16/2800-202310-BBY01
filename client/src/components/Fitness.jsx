@@ -15,21 +15,14 @@ async function getWorkout() {
     headers: { "Content-Type": "application/json", },
   });
   var data = await response.json(); 
-
   // check if workouts is empty
   if (data == "empty") {
     return "empty";
   } else {
-    workout = data[0];
-    // console.log(data[0]); //full week
-    // console.log(data[0].Day1); //day
-    // console.log(data[0].Day1.Exercise2); //exericse
-    // console.log(data[0].Day1.Exercise2.calories); //exercise-details
-    console.log(data[0])
-    return data[0];
+    workout = data;
+    return data;
   }
 }
-
 
 // display user's workout, can't be async
 function Workout() {

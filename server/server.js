@@ -144,7 +144,6 @@ app.put("/fitness/:email", async (req, res) => {
       updateWorkouts(newWorkout, callback);
     });
   }
-
   // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
     try {
@@ -164,10 +163,26 @@ app.put("/fitness/:email", async (req, res) => {
       callback();
     }
   }
-
-  // call the updateWorkouts function
   generateWorkout();
 });
+
+// send workout plan to client
+app.get('/fitness/:email',  async (req, res) => {
+  const userEmail = req.params.email;
+  try {
+    const user = await User.findOne({ email: userEmail });
+    if (user.workouts.length == 0) {
+      res.send("empty")
+    } else {
+      res.send(user.workouts[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
@@ -192,21 +207,6 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
-// send workout plan to client
-app.get('/fitness/:email',  async (req, res) => {
-  const userEmail = req.params.email;
-  try {
-    const user = await User.findOne({ email: userEmail });
-    if (workouts.length == 0) {
-      res.send("empty")
-    } else {
-      res.send(user.workouts[0]);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
 
 // RESET SELECTED TIP AND DATE AT MIDNIGHT
 setInterval(() => {
