@@ -36,7 +36,7 @@ function SignUp() {
   };
 
   return (
-    <div className={`d-flex justify-content-center align-items-center h-100 ${styles.signupBody}`}>
+    <div className={`d-flex justify-content-center align-items-center h-100`}>
       <div className={`card ${styles.signupCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
