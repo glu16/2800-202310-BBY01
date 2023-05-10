@@ -33,8 +33,6 @@ const Home = () => {
         );
         const firstName = response.data.firstName;
         console.log(firstName);
-        const email = response.data.email;
-        localStorage.setItem("email", email);
         setUserName(firstName);
       } catch (error) {
         console.error(error.message);
