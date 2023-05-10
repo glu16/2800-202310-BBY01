@@ -5,25 +5,23 @@ import { Link } from "react-router-dom";
 
 import styles from "../css/login.module.css";
 
-function ChangePassword({ setToken }) {
+function ChangePassword() {
   const [data, setData] = useState({
     email: "",
-    password: "",
+    newPassword: "",
   });
   const [error, setError] = useState("");
-  const [newPassword, setNewPassword] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "https://healthify-enxj.onrender.com/api/auth";
+      const url = "http://localhost:5050/api/passChange";
       const { data: res } = await axios.post(url, data);
-      setToken(res.data);
-      localStorage.setItem("email", data.email);
-      window.location = "/";
+      console.log(res);
+      window.location = "/login";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      console.log(error.response.data);
+      console.log(error);
       setError(error.response.data);
     }
   };
@@ -59,8 +57,8 @@ function ChangePassword({ setToken }) {
                 id="new-password-input"
                 className={`${styles.userInput}`}
                 name="newPassword"
-                value={newPassword}
-                onChange={(e) => setNewPassword(e.target.value)}
+                value={data.newPassword}
+                onChange={handleChange}
                 placeholder="New Password"
                 required
                 size="30"
