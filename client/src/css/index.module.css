@@ -1,9 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
-
 .indexBody {
   height: 100%;
   margin: 0;
-  font-family: "Varela Round", sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
   background-position: center;

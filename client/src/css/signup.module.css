@@ -1,10 +1,12 @@
-/* #signupBody {
+.signupBody {
   height: 100%;
-  width: 100%;
+  margin: 0;
+  font-family: "Varela Round", sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
   background-position: center;
-} */
+  background-repeat: no-repeat;
+}
 
 #signup {
   padding: 0 40px 40px 40px;
@@ -66,11 +68,18 @@
   border-radius: 10px;
 }
 
-.loginRedirect{
+.loginRedirect {
   color: black;
 }
 
 .loginLink {
- text-decoration: none;
- color: rgb(69, 182, 148);
+  text-decoration: none;
+  color: rgb(69, 182, 148);
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+  }
 }
