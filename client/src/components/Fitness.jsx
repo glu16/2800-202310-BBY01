@@ -7,7 +7,7 @@ const port = '5050';
 // used to identify user for database modification
 const userEmail = localStorage.getItem("email");
 
-// get user's workout from database, async parts
+// get first item from user's workouts field from database
 var workout;
 async function getWorkout() {
   var response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
@@ -138,13 +138,14 @@ const Fitness = () => {
     console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userEmail);
     // re-enable button after finishing code
     setFormSubmitting(false);
+    // reload page so new workout is displayed
+    window.location.reload();
   }
 
   return (
     <div className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}>
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
-        <h1 className={`${styles.title}`}>Exercises</h1>
 
         <div>
           {userEmail}
@@ -153,6 +154,7 @@ const Fitness = () => {
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
               {isFormSubmitting ? 'Generating...' : 'Create workout plan'}
               </button>
+              <p><small>Please note generating can take 15-30 seconds</small></p>
           </form>
         </div>
 

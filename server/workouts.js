@@ -39,6 +39,7 @@ inputPrompt += "I only want " + environment + " activities. ";
 // const equipment = ['bike','gym'];
 // inputPrompt += "\n In terms of equipment I am limited to " + equipment.join(', ');
 
+inputPrompt += "Give me at least five exercises for each day. "
 inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
 inputPrompt += "Give an estimated number of calories burned. "
 inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. "

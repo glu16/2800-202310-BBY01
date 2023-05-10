@@ -171,8 +171,10 @@ app.get('/fitness/:email',  async (req, res) => {
   const userEmail = req.params.email;
   try {
     const user = await User.findOne({ email: userEmail });
+    // if workouts empty ie.new user
     if (user.workouts.length == 0) {
       res.send("empty")
+      // sends first workout in workouts
     } else {
       res.send(user.workouts[0]);
     }
