@@ -85,13 +85,14 @@ function SignupDetails() {
               />
               <label htmlFor="activityLevel"></label>
               <select
+              defaultValue={"Activity Level"}
                 type="select"
                 id={styles.activityLevel}
                 name="activityLevel"
                 className={`user-input ${styles.userInput}`}
                 required
               >
-                <option value="" disabled selected>
+                <option disabled >
                   Activity Level
                 </option>
                 <option value="Sedentary">Sedentary</option>
@@ -103,13 +104,14 @@ function SignupDetails() {
 
               <label htmlFor="fitnessGoals"></label>
               <select
+                defaultValue={"Fitness Goals"}
                 type="select"
                 id={styles.fitnessGoals}
                 name="fitnessGoals"
                 className={`user-input ${styles.userInput}`}
                 required
               >
-                <option value="" disabled selected>
+                <option disabled >
                   Fitness Goals
                 </option>
                 <option value="Losing weight">Losing weight</option>
