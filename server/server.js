@@ -45,13 +45,13 @@ CHANGE URL TO SOMETHING ELSE
 */
 app.get("/getFromUser/:email", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.email;
 
   try {
     // FINDS THE USER BY EMAIL
-    const user = await User.findOne({email: userEmail});
+    const user = await User.findOne({email: userID});
     if (!user) {
-      return res.status(400).send("Email not registered" + userEmail);
+      return res.status(400).send("Email not registered" + userID);
     }
     //REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
     const item = user.REPLACE_ME;
@@ -62,12 +62,12 @@ app.get("/getFromUser/:email", async (req, res) => {
 });
 
 // GETS THE USER'S DATA FROM THE DATABASE
-app.get("/users/:email", async (req, res) => {
+app.get("/users/:username", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.username;
   try {
     // FIND THE USER BY EMAIL
-    const user = await User.findOne({email: userEmail});
+    const user = await User.findOne({username: userID});
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -81,10 +81,10 @@ app.get("/users/:email", async (req, res) => {
   }
 });
 
-app.post("/signupdetails/:email", async (req, res) => {
+app.post("/signupdetails/:username", async (req, res) => {
   console.log(req.body.age);
   console.log(req.body.weight);
-  const userEmail = req.params.email;
+  const userID = req.params.username;
   const sex = req.body.sex;
   const age = req.body.age;
   const height = req.body.height;
@@ -95,7 +95,7 @@ app.post("/signupdetails/:email", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {email: userEmail},
+      {username: userID},
       // SET THE MESSAGES TO THE UPDATED MESSAGES
       {
         $set: {
@@ -116,7 +116,7 @@ app.post("/signupdetails/:email", async (req, res) => {
     );
 
     res.status(200).json({
-      message: `User with email ${userEmail} updated successfully`,
+      message: `User with username ${userID} updated successfully`,
       user,
     });
   } catch (err) {
@@ -126,16 +126,16 @@ app.post("/signupdetails/:email", async (req, res) => {
 });
 
 // STORES USER'S CHAT HISTORY TO THE DATABASE
-app.put("/users/:email", async (req, res) => {
+app.put("/users/:username", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.username;
   // USERS CHAT HITORY
   const updatedUserData = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {email: userEmail},
+      {username: userID},
       // SET THE MESSAGES TO THE UPDATED MESSAGES
       {$push: {messages: updatedUserData}},
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
@@ -144,7 +144,7 @@ app.put("/users/:email", async (req, res) => {
     );
 
     res.status(200).json({
-      message: `User with email ${userEmail} updated successfully`,
+      message: `User with username ${userID} updated successfully`,
       user,
     });
   } catch (err) {
@@ -154,15 +154,15 @@ app.put("/users/:email", async (req, res) => {
 });
 
 // GETS THE USER'S CHAT HISTORY FROM THE DATABASE
-app.get("/coach/:email", async (req, res) => {
+app.get("/coach/:username", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.username;
 
   try {
-    // FINDS THE USER BY EMAIL
-    const user = await User.findOne({email: userEmail});
+    // FINDS THE USER BY USERNAME
+    const user = await User.findOne({username: userID});
     if (!user) {
-      return res.status(400).send("Email not registered" + userEmail);
+      return res.status(400).send("Username not registered: " + userID);
     }
     // GETS THE USER'S CHAT HISTORY
     const messages = user.messages;
@@ -177,7 +177,7 @@ app.get("/coach/:email", async (req, res) => {
 
 // to generate and store a user's workout plan
 app.put("/fitness/:email", async (req, res) => {
-  const userEmail = req.params.email;
+  const userID = req.params.email;
   // const newWorkout = req.body;
 
   // call and execute workouts.js
@@ -193,11 +193,11 @@ app.put("/fitness/:email", async (req, res) => {
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        {email: userEmail},
+        {email: userID},
         {$push: {workouts: {$each: [JSON.parse(newWorkout)], $position: 0}}}
       );
       res.status(200).json({
-        message: `New workout added to ${userEmail}.`,
+        message: `New workout added to ${userID}.`,
         user,
       });
     } catch (err) {
@@ -213,9 +213,9 @@ app.put("/fitness/:email", async (req, res) => {
 
 // send workout plan to client
 app.get("/fitness/:email", async (req, res) => {
-  const userEmail = req.params.email;
+  const userID = req.params.email;
   try {
-    const user = await User.findOne({email: userEmail});
+    const user = await User.findOne({email: userID});
     if (user.workouts.length == 0) {
       res.send("empty");
     } else {
