@@ -3,7 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-import styles from "../css/login.module.css";
+import styles from "../css/password.module.css";
 
 function ChangePassword() {
   const [data, setData] = useState({
@@ -32,11 +32,11 @@ function ChangePassword() {
 
   return (
     <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.loginBody}`}
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.passwordBody}`}
     >
-      <div className={`card-body ${styles.loginCard}`}>
-        <h1 className={styles.title}>Change Password</h1>
-        <form id={styles.login} onSubmit={handleSubmit}>
+      <div className={`card-body ${styles.passwordCard}`}>
+        <h1 className={styles.passwordHeader}>Change Password</h1>
+        <form id={styles.password} onSubmit={handleSubmit}>
           <label htmlFor="email-input"></label>
           <input
             type="email"
@@ -70,7 +70,7 @@ function ChangePassword() {
             type="submit"
             id="submit-btn"
             value="Change Password"
-            className={styles.loginBtn}
+            className={styles.passwordBtn}
           />
         </form>
         <p className={`${styles.signupRedirect}`}>
