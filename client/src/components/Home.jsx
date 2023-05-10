@@ -22,8 +22,8 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `https://healthify-enxj.onrender.com/users/${localStorage.getItem(
-            "email"
+          `http://localhost:5050/users/${localStorage.getItem(
+            "username"
           )}`,
           {
             headers: {
@@ -32,6 +32,9 @@ const Home = () => {
           }
         );
         const firstName = response.data.firstName;
+        console.log(firstName);
+        const email = response.data.email;
+        localStorage.setItem("email", email);
         setUserName(firstName);
       } catch (error) {
         console.error(error.message);
