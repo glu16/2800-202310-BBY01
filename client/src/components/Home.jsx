@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 import { ProgressBar } from "react-step-progress-bar";
 import axios from "axios";
 
-// import "react-step-progress-bar/styles.css";
+import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
@@ -22,9 +22,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
-            "username"
-          )}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -56,7 +54,9 @@ const Home = () => {
         if (storedDate === currentDate && storedTip) {
           setTip(storedTip);
         } else {
-          const response = await axios.get("https://healthify-enxj.onrender.com/home/tips");
+          const response = await axios.get(
+            "https://healthify-enxj.onrender.com/home/tips"
+          );
           const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);
@@ -106,10 +106,16 @@ const Home = () => {
       >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <animated.h1 style={greetings}>Welcome, {userName}!</animated.h1>
-            <animated.h4 style={greetings}>Here's your daily tip:</animated.h4>
-            <animated.h4 style={greetings}>{tip}</animated.h4>
-            <animated.h4 className={styles.title} style={greetings}>
+            <animated.h1 className={styles.homeHeader} style={greetings}>
+              Welcome, {userName}!
+            </animated.h1>
+            <animated.h4 className={styles.homeHeader} style={greetings}>
+              Here's your daily tip:
+            </animated.h4>
+            <animated.h4 className={styles.homeHeader} style={greetings}>
+              {tip}
+            </animated.h4>
+            <animated.h4 className={styles.homeHeader} style={greetings}>
               Track your diet and fitness progresses below.
             </animated.h4>
           </div>
