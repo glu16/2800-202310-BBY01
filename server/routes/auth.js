@@ -36,9 +36,9 @@ router.post("/", async (req, res) => {
       // THE ERROR MESSAGE IF PASSWORD IS WRONG
       return res.status(400).send("Invalid email or password");
     }
-
+    const userEmail = user.email;
     const token = user.generateAuthToken();
-    res.send({ data: token });
+    res.send({ data: {token: token, userEmail: userEmail} });
   } catch (e) {
     console.log(e);
   }
