@@ -13,11 +13,11 @@
 
 #signup {
   display: flex;
-  padding: 0 40px 40px 40px;
   text-align: center;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0px 40px 40px 40px;
 }
 
 #signup > input {
@@ -28,8 +28,10 @@
 }
 
 #signupHeader {
+  color: white;
   margin-top: 30px;
   font-size: 30pt;
+  font-weight: bold;
 }
 
 #signupLabel {
@@ -55,7 +57,6 @@
   max-width: 600px;
   border-radius: 10px;
   text-align: center;
-  background-color: #d4d4d4;
 }
 
 .userInput {
@@ -71,7 +72,7 @@
 }
 
 .loginRedirect {
-  color: black;
+  color: white;
 }
 
 .loginLink {
