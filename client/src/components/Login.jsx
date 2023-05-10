@@ -19,7 +19,8 @@ function Login({ setToken }) {
     try {
       const url = "http://localhost:5050/api/auth";
       const { data: res } = await axios.post(url, data);
-      setToken(res.data);
+      setToken(res.data.token);
+      localStorage.setItem("email", res.data.userEmail)
       localStorage.setItem("username", data.username);
       window.location = "/";
     } catch (error) {
