@@ -1,52 +1,54 @@
+.loginBody {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: "Varela Round", sans-serif;
+  background-image: url("../img/abstract.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  overflow: scroll;
+}
+
 #login {
   display: flex;
+  text-align: center;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding-bottom: 40px;
+  align-items: center;
+  padding: 0px 40px 40px 40px;
 }
 
 #login > input {
   display: flex;
   flex-direction: column;
-  /* align-items: center;
-  justify-content: center; */
+  align-items: center;
   padding: 10px;
 }
 
-.userInput {
-  border: 2px solid #c0c0c0;
-  width: 300px;
+#loginHeader {
+  color: white;
+  margin-top: 30px;
+  font-size: 30pt;
+  font-weight: bold;
+}
+
+.loginCard {
+  max-width: 600px;
   border-radius: 10px;
-  margin-bottom: 20px;
-}
-
-.userInput:focus {
-  outline: solid rgb(129, 126, 126) 2px;
-}
-
-.loginContainer {
-  height: 100%;
-  border-radius: 10px;
-  display: flex;
-  justify-self: center;
-  justify-content: center;
-}
-
-.loginContainer > p {
-  padding-top: 20px;
+  text-align: center;
 }
 
 .loginBtn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding-top: 20px;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
   border: none;
   border-radius: 10px;
   transition: 0.2s;
   width: 300px;
+  justify-content: center;
   background-color: rgb(92, 208, 216);
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
 }
 
 .loginBtn:hover {
@@ -59,10 +61,27 @@
 }
 
 .signupRedirect {
-  color: black;
+  color: white;
 }
 
 .signupLink {
   text-decoration: none;
   color: rgb(69, 182, 148);
+}
+
+.userInput {
+  border: 2px solid #c0c0c0;
+  width: 300px;
+  border-radius: 10px;
+}
+
+.userInput:focus {
+  outline: solid rgb(129, 126, 126) 2px;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+  }
 }
