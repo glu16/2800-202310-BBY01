@@ -32,57 +32,53 @@ function ChangePassword() {
 
   return (
     <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.loginContainer}`}
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.loginBody}`}
     >
-      <div className={`card ${styles.loginCard}`}>
-        <div className="card-body">
-          <div className="d-flex flex-column align-items-center text-center">
-            <h1 className={styles.title}>Change Password</h1>
-            <form id={styles.login} onSubmit={handleSubmit}>
-              <label htmlFor="email-input"></label>
-              <input
-                type="email"
-                id="email-input"
-                className={`${styles.userInput}`}
-                placeholder="Email"
-                name="email"
-                value={data.email}
-                onChange={handleChange}
-                required
-                size="30"
-              />
-              <label htmlFor="new-password-input"></label>
-              <input
-                type="password"
-                id="new-password-input"
-                className={`${styles.userInput}`}
-                name="newPassword"
-                value={data.newPassword}
-                onChange={handleChange}
-                placeholder="New Password"
-                required
-                size="30"
-              />
+      <div className={`card-body ${styles.loginCard}`}>
+        <h1 className={styles.title}>Change Password</h1>
+        <form id={styles.login} onSubmit={handleSubmit}>
+          <label htmlFor="email-input"></label>
+          <input
+            type="email"
+            id="email-input"
+            className={`${styles.userInput}`}
+            placeholder="Email"
+            name="email"
+            value={data.email}
+            onChange={handleChange}
+            required
+            size="30"
+          />
+          <label htmlFor="new-password-input"></label>
+          <input
+            type="password"
+            id="new-password-input"
+            className={`${styles.userInput}`}
+            name="newPassword"
+            value={data.newPassword}
+            onChange={handleChange}
+            placeholder="New Password"
+            required
+            size="30"
+          />
 
-              {/* ERROR IS DISPLAYED HERE  */}
-              {error && <div>{error}</div>}
+          {/* ERROR IS DISPLAYED HERE  */}
+          {error && <div>{error}</div>}
 
-              <label htmlFor="submit-btn"></label>
-              <input
-                type="submit"
-                id="submit-btn"
-                value="Change Password"
-                className={styles.loginBtn}
-              />
-            </form>
-            <p className={`${styles.signupRedirect}`}>
-              New to Healthify?{" "}
-              <Link to="/signup" className={`${styles.signupLink}`}>
-                Sign up
-              </Link>
-            </p>
-          </div>
-        </div>
+          <label htmlFor="submit-btn"></label>
+          <input
+            type="submit"
+            id="submit-btn"
+            value="Change Password"
+            className={styles.loginBtn}
+          />
+        </form>
+        <p className={`${styles.signupRedirect}`}>
+          New to Healthify?{" "}
+          <Link to="/signup" className={`${styles.signupLink}`}>
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
