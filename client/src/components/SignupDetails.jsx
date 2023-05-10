@@ -4,12 +4,26 @@ import styles from "../css/signupDetails.module.css";
 
 function SignupDetails() {
 
+async function saveUserStats() {
+    const email = localStorage.getItem("email");
+    const response = await fetch(`http://localhost:5050/signupdetails/${email}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log(data);
+  }
+
+
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-
-      window.location = "/";
+saveUserStats();
+      // window.location = "";
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error.response.data);
@@ -30,31 +44,31 @@ function SignupDetails() {
             <h1 id={styles.detailsLabel}>Details</h1>
             <form id={styles.signupDetails} onSubmit={handleSubmit}>
               <div className={styles.radioInput}>
-                <label htmlFor="sex">Male</label>
+                <label htmlFor="gender">Male</label>
                 <input
                   type="radio"
                   id="male"
-                  name="sex"
+                  name="gender"
                   className={`user-input ${styles.userInput}`}
                   value="Male"
                   required
                 />
-                <label htmlFor="sex">Female</label>
+                <label htmlFor="gender">Female</label>
                 <input
                   type="radio"
                   id="female"
-                  name="sex"
+                  name="gender"
                   className={`user-input ${styles.userInput}`}
                   value="Female"
                   required
                 />
               </div>
 
-              <label htmlFor="ageInput"></label>
+              <label htmlFor="age"></label>
               <input
                 type="number"
                 id="age"
-                name="ageInput"
+                name="age"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Age"
                 min="0"
@@ -62,23 +76,23 @@ function SignupDetails() {
                 required
               />
 
-              <label htmlFor="heightInput"></label>
+              <label htmlFor="height"></label>
               <input
                 type="number"
                 step="any"
                 id="heightInput"
-                name="heightInput"
+                name="height"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Height (m)"
                 required
               />
 
-              <label htmlFor="weightInput"></label>
+              <label htmlFor="weight"></label>
               <input
                 type="number"
                 step="any"
                 id="weightInput"
-                name="weightInput"
+                name="weight"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Weight (kg)"
                 required
@@ -102,12 +116,12 @@ function SignupDetails() {
                 <option value="Extremely Active">Extremely Active</option>
               </select>
 
-              <label htmlFor="fitnessGoals"></label>
+              <label htmlFor="goal"></label>
               <select
                 defaultValue={"Fitness Goals"}
                 type="select"
                 id={styles.fitnessGoals}
-                name="fitnessGoals"
+                name="goal"
                 className={`user-input ${styles.userInput}`}
                 required
               >

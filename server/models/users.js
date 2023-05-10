@@ -7,7 +7,7 @@
 
 // THE SCHEMA FOR THE USER COLLECTION
 const userSchema = new mongoose.Schema({
-  userName: { type: String, required: true, trim: true},
+  // userName: { type: String, required: true, trim: true},
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
 

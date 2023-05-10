@@ -81,6 +81,44 @@ app.get("/users/:email", async (req, res) => {
   }
 });
 
+app.post("/signupdetails/:email", async (req, res) => {
+  const userEmail = req.params.email;
+  const gender = req.body.gender;
+  const age = req.body.age;
+  const height = req.body.height;
+  const weight = req.body.weight;
+  const activityLevel = req.body.activityLevel;
+  const goal = req.body.goal;
+
+  
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      { email: userEmail },
+      // SET THE MESSAGES TO THE UPDATED MESSAGES
+      { $set: { gender: gender } },
+      { $set: { age: age } },
+      { $set: { height: height } },
+      { $set: { weight: weight } },
+      { $set: { activityLevel: activityLevel } },
+      { $set: { goal: goal } },
+
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json({
+      message: `User with email ${userEmail} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
 // STORES USER'S CHAT HISTORY TO THE DATABASE
 app.put("/users/:email", async (req, res) => {
   // THE USER'S EMAIL
@@ -105,7 +143,6 @@ app.put("/users/:email", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
     res.status(500).json({ error: "Internal server error" });
   }
 });
