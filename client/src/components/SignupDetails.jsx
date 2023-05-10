@@ -1,34 +1,39 @@
 import React from "react";
-
+import { useState } from "react"; 
+import axios from "axios";
 import styles from "../css/signupDetails.module.css";
 
 function SignupDetails() {
+  const [data, setData] = useState({
+    sex: "",
+    age: 0,
+    height: 0,
+    weight: 0,
+    activityLevel: "",
+    goal: "",
+  });
 
-async function saveUserStats() {
-    const email = localStorage.getItem("email");
-    const response = await fetch(`http://localhost:5050/signupdetails/${email}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    console.log(data);
-  }
-
-
-
+  const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-saveUserStats();
-      // window.location = "";
+      const url = `http://localhost:5050/signupdetails/${localStorage.getItem("email")}`;
+      const { data: res } = await axios.post(url, data);
+      window.location = "/"
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error.response.data);
+      setError(error.response.data);
     }
   };
+
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+  };
+
+    // const response = await fetch(``, {
+
 
 
 
@@ -44,22 +49,24 @@ saveUserStats();
             <h1 id={styles.detailsLabel}>Details</h1>
             <form id={styles.signupDetails} onSubmit={handleSubmit}>
               <div className={styles.radioInput}>
-                <label htmlFor="gender">Male</label>
+                <label htmlFor="sex">Male</label>
                 <input
                   type="radio"
                   id="male"
-                  name="gender"
+                  name="sex"
                   className={`user-input ${styles.userInput}`}
                   value="Male"
+                  onChange={handleChange}
                   required
                 />
-                <label htmlFor="gender">Female</label>
+                <label htmlFor="sex">Female</label>
                 <input
                   type="radio"
                   id="female"
-                  name="gender"
+                  name="sex"
                   className={`user-input ${styles.userInput}`}
                   value="Female"
+                  onChange={handleChange}
                   required
                 />
               </div>
@@ -73,6 +80,8 @@ saveUserStats();
                 placeholder="Age"
                 min="0"
                 max="99"
+                value={data.age}
+                onChange={handleChange}
                 required
               />
 
@@ -84,6 +93,8 @@ saveUserStats();
                 name="height"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Height (m)"
+                value={data.height}
+                onChange={handleChange}
                 required
               />
 
@@ -95,6 +106,8 @@ saveUserStats();
                 name="weight"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Weight (kg)"
+                value={data.weight}
+                onChange={handleChange}
                 required
               />
               <label htmlFor="activityLevel"></label>
@@ -104,6 +117,7 @@ saveUserStats();
                 id={styles.activityLevel}
                 name="activityLevel"
                 className={`user-input ${styles.userInput}`}
+                onChange={handleChange}
                 required
               >
                 <option disabled >
@@ -124,6 +138,7 @@ saveUserStats();
                 name="goal"
                 className={`user-input ${styles.userInput}`}
                 required
+                onChange={handleChange}
               >
                 <option disabled >
                   Fitness Goals

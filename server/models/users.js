@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
 
   messages: { type: Array },
   workouts: { type: Array },
+  userStats: {type: Array} 
 });
 
 // GENERATES A TOKEN FOR THE USER
@@ -30,7 +31,7 @@ const User = mongoose.model("User", userSchema);
 // JOI VALIDATION
 const validate = (user) => {
   const scheme = joi.object({
-    userName: joi.string().required(),
+    // userName: joi.string().required(),
     firstName: joi.string().required(),
     lastName: joi.string().required(),
     email: joi.string().required(),
