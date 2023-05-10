@@ -1,84 +1,119 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from "../css/fitness.module.css";
 
-const exercises = [
-  {
-    day: "Day 1",
-    exercise1: "Pull-ups",
-    exercise2: "Push-ups",
-    exercise3: "Running",
-    calories1: 100,
-    calories2: 100,
-    calories3: 100,
-  },
-  {
-    day: "Day 2",
-    exercise1: "Squats",
-    exercise2: "Leg Press",
-    exercise3: "Lunges",
-    calories1: 200,
-    calories2: 100,
-    calories3: 100,
-  },
-  {
-    day: "Day 3",
-    exercise1: "Lat pulldowns",
-    exercise2: "Cable rows",
-    exercise3: "Deadlifts",
-    calories1: 300,
-    calories2: 200,
-    calories3: 100,
-  },
-  {
-    day: "Day 4",
-    exercise1: "Bench Press",
-    exercise2: "Shoulder Press",
-    exercise3: "Tricep pulldowns",
-    calories1: 200,
-    calories2: 200,
-    calories3: 100,
-  },
-  {
-    day: "Day 5",
-    exercise1: "Cable Flyes",
-    exercise2: "Dips",
-    exercise3: "Skull crushers",
-    calories1: 100,
-    calories2: 100,
-    calories3: 100,
-  },
-  
-  
-  
-];
-const Exercises = (props) => {
-  return (
-    <div className={`card col-md ${styles.exerciseCard}`}>
-      <h1>{props.day}</h1>
-      <h3>Exercise 1</h3>
-      <p>
-        <b>{props.exercise1}</b>
-      </p>
-      <p>{props.calories1}</p>
-
-      <h3>Exercise 2</h3>
-      <p>
-        <b>{props.exercise2}</b>
-      </p>
-      <p>{props.calories2}</p>
-
-      <h3>Exercise 3</h3>
-      <p>
-        <b>{props.exercise3}</b>
-      </p>
-      <p>{props.calories3}</p>
-    </div>
-  );
-};
+// import server hosting port
+const port = '8000';
 
 // used to identify user for database modification
 const userEmail = localStorage.getItem("email");
 
+// get user's workout from database, async parts
+var workout;
+async function getWorkout() {
+  var response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json", },
+  });
+  var data = await response.json(); 
+
+  // check if workouts is empty
+  if (data == "empty") {
+    return "empty";
+  } else {
+    workout = data[0];
+    // console.log(data[0]); //full week
+    // console.log(data[0].Day1); //day
+    // console.log(data[0].Day1.Exercise2); //exericse
+    // console.log(data[0].Day1.Exercise2.calories); //exercise-details
+    console.log(data[0])
+    return data[0];
+  }
+}
+
+
+// display user's workout, can't be async
+function Workout() {
+  const [workout, setWorkout] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedExercise, setSelectedExercise] = useState(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      const workoutData = await getWorkout();
+
+      if (workoutData === "empty") {
+        setWorkout("No workout available"); // Set default value
+      } else {
+        // recursive use of Array.map() to iterate through nested JSON object sent from server
+        function renderNestedObject(obj) {
+          // Check if the object is an array
+          if (Array.isArray(obj)) {
+            // If it's an array, recursively render its elements
+            return obj.map((item, index) => (
+              <div key={index}>{renderNestedObject(item)}</div>
+            ));
+          }
+          // Check if the object is a nested object
+          if (typeof obj === 'object' && obj !== null) {
+            // If it's a nested object, recursively render its properties
+            return Object.keys(obj).map((key, index) => (
+              <div key={index}>
+                <strong>{key}:</strong> {renderNestedObject(obj[key])}
+              </div>
+            ));
+          }
+          // Base case: render the value as is
+          return obj;
+        }
+
+        setWorkout(renderNestedObject(workoutData));
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  const handleExerciseClick = (exercise) => {
+    setSelectedExercise(exercise);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  return (
+    <div>
+      <h2>Your Workout</h2>
+      <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
+      {showModal && (
+        <Modal onClose={handleCloseModal}>
+          <h3>{selectedExercise}</h3>
+          {/* Render the details of the selected exercise */}
+          {/* For example: */}
+          {/* <div>{selectedExercise.details.details_values}</div> */}
+        </Modal>
+      )}
+    </div>
+  );
+}
+
+// Example Modal component
+function Modal({ onClose, children }) {
+  return (
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+
+// page render
 const Fitness = () => {
 
   // used to disable button after clicking until current execution is finished
@@ -101,7 +136,7 @@ const Fitness = () => {
     const workout = {}
 
     const data = { [workoutKey]: workout };
-    const response = await fetch(`http://healthify-app.onrender.com/fitness/${userEmail}`, {
+    const response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
@@ -126,25 +161,11 @@ const Fitness = () => {
               {isFormSubmitting ? 'Generating...' : 'Create workout plan'}
               </button>
           </form>
-
         </div>
 
 
-          <div className={`d-flex align-items-center text-center justify-content-center row`}>
-            
-            {exercises.map((exercise, index) => (
-              <Exercises
-                key = {index}
-                day={exercise.day}
-                exercise1={exercise.exercise1}
-                exercise2={exercise.exercise2}
-                exercise3={exercise.exercise3}
-                calories1={exercise.calories1}
-                calories2={exercise.calories2}
-                calories3={exercise.calories3}
-              />
-            ))}
-          </div>
+        <Workout/>
+
         </div>
       </div>
     </div>

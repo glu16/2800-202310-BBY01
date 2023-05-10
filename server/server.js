@@ -24,9 +24,12 @@ const Tips = require("./models/tips");
 const cors = require("cors");
 require("dotenv").config();
 
+<<<<<<< HEAD
 const port = 5050;
 
 //OPENAI CONFIGURATION
+=======
+>>>>>>> Felix_Wei_displayWorkouts
 const configuration = new Configuration({
   organization: process.env.ORG,
   apiKey: process.env.AI,
@@ -146,13 +149,16 @@ app.put("/fitness/:email", async (req, res) => {
   // call and execute workouts.js
   const workouts = require("./workouts");
 
+  // generates workout plan in workout.js
   function generateWorkout(callback) {
     workouts.generate((newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
 
+  // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
+<<<<<<< HEAD
     // console.log("newWorkout: " + newWorkout);
     // console.log("typeof newWorkout: " + typeof newWorkout);
     // console.log("typeof JSON.parse(newWorkout): " + typeof JSON.parse(newWorkout));
@@ -174,6 +180,12 @@ app.put("/fitness/:email", async (req, res) => {
             workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
           },
         }
+=======
+    try {
+      const user = await User.findOneAndUpdate(
+        { email: userEmail },
+        { $push: { workouts: { $each: [JSON.parse(newWorkout)], $position: 0 } } } 
+>>>>>>> Felix_Wei_displayWorkouts
       );
       res.status(200).json({
         message: `New workout added to ${userEmail}.`,
@@ -192,10 +204,29 @@ app.put("/fitness/:email", async (req, res) => {
   generateWorkout();
 });
 
+<<<<<<< HEAD
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
 let selectedTip = null;
 let selectedDate = null;
+=======
+// send workout plan to client
+app.get('/fitness/:email',  async (req, res) => {
+  const userEmail = req.params.email;
+  try {
+    const user = await User.findOne({ email: userEmail });
+    res.send(user.workouts);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
+
+
+>>>>>>> Felix_Wei_displayWorkouts
 
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
@@ -310,6 +341,19 @@ app.post("/", async (req, res) => {
   });
 });
 
+<<<<<<< HEAD
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
+=======
+// server hosting
+const localPort = 8000;
+const port = process.env.PORT || localPort;
+app.listen(port, () => {
+  console.log(`Server is running on port: ${port}`);
+});
+// send server port info to client
+app.get('/api/port', (req, res) => {
+  res.json({ port });
+});
+>>>>>>> Felix_Wei_displayWorkouts
