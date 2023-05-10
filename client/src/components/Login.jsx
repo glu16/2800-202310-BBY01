@@ -9,7 +9,7 @@ function Login({ setToken }) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const [error, setError] = useState("");
@@ -17,10 +17,10 @@ function Login({ setToken }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "https://healthify-enxj.onrender.com/api/auth";
+      const url = "http://localhost:5050/api/auth";
       const { data: res } = await axios.post(url, data);
       setToken(res.data);
-      localStorage.setItem("email", data.email);
+      localStorage.setItem("username", data.username);
       window.location = "/";
     } catch (error) {
       //ERROR IS CAUGHT HERE
@@ -42,14 +42,14 @@ function Login({ setToken }) {
           <div className="d-flex flex-column align-items-center text-center">
             <h1 className={styles.title}>Login</h1>
             <form id={styles.login} onSubmit={handleSubmit}>
-              <label htmlFor="email-input"></label>
+              <label htmlFor="username-input"></label>
               <input
-                type="email"
-                id="email-input"
+                type="text"
+                id="username-input"
                 className={`${styles.userInput}`}
-                placeholder="Email"
-                name="email"
-                value={data.email}
+                placeholder="Username"
+                name="username"
+                value={data.username}
                 onChange={handleChange}
                 required
                 size="30"
