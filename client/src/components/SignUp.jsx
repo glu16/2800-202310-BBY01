@@ -9,6 +9,7 @@ function SignUp({ setToken} ) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
+    username: "",
     firstName: "",
     lastName: "",
     email: "",
@@ -22,7 +23,7 @@ function SignUp({ setToken} ) {
       const url = "http://localhost:5050/api/users";
       const { data: res } = await axios.post(url, data);
       setToken(res.data);
-      localStorage.setItem("email", data.email);
+      localStorage.setItem("username", data.username);
       window.location = "/signupdetails";
     } catch (error) {
       //ERROR IS CAUGHT HERE
@@ -42,6 +43,19 @@ function SignUp({ setToken} ) {
           <div className="d-flex flex-column align-items-center text-center">
             <h1 id={styles.signupHeader}>Sign Up</h1>
             <form id={styles.signup} onSubmit={handleSubmit}>
+            <label htmlFor="username"></label>
+              <input
+                type="text"
+                id="username"
+                name="username"
+                value={data.username}
+                onChange={handleChange}
+                className={`user-input ${styles.userInput}`}
+                placeholder="Username"
+                size="30"
+                pattern="[A-Za-z]{2-40}"
+                required
+              />
               <label htmlFor="first-name"></label>
               <input
                 type="text"
