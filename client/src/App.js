@@ -33,7 +33,6 @@ function App() {
             <Route path="/login" element={<Login setToken={setToken} />} />
             <Route path="/changepassword" element={<ChangePassword />} />
             <Route path="/signup" element={<SignUp setToken={setToken}/>} />
-            <Route path="/signupdetails" element={<SignupDetails />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/" element={<Index />} />
@@ -48,6 +47,7 @@ function App() {
     <Router>
       <NavbarAfterLogin />
       <Routes>
+        <Route path="/signupdetails" element={<SignupDetails />} />
         <Route path="/" element={<Home />} />
         <Route path="/coach" element={<Coach />} />
         <Route path="/diet" element={<Diet />} />
