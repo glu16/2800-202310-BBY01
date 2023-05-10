@@ -7,7 +7,7 @@
 
 // THE SCHEMA FOR THE USER COLLECTION
 const userSchema = new mongoose.Schema({
-  // userName: { type: String, required: true, trim: true},
+  username: { type: String, required: true, trim: true},
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
 
@@ -31,7 +31,7 @@ const User = mongoose.model("User", userSchema);
 // JOI VALIDATION
 const validate = (user) => {
   const scheme = joi.object({
-    // userName: joi.string().required(),
+    username: joi.string().required(),
     firstName: joi.string().required(),
     lastName: joi.string().required(),
     email: joi.string().required(),
