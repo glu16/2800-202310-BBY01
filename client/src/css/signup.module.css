@@ -1,15 +1,23 @@
-/* .signupBody {
+.signupBody {
   height: 100%;
+  width: 100%;
   margin: 0;
   font-family: "Varela Round", sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-} */
+  position: fixed;
+  overflow: scroll;
+}
 
 #signup {
+  display: flex;
   padding: 0 40px 40px 40px;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #signup > input {
@@ -34,7 +42,7 @@
   border: none;
   border-radius: 10px;
   transition: 0.2s;
-  width: 100%;
+  width: 300px;
   justify-content: center;
   background-color: rgb(92, 208, 216);
 }
@@ -43,9 +51,16 @@
   background-color: hsl(184, 62%, 73%);
 }
 
+.signupCard {
+  max-width: 600px;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #d4d4d4;
+}
+
 .userInput {
   border: 2px solid #c0c0c0;
-  width: 100%;
+  width: 300px;
   justify-content: center;
   border-radius: 10px;
   /* transition: 0.2s; */
@@ -53,19 +68,6 @@
 
 .userInput:focus {
   outline: solid rgb(129, 126, 126) 2px;
-}
-
-.signupContainer {
-  height: 100%;
-  border-radius: 10px;
-  display: flex;
-  justify-self: center;
-  justify-content: center;
-}
-
-.signupCard {
-  width: 600px;
-  border-radius: 10px;
 }
 
 .loginRedirect {
