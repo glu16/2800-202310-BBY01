@@ -1,18 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Varela+Round&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: 'Varela Round', sans-serif;
-}
-
-.indexBody {
-  height: 100%;
-  width: 100%;
+  font-family: "Varela Round", sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .indexBtn {
@@ -27,14 +23,13 @@ body {
 
 .indexCard {
   width: 100%;
-  margin-top: 120px;
+  margin-top: 210px;
 }
 
 .indexImage {
   height: 100%;
   width: 100%;
-  max-height: 500px;
-  max-width: 750px;
+  margin-top: 210px;
 }
 
 .indexTitle {
@@ -56,4 +51,11 @@ body {
   max-width: 1000px;
   margin-top: 60px;
   font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+  }
 }

@@ -13,17 +13,11 @@ const Index = () => {
   });
 
   return (
-    <div className="d-flex justify-content-center align-items-center h-100">
-      <div className={styles.indexBody}>
+    <div className={`row justify-content-between align-items-center h-100 ${styles.indexBody}`}>
+      <div className="col-md-6">
         <div className={`card-body ${styles.indexCard}`}>
-          <div className="d-flex flex-column align-items-center text-center">
+          <div className="text-center">
             <h1 className={styles.indexTitle}>Welcome to Healthify!</h1>
-            <animated.img
-              style={fadeIn}
-              src={image}
-              alt="Fitness"
-              className={styles.indexImage}
-            />
             <h4 className={styles.indexDescription}>
               Healthify is a comprehensive fitness and dietary app designed to
               help users achieve their health goals. The app provides
@@ -48,6 +42,14 @@ const Index = () => {
             </div>
           </div>
         </div>
+      </div>
+      <div className="col-md-6">
+        <animated.img
+          style={fadeIn}
+          src={image}
+          alt="Fitness"
+          className={styles.indexImage}
+        />
       </div>
     </div>
   );
