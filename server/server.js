@@ -235,7 +235,6 @@ app.post("/", async (req, res) => {
     prompt:
       `${message}` +
       `. Return response in the following parsable JSON format:
-    prompt:
       [
       {
           "Day": "day",
