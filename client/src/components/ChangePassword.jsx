@@ -35,7 +35,7 @@ function ChangePassword() {
       className={`d-flex justify-content-center align-items-center h-100 ${styles.passwordBody}`}
     >
       <div className={`card-body ${styles.passwordCard}`}>
-        <h1 className={styles.passwordHeader}>Change Password</h1>
+        <h1 id={styles.passwordHeader}>Change Password</h1>
         <form id={styles.password} onSubmit={handleSubmit}>
           <label htmlFor="email-input"></label>
           <input
