@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import styles from "../css/signup.module.css";
 
-function SignUp() {
+function SignUp({ setToken} ) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
@@ -21,12 +21,12 @@ function SignUp() {
     try {
       const url = "https://healthify-enxj.onrender.com/api/users";
       const { data: res } = await axios.post(url, data);
-
-      console.log(res);
-      window.location = "/signupDetails";
+      setToken(res.data);
+      localStorage.setItem("email", data.email);
+      window.location = "/signupdetails";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      console.log(error.response.data);
+      console.log(error);
       setError(error.response.data);
     }
   };
