@@ -9,7 +9,7 @@ function SignupDetails() {
     event.preventDefault();
     try {
 
-      window.location = "/home";
+      window.location = "/";
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error.response.data);
