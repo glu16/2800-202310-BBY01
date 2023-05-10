@@ -10,6 +10,7 @@ const app = express();
 const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const passChangeRouter = require("./routes/passChange")
 
 // THE MODELS
 const { User } = require("./models/users");
@@ -35,6 +36,7 @@ app.use(express.json());
 // ROUTES
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/passChange", passChangeRouter);
 
 /*  
 GENERIC TEMPLATE FOR GETTING DATA FROM USER
