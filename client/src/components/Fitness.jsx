@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from "../css/fitness.module.css";
 
 // import server hosting port
-const port = '8000';
+const port = '5050';
 
 // used to identify user for database modification
 const userEmail = localStorage.getItem("email");
