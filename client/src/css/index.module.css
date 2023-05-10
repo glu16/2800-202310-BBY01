@@ -17,8 +17,8 @@ body {
 
 .indexBtn {
   margin: 4px 12px 36px 12px;
-  background-color: #154b54;
-  border-color: #154b54;
+  background-color: #2b2b2b;
+  border-color: #2b2b2b;
 }
 
 .indexBtn:hover {
@@ -39,6 +39,7 @@ body {
 
 .indexTitle {
   margin-bottom: 60px;
+  font-weight: bold;
 }
 
 .indexBody h1 {
@@ -51,7 +52,8 @@ body {
 }
 
 .indexBody h4 {
-  color: white;
+  color: black;
   max-width: 1000px;
   margin-top: 60px;
+  font-weight: bold;
 }
