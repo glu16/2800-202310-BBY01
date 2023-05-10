@@ -17,7 +17,7 @@ const Index = () => {
       <div className="col-md-6">
         <div className={`card-body ${styles.indexCard}`}>
           <div className="text-center">
-            <h1 className={styles.indexTitle}>Welcome to Healthify!</h1>
+            <h1 className={styles.indexTitle}>Healthify</h1>
             <h4 className={styles.indexDescription}>
               Healthify is a comprehensive fitness and dietary app designed to
               help users achieve their health goals. The app provides

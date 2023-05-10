@@ -40,12 +40,12 @@
   max-width: 1000px;
   font-size: 4em;
   text-align: center;
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #154b54,
-    0 0 70px #154b54, 0 0 80px #154b54, 0 0 100px #154b54, 0 0 150px #154b54;
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
+    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
 }
 
 .indexBody h4 {
-  color: black;
+  color: white;
   max-width: 1000px;
   margin-top: 60px;
   font-weight: bold;
