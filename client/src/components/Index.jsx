@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 
 import styles from "../css/index.module.css";
-import image from "../img/fitness.jpeg";
+import image from "../img/fitness.png";
 
 const Index = () => {
   const fadeIn = useSpring({
