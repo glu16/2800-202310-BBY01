@@ -4,18 +4,13 @@ SIGNIN/LOGIN WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=HGgyd1bYWsE 
 */
 
-/* 
-A LARGE MARJORITY OF THIS CODE THAT HOOKS UP OPENAI
-TO FRONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
-https://www.youtube.com/watch?v=qwM23_kF4v4
-*/
-
 const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const passChangeRouter = require("./routes/passChange")
 
 // THE MODELS
 const { User } = require("./models/users");
@@ -23,8 +18,6 @@ const Tips = require("./models/tips");
 
 const cors = require("cors");
 require("dotenv").config();
-
-const port = 5050;
 
 //OPENAI CONFIGURATION
 const configuration = new Configuration({
@@ -43,6 +36,7 @@ app.use(express.json());
 // ROUTES
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/passChange", passChangeRouter);
 
 /*  
 GENERIC TEMPLATE FOR GETTING DATA FROM USER
@@ -146,34 +140,18 @@ app.put("/fitness/:email", async (req, res) => {
   // call and execute workouts.js
   const workouts = require("./workouts");
 
+  // generates workout plan in workout.js
   function generateWorkout(callback) {
     workouts.generate((newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
-
+  // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
-    // console.log("newWorkout: " + newWorkout);
-    // console.log("typeof newWorkout: " + typeof newWorkout);
-    // console.log("typeof JSON.parse(newWorkout): " + typeof JSON.parse(newWorkout));
-    // console.log("newWorkout stringified: " + JSON.stringify(newWorkout));
-    // console.log("newWorkout stringified: " + JSON.stringify(newWorkout));
-    // console.log("callback: " + callback);
-
     try {
       const user = await User.findOneAndUpdate(
         { email: userEmail },
-        // { $push: { workouts: newWorkout } }
-        {
-          $push: {
-            workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
-          },
-        },
-        {
-          $push: {
-            workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
-          },
-        }
+        { $push: { workouts: { $each: [JSON.parse(newWorkout)], $position: 0 } } } 
       );
       res.status(200).json({
         message: `New workout added to ${userEmail}.`,
@@ -187,10 +165,26 @@ app.put("/fitness/:email", async (req, res) => {
       callback();
     }
   }
-
-  // Call the updateWorkouts function
   generateWorkout();
 });
+
+// send workout plan to client
+app.get('/fitness/:email',  async (req, res) => {
+  const userEmail = req.params.email;
+  try {
+    const user = await User.findOne({ email: userEmail });
+    if (user.workouts.length == 0) {
+      res.send("empty")
+    } else {
+      res.send(user.workouts[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
@@ -215,6 +209,7 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
+
 // RESET SELECTED TIP AND DATE AT MIDNIGHT
 setInterval(() => {
   const currentDate = new Date().toISOString().slice(0, 10);
@@ -224,6 +219,10 @@ setInterval(() => {
     selectedDate = null;
   }
 }, 1000 * 60 * 60 * 24);
+
+
+
+
 
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
@@ -310,6 +309,13 @@ app.post("/", async (req, res) => {
   });
 });
 
+// server hosting
+const localPort = 5050;
+const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
+});
+// send server port info to client
+app.get('/api/port', (req, res) => {
+  res.json({ port });
 });

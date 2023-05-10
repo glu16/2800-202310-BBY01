@@ -5,26 +5,23 @@ import { Link } from "react-router-dom";
 
 import styles from "../css/login.module.css";
 
-function Login({ setToken }) {
-  //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
-  //https://www.youtube.com/watch?v=HGgyd1bYWsE
+function ChangePassword() {
   const [data, setData] = useState({
     email: "",
-    password: "",
+    newPassword: "",
   });
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "https://healthify-olh6.onrender.com/api/auth";
+      const url = "http://localhost:5050/api/passChange";
       const { data: res } = await axios.post(url, data);
-      setToken(res.data);
-      localStorage.setItem("email", data.email);
-      window.location = "/";
+      console.log(res);
+      window.location = "/login";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      console.log(error.response.data);
+      console.log(error);
       setError(error.response.data);
     }
   };
@@ -40,7 +37,7 @@ function Login({ setToken }) {
       <div className={`card ${styles.loginCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1 className={styles.title}>Login</h1>
+            <h1 className={styles.title}>Change Password</h1>
             <form id={styles.login} onSubmit={handleSubmit}>
               <label htmlFor="email-input"></label>
               <input
@@ -54,32 +51,36 @@ function Login({ setToken }) {
                 required
                 size="30"
               />
-
-              <label htmlFor="password-input"></label>
+              <label htmlFor="new-password-input"></label>
               <input
                 type="password"
-                id="password-input"
-                className={`form-control user-input ${styles.userInput}`}
-                name="password"
-                value={data.password}
+                id="new-password-input"
+                className={`${styles.userInput}`}
+                name="newPassword"
+                value={data.newPassword}
                 onChange={handleChange}
-                placeholder="Password"
+                placeholder="New Password"
                 required
+                size="30"
               />
 
               {/* ERROR IS DISPLAYED HERE  */}
               {error && <div>{error}</div>}
-              
+
               <label htmlFor="submit-btn"></label>
               <input
                 type="submit"
-                id="login-btn"
-                value="Login"
+                id="submit-btn"
+                value="Change Password"
                 className={styles.loginBtn}
               />
             </form>
-            <p className={`${styles.signupRedirect}`}>New to Healthify? <Link to='/signup' className={`${styles.signupLink}`}>Sign up</Link></p>
-            <p className={`${styles.signupRedirect}`}>Forgot your password? <Link to='/changepassword' className={`${styles.signupLink}`}>Change password</Link></p>
+            <p className={`${styles.signupRedirect}`}>
+              New to Healthify?{" "}
+              <Link to="/signup" className={`${styles.signupLink}`}>
+                Sign up
+              </Link>
+            </p>
           </div>
         </div>
       </div>
@@ -87,4 +88,4 @@ function Login({ setToken }) {
   );
 }
 
-export default Login;
+export default ChangePassword;

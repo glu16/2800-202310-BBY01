@@ -1,3 +1,11 @@
+/* #signupBody {
+  height: 100%;
+  width: 100%;
+  background-image: url("../img/abstract.png");
+  background-size: cover;
+  background-position: center;
+} */
+
 #signup {
   padding: 0 40px 40px 40px;
 }

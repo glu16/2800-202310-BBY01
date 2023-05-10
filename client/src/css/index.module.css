@@ -1,22 +1,20 @@
-@import url("https://fonts.googleapis.com/css2?family=Exo&family=Inter&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Varela+Round&display=swap");
 
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: "Exo", sans-serif;
-  font-family: "Inter", sans-serif;
-}
-
-.indexBody {
-  height: 100%;
-  width: 100%;
+  font-family: "Varela Round", sans-serif;
+  background-image: url("../img/abstract.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .indexBtn {
-  margin: 0px 12px 36px 12px;
-  background-color: #154b54;
-  border-color: #154b54;
+  margin: 4px 12px 36px 12px;
+  background-color: #2b2b2b;
+  border-color: #2b2b2b;
 }
 
 .indexBtn:hover {
@@ -24,16 +22,19 @@ body {
 }
 
 .indexCard {
-  margin-top: 120px;
+  width: 100%;
+  margin-top: 210px;
 }
 
 .indexImage {
-  height: 500px;
-  width: 750px;
+  height: 100%;
+  width: 100%;
+  margin-top: 210px;
 }
 
 .indexTitle {
   margin-bottom: 60px;
+  font-weight: bold;
 }
 
 .indexBody h1 {
@@ -46,7 +47,15 @@ body {
 }
 
 .indexBody h4 {
-  color: white;
+  color: black;
   max-width: 1000px;
   margin-top: 60px;
+  font-weight: bold;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+  }
 }
