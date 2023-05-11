@@ -5,10 +5,11 @@ import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = ({ username }) => {
+  
+  /* Retrieves logged in user's data */
   const [userName, setUserName] = useState("");
   const userEmail = localStorage.getItem("email");
 
-  /* Retrieves logged in user's data */
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -33,6 +34,7 @@ const Profile = ({ username }) => {
   }, []);
   /* End of user data retrieval */
 
+  /* Retrieves logged in user's stats */
   const [userStats, setUserStats] = useState(null);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ const Profile = ({ username }) => {
 
     fetchUserStats();
   }, [username]);
+  /* End of user stats retrieval */
 
   const handleSaveChanges = () => {};
 
