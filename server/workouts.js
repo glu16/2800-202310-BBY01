@@ -39,6 +39,7 @@ inputPrompt += "I only want " + environment + " activities. ";
 // const equipment = ['bike','gym'];
 // inputPrompt += "\n In terms of equipment I am limited to " + equipment.join(', ');
 
+inputPrompt += "Give me at least five exercises for each day. "
 inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
 inputPrompt += "Give an estimated number of calories burned. "
 inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. "
@@ -86,11 +87,13 @@ const runAI = async (input) => {
         for (let i = 1; i < paragraphs.length; i++) {  
             var day = paragraphs[i].split('\n'); //an array of sentences in this paragraph
             var exercises = {};
+            var jAdjusted = 0; // tracks j minus the ones skipped
             for (let j = 1; j < day.length; j++) {  //starting j=1 because 1st line is unwanted
-                
+                jAdjusted++;
                 // skips empty spaces and last total conclusion paragraph
                 if (day[j].length < 3 || day[j].includes("Total")) {
                     // console.log("Skipped j=" + j);
+                    jAdjusted--;
                     continue;
                 }
 
@@ -98,8 +101,19 @@ const runAI = async (input) => {
                 
                 var name;
                 try {
-                    name = day[j].substring(day[j].indexOf(" ") + 1, day[j].indexOf(","));
+                    // using conditional statements to check if not found (-1)
+                    let marker = Math.min(
+                    day[j].indexOf(",") == -1 ? day[j].length : day[j].indexOf(","), 
+                    day[j].indexOf(" -") == -1 ? day[j].length : day[j].indexOf(" -"), 
+                    day[j].indexOf(":") == -1 ? day[j].length : day[j].indexOf(":") 
+                    );
+                    // console.log(marker);
+
+                    // slices name out of the prompt using punctuation as marker
+                    name = day[j].substring(day[j].indexOf(" ") + 1, marker);
                     // console.log("name: " + name);
+                    
+                    if (name == null) { throw new Error("name is null.")}; 
                   } catch (error) {
                     console.error("Error getting exercise name: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
@@ -109,6 +123,7 @@ const runAI = async (input) => {
                 try {
                     setsAndReps = day[j].substring(day[j].indexOf("sets") - 2, day[j].indexOf("reps") + "reps".length);
                     // console.log("setsAndReps: " + setsAndReps);
+                    if (setsAndReps == null) { throw new Error("setsAndReps are null.")}; 
                   } catch (error) {
                     console.error("Error getting exercise setsAndReps: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
@@ -124,6 +139,7 @@ const runAI = async (input) => {
                         }
                     }
                     // console.log("calories: " + calories);
+                    if (calories == null) { throw new Error("calories is null.")}; 
                   } catch (error) {
                     console.error("Error getting exercise calories: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
@@ -148,7 +164,7 @@ const runAI = async (input) => {
                     // console.log("exercises_details: " + exercises_details);
                     exercises = Object.assign(exercises, {
                         // ["Exercise" + j] : day[j]
-                        ["Exercise" + j] : exercises_details
+                        ["Exercise " + (jAdjusted)] : exercises_details
                     });
                     // console.log("exercises: " + exercises);
                 } catch (error) {
@@ -161,9 +177,14 @@ const runAI = async (input) => {
                 exercises = "Rest day";
             }
             
+            // assign the day key as today's date + i
+            const today = new Date();
+            today.setDate(today.getDate() + i - 1);
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const date = today.toLocaleDateString('en-CA', dateOptions);
             try {
                 workoutPlan = Object.assign(workoutPlan, {
-                    ["Day" + (i)] : exercises
+                    [date] : exercises
                 });
             } catch (error) {
                 console.error("Error assigning exercises to workoutPlan object:", error);
