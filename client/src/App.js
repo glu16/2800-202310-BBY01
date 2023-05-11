@@ -2,6 +2,7 @@ import React from "react";
 import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
 import NavbarAfterLogin from "./components/NavbarAfterLogin";
 import NavbarBeforeLogin from "./components/NavbarBeforeLogin";
+import MobileFooter from "./components/MobileFooter";
 import Index from "./components/Index";
 import About from "./components/About";
 import Contact from "./components/Contact";
@@ -22,7 +23,21 @@ import useToken from "./components/useToken";
 function App() {
   const {token, setToken} = useToken();
 
-  // console.log(token);
+  /* Checks to see if the screen is in mobile view */
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  /* End of mobile view function */
 
   if (!token) {
     return (
@@ -46,6 +61,7 @@ function App() {
   return (
     <Router>
       <NavbarAfterLogin />
+      <MobileFooter />
       <Routes>
         <Route path="/signupdetails" element={<SignupDetails />} />
         <Route path="/" element={<Home />} />
