@@ -4,6 +4,12 @@ SIGNIN/LOGIN WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=HGgyd1bYWsE 
 */
 
+/* 
+A LARGE MARJORITY OF THIS CODE THAT HOOKS UP OPENAI
+TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
+https://www.youtube.com/watch?v=qwM23_kF4v4
+*/
+
 const {Configuration, OpenAIApi} = require("openai");
 const express = require("express");
 const app = express();
