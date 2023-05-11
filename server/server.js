@@ -125,6 +125,23 @@ app.post("/signupdetails/:username", async (req, res) => {
   }
 });
 
+// GETS THE USER'S STATS FROM THE DATABASE
+app.get("/profile/:username", async (req, res) => {
+  const username = req.params.username;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (user) {
+      res.status(200).json(user.userStats);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
 // STORES USER'S CHAT HISTORY TO THE DATABASE
 app.put("/users/:username", async (req, res) => {
   // THE USER'S EMAIL

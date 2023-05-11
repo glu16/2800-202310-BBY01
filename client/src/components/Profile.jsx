@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
-const Profile = () => {
+const Profile = ({ username }) => {
   const [userName, setUserName] = useState("");
   const userEmail = localStorage.getItem("email");
 
@@ -32,6 +32,21 @@ const Profile = () => {
     fetchUserData();
   }, []);
   /* End of user data retrieval */
+
+  const [userStats, setUserStats] = useState(null);
+
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      try {
+        const response = await axios.get(`/profile/${username}`);
+        setUserStats(response.data);
+      } catch (error) {
+        console.error(error.message);
+      }
+    };
+
+    fetchUserStats();
+  }, [username]);
 
   const handleSaveChanges = () => {};
 
