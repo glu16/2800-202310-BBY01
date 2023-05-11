@@ -8,11 +8,7 @@ const Profile = ({ username }) => {
   /* Retrieves logged in user's data */
   const [userName, setUserName] = useState("");
   const userEmail = localStorage.getItem("email");
-  const [data, setData] = useState({
-    username: "",
-    email: `${userEmail}`,
-    phoneNumber: "",
-  });
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
 
   useEffect(() => {
     async function fetchUserData() {
@@ -27,6 +23,9 @@ const Profile = ({ username }) => {
         );
         const firstName = response.data.firstName;
         setUserName(firstName);
+        const phoneNumber = response.data.phoneNumber;
+        setUserPhoneNumber(phoneNumber);
+        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
@@ -47,10 +46,6 @@ const Profile = ({ username }) => {
             "username"
           )}`
         );
-        console.log(response.data[0].sex);
-        console.log(response.data[0].age);
-        console.log(response.data[0].height);
-        console.log(response.data[0].weight);
         setUserStats(response.data);
       } catch (error) {
         console.error(error.message);
@@ -60,6 +55,13 @@ const Profile = ({ username }) => {
     fetchUserStats();
   }, [username]);
   /* End of user stats retrieval */
+
+  /* Allows the user to update their profile */
+  const [data, setData] = useState({
+    username: "",
+    email: `${userEmail}`,
+    phoneNumber: "",
+  });
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -76,6 +78,7 @@ const Profile = ({ username }) => {
       console.log(error);
     }
   };
+  /* End of user profile update */
 
   return (
     <div
@@ -112,19 +115,19 @@ const Profile = ({ username }) => {
                     </p>
                   </div>
                   <div className={`${styles.profileItem} phone`}>
-                    <h5 className={styles.profileHeader}>Phone Number</h5>
+                    <h5 className={styles.profileHeader}>Phone</h5>
                     <p>
-                      <span id="phone-goes-here"></span>
+                      <span id="phone-goes-here">{userPhoneNumber}</span>
                     </p>
                   </div>
                   <div className={`${styles.profileItem} phone`}>
-                    <h5 className={styles.profileHeader}>User Stats</h5>
+                    <h5 className={styles.profileHeader}>User Statistics</h5>
                     {userStats && (
                       <>
                         <p>Sex: {userStats[0].sex}</p>
                         <p>Age: {userStats[0].age}</p>
-                        <p>Height: {userStats[0].height}</p>
-                        <p>Weight: {userStats[0].weight}</p>
+                        <p>Height: {userStats[0].height}m</p>
+                        <p>Weight: {userStats[0].weight} kg</p>
                       </>
                     )}
                   </div>

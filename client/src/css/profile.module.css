@@ -7,10 +7,17 @@
 .editProfileButton {
   margin-top: 10px;
   margin-bottom: 10px;
+  background-color: rgb(92, 208, 216);
+  border-radius: rgb(92, 208, 216);
+}
+
+.editProfileButton:hover {
+  color: black;
+  background-color: hsl(184, 62%, 73%);
 }
 
 .chatHeader {
-  color: white;
+  color: rgb(92, 208, 216);
   margin-top: 10px;
 }
 
@@ -32,7 +39,7 @@
 }
 
 .profileHeader {
-  color: #7c7c7c;
+  color: rgb(92, 208, 216);
 }
 
 .profileItem {

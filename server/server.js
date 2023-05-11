@@ -10,7 +10,7 @@ TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=qwM23_kF4v4
 */
 
-const {Configuration, OpenAIApi} = require("openai");
+const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
@@ -19,7 +19,7 @@ const authRouter = require("./routes/auth");
 const passChangeRouter = require("./routes/passChange");
 
 // THE MODELS
-const {User} = require("./models/users");
+const { User } = require("./models/users");
 const Tips = require("./models/tips");
 
 const cors = require("cors");
@@ -55,7 +55,7 @@ app.get("/getFromUser/:email", async (req, res) => {
 
   try {
     // FINDS THE USER BY EMAIL
-    const user = await User.findOne({email: userID});
+    const user = await User.findOne({ email: userID });
     if (!user) {
       return res.status(400).send("Email not registered" + userID);
     }
@@ -73,13 +73,14 @@ app.get("/users/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     // FIND THE USER BY EMAIL
-    const user = await User.findOne({username: userID});
+    const user = await User.findOne({ username: userID });
     if (!user) {
       return res.status(404).send("User not found");
     }
     res.send({
       firstName: user.firstName,
       email: user.email,
+      phoneNumber: user.phoneNumber,
     });
   } catch (e) {
     console.log(e);
@@ -102,7 +103,7 @@ app.post("/signupdetails/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {username: userID},
+      { username: userID },
       // SET THE USER STATS
       {
         $set: {
@@ -119,7 +120,7 @@ app.post("/signupdetails/:username", async (req, res) => {
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      {new: true, upsert: true}
+      { new: true, upsert: true }
     );
 
     res.status(200).json({
@@ -128,7 +129,7 @@ app.post("/signupdetails/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -149,15 +150,15 @@ app.get("/profile/:username", async (req, res) => {
   }
 });
 
-// SAVES THE USER'S PHONE NUMBER IN THE DATABASE
+// UPDATES AND SAVES THE USER'S PROFILE INFORMATION IN THE DATABASE
 app.post("/profile/:username", async (req, res) => {
   const userID = req.params.username;
-  console.log(req.body)
+  console.log(req.body);
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {username: userID},
-      // SET THE USER'S PHONE NUMBER
+      { username: userID },
+      // SETS THE USER'S PROFILE INFORMATION
       {
         $set: {
           username: req.body.username,
@@ -167,8 +168,7 @@ app.post("/profile/:username", async (req, res) => {
       },
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      {new: true, upsert: true}
+      { new: true }
     );
 
     res.status(200).json({
@@ -177,7 +177,7 @@ app.post("/profile/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -191,12 +191,12 @@ app.put("/users/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {username: userID},
+      { username: userID },
       // SET THE MESSAGES TO THE UPDATED MESSAGES
-      {$push: {messages: updatedUserData}},
+      { $push: { messages: updatedUserData } },
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      {new: true, upsert: true}
+      { new: true, upsert: true }
     );
 
     res.status(200).json({
@@ -205,7 +205,7 @@ app.put("/users/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -216,7 +216,7 @@ app.get("/coach/:username", async (req, res) => {
 
   try {
     // FINDS THE USER BY USERNAME
-    const user = await User.findOne({username: userID});
+    const user = await User.findOne({ username: userID });
     if (!user) {
       return res.status(400).send("Username not registered: " + userID);
     }
@@ -249,8 +249,12 @@ app.put("/fitness/:username", async (req, res) => {
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        {email: userID},
-        {$push: {workouts: {$each: [JSON.parse(newWorkout)], $position: 0}}}
+        { email: userID },
+        {
+          $push: {
+            workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
+          },
+        }
       );
       res.status(200).json({
         message: `New workout added to ${userID}.`,
@@ -258,7 +262,7 @@ app.put("/fitness/:username", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({error: "Internal server error"});
+      res.status(500).json({ error: "Internal server error" });
     }
     if (callback) {
       callback();
@@ -271,7 +275,7 @@ app.put("/fitness/:username", async (req, res) => {
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
-    const user = await User.findOne({username: userID});
+    const user = await User.findOne({ username: userID });
     // if workouts empty ie.new user
     if (user.workouts.length == 0) {
       res.send("empty");
@@ -281,7 +285,7 @@ app.get("/fitness/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -296,7 +300,7 @@ app.get("/home/tips", async (req, res) => {
     const currentDate = new Date().toISOString().slice(0, 10);
 
     if (!selectedTip || selectedDate !== currentDate) {
-      const tips = await Tips.aggregate([{$sample: {size: 1}}]);
+      const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
       selectedTip = tips[0];
       selectedDate = currentDate;
     }
@@ -304,7 +308,7 @@ app.get("/home/tips", async (req, res) => {
     res.status(200).json(selectedTip);
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -320,7 +324,7 @@ setInterval(() => {
 
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
-  const {message} = req.body;
+  const { message } = req.body;
   console.log(message);
 
   // THE RESPONSE FROM OPENAI
@@ -410,5 +414,5 @@ app.listen(port, () => {
 });
 // send server port info to client
 app.get("/api/port", (req, res) => {
-  res.json({port});
+  res.json({ port });
 });
