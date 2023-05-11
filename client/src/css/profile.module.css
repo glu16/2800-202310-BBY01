@@ -1,29 +1,17 @@
-
-h1 {
-  color: white;
-}
-
 .profileBody {
   height: 100%;
   width: 100%;
   margin: 0;
 }
 
-.btn {
-  background-color: green;
+.editProfileButton {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.btn:hover {
-  background-color: green;
-  border-color: green;
-}
-
-.chatCard {
-  max-height: 650px;
-  max-width: 1000px;
-  border-radius: 10px;
-  text-align: center;
-  background-color: #2b2b2b;
+.chatHeader {
+  color: white;
+  margin-top: 10px;
 }
 
 .formLabel {
@@ -35,8 +23,9 @@ h1 {
 }
 
 .profileCard {
-  max-height: 650px;
-  max-width: 500px;
+  height: 100%;
+  width: 100%;
+  max-width: 1400px;
   border-radius: 10px;
   text-align: center;
   background-color: #2b2b2b;
