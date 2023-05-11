@@ -118,8 +118,8 @@ const Coach = () => {
   ]
   */
   async function sendChatLog(user, messages) {
-    const email = localStorage.getItem("email");
-    const response = await fetch(`https://healthify-enxj.onrender.com/users/${email}`, {
+    const username = localStorage.getItem("username");
+    const response = await fetch(`https://healthify-enxj.onrender.com/users/${username}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
