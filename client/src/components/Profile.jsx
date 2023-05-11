@@ -90,6 +90,17 @@ const Profile = ({ username }) => {
                       <span id="phone-goes-here"></span>
                     </p>
                   </div>
+                  <div className={`${styles.profileItem} phone`}>
+                    <h5 className={styles.profileHeader}>User Stats</h5>
+                    {userStats && (
+                      <>
+                        <p>Sex: {userStats.sex}</p>
+                        <p>Age: {userStats.age}</p>
+                        <p>Height: {userStats.height}</p>
+                        <p>Weight: {userStats.weight}</p>
+                      </>
+                    )}
+                  </div>
                   <button
                     className={`btn btn-primary ${styles.editProfileButton}`}
                     data-bs-toggle="modal"
