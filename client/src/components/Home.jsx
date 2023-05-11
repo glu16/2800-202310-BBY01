@@ -22,7 +22,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem("username")}`,
+          `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -55,7 +55,7 @@ const Home = () => {
           setTip(storedTip);
         } else {
           const response = await axios.get(
-            "http://localhost:5050/home/tips"
+            "https://healthify-enxj.onrender.com/home/tips"
           );
           const newTip = response.data.tip;
           setTip(newTip);
