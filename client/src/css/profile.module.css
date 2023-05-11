@@ -19,6 +19,7 @@ h1 {
 }
 
 .chatCard {
+  max-height: 650px;
   max-width: 1000px;
   border-radius: 10px;
   text-align: center;
@@ -34,6 +35,7 @@ h1 {
 }
 
 .profileCard {
+  max-height: 650px;
   max-width: 500px;
   border-radius: 10px;
   text-align: center;

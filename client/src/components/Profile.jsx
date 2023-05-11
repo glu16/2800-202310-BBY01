@@ -35,9 +35,6 @@ const Profile = ({ username }) => {
 
   /* Retrieves logged in user's stats */
   const [userStats, setUserStats] = useState(null);
-  // return obj.map((item, index) => (
-  //   <div key={index}>{renderNestedObject(item)}</div>
-  // ));
 
   useEffect(() => {
     const fetchUserStats = async () => {
@@ -98,7 +95,7 @@ const Profile = ({ username }) => {
                     </p>
                   </div>
                   <div className={`${styles.profileItem} phone`}>
-                    <h5 className={styles.profileHeader}>Phone</h5>
+                    <h5 className={styles.profileHeader}>Phone Number</h5>
                     <p>
                       <span id="phone-goes-here"></span>
                     </p>
@@ -107,10 +104,10 @@ const Profile = ({ username }) => {
                     <h5 className={styles.profileHeader}>User Stats</h5>
                     {userStats && (
                       <>
-                        <p>Sex: {userStats.sex}</p>
-                        <p>Age: {userStats.age}</p>
-                        <p>Height: {userStats.height}</p>
-                        <p>Weight: {userStats.weight}</p>
+                        <p>Sex: {userStats[0].sex}</p>
+                        <p>Age: {userStats[0].age}</p>
+                        <p>Height: {userStats[0].height}</p>
+                        <p>Weight: {userStats[0].weight}</p>
                       </>
                     )}
                   </div>
