@@ -21,6 +21,7 @@ function SignupDetails() {
       const url = `http://localhost:5050/signupdetails/${localStorage.getItem("username")}`;
       const { data: res } = await axios.post(url, data);
 
+      window.location = "/"
     
       //THIS ACTUALLY WORKS BUT THE AI IS 50/50 WHEN CREATING A WORKOUT
       const userName = localStorage.getItem("email");
@@ -39,13 +40,6 @@ function SignupDetails() {
         const updatedUser = await response.json();
         console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userName);
         //END OF WORKOUT CREATION
-
-
-
-
-      window.location = "/"
-
-
 
 
     } catch (error) {
