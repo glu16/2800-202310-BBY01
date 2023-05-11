@@ -182,8 +182,17 @@ const Fitness = () => {
           <form id="addWorkout" onSubmit={addWorkoutToUser}>
             <input type="hidden" name="userEmail" value={userEmail}></input>
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
-              {isFormSubmitting ? 'Generating...' : 'Create workout plan'}
-              </button>
+              {isFormSubmitting ? (
+                <div>
+                  <p>Generating...</p>
+                  <div id="processing" className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                'Create workout plan'
+              )}
+            </button>
               <p><small>Please note generating can take 15-30 seconds</small></p>
           </form>
         </div>
