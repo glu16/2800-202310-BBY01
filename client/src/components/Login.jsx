@@ -67,7 +67,7 @@ function Login({ setToken }) {
           />
 
           {/* ERROR IS DISPLAYED HERE  */}
-          {error && <div>{error}</div>}
+          {error && <div className={`${styles.errorMessage}`}>{error}</div>}
 
           <label htmlFor="submit-btn"></label>
           <input
