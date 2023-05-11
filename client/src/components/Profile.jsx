@@ -18,7 +18,9 @@ const Profile = ({ username }) => {
     async function fetchUserData() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem("username")}`,
+          `https://healthify-enxj.onrender.com/users/${localStorage.getItem(
+            "username"
+          )}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -43,9 +45,7 @@ const Profile = ({ username }) => {
     const fetchUserStats = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5050/profile/${localStorage.getItem(
-            "username"
-          )}`
+          `https://healthify-enxj.onrender.com/profile/${localStorage.getItem("username")}`
         );
         console.log(response.data[0].sex);
         console.log(response.data[0].age);
@@ -68,7 +68,7 @@ const Profile = ({ username }) => {
   const handleSaveChanges = async (event) => {
     event.preventDefault();
     try {
-      const url = `http://localhost:5050/profile/${localStorage.getItem(
+      const url = `https://healthify-enxj.onrender.com/profile/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
