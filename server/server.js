@@ -146,7 +146,7 @@ app.get("/profile/:username", async (req, res) => {
 // SAVES THE USER'S PHONE NUMBER IN THE DATABASE
 app.post("/profile/:username", async (req, res) => {
   const userID = req.params.username;
-  
+  console.log(req.body)
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
@@ -154,7 +154,9 @@ app.post("/profile/:username", async (req, res) => {
       // SET THE USER'S PHONE NUMBER
       {
         $set: {
-          phoneNumber: phoneNumber,
+          username: req.body.username,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
         },
       },
 

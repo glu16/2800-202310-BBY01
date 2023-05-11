@@ -8,6 +8,11 @@ const Profile = ({ username }) => {
   /* Retrieves logged in user's data */
   const [userName, setUserName] = useState("");
   const userEmail = localStorage.getItem("email");
+  const [data, setData] = useState({
+    username: "",
+    email: `${userEmail}`,
+    phoneNumber: "",
+  });
 
   useEffect(() => {
     async function fetchUserData() {
@@ -58,7 +63,21 @@ const Profile = ({ username }) => {
   }, [username]);
   /* End of user stats retrieval */
 
-  const handleSaveChanges = () => {};
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+  };
+
+  const handleSaveChanges = async (event) => {
+    event.preventDefault();
+    try {
+      const url = `http://localhost:5050/profile/${localStorage.getItem(
+        "username"
+      )}`;
+      const { data: res } = await axios.post(url, data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div
@@ -171,8 +190,9 @@ const Profile = ({ username }) => {
                     type="text"
                     className="form-control"
                     id="nameInput"
-                    value={userName}
-                    onChange={(e) => setUserName(e.target.value)}
+                    name="username"
+                    value={data.username}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-3">
@@ -184,9 +204,11 @@ const Profile = ({ username }) => {
                   </label>
                   <input
                     type="email"
-                    className="form-control"
                     id="emailInput"
-                    value={userEmail}
+                    className="form-control"
+                    name="email"
+                    value={data.email}
+                    onChange={handleChange}
                   />
                 </div>
                 <div className="mb-3">
@@ -200,7 +222,9 @@ const Profile = ({ username }) => {
                     type="phone"
                     className="form-control"
                     id="phoneInput"
-                    value=""
+                    name="phoneNumber"
+                    value={data.phoneNumber}
+                    onChange={handleChange}
                   />
                 </div>
               </form>
