@@ -43,8 +43,8 @@ function Workout() {
         if (typeof obj === 'object' && obj !== null) {
           // if it's a nested object, recursively render its properties
           return Object.keys(obj).map((key, index) => {
-            // check if key matches date formate
-            const isDayKey = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), \d{4}-\d{2}-\d{2}$/.test(key); 
+            // check if key matches date format
+            const isDayKey = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), \w+ \d{1,2}, \d{4}$/.test(key); 
             if (isDayKey) {
               // check if empty rest day
               if (Object.keys(obj[key]).length === 0) {
@@ -53,7 +53,7 @@ function Workout() {
                     <strong>{key}:</strong> Rest day
                   </div>
                 );
-
+                // sends the day title ex. Thursday, May 11, 2023:
               } else {
                 return (
                   <div key={index} className={styles.day}>
@@ -61,16 +61,26 @@ function Workout() {
                   </div>
                 );
               }
+              // sends the title key ex. Exercise 1: 
             } else {
-              return (
-                <div key={index}>
-                  <strong>{key}:</strong> {renderNestedObject(obj[key])}
+              // don't send if this is name or setsAndReps
+              if (key == "name" || key == "setsAndReps") {
+                return (
+                  <div key={index}>
+                  {renderNestedObject(obj[key])}
                 </div>
-              );
+                );
+              } else {
+                return (
+                  <div key={index}>
+                    <strong>{key}:</strong> {renderNestedObject(obj[key])}
+                  </div>
+                );
+              }
             }
           });
         }
-        // if obj is not an object aka it's the lowest level detail string or int
+        // returns non-objects ex. the name or # of calories
         return obj;
       }
       setWorkout(renderNestedObject(workoutData));
@@ -85,11 +95,35 @@ function Workout() {
           if (typeof value === "object") {
             assignVariables(value, variableName + "_");
           } else {
-            eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${JSON.stringify(value)} };`);
+            // Check if the value is a number
+            // const variableValue = typeof value === "number" ? value : JSON.stringify(value);
+            // eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${variableValue} };`);
+
+            // Assign the value directly
+            const variableValue = value; 
+            // Wrap key and value in quotes
+            eval(`var ${variableName} = { key: "${key}", value: "${variableValue}" };`); 
           }
         }
+      // version 2 using arrays instead of eval to create variables
+        // const variables = {};
+        // const assignVariable = (variableName, value) => {
+        //   variables[variableName] = value;
+        // };
+        // const processObject = (obj, prefix) => {
+        //   for (const key in obj) {
+        //     const value = obj[key];
+        //     const variableName = prefix ? `${prefix}_${key}` : key;
+        //     if (typeof value === "object") {
+        //       processObject(value, variableName);
+        //     } else {
+        //       assignVariable(variableName, value);
+        //     }
+        //   }
+        // };
+        // processObject(data, variablePrefix);
+        // return variables;
       }
-      
       assignVariables(workoutData);
     }
   }
@@ -194,7 +228,7 @@ const Fitness = () => {
                 'Create workout plan'
               )}
             </button>
-              <p><small>Please note generating can take 15-30 seconds</small></p>
+              <p><small>generating takes 30-60 seconds</small></p>
           </form>
         </div>
 

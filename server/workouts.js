@@ -164,7 +164,7 @@ const runAI = async (input) => {
                     // console.log("exercises_details: " + exercises_details);
                     exercises = Object.assign(exercises, {
                         // ["Exercise" + j] : day[j]
-                        ["Exercise" + (jAdjusted)] : exercises_details
+                        ["Exercise " + (jAdjusted)] : exercises_details
                     });
                     // console.log("exercises: " + exercises);
                 } catch (error) {
