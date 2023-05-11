@@ -20,7 +20,34 @@ function SignupDetails() {
     try {
       const url = `http://localhost:5050/signupdetails/${localStorage.getItem("username")}`;
       const { data: res } = await axios.post(url, data);
+
+    
+      //THIS ACTUALLY WORKS BUT THE AI IS 50/50 WHEN CREATING A WORKOUT
+      const userName = localStorage.getItem("email");
+        // key to store individual workout
+        const today = new Date().toISOString().slice(0, 10);
+        const workoutKey = "workout_" + today;
+        // workout to write into user database, will generate with server side call to workouts.js
+        const workout = {}
+    
+        const data2 = { [workoutKey]: workout };
+        const response = await fetch(`http://localhost:5050/fitness/${localStorage.getItem("email")}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", },
+          body: JSON.stringify(data2),
+        });
+        const updatedUser = await response.json();
+        console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userName);
+        //END OF WORKOUT CREATION
+
+
+
+
       window.location = "/"
+
+
+
+
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error.response.data);
