@@ -13,7 +13,7 @@ const Profile = () => {
     async function fetchUserData() {
       try {
         const response = await axios.get(
-          `https://healthify-enxj.onrender.com/users/${localStorage.getItem("email")}`,
+          `http://localhost:5050/users/${localStorage.getItem("email")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -63,21 +63,18 @@ function Workout() {
             console.log("value: " + value);
             const variableName = variablePrefix + key;
             console.log("variableName: " + variableName);
+
+            
         
-            if (typeof value === "object") {
-              assignVariables(value, variableName + "_");
-            } else {
-              eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${JSON.stringify(value)} };`);
-            }
+            // if (typeof value === "object") {
+            //   assignVariables(value, variableName + "_");
+            // } else {
+            //   eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${JSON.stringify(value)} };`);
+            // }
           }
         }
         
         assignVariables(workoutData);
-        
-        console.log(Day1_Exercise1.key, Day1_Exercise1.value);
-        console.log(Day1_Exercise2.key, Day1_Exercise2.value);
-        console.log(Day2_Exercise1.key, Day2_Exercise1.value);
-        console.log(Day2_Exercise2.key, Day2_Exercise2.value);
       }
     }
 
