@@ -4,12 +4,6 @@ SIGNIN/LOGIN WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=HGgyd1bYWsE 
 */
 
-/* 
-A LARGE MARJORITY OF THIS CODE THAT HOOKS UP OPENAI
-TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
-https://www.youtube.com/watch?v=qwM23_kF4v4
-*/
-
 const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
@@ -405,6 +399,82 @@ app.post("/", async (req, res) => {
     message: messageOutTest,
   });
 });
+
+
+// this block for sending emails to users
+const bodyParser = require('body-parser');
+const nodemailer = require('nodemailer');
+const { v4: uuidv4 } = require('uuid');
+// const app = express(); // already done in earlier code
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+// Set up Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'SendGrid',
+  auth: {
+    user: 'apikey',
+    pass: process.env.SENDGRID_API_KEY
+  }
+});
+
+app.post('/forgot-password', async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    // Generate a unique password reset token
+    const resetToken = uuidv4();
+
+    // Save the token and expiration timestamp to the user's document in MongoDB
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    user.resetToken = resetToken;
+    user.resetTokenExpiration = Date.now() + 3600000; // Token expires in 1 hour
+    await User.save(user);
+
+    // Send password reset email
+    const resetUrl = `http://localhost:${port}/reset-password?token=${resetToken}`;
+    const mailOptions = {
+      from: 'admin@healthify.com',
+      to: email,
+      subject: 'Password Reset',
+      text: `Please click on the following link to reset your password: ${resetUrl}`,
+    };
+    await transporter.sendMail(mailOptions);
+
+    res.json({ message: 'Password reset email sent' });
+  } catch (error) {
+    console.error('Error occurred while initiating password reset:', error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+});
+
+// Endpoint to handle password reset
+app.post('/reset-password', async (req, res) => {
+  const { token, password } = req.body;
+  try {
+    // Find the user by the reset token and ensure it hasn't expired
+        const user = await User.findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } });
+    if (!user) {
+      return res.status(404).json({ message: 'Invalid or expired token' });
+    }
+
+    // Update the user's password and remove the reset token fields
+    user.password = password;
+    user.resetToken = null;
+    user.resetTokenExpiration = null;
+    await User.save(user);
+
+    res.json({ message: 'Password reset successful' });
+  } catch (error) {
+    console.error('Error occurred while resetting password:', error);
+    res.status(500).json({ message: 'An error occurred' });
+  }
+});
+// end of block for sending emails to users  
+
 
 // server hosting
 const localPort = 5050;

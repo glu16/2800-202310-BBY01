@@ -89,6 +89,14 @@ function Login({ setToken }) {
             Change password
           </Link>
         </p>
+
+        <p>
+          <Link to="/resetpassword">
+            Reset Password
+          </Link>
+        </p>
+
+
       </div>
     </div>
   );

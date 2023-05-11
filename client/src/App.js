@@ -9,6 +9,7 @@ import SignUp from "./components/SignUp";
 import SignupDetails from "./components/SignupDetails";
 import Login from "./components/Login";
 import ChangePassword from "./components/ChangePassword";
+import ResetPassword from "./components/ResetPassword";
 import Home from "./components/Home";
 import Coach from "./components/Coach";
 import Diet from "./components/Diet";
@@ -32,6 +33,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login setToken={setToken} />} />
             <Route path="/changepassword" element={<ChangePassword />} />
+            <Route path="/resetpassword" element={<ResetPassword />} />
             <Route path="/signup" element={<SignUp setToken={setToken}/>} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
