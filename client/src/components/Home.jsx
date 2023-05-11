@@ -23,7 +23,7 @@ const Home = () => {
       try {
         const response = await axios.get(
           `http://localhost:5050/users/${localStorage.getItem(
-            "email"
+            "username"
           )}`,
           {
             headers: {

@@ -18,7 +18,7 @@ const Profile = ({ username }) => {
     async function fetchUserData() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem("email")}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
