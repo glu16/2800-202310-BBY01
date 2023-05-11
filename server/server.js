@@ -194,7 +194,7 @@ app.put("/fitness/:email", async (req, res) => {
     try {
       const user = await User.findOneAndUpdate(
         {email: userID},
-        {$push: {workouts: {$each: [JSON.parse(newWorkout)], $position: 0}}}
+        { $push: { workouts: { $each: newWorkout.map(JSON.parse), $position: 0 } } }
       );
       res.status(200).json({
         message: `New workout added to ${userID}.`,

@@ -81,101 +81,59 @@ const runAI = async (input) => {
       }
 
     // parse and save output as a JSON file
-    var workoutPlan = {};
+    var workoutPlan = [];
     try {
         for (let i = 1; i < paragraphs.length; i++) {  
             var day = paragraphs[i].split('\n'); //an array of sentences in this paragraph
-            var exercises = {};
+            var exercises = [];
             for (let j = 1; j < day.length; j++) {  //starting j=1 because 1st line is unwanted
-                
+    
                 // skips empty spaces and last total conclusion paragraph
                 if (day[j].length < 3 || day[j].includes("Total")) {
-                    // console.log("Skipped j=" + j);
                     continue;
                 }
-
+    
                 // catch when exercise is empty
-                
                 var name;
                 try {
                     name = day[j].substring(day[j].indexOf(" ") + 1, day[j].indexOf(","));
-                    // console.log("name: " + name);
-                  } catch (error) {
+                } catch (error) {
                     console.error("Error getting exercise name: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
-                  }
-
+                }
+    
                 var setsAndReps;
                 try {
                     setsAndReps = day[j].substring(day[j].indexOf("sets") - 2, day[j].indexOf("reps") + "reps".length);
-                    // console.log("setsAndReps: " + setsAndReps);
-                  } catch (error) {
+                } catch (error) {
                     console.error("Error getting exercise setsAndReps: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
-                  }
-
+                }
+    
                 var calories = 0;
                 try {
                     const matches = day[j].match(/\d+/g);
                     for (let i = 0; i < matches.length; i++) {
                         const num = parseInt(matches[i]); // Convert the matched string to a number
                         if (num > calories) { 
-                        calories = num;
+                            calories = num;
                         }
                     }
-                    // console.log("calories: " + calories);
-                  } catch (error) {
+                } catch (error) {
                     console.error("Error getting exercise calories: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
-                  }
-                // console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
-
-
-                // catch any invalid exercise and skip adding it 
-                if (name==null || setsAndReps==null || calories==null ||
-                    calories == 0 || name.length < 4 || setsAndReps < 4) {
-                    console.log("Invalid exercise tossed: " + day[j]);
-                    continue;
                 }
-
-                var exercises_details = {};
-                try {
-                    exercises_details = Object.assign(exercises_details, {
-                        ['name'] : name,
-                        ['setsAndReps'] : setsAndReps,
-                        ['calories'] : calories
-                    })
-                    // console.log("exercises_details: " + exercises_details);
-                    exercises = Object.assign(exercises, {
-                        // ["Exercise" + j] : day[j]
-                        ["Exercise" + j] : exercises_details
-                    });
-                    // console.log("exercises: " + exercises);
-                } catch (error) {
-                    console.error("Error assigning exercises details to exercise object:", error);
-                }
+    
+                exercises.push([name, setsAndReps, calories]);
             }
-            
-            // assigns empty spaces as rest day correctly
-            if (exercises == "{}") {
-                exercises = "Rest day";
-            }
-            
-            try {
-                workoutPlan = Object.assign(workoutPlan, {
-                    ["Day" + (i)] : exercises
-                });
-            } catch (error) {
-                console.error("Error assigning exercises to workoutPlan object:", error);
-            }
+            workoutPlan.push(exercises);
         }
     } catch (error) {
-        console.error("Error parsing paragraphs into workout plan:", error);
+        console.error("Error parsing workout plan:", error);
     }
-
-    // console.log(workoutPlan);
+    
     console.log("...workout plan generated.");
-    return(JSON.stringify(workoutPlan));
+    return workoutPlan;
 }
 
 function generate(callback) {
