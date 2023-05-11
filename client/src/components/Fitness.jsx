@@ -5,12 +5,12 @@ import styles from "../css/fitness.module.css";
 const port = '5050';
 
 // used to identify user for database modification
-const userEmail = localStorage.getItem("email");
+const username = localStorage.getItem("username");
 
 // get first item from user's workouts field from database
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:5050/fitness/${userEmail}`, {
+  var response = await fetch(`http://localhost:5050/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", },
   });
@@ -198,13 +198,13 @@ const Fitness = () => {
     const workout = {}
 
     const data = { [workoutKey]: workout };
-    const response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
+    const response = await fetch(`http://localhost:${port}/fitness/${username}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
     });
     const updatedUser = await response.json();
-    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userEmail);
+    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + username);
     // re-enable button after finishing code
     setFormSubmitting(false);
     // reload page so new workout is displayed
@@ -217,9 +217,9 @@ const Fitness = () => {
         <div className={`card-body ${styles.fitnessCardBody}`}>
 
         <div>
-          {userEmail}
+          {username}
           <form id="addWorkout" onSubmit={addWorkoutToUser}>
-            <input type="hidden" name="userEmail" value={userEmail}></input>
+            <input type="hidden" name="userEmail" value={username}></input>
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
               {isFormSubmitting ? (
                 <div>
