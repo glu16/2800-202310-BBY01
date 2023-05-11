@@ -5,10 +5,11 @@ import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = ({ username }) => {
+  
+  /* Retrieves logged in user's data */
   const [userName, setUserName] = useState("");
   const userEmail = localStorage.getItem("email");
 
-  /* Retrieves logged in user's data */
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -33,6 +34,7 @@ const Profile = ({ username }) => {
   }, []);
   /* End of user data retrieval */
 
+  /* Retrieves logged in user's stats */
   const [userStats, setUserStats] = useState(null);
 
   useEffect(() => {
@@ -47,6 +49,7 @@ const Profile = ({ username }) => {
 
     fetchUserStats();
   }, [username]);
+  /* End of user stats retrieval */
 
   const handleSaveChanges = () => {};
 
@@ -89,6 +92,17 @@ const Profile = ({ username }) => {
                     <p>
                       <span id="phone-goes-here"></span>
                     </p>
+                  </div>
+                  <div className={`${styles.profileItem} phone`}>
+                    <h5 className={styles.profileHeader}>User Stats</h5>
+                    {userStats && (
+                      <>
+                        <p>Sex: {userStats.sex}</p>
+                        <p>Age: {userStats.age}</p>
+                        <p>Height: {userStats.height}</p>
+                        <p>Weight: {userStats.weight}</p>
+                      </>
+                    )}
                   </div>
                   <button
                     className={`btn btn-primary ${styles.editProfileButton}`}
