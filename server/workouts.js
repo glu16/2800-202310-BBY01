@@ -177,9 +177,14 @@ const runAI = async (input) => {
                 exercises = "Rest day";
             }
             
+            // assign the day key as today's date + i
+            const today = new Date();
+            today.setDate(today.getDate() + i - 1);
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const date = today.toLocaleDateString('en-CA', dateOptions);
             try {
                 workoutPlan = Object.assign(workoutPlan, {
-                    ["Day" + (i)] : exercises
+                    [date] : exercises
                 });
             } catch (error) {
                 console.error("Error assigning exercises to workoutPlan object:", error);

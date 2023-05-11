@@ -39,11 +39,12 @@ function Workout() {
       } else {
 
        function renderNestedObject(obj) {
-        // Check if the object is a nested object
+        // check if the object is a nested object
         if (typeof obj === 'object' && obj !== null) {
-          // If it's a nested object, recursively render its properties
+          // if it's a nested object, recursively render its properties
           return Object.keys(obj).map((key, index) => {
-            const isDayKey = key.match(/^Day[1-7]$/); // Check if key matches 'Day1' to 'Day7' pattern
+            // check if key matches date formate
+            const isDayKey = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), \d{4}-\d{2}-\d{2}$/.test(key); 
             if (isDayKey) {
               // check if empty rest day
               if (Object.keys(obj[key]).length === 0) {
