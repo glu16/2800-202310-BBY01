@@ -219,6 +219,7 @@ app.get("/fitness/:email", async (req, res) => {
     if (user.workouts.length == 0) {
       res.send("empty");
     } else {
+      // get first item from user's workouts field from database
       res.send(user.workouts[0]);
     }
   } catch (err) {

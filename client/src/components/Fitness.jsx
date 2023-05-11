@@ -138,6 +138,8 @@ const Fitness = () => {
     console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userEmail);
     // re-enable button after finishing code
     setFormSubmitting(false);
+    // reload page so new workout is displayed
+    window.location.reload();
   }
 
   return (
@@ -152,7 +154,8 @@ const Fitness = () => {
             <input type="hidden" name="userEmail" value={userEmail}></input>
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
               {isFormSubmitting ? 'Generating...' : 'Create workout plan'}
-              </button>
+            </button>
+            <p><small>Please note generating can take 15-30 seconds</small></p>
           </form>
         </div>
 
