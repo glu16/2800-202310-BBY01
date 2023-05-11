@@ -32,3 +32,8 @@
   font-weight: bold;
   color: black;
 }
+
+.day {
+  border: 2px solid black ;
+  border-radius: 10px;
+}

@@ -37,46 +37,61 @@ function Workout() {
       if (workoutData === "empty") {
         setWorkout("No workout available"); // Set default value
       } else {
-        // recursive use of Array.map() to iterate through nested JSON object sent from server
-        // function renderNestedObject(obj) {
-        //   // Check if the object is a nested object
-        //   if (typeof obj === 'object' && obj !== null) {
-        //     // If it's a nested object, recursively render its properties
-        //     return Object.keys(obj).map((key, index) => (
-        //       <div key={index}>
-        //         <strong>{key}:</strong> {renderNestedObject(obj[key])}
-        //       </div>
-        //     ));
-        //   }
-        //   // if obj is not an object aka it's the lowest level detail string or int
-        //   return obj;
-        // }
-        // setWorkout(renderNestedObject(workoutData));
 
-        console.log(workoutData.Day1);
+       function renderNestedObject(obj) {
+        // Check if the object is a nested object
+        if (typeof obj === 'object' && obj !== null) {
+          // If it's a nested object, recursively render its properties
+          return Object.keys(obj).map((key, index) => {
+            const isDayKey = key.match(/^Day[1-7]$/); // Check if key matches 'Day1' to 'Day7' pattern
+            if (isDayKey) {
+              // check if empty rest day
+              if (Object.keys(obj[key]).length === 0) {
+                return (
+                  <div key={index} className={styles.day}>
+                    <strong>{key}:</strong> Rest day
+                  </div>
+                );
 
-        function assignVariables(data, variablePrefix = "") {
-          for (const key in data) {
-            // console.log(key);
-            // console.log(data);
-            const value = data[key];
-            console.log("value: " + value);
-            const variableName = variablePrefix + key;
-            console.log("variableName: " + variableName);
+              } else {
+                return (
+                  <div key={index} className={styles.day}>
+                    <strong>{key}:</strong> {renderNestedObject(obj[key])}
+                  </div>
+                );
+              }
+            } else {
+              return (
+                <div key={index}>
+                  <strong>{key}:</strong> {renderNestedObject(obj[key])}
+                </div>
+              );
+            }
+          });
+        }
+        // if obj is not an object aka it's the lowest level detail string or int
+        return obj;
+      }
+      setWorkout(renderNestedObject(workoutData));
 
-            
-        
-            // if (typeof value === "object") {
-            //   assignVariables(value, variableName + "_");
-            // } else {
-            //   eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${JSON.stringify(value)} };`);
-            // }
+      function assignVariables(data, variablePrefix = "") {
+        for (const key in data) {
+          const value = data[key];
+          // console.log("value: " + value);
+          const variableName = variablePrefix + key;
+          // console.log("variableName: " + variableName);
+      
+          if (typeof value === "object") {
+            assignVariables(value, variableName + "_");
+          } else {
+            eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${JSON.stringify(value)} };`);
           }
         }
-        
-        assignVariables(workoutData);
       }
+      
+      assignVariables(workoutData);
     }
+  }
 
     fetchData();
   }, []);
@@ -99,7 +114,7 @@ function Workout() {
           <h3>{selectedExercise}</h3>
           {/* Render the details of the selected exercise */}
           {/* For example: */}
-          {/* <div>{selectedExercise.details.details_values}</div> */}
+          <div>{selectedExercise.details.details_values}</div>
         </Modal>
       )}
     </div>
