@@ -76,7 +76,6 @@ const Home = () => {
     try {
       const response = await fetch("MongoDB status here");
       const data = await response.json();
-      setProgress(data.completed ? 100 : 50);
     } catch (error) {
       console.log("Failed to retrieve completion status from the server");
     }
@@ -88,13 +87,15 @@ const Home = () => {
   /* End of completion status retrieval */
 
   /* Increments the progress bar based on completion */
-  const [progress, setProgress] = useState(0);
+  const [dietProgress, setDietProgress] = useState(0);
+  const [fitnessProgress, setFitnessProgress] = useState(0);
 
-  const handleIncrement = (incrementValue) => {
-    setProgress((prevProgress) => {
-      const newProgress = prevProgress + incrementValue;
-      return newProgress < 0 ? 0 : newProgress > 100 ? 100 : newProgress;
-    });
+  const handleDietProgressChange = (newProgress) => {
+    setDietProgress(newProgress);
+  };
+
+  const handleFitnessProgressChange = (newProgress) => {
+    setFitnessProgress(newProgress);
   };
   /* End of progress bar increment */
 
@@ -126,16 +127,37 @@ const Home = () => {
       >
         <div className={styles.progressCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
-          <ProgressBar animated now={progress} label={`${progress}%`} />
+          <div className="progress-bar-container">
+            <ProgressBar
+              percent={dietProgress}
+              filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
+            />
+          </div>
+          <button
+            className={`btn btn-primary ${styles.progressBtn}`}
+            onClick={() => handleDietProgressChange(25)}
+          >
+            Update Progress
+          </button>
         </div>
       </div>
-      <br />
       <div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
       >
         <div className={styles.progressCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
-          <ProgressBar animated now={progress} label={`${progress}%`} />
+          <div className="progress-bar-container">
+            <ProgressBar
+              percent={fitnessProgress}
+              filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
+            />
+          </div>
+          <button
+            className={`btn btn-primary ${styles.progressBtn}`}
+            onClick={() => handleFitnessProgressChange(25)}
+          >
+            Update Progress
+          </button>
         </div>
       </div>
     </div>

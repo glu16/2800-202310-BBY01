@@ -1,11 +1,8 @@
 {
   "dependencies": {
-    "react-animated-text": "^0.1.4",
-    "react-router-dom": "^6.11.1",
-    "react-typist": "^2.0.5",
-    "sass": "^1.62.1",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
+    "bootstrap": "^5.2.3",
     "connect-mongo": "^5.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
@@ -17,13 +14,19 @@
     "mongodb": "^5.3.0",
     "mongoose": "^7.1.0",
     "morgan": "^1.10.0",
-    "openai": "^3.2.1"
+    "openai": "^3.2.1",
+    "react-animated-text": "^0.1.4",
+    "react-bootstrap": "^2.7.4",
+    "react-router-dom": "^6.11.1",
+    "react-step-progress-bar": "^1.0.3",
+    "react-typed": "^1.2.0",
+    "react-typist": "^2.0.5",
+    "sass": "^1.62.1"
   },
   "name": "2800-202310-bby01",
   "description": "<h1 align=\"center\"> Healthify </h1> \r <div align=\"center\">\r   <a align=\"center\" href=\"https://github.com/glu16/2800-202310-BBY01\"></a>\r </div>",
   "version": "1.0.0",
   "main": "./server/server.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd ./server && node server.js"
