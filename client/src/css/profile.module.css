@@ -1,43 +1,42 @@
-h5, label {
+.profileBody {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
+.editProfileButton {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.chatHeader {
+  color: white;
+  margin-top: 10px;
+}
+
+.formLabel {
   color: black;
-}
-
-.btn {
-  background-color: green;
-}
-
-.btn:hover {
-  background-color: green;
-  border-color: green;
-}
-
-.card {
-  border-radius: 10px;
 }
 
 .imgProfile {
   margin-top: 10px;
 }
 
-.profileContainer {
-  height: 100%;
-  max-width: 1000px;
-  border-radius: 10px;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-}
-
 .profileCard {
   height: 100%;
   width: 100%;
+  max-width: 1400px;
   border-radius: 10px;
   text-align: center;
-  margin-bottom: 40px;
-  background-color: #d4d4d4;
+  background-color: #2b2b2b;
+}
+
+.profileHeader {
+  color: #7c7c7c;
+}
+
+.profileItem {
+  color: white;
 }
 
 .profileImage {
@@ -79,6 +78,9 @@ h5, label {
   display: none;
 }
 
-.profileTitle {
-  color: black;
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+  }
 }

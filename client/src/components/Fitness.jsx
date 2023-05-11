@@ -10,7 +10,7 @@ const userEmail = localStorage.getItem("email");
 // get first item from user's workouts field from database
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
+  var response = await fetch(`https://healthify-enxj.onrender.com/fitness/${userEmail}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", },
   });

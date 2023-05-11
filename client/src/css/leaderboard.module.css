@@ -49,12 +49,12 @@ td img {
   width: 100%;
   border-radius: 10px;
   text-align: center;
-  background-color: #d4d4d4;
+  background-color: #2b2b2b;
 }
 
-.title {
+.ranksHeader {
   text-align: center;
   margin-top: 20px;
   font-weight: bold;
-  color: black;
+  color: white;
 }

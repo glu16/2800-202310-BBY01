@@ -6,9 +6,10 @@ import Index from "./components/Index";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Home from "./components/Home";
 import SignupDetails from "./components/SignupDetails";
+import Login from "./components/Login";
+import ChangePassword from "./components/ChangePassword";
+import Home from "./components/Home";
 import Coach from "./components/Coach";
 import Diet from "./components/Diet";
 import Fitness from "./components/Fitness";
@@ -30,8 +31,8 @@ function App() {
           <NavbarBeforeLogin />
           <Routes>
             <Route path="/login" element={<Login setToken={setToken} />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/signupdetails" element={<SignupDetails />} />
+            <Route path="/changepassword" element={<ChangePassword />} />
+            <Route path="/signup" element={<SignUp setToken={setToken}/>} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/" element={<Index />} />
@@ -46,6 +47,7 @@ function App() {
     <Router>
       <NavbarAfterLogin />
       <Routes>
+        <Route path="/signupdetails" element={<SignupDetails />} />
         <Route path="/" element={<Home />} />
         <Route path="/coach" element={<Coach />} />
         <Route path="/diet" element={<Diet />} />

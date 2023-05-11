@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
   try {
     const validate = (user) => {
       const scheme = joi.object({
-        email: joi.string().required(),
+        username: joi.string().required(),
         password: joi.string().required(),
       });
       return scheme.validate(user);
@@ -21,10 +21,11 @@ router.post("/", async (req, res) => {
       return res.status(400).send(error.details[0].message);
     }
 
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ username: req.body.username });
     if (!user) {
       // THE ERROR MESSAGE IF DOES NOT EXIST
-      return res.status(400).send("Invalid email or password");
+      return res.status(400).send("Invalid username or password");
+      console.log(user);
     }
 
     const validPassword = await bcrypt.compare(
@@ -35,9 +36,9 @@ router.post("/", async (req, res) => {
       // THE ERROR MESSAGE IF PASSWORD IS WRONG
       return res.status(400).send("Invalid email or password");
     }
-
+    const userEmail = user.email;
     const token = user.generateAuthToken();
-    res.send({ data: token });
+    res.send({ data: {token: token, userEmail: userEmail} });
   } catch (e) {
     console.log(e);
   }

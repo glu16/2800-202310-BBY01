@@ -25,7 +25,7 @@ const Leaderboard = () => {
       >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1 className={styles.title}>Leaderboard Ranks</h1>
+            <h1 className={styles.ranksHeader}>Leaderboard Ranks</h1>
             <table>
               <thead>
                 <tr>

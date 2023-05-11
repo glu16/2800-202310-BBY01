@@ -4,15 +4,16 @@ SIGNIN/LOGIN WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=HGgyd1bYWsE 
 */
 
-const { Configuration, OpenAIApi } = require("openai");
+const {Configuration, OpenAIApi} = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
+const passChangeRouter = require("./routes/passChange");
 
 // THE MODELS
-const { User } = require("./models/users");
+const {User} = require("./models/users");
 const Tips = require("./models/tips");
 
 const cors = require("cors");
@@ -35,6 +36,7 @@ app.use(express.json());
 // ROUTES
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
+app.use("/api/passChange", passChangeRouter);
 
 /*  
 GENERIC TEMPLATE FOR GETTING DATA FROM USER
@@ -43,13 +45,13 @@ CHANGE URL TO SOMETHING ELSE
 */
 app.get("/getFromUser/:email", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.email;
 
   try {
     // FINDS THE USER BY EMAIL
-    const user = await User.findOne({ email: userEmail });
+    const user = await User.findOne({email: userID});
     if (!user) {
-      return res.status(400).send("Email not registered" + userEmail);
+      return res.status(400).send("Email not registered" + userID);
     }
     //REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
     const item = user.REPLACE_ME;
@@ -60,12 +62,12 @@ app.get("/getFromUser/:email", async (req, res) => {
 });
 
 // GETS THE USER'S DATA FROM THE DATABASE
-app.get("/users/:email", async (req, res) => {
+app.get("/users/:username", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.username;
   try {
     // FIND THE USER BY EMAIL
-    const user = await User.findOne({ email: userEmail });
+    const user = await User.findOne({username: userID});
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -79,45 +81,138 @@ app.get("/users/:email", async (req, res) => {
   }
 });
 
+// GENERATES USER STATS AND SAVES IT IN THE DATABASE
+app.post("/signupdetails/:username", async (req, res) => {
+  console.log(req.body.age);
+  console.log(req.body.weight);
+  const userID = req.params.username;
+  const sex = req.body.sex;
+  const age = req.body.age;
+  const height = req.body.height;
+  const weight = req.body.weight;
+  const activityLevel = req.body.activityLevel;
+  const goal = req.body.goal;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      {username: userID},
+      // SET THE USER STATS
+      {
+        $set: {
+          userStats: {
+            sex: sex,
+            age: age,
+            height: height,
+            weight: weight,
+            activityLevel: activityLevel,
+            goal: goal,
+          },
+        },
+      },
+
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
+      {new: true, upsert: true}
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error: "Internal server error"});
+  }
+});
+
+// GETS THE USER'S STATS FROM THE DATABASE
+app.get("/profile/:username", async (req, res) => {
+  const username = req.params.username;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (user) {
+      res.status(200).json(user.userStats);
+    } else {
+      res.status(404).json({ message: "User not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// SAVES THE USER'S PHONE NUMBER IN THE DATABASE
+app.post("/profile/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body)
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      {username: userID},
+      // SET THE USER'S PHONE NUMBER
+      {
+        $set: {
+          username: req.body.username,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
+        },
+      },
+
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
+      {new: true, upsert: true}
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error: "Internal server error"});
+  }
+});
+
 // STORES USER'S CHAT HISTORY TO THE DATABASE
-app.put("/users/:email", async (req, res) => {
+app.put("/users/:username", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.username;
   // USERS CHAT HITORY
   const updatedUserData = req.body;
 
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      { email: userEmail },
+      {username: userID},
       // SET THE MESSAGES TO THE UPDATED MESSAGES
-      { $push: { messages: updatedUserData } },
+      {$push: {messages: updatedUserData}},
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      { new: true, upsert: true }
+      {new: true, upsert: true}
     );
 
     res.status(200).json({
-      message: `User with email ${userEmail} updated successfully`,
+      message: `User with username ${userID} updated successfully`,
       user,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
 // GETS THE USER'S CHAT HISTORY FROM THE DATABASE
-app.get("/coach/:email", async (req, res) => {
+app.get("/coach/:username", async (req, res) => {
   // THE USER'S EMAIL
-  const userEmail = req.params.email;
+  const userID = req.params.username;
 
   try {
-    // FINDS THE USER BY EMAIL
-    const user = await User.findOne({ email: userEmail });
+    // FINDS THE USER BY USERNAME
+    const user = await User.findOne({username: userID});
     if (!user) {
-      return res.status(400).send("Email not registered" + userEmail);
+      return res.status(400).send("Username not registered: " + userID);
     }
     // GETS THE USER'S CHAT HISTORY
     const messages = user.messages;
@@ -132,7 +227,7 @@ app.get("/coach/:email", async (req, res) => {
 
 // to generate and store a user's workout plan
 app.put("/fitness/:email", async (req, res) => {
-  const userEmail = req.params.email;
+  const userID = req.params.email;
   // const newWorkout = req.body;
 
   // call and execute workouts.js
@@ -148,16 +243,16 @@ app.put("/fitness/:email", async (req, res) => {
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        { email: userEmail },
-        { $push: { workouts: { $each: [JSON.parse(newWorkout)], $position: 0 } } } 
+        {email: userID},
+        {$push: {workouts: {$each: [JSON.parse(newWorkout)], $position: 0}}}
       );
       res.status(200).json({
-        message: `New workout added to ${userEmail}.`,
+        message: `New workout added to ${userID}.`,
         user,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({error: "Internal server error"});
     }
     if (callback) {
       callback();
@@ -167,24 +262,22 @@ app.put("/fitness/:email", async (req, res) => {
 });
 
 // send workout plan to client
-app.get('/fitness/:email',  async (req, res) => {
-  const userEmail = req.params.email;
+app.get("/fitness/:email", async (req, res) => {
+  const userID = req.params.email;
   try {
-    const user = await User.findOne({ email: userEmail });
+    const user = await User.findOne({email: userID});
     // if workouts empty ie.new user
     if (user.workouts.length == 0) {
-      res.send("empty")
+      res.send("empty");
       // sends first workout in workouts
     } else {
       res.send(user.workouts[0]);
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({error: "Internal server error"});
   }
 });
-
-
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
@@ -197,7 +290,7 @@ app.get("/home/tips", async (req, res) => {
     const currentDate = new Date().toISOString().slice(0, 10);
 
     if (!selectedTip || selectedDate !== currentDate) {
-      const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
+      const tips = await Tips.aggregate([{$sample: {size: 1}}]);
       selectedTip = tips[0];
       selectedDate = currentDate;
     }
@@ -205,10 +298,9 @@ app.get("/home/tips", async (req, res) => {
     res.status(200).json(selectedTip);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
-
 
 // RESET SELECTED TIP AND DATE AT MIDNIGHT
 setInterval(() => {
@@ -220,13 +312,9 @@ setInterval(() => {
   }
 }, 1000 * 60 * 60 * 24);
 
-
-
-
-
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
-  const { message } = req.body;
+  const {message} = req.body;
   console.log(message);
 
   // THE RESPONSE FROM OPENAI
@@ -235,7 +323,6 @@ app.post("/", async (req, res) => {
     prompt:
       `${message}` +
       `. Return response in the following parsable JSON format:
-    prompt:
       [
       {
           "Day": "day",
@@ -316,6 +403,6 @@ app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
 // send server port info to client
-app.get('/api/port', (req, res) => {
-  res.json({ port });
+app.get("/api/port", (req, res) => {
+  res.json({port});
 });

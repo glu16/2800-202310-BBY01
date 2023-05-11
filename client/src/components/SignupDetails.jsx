@@ -1,8 +1,64 @@
 import React from "react";
-
+import { useState } from "react"; 
+import axios from "axios";
 import styles from "../css/signupDetails.module.css";
 
-function SignUp() {
+function SignupDetails() {
+  const [data, setData] = useState({
+    sex: "",
+    age: 0,
+    height: 0,
+    weight: 0,
+    activityLevel: "",
+    goal: "",
+  });
+
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const url = `https://healthify-enxj.onrender.com/signupdetails/${localStorage.getItem("username")}`;
+      const { data: res } = await axios.post(url, data);
+      window.location = "/"
+    
+      //THIS ACTUALLY WORKS BUT THE AI IS 50/50 WHEN CREATING A WORKOUT
+      const userName = localStorage.getItem("email");
+        // key to store individual workout
+        const today = new Date().toISOString().slice(0, 10);
+        const workoutKey = "workout_" + today;
+        // workout to write into user database, will generate with server side call to workouts.js
+        const workout = {}
+    
+        const data2 = { [workoutKey]: workout };
+        const response = await fetch(`https://healthify-enxj.onrender.com/fitness/${localStorage.getItem("email")}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", },
+          body: JSON.stringify(data2),
+        });
+        const updatedUser = await response.json();
+        console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userName);
+        //END OF WORKOUT CREATION
+
+
+    } catch (error) {
+      //ERROR IS CAUGHT HERE
+      console.log(error.response.data);
+      setError(error.response.data);
+    }
+  };
+
+  const handleChange = ({ currentTarget: input }) => {
+    setData({ ...data, [input.name]: input.value });
+  };
+
+    // const response = await fetch(``, {
+
+
+
+
+
+
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.detailsContainer}`}
@@ -11,7 +67,7 @@ function SignUp() {
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <h1 id={styles.detailsLabel}>Details</h1>
-            <form id={styles.signupDetails}>
+            <form id={styles.signupDetails} onSubmit={handleSubmit}>
               <div className={styles.radioInput}>
                 <label htmlFor="sex">Male</label>
                 <input
@@ -20,6 +76,7 @@ function SignUp() {
                   name="sex"
                   className={`user-input ${styles.userInput}`}
                   value="Male"
+                  onChange={handleChange}
                   required
                 />
                 <label htmlFor="sex">Female</label>
@@ -29,52 +86,61 @@ function SignUp() {
                   name="sex"
                   className={`user-input ${styles.userInput}`}
                   value="Female"
+                  onChange={handleChange}
                   required
                 />
               </div>
 
-              <label htmlFor="ageInput"></label>
+              <label htmlFor="age"></label>
               <input
                 type="number"
                 id="age"
-                name="ageInput"
+                name="age"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Age"
                 min="0"
                 max="99"
+                value={data.age}
+                onChange={handleChange}
                 required
               />
 
-              <label htmlFor="heightInput"></label>
+              <label htmlFor="height"></label>
               <input
                 type="number"
                 step="any"
                 id="heightInput"
-                name="heightInput"
+                name="height"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Height (m)"
+                value={data.height}
+                onChange={handleChange}
                 required
               />
 
-              <label htmlFor="weightInput"></label>
+              <label htmlFor="weight"></label>
               <input
                 type="number"
                 step="any"
                 id="weightInput"
-                name="weightInput"
+                name="weight"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Weight (kg)"
+                value={data.weight}
+                onChange={handleChange}
                 required
               />
               <label htmlFor="activityLevel"></label>
               <select
+              defaultValue={"Activity Level"}
                 type="select"
                 id={styles.activityLevel}
                 name="activityLevel"
                 className={`user-input ${styles.userInput}`}
+                onChange={handleChange}
                 required
               >
-                <option value="" disabled selected>
+                <option disabled >
                   Activity Level
                 </option>
                 <option value="Sedentary">Sedentary</option>
@@ -84,15 +150,17 @@ function SignUp() {
                 <option value="Extremely Active">Extremely Active</option>
               </select>
 
-              <label htmlFor="fitnessGoals"></label>
+              <label htmlFor="goal"></label>
               <select
+                defaultValue={"Fitness Goals"}
                 type="select"
                 id={styles.fitnessGoals}
-                name="fitnessGoals"
+                name="goal"
                 className={`user-input ${styles.userInput}`}
                 required
+                onChange={handleChange}
               >
-                <option value="" disabled selected>
+                <option disabled >
                   Fitness Goals
                 </option>
                 <option value="Losing weight">Losing weight</option>
@@ -114,4 +182,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignupDetails;

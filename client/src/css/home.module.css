@@ -1,7 +1,7 @@
 .cardWrapper {
   height: 100%;
-  max-width: 1000px;
   border-radius: 10px;
+  max-width: 1000px;
   display: flex;
   text-align: center;
   flex-direction: column;
@@ -17,47 +17,33 @@
   border-radius: 10px;
   text-align: center;
   margin-bottom: 40px;
-  background-color: #d4d4d4;
+  background-color: #2b2b2b;
+}
+
+.homeHeader {
+  text-align: center;
+  color: white;
+  margin-bottom: 20px;
 }
 
 .progressHeader {
   text-align: center;
   color: white;
+  margin-top: 20px;
 }
 
 .progressCard {
   width: 100%;
-  max-height: 240px;
   border-radius: 10px;
   text-align: center;
+  background-color: #2b2b2b;
+  margin-bottom: 30px;
 }
 
 .progressBar {
   width: 100%;
-  margin-top: 40px;
 }
 
-.step {
-  display: inline-block;
-  position: relative;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: white;
-  color: white;
-  font-size: 0.8rem;
-  text-align: center;
-  line-height: 30px;
-  cursor: pointer;
-  margin-right: 5px;
-}
-
-.step.completed {
-  background-color: #f0bb31;
-  color: white;
-}
-
-.title {
-  text-align: center;
-  color: black;
+.progressBtn {
+  margin-top: 30px;
 }

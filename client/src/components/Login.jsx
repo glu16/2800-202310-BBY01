@@ -9,7 +9,7 @@ function Login({ setToken }) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
   const [error, setError] = useState("");
@@ -19,8 +19,9 @@ function Login({ setToken }) {
     try {
       const url = "http://localhost:5050/api/auth";
       const { data: res } = await axios.post(url, data);
-      setToken(res.data);
-      localStorage.setItem("email", data.email);
+      setToken(res.data.token);
+      localStorage.setItem("email", res.data.userEmail)
+      localStorage.setItem("username", data.username);
       window.location = "/";
     } catch (error) {
       //ERROR IS CAUGHT HERE
@@ -35,52 +36,59 @@ function Login({ setToken }) {
 
   return (
     <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.loginContainer}`}
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.loginBody}`}
     >
-      <div className={`card ${styles.loginCard}`}>
-        <div className="card-body">
-          <div className="d-flex flex-column align-items-center text-center">
-            <h1 className={styles.title}>Login</h1>
-            <form id={styles.login} onSubmit={handleSubmit}>
-              <label htmlFor="email-input"></label>
-              <input
-                type="email"
-                id="email-input"
-                className={`${styles.userInput}`}
-                placeholder="Email"
-                name="email"
-                value={data.email}
-                onChange={handleChange}
-                required
-                size="30"
-              />
+      <div className={`card-body ${styles.loginCard}`}>
+        <h1 id={styles.loginHeader}>Login</h1>
+        <form id={styles.login} onSubmit={handleSubmit}>
+          <label htmlFor="username-input"></label>
+          <input
+            type="text"
+            id="username-input"
+            className={`${styles.userInput}`}
+            placeholder="Username"
+            name="username"
+            value={data.username}
+            onChange={handleChange}
+            required
+            size="30"
+          />
 
-              <label htmlFor="password-input"></label>
-              <input
-                type="password"
-                id="password-input"
-                className={`form-control user-input ${styles.userInput}`}
-                name="password"
-                value={data.password}
-                onChange={handleChange}
-                placeholder="Password"
-                required
-              />
+          <label htmlFor="password-input"></label>
+          <input
+            type="password"
+            id="password-input"
+            className={`form-control user-input ${styles.userInput}`}
+            name="password"
+            value={data.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+          />
 
-              {/* ERROR IS DISPLAYED HERE  */}
-              {error && <div>{error}</div>}
-              
-              <label htmlFor="submit-btn"></label>
-              <input
-                type="submit"
-                id="login-btn"
-                value="Login"
-                className={styles.loginBtn}
-              />
-            </form>
-            <p className={`${styles.signupRedirect}`}>New to Healthify? <Link to='/signup' className={`${styles.signupLink}`}>Sign up</Link></p>
-          </div>
-        </div>
+          {/* ERROR IS DISPLAYED HERE  */}
+          {error && <div className={`${styles.errorMessage}`}>{error}</div>}
+
+          <label htmlFor="submit-btn"></label>
+          <input
+            type="submit"
+            id="login-btn"
+            value="Login"
+            className={styles.loginBtn}
+          />
+        </form>
+        <p className={`${styles.signupRedirect}`}>
+          New to Healthify?{" "}
+          <Link to="/signup" className={`${styles.signupLink}`}>
+            Sign up
+          </Link>
+        </p>
+        <p className={`${styles.signupRedirect}`}>
+          Forgot your username?{" "}
+          <Link to="/changepassword" className={`${styles.signupLink}`}>
+            Change password
+          </Link>
+        </p>
       </div>
     </div>
   );
