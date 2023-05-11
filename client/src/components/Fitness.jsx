@@ -29,6 +29,21 @@ function Workout() {
   const [workout, setWorkout] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState(null);
+  
+  // use today variable to determine which day of workout is rendered to display
+  const [daysToAdd, setDaysToAdd] = useState(0);
+  const today = new Date();
+  today.setDate(today.getDate() + daysToAdd);
+  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const date = today.toLocaleDateString('en-CA', dateOptions);
+  // console.log(date);
+
+  const handleIncrementDays = () => {
+    setDaysToAdd(daysToAdd + 1); // Increment daysToAdd by 1
+  };
+  const handleDecrementDays = () => {
+    setDaysToAdd(daysToAdd - 1); // Decrement daysToAdd by 1
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -43,9 +58,8 @@ function Workout() {
         if (typeof obj === 'object' && obj !== null) {
           // if it's a nested object, recursively render its properties
           return Object.keys(obj).map((key, index) => {
-            // check if key matches date format
-            const isDayKey = /^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday), \w+ \d{1,2}, \d{4}$/.test(key); 
-            if (isDayKey) {
+            // check if key matches date
+            if (key == date) {
               // check if empty rest day
               if (Object.keys(obj[key]).length === 0) {
                 return (
@@ -57,31 +71,40 @@ function Workout() {
               } else {
                 return (
                   <div key={index} className={styles.day}>
-                    <strong>{key}:</strong> {renderNestedObject(obj[key])}
+                    <strong>{key}</strong>
+                    {renderExercise(obj[key])}
                   </div>
                 );
               }
-              // sends the title key ex. Exercise 1: 
             } else {
-              // don't send if this is name or setsAndReps
-              if (key == "name" || key == "setsAndReps") {
-                return (
-                  <div key={index}>
-                  {renderNestedObject(obj[key])}
-                </div>
-                );
-              } else {
-                return (
-                  <div key={index}>
-                    <strong>{key}:</strong> {renderNestedObject(obj[key])}
-                  </div>
-                );
-              }
+              return null;
             }
           });
         }
-        // returns non-objects ex. the name or # of calories
         return obj;
+      }
+    
+      // for the sublevel exercise object inside day object
+      function renderExercise(exerciseObj) {
+        return Object.keys(exerciseObj).map((exerciseKey, index) => {
+          return (
+            <div key={index} className={styles.anExercise}>
+            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+              // don't display detailKey if it is name or setsAndReps
+              if (detailKey == "name" || detailKey == "setsAndReps") {
+                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+              } else {
+                return (
+                  <div key={detailKey} className={styles.aKey}>
+                    {detailKey}: {detailValue}
+                  </div>
+                );
+              }
+            })}
+          </div>
+          );
+        });
       }
       setWorkout(renderNestedObject(workoutData));
 
@@ -95,41 +118,19 @@ function Workout() {
           if (typeof value === "object") {
             assignVariables(value, variableName + "_");
           } else {
-            // Check if the value is a number
-            // const variableValue = typeof value === "number" ? value : JSON.stringify(value);
-            // eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${variableValue} };`);
-
             // Assign the value directly
             const variableValue = value; 
             // Wrap key and value in quotes
             eval(`var ${variableName} = { key: "${key}", value: "${variableValue}" };`); 
           }
         }
-      // version 2 using arrays instead of eval to create variables
-        // const variables = {};
-        // const assignVariable = (variableName, value) => {
-        //   variables[variableName] = value;
-        // };
-        // const processObject = (obj, prefix) => {
-        //   for (const key in obj) {
-        //     const value = obj[key];
-        //     const variableName = prefix ? `${prefix}_${key}` : key;
-        //     if (typeof value === "object") {
-        //       processObject(value, variableName);
-        //     } else {
-        //       assignVariable(variableName, value);
-        //     }
-        //   }
-        // };
-        // processObject(data, variablePrefix);
-        // return variables;
       }
       assignVariables(workoutData);
     }
   }
 
     fetchData();
-  }, []);
+  }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
   const handleExerciseClick = (exercise) => {
     setSelectedExercise(exercise);
@@ -140,9 +141,12 @@ function Workout() {
     setShowModal(false);
   };
 
+
   return (
     <div>
       <h2>Your Workout</h2>
+      <button onClick={handleDecrementDays}>Previous Day</button> {/* Add the decrement button */}
+      <button onClick={handleIncrementDays}>Next Day</button> {/* Add the increment button */}
       <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
       {showModal && (
         <Modal onClose={handleCloseModal}>

@@ -37,3 +37,8 @@
   border: 2px solid black ;
   border-radius: 10px;
 }
+
+.anExercise {
+  border: 2px dashed red ;
+  border-radius: 10px;
+}
