@@ -8,6 +8,7 @@ const Profile = ({ username }) => {
   /* Retrieves logged in user's data */
   const [userName, setUserName] = useState("");
   const userEmail = localStorage.getItem("email");
+  const userID = localStorage.getItem("username");
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
 
   useEffect(() => {
@@ -58,9 +59,12 @@ const Profile = ({ username }) => {
 
   /* Allows the user to update their profile */
   const [data, setData] = useState({
-    username: "",
+    username: `${userID}`,
     email: `${userEmail}`,
     phoneNumber: "",
+    age: "",
+    height: "",
+    weight: "",
   });
 
   const handleChange = ({ currentTarget: input }) => {
@@ -221,6 +225,56 @@ const Profile = ({ username }) => {
                     id="phoneInput"
                     name="phoneNumber"
                     value={data.phoneNumber}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="phoneInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Age
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="ageInput"
+                    name="age"
+                    value={data.age}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="phoneInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Height
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    className="form-control"
+                    id="heightInput"
+                    name="height"
+                    value={data.height}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="phoneInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Weight
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    className="form-control"
+                    id="weightInput"
+                    name="weight"
+                    value={data.weight}
                     onChange={handleChange}
                   />
                 </div>

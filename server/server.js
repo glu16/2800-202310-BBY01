@@ -93,7 +93,7 @@ app.post("/signupdetails/:username", async (req, res) => {
   console.log(req.body.age);
   console.log(req.body.weight);
   const userID = req.params.username;
-  const sex = req.body.sex;
+  const sex = req.body.gender;
   const age = req.body.age;
   const height = req.body.height;
   const weight = req.body.weight;
@@ -164,10 +164,10 @@ app.post("/profile/:username", async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
-          sex: sex,
-          age: age,
-          height: height,
-          weight: weight,
+          sex: req.body.sex,
+          age: req.body.age,
+          height: req.body.height,
+          weight: req.body.weight,
         },
       },
 
