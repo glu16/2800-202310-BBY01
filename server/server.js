@@ -164,6 +164,10 @@ app.post("/profile/:username", async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
+          sex: sex,
+          age: age,
+          height: height,
+          weight: weight,
         },
       },
 
