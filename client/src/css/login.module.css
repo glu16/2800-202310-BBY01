@@ -1,3 +1,7 @@
+.errorMessage{
+  color: red;
+}
+
 .loginBody {
   height: 100%;
   width: 100%;

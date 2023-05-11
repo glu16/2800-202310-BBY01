@@ -81,10 +81,10 @@ const Profile = ({ username }) => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
     >
-      <div className="row">
-        <div className="col-md-6">
-          <div className={`card ${styles.profileCard}`}>
-            <div className={`card-body ${styles.cardBody}`}>
+      <div className={`card ${styles.profileCard}`}>
+        <div className={`card-body ${styles.cardBody}`}>
+          <div className="row">
+            <div className="col-md-6">
               <div className="d-flex flex-column align-items-center text-center">
                 <div className={`${styles.profileImage} profile-image`}>
                   <img
@@ -138,13 +138,9 @@ const Profile = ({ username }) => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className={`card ${styles.chatCard}`}>
-            <div className={`card-body ${styles.cardBody}`}>
+            <div className="col-md-6">
               <div className="d-flex flex-column align-items-center text-center">
-                <h1>Chat History</h1>
+                <h1 className={styles.chatHeader}>Chat History</h1>
               </div>
             </div>
           </div>
