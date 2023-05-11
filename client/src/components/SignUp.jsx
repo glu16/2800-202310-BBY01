@@ -23,6 +23,8 @@ function SignUp({ setToken }) {
       const url = "https://healthify-enxj.onrender.com/api/users";
       const { data: res } = await axios.post(url, data);
       setToken(res.data);
+      console.log(res.data)
+      localStorage.setItem("email", data.email);
       localStorage.setItem("username", data.username);
       window.location = "/signupdetails";
     } catch (error) {

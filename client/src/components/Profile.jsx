@@ -18,9 +18,7 @@ const Profile = ({ username }) => {
     async function fetchUserData() {
       try {
         const response = await axios.get(
-          `https://healthify-enxj.onrender.com/users/${localStorage.getItem(
-            "username"
-          )}`,
+          `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -70,7 +68,7 @@ const Profile = ({ username }) => {
   const handleSaveChanges = async (event) => {
     event.preventDefault();
     try {
-      const url = `http://localhost:5050/profile/${localStorage.getItem(
+      const url = `https://healthify-enxj.onrender.com/profile/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
@@ -83,10 +81,10 @@ const Profile = ({ username }) => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
     >
-      <div className="row">
-        <div className="col-md-6">
-          <div className={`card ${styles.profileCard}`}>
-            <div className={`card-body ${styles.cardBody}`}>
+      <div className={`card ${styles.profileCard}`}>
+        <div className={`card-body ${styles.cardBody}`}>
+          <div className="row">
+            <div className="col-md-6">
               <div className="d-flex flex-column align-items-center text-center">
                 <div className={`${styles.profileImage} profile-image`}>
                   <img
@@ -140,13 +138,9 @@ const Profile = ({ username }) => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="col-md-6">
-          <div className={`card ${styles.chatCard}`}>
-            <div className={`card-body ${styles.cardBody}`}>
+            <div className="col-md-6">
               <div className="d-flex flex-column align-items-center text-center">
-                <h1>Chat History</h1>
+                <h1 className={styles.chatHeader}>Chat History</h1>
               </div>
             </div>
           </div>

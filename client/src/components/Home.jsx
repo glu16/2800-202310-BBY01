@@ -54,7 +54,9 @@ const Home = () => {
         if (storedDate === currentDate && storedTip) {
           setTip(storedTip);
         } else {
-          const response = await axios.get("https://healthify-enxj.onrender.com/home/tips");
+          const response = await axios.get(
+            "https://healthify-enxj.onrender.com/home/tips"
+          );
           const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);
