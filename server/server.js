@@ -226,8 +226,8 @@ app.get("/coach/:username", async (req, res) => {
 });
 
 // to generate and store a user's workout plan
-app.put("/fitness/:email", async (req, res) => {
-  const userID = req.params.email;
+app.put("/fitness/:username", async (req, res) => {
+  const userID = req.params.username;
   // const newWorkout = req.body;
 
   // call and execute workouts.js
@@ -262,8 +262,8 @@ app.put("/fitness/:email", async (req, res) => {
 });
 
 // send workout plan to client
-app.get("/fitness/:email", async (req, res) => {
-  const userID = req.params.email;
+app.get("/fitness/:username", async (req, res) => {
+  const userID = req.params.username;
   try {
     const user = await User.findOne({username: userID});
     // if workouts empty ie.new user

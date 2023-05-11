@@ -5,12 +5,13 @@ import styles from "../css/fitness.module.css";
 const port = '5050';
 
 // used to identify user for database modification
-const userEmail = localStorage.getItem("email");
+const username = localStorage.getItem("username");
 
 // get first item from user's workouts field from database
 var workout;
 async function getWorkout() {
-  var response = await fetch(`https://healthify-enxj.onrender.com/fitness/${userEmail}`, {
+  // var response = await fetch(`https://healthify-enxj.onrender.com/fitness/${username}`, {
+  var response = await fetch(`http://localhost:${port}/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", },
   });
@@ -145,8 +146,8 @@ function Workout() {
   return (
     <div>
       <h2>Your Workout</h2>
-      <button onClick={handleDecrementDays}>Previous Day</button> {/* Add the decrement button */}
-      <button onClick={handleIncrementDays}>Next Day</button> {/* Add the increment button */}
+      <button onClick={handleDecrementDays} disabled={daysToAdd <= 0}>Previous Day</button>
+      <button onClick={handleIncrementDays} disabled={daysToAdd >= 6}>Next Day</button> 
       <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
       {showModal && (
         <Modal onClose={handleCloseModal}>
@@ -198,13 +199,13 @@ const Fitness = () => {
     const workout = {}
 
     const data = { [workoutKey]: workout };
-    const response = await fetch(`http://localhost:${port}/fitness/${userEmail}`, {
+    const response = await fetch(`http://localhost:${port}/fitness/${username}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
     });
     const updatedUser = await response.json();
-    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userEmail);
+    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + username);
     // re-enable button after finishing code
     setFormSubmitting(false);
     // reload page so new workout is displayed
@@ -217,9 +218,9 @@ const Fitness = () => {
         <div className={`card-body ${styles.fitnessCardBody}`}>
 
         <div>
-          {userEmail}
+          {username}
           <form id="addWorkout" onSubmit={addWorkoutToUser}>
-            <input type="hidden" name="userEmail" value={userEmail}></input>
+            <input type="hidden" name="username" value={username}></input>
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
               {isFormSubmitting ? (
                 <div>
