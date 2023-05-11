@@ -81,6 +81,7 @@ app.get("/users/:username", async (req, res) => {
   }
 });
 
+// GENERATES USER STATS AND SAVES IT IN THE DATABASE
 app.post("/signupdetails/:username", async (req, res) => {
   console.log(req.body.age);
   console.log(req.body.weight);
@@ -96,7 +97,7 @@ app.post("/signupdetails/:username", async (req, res) => {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
       {username: userID},
-      // SET THE MESSAGES TO THE UPDATED MESSAGES
+      // SET THE USER STATS
       {
         $set: {
           userStats: {
@@ -139,6 +140,36 @@ app.get("/profile/:username", async (req, res) => {
     }
   } catch (error) {
     res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// SAVES THE USER'S PHONE NUMBER IN THE DATABASE
+app.post("/profile/:username", async (req, res) => {
+  const userID = req.params.username;
+  
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      {username: userID},
+      // SET THE USER'S PHONE NUMBER
+      {
+        $set: {
+          phoneNumber: phoneNumber,
+        },
+      },
+
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
+      {new: true, upsert: true}
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error: "Internal server error"});
   }
 });
 

@@ -35,6 +35,9 @@ const Profile = ({ username }) => {
 
   /* Retrieves logged in user's stats */
   const [userStats, setUserStats] = useState(null);
+  // return obj.map((item, index) => (
+  //   <div key={index}>{renderNestedObject(item)}</div>
+  // ));
 
   useEffect(() => {
     const fetchUserStats = async () => {
@@ -44,7 +47,10 @@ const Profile = ({ username }) => {
             "username"
           )}`
         );
-        console.log(response.data);
+        console.log(response.data[0].sex);
+        console.log(response.data[0].age);
+        console.log(response.data[0].height);
+        console.log(response.data[0].weight);
         setUserStats(response.data);
       } catch (error) {
         console.error(error.message);
