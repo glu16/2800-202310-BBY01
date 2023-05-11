@@ -234,6 +234,7 @@ app.get("/coach/:username", async (req, res) => {
 // to generate and store a user's workout plan
 app.put("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
+  console.log(userID);
   // const newWorkout = req.body;
 
   // call and execute workouts.js
@@ -249,13 +250,14 @@ app.put("/fitness/:username", async (req, res) => {
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        { email: userID },
+        { username: userID },
         {
           $push: {
             workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
           },
         }
       );
+      console.log("pushed into ");
       res.status(200).json({
         message: `New workout added to ${userID}.`,
         user,

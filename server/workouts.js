@@ -105,6 +105,7 @@ const runAI = async (input) => {
                     let marker = Math.min(
                     day[j].indexOf(",") == -1 ? day[j].length : day[j].indexOf(","), 
                     day[j].indexOf(" -") == -1 ? day[j].length : day[j].indexOf(" -"), 
+                    day[j].indexOf(" –") == -1 ? day[j].length : day[j].indexOf(" –"), 
                     day[j].indexOf(":") == -1 ? day[j].length : day[j].indexOf(":") 
                     );
                     // console.log(marker);
@@ -121,7 +122,15 @@ const runAI = async (input) => {
 
                 var setsAndReps;
                 try {
-                    setsAndReps = day[j].substring(day[j].indexOf("sets") - 2, day[j].indexOf("reps") + "reps".length);
+                    // check that set and reps is in string
+                    if (day[j].indexOf("sets") !== -1) {
+                        setsAndReps = day[j].substring(day[j].indexOf("sets") - 2, day[j].indexOf("reps") + "reps".length);
+                    // some are measured in minutes like planking
+                    } else if (day[j].indexOf("minutes") !== -1) {
+                        setsAndReps = day[j].substring(day[j].indexOf("min") - 3), day[j].indexOf("minutes") + "minutes".length;
+                    } else {
+                        setsAndReps = "n/a"
+                    }
                     // console.log("setsAndReps: " + setsAndReps);
                     if (setsAndReps == null) { throw new Error("setsAndReps are null.")}; 
                   } catch (error) {
@@ -144,7 +153,7 @@ const runAI = async (input) => {
                     console.error("Error getting exercise calories: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
                   }
-                // console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
+                console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
 
 
                 // catch any invalid exercise and skip adding it 

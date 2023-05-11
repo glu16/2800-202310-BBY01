@@ -37,13 +37,13 @@ function Workout() {
   today.setDate(today.getDate() + daysToAdd);
   const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const date = today.toLocaleDateString('en-CA', dateOptions);
-  // console.log(date);
 
+  // for previous day and next day button navigation
   const handleIncrementDays = () => {
-    setDaysToAdd(daysToAdd + 1); // Increment daysToAdd by 1
+    setDaysToAdd(daysToAdd + 1); 
   };
   const handleDecrementDays = () => {
-    setDaysToAdd(daysToAdd - 1); // Decrement daysToAdd by 1
+    setDaysToAdd(daysToAdd - 1); 
   };
 
   useEffect(() => {
