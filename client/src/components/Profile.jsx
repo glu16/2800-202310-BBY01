@@ -5,7 +5,6 @@ import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = ({ username }) => {
-  
   /* Retrieves logged in user's data */
   const [userName, setUserName] = useState("");
   const userEmail = localStorage.getItem("email");
@@ -40,7 +39,12 @@ const Profile = ({ username }) => {
   useEffect(() => {
     const fetchUserStats = async () => {
       try {
-        const response = await axios.get(`/profile/${username}`);
+        const response = await axios.get(
+          `https://healthify-enxj.onrender.com/profile/${localStorage.getItem(
+            "username"
+          )}`
+        );
+        console.log(response.data);
         setUserStats(response.data);
       } catch (error) {
         console.error(error.message);
