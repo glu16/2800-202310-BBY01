@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 import styles from "../css/signup.module.css";
 
-function SignUp({ setToken} ) {
+function SignUp({ setToken }) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
   const [data, setData] = useState({
@@ -20,7 +20,7 @@ function SignUp({ setToken} ) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "http://localhost:5050/api/users";
+      const url = "https://healthify-enxj.onrender.com/api/users";
       const { data: res } = await axios.post(url, data);
       setToken(res.data);
       localStorage.setItem("username", data.username);
@@ -43,19 +43,19 @@ function SignUp({ setToken} ) {
       <div className={`card-body ${styles.signupCard}`}>
         <h1 id={styles.signupHeader}>Sign Up</h1>
         <form id={styles.signup} onSubmit={handleSubmit}>
-            <label htmlFor="username"></label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={data.username}
-                onChange={handleChange}
-                className={`user-input ${styles.userInput}`}
-                placeholder="Username"
-                size="30"
-                pattern="[A-Za-z]{2-40}"
-                required
-              />
+          <label htmlFor="username"></label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={data.username}
+            onChange={handleChange}
+            className={`user-input ${styles.userInput}`}
+            placeholder="Username"
+            size="30"
+            pattern="[A-Za-z]{2-40}"
+            required
+          />
           <label htmlFor="first-name"></label>
           <input
             type="text"
