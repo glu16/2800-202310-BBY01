@@ -38,28 +38,46 @@ function Workout() {
         setWorkout("No workout available"); // Set default value
       } else {
         // recursive use of Array.map() to iterate through nested JSON object sent from server
-        function renderNestedObject(obj) {
-          // Check if the object is an array
-          if (Array.isArray(obj)) {
-            // If it's an array, recursively render its elements
-            return obj.map((item, index) => (
-              <div key={index}>{renderNestedObject(item)}</div>
-            ));
-          }
-          // Check if the object is a nested object
-          if (typeof obj === 'object' && obj !== null) {
-            // If it's a nested object, recursively render its properties
-            return Object.keys(obj).map((key, index) => (
-              <div key={index}>
-                <strong>{key}:</strong> {renderNestedObject(obj[key])}
-              </div>
-            ));
-          }
-          // Base case: render the value as is
-          return obj;
-        }
+        // function renderNestedObject(obj) {
+        //   // Check if the object is a nested object
+        //   if (typeof obj === 'object' && obj !== null) {
+        //     // If it's a nested object, recursively render its properties
+        //     return Object.keys(obj).map((key, index) => (
+        //       <div key={index}>
+        //         <strong>{key}:</strong> {renderNestedObject(obj[key])}
+        //       </div>
+        //     ));
+        //   }
+        //   // if obj is not an object aka it's the lowest level detail string or int
+        //   return obj;
+        // }
+        // setWorkout(renderNestedObject(workoutData));
 
-        setWorkout(renderNestedObject(workoutData));
+        console.log(workoutData.Day1);
+
+        function assignVariables(data, variablePrefix = "") {
+          for (const key in data) {
+            // console.log(key);
+            // console.log(data);
+            const value = data[key];
+            console.log("value: " + value);
+            const variableName = variablePrefix + key;
+            console.log("variableName: " + variableName);
+        
+            if (typeof value === "object") {
+              assignVariables(value, variableName + "_");
+            } else {
+              eval(`var ${variableName} = { key: ${JSON.stringify(key)}, value: ${JSON.stringify(value)} };`);
+            }
+          }
+        }
+        
+        assignVariables(workoutData);
+        
+        console.log(Day1_Exercise1.key, Day1_Exercise1.value);
+        console.log(Day1_Exercise2.key, Day1_Exercise2.value);
+        console.log(Day2_Exercise1.key, Day2_Exercise1.value);
+        console.log(Day2_Exercise2.key, Day2_Exercise2.value);
       }
     }
 
