@@ -71,7 +71,7 @@ const Coach = () => {
     delay: 500,
   });
   // END OF VISUAL EFFECTS
-  const email = localStorage.getItem("email");
+  const username = localStorage.getItem("username");
 
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
@@ -83,7 +83,7 @@ const Coach = () => {
   useEffect(
     () => {
       async function getChatLog() {
-        const response = await fetch(`http://localhost:5050/coach/${email}`, {
+        const response = await fetch(`http://localhost:5050/coach/${username}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -104,8 +104,8 @@ const Coach = () => {
       }
       getChatLog();
     },
-    //[email] STOPS THE LOOP
-    [email]
+    //[username] STOPS THE LOOP
+    [username]
   );
   // END OF CODE THAT GETS THE CHAT LOG FROM THE DATABASE
 

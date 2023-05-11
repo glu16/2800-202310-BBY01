@@ -20,7 +20,6 @@ function SignupDetails() {
     try {
       const url = `http://localhost:5050/signupdetails/${localStorage.getItem("username")}`;
       const { data: res } = await axios.post(url, data);
-
       window.location = "/"
     
       //THIS ACTUALLY WORKS BUT THE AI IS 50/50 WHEN CREATING A WORKOUT
