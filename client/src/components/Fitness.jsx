@@ -46,6 +46,17 @@ function Workout() {
     setDaysToAdd(daysToAdd - 1); 
   };
 
+  // for modal stuff
+  const [showModal, setShowModal] = useState(false);
+  const handleShowModal = () => {
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+  
+
   useEffect(() => {
     async function fetchData() {
       const workoutData = await getWorkout();
@@ -133,6 +144,11 @@ function Workout() {
                 );
               }
             })}
+          {/* this opens up images for the exercise */}
+          <button onClick={handleShowModal}>Get instructions</button>
+          
+          
+
           </div>
           );
         });
@@ -151,8 +167,11 @@ function Workout() {
           } else {
             // Assign the value directly
             const variableValue = value; 
-            // Wrap key and value in quotes
-            eval(`var ${variableName} = { key: "${key}", value: "${variableValue}" };`); 
+            // dynamically generate a new variable with the name of the date and exercise
+            // caution dangerous to use eval
+            // fixed eval error by assigning each variableName the day of the week so only works on max 7-days plan
+            // console.log("variableName: " + variableName + ". key: " + key + ". variableValue: " + variableValue);
+            eval(`var ${variableName.substring(0, variableName.indexOf(","))} = { key: "${key}", value: "${variableValue}" };`); 
           }
         }
       }
