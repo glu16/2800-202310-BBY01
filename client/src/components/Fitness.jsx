@@ -137,12 +137,14 @@ function Workout() {
               // don't display detailKey if it is name or setsAndReps
               if (detailKey == "name" || detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              } else {
+              } else if (detailKey == "calories") {
                 return (
                   <div key={detailKey} className={styles.aKey}>
-                    {detailKey}: {detailValue}
+                    Calories: {detailValue}
                   </div>
                 );
+              } else {
+                return; 
               }
             })}
           {/* this opens up images for the exercise */}

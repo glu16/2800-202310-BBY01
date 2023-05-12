@@ -182,7 +182,7 @@ const runAI = async (input) => {
                     console.error("Error getting exercise calories: ", error);
                     console.log("day[j]: " + JSON.stringify(day[j]));
                   }
-                console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
+                // console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
 
 
                 // catch any invalid exercise and skip adding it 
