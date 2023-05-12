@@ -52,9 +52,22 @@ const Profile = ({ username }) => {
     weight: "",
   });
 
+  const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
+
+  useEffect(() => {
+    let timer;
+    if (showAlert) {
+      timer = setTimeout(() => {
+        setShowAlert(false);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [showAlert]);
 
   const handleSaveChanges = async (event) => {
     event.preventDefault();
@@ -63,6 +76,8 @@ const Profile = ({ username }) => {
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
+      setShowModal(false);
+      setShowAlert(true);
     } catch (error) {
       console.log(error);
     }
@@ -338,6 +353,11 @@ const Profile = ({ username }) => {
               >
                 Save Changes
               </button>
+              {showAlert && (
+                <div className="alert alert-success" role="alert">
+                  Profile updated successfully!
+                </div>
+              )}
             </div>
           </div>
         </div>
