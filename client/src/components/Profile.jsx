@@ -26,7 +26,12 @@ const Profile = ({ username }) => {
         setUserName(firstName);
         const phoneNumber = response.data.phoneNumber;
         setUserPhoneNumber(phoneNumber);
-        console.log(response.data);
+        
+        // Sets retrieved phone number as an initial value for state variable 'data'
+        setData((prevData) => ({
+          ...prevData,
+          phoneNumber: phoneNumber,
+        }));  
       } catch (error) {
         console.error(error);
       }
@@ -48,6 +53,14 @@ const Profile = ({ username }) => {
           )}`
         );
         setUserStats(response.data);
+
+        // Sets retrieved age, height, and weight as initial values in state variable 'data'
+        setData((prevData) => ({
+          ...prevData,
+          age: response.data[0].age,
+          height: response.data[0].height,
+          weight: response.data[0].weight,
+        }));
       } catch (error) {
         console.error(error.message);
       }
@@ -66,6 +79,7 @@ const Profile = ({ username }) => {
     height: "",
     weight: "",
   });
+
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
