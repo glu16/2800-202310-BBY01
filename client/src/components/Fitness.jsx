@@ -37,6 +37,10 @@ function Workout() {
   today.setDate(today.getDate() + daysToAdd);
   const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const date = today.toLocaleDateString('en-CA', dateOptions);
+  // tracks which day x/7 of the weeklong workout plan is today's, going to use this to limit button navigation
+  const [dayOfWorkoutPlan, setDayOfWorkoutPlan] = useState(0);
+  
+
 
   // for previous day and next day button navigation
   const handleIncrementDays = () => {
@@ -59,24 +63,54 @@ function Workout() {
         if (typeof obj === 'object' && obj !== null) {
           // if it's a nested object, recursively render its properties
           return Object.keys(obj).map((key, index) => {
-            // check if key matches date
+            
+            // check if key matches date so only render the one day on the page
             if (key == date) {
+              // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
+              setDayOfWorkoutPlan(index);
+
               // check if empty rest day
               if (Object.keys(obj[key]).length === 0) {
-                return (
-                  <div key={index} className={styles.day}>
-                    <strong>{key}:</strong> Rest day
-                  </div>
-                );
-                // sends the day title ex. Thursday, May 11, 2023:
+                let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                let today = new Date().toLocaleDateString('en-US', options);
+                if (key == today) {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>Today, {key}:</strong> Rest day
+                    </div>
+                  );
+                } else {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>{key}:</strong> Rest day
+                    </div>
+                  );
+                }
+
+              // sends the day title ex. Thursday, May 11, 2023:
               } else {
-                return (
-                  <div key={index} className={styles.day}>
-                    <strong>{key}</strong>
-                    {renderExercise(obj[key])}
-                  </div>
-                );
+                // use this to check if current page is today to render title card
+                let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                let today = new Date().toLocaleDateString('en-US', options);
+                if (key == today) {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>Today, {key}</strong>
+                      {renderExercise(obj[key])}
+                    </div>
+                  );
+
+                  // if page is not today
+                } else {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>{key}</strong>
+                      {renderExercise(obj[key])}
+                    </div>
+                  );
+                }
               }
+            // if this workout day object is not today's
             } else {
               return null;
             }
@@ -146,8 +180,8 @@ function Workout() {
   return (
     <div>
       <h2>Your Workout</h2>
-      <button onClick={handleDecrementDays} disabled={daysToAdd <= 0}>Previous Day</button>
-      <button onClick={handleIncrementDays} disabled={daysToAdd >= 6}>Next Day</button> 
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>Previous Day</button>
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6}>Next Day</button> 
       <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
       {showModal && (
         <Modal onClose={handleCloseModal}>

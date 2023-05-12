@@ -1,9 +1,3 @@
-/*
-A LARGE MARJORITY OF THIS CODE THAT HOOKS UP THE 
-SIGNIN/LOGIN WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
-https://www.youtube.com/watch?v=HGgyd1bYWsE 
-*/
-
 /* 
 A LARGE MARJORITY OF THIS CODE THAT HOOKS UP OPENAI
 TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
@@ -234,7 +228,7 @@ app.get("/coach/:username", async (req, res) => {
 // to generate and store a user's workout plan
 app.put("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
-  console.log(userID);
+  // console.log(userID);
   // const newWorkout = req.body;
 
   // call and execute workouts.js
