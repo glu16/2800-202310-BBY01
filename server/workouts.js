@@ -28,6 +28,35 @@ const stopProgress = () => {
     process.stdout.cursorTo(0);
 };
 
+
+/* 
+(SOME GET METHOD THAT GETS THE USERS PREFERENCES FOR THE FITNESS PLAN)
+var sex;
+var age;
+var height;
+var weight;
+var activityLevel;
+var goal;
+
+var workoutRestrictions = [];
+var workoutPreferences = [];
+
+if workoutRestrictions.length == 0 {
+    workoutRestrictions = ["none"];
+}
+if workoutPreferences.length == 0 {
+    workoutPreferences = ["none"];
+}
+
+var inputPromt = `I am a ${age} ${sex} and I am ${height} cm tall and weigh ${weight} kilograms.
+My activity level is ${activityLevel} and my goal is to ${goal}.
+My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
+
+
+REST OF THE PROMPT ABOUT FITNESS....
+*/
+
+
 // define input strings
 const muscles = ['back', 'chest']; // replace with the user's personsalized list
 const level = "intermediate"; // beginner, intermediate, expert

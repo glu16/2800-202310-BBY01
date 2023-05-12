@@ -24,6 +24,33 @@ const stopProgress = () => {
   process.stdout.cursorTo(0);
 };
 
+
+/* 
+(SOME GET METHOD THAT GETS THE USERS PREFERENCES FOR THE DIET PLAN)
+var sex;
+var age;
+var height;
+var weight;
+var activityLevel;
+var goal;
+
+var foodRestrictions = [];
+var foodPreferences = [];
+
+if foodRestrictions.length == 0 {
+    foodRestrictions = ["none"];
+}
+if foodPreferences.length == 0 {
+    foodPreferences = ["none"];
+}
+
+var inputPromt = `I am a ${age} ${sex} and I am ${height} cm tall and weigh ${weight} kilograms.
+My activity level is ${activityLevel} and my goal is to ${goal}.
+My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
+
+
+REST OF THE PROMPT ABOUT DIET....
+*/
 const foods = ["chicken", "broccoli"];
 const level = "intermediate";
 var inputPrompt =
