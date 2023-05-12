@@ -385,6 +385,7 @@ app.post("/", async (req, res) => {
   const parsableJson = response.data.choices[0].text;
 
 
+  console.log(parsableJson);
   let messageOutTest = parsableJson;
 
   // THE MESSAGE SENT TO THE USER
