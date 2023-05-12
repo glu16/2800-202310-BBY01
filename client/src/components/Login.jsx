@@ -57,7 +57,7 @@ function Login({ setToken }) {
           <input
             type="password"
             id="password-input"
-            className={`form-control user-input ${styles.userInput}`}
+            className={`${styles.userInput}`}
             name="password"
             value={data.password}
             onChange={handleChange}
