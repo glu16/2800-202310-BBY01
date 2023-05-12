@@ -84,8 +84,8 @@ const Profile = ({ username }) => {
           }
         );
         console.log(response.data);
-        // Displays a maximum of 4 chat conversations
-        setChatHistory(response.data.slice(0, 4));
+        // Displays a maximum of 2 chat conversations
+        setChatHistory(response.data.slice(0, 2));
       } catch (error) {
         console.error(error);
       }
@@ -94,6 +94,13 @@ const Profile = ({ username }) => {
     fetchChatHistory();
   }, []);
   // End of chat history retrieval
+
+  // Capitalizes the user name
+  const capitalizeName = (name) => {
+    return name.toUpperCase();
+  };
+
+  const specialWords = ["Day", "Breakfast", "Lunch", "Dinner"];
 
   return (
     <div
@@ -160,13 +167,30 @@ const Profile = ({ username }) => {
             </div>
             <div className="col-md-6">
               <div className="d-flex flex-column align-items-center text-center">
-                <h1 className={styles.chatHeader}>Chat History</h1>
-                {chatHistory.map((item, index) => (
-                  <div className={styles.chatItem} key={index}>
-                    <h5>{item.user}</h5>
-                    <p>{item.messages}</p>
-                  </div>
-                ))}
+                <div className={styles.chatWrapper}>
+                  <h1 className={styles.chatHeader}>Chat History</h1>
+                  {chatHistory.map((item, index) => (
+                    <div className={styles.chatMessages} key={index}>
+                      <h5>{capitalizeName(item.user)}</h5>
+                      <p className={styles.chatMessages}>
+                        {item.messages
+                          .split(/(Day|Breakfast|Lunch|Dinner)/)
+                          .map((message, i) =>
+                            specialWords.includes(message) ? (
+                              <span key={i} className={styles.specialWord}>
+                                {message}
+                              </span>
+                            ) : (
+                              <React.Fragment key={i}>
+                                {message}
+                                <br />
+                              </React.Fragment>
+                            )
+                          )}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

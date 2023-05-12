@@ -6,7 +6,7 @@
 
 .editProfileButton {
   margin-top: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   background-color: rgb(92, 208, 216);
   border-radius: rgb(92, 208, 216);
 }
@@ -21,9 +21,19 @@
   margin-top: 10px;
 }
 
-.chatItem {
+.chatMessages {
   color: white;
   margin-top: 10px;
+}
+
+.chatWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .formLabel {
@@ -42,6 +52,7 @@
   border-radius: 10px;
   text-align: center;
   background-color: #2b2b2b;
+  margin-bottom: 80px;
 }
 
 .profileHeader {
