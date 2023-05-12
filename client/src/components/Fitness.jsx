@@ -2,6 +2,11 @@ import React, { useState, useEffect } from 'react';
 import styles from "../css/fitness.module.css";
 // import Modal from 'react-modal';
 
+// for task completion buttons
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+
 // import server hosting port
 const port = '5050';
 
@@ -47,15 +52,15 @@ function Workout() {
   };
 
   // for modal stuff
-  const [showModal, setShowModal] = useState(false);
-  const handleOpenModal = () => {
-    console.log("modal opened");
-    setShowModal(true);
-  };
-  const handleCloseModal = () => {
-    console.log("modal closed");
-    setShowModal(false);
-  };
+  // const [showModal, setShowModal] = useState(false);
+  // const handleOpenModal = () => {
+  //   console.log("modal opened");
+  //   setShowModal(true);
+  // };
+  // const handleCloseModal = () => {
+  //   console.log("modal closed");
+  //   setShowModal(false);
+  // };
   
 
   useEffect(() => {
@@ -152,6 +157,11 @@ function Workout() {
                 return; 
               }
             })}
+
+            {/* button to mark task completed */}
+            <ToggleButton />
+
+
           {/* this opens up images for the exercise */}
           {/* <button onClick={handleOpenModal}>Get instructions</button>
           <Modal
@@ -168,6 +178,7 @@ function Workout() {
           
 
           </div>
+
           );
         });
       }
@@ -210,6 +221,28 @@ function Workout() {
   );
 }
 
+// for the task completion buttons
+const ToggleButton = () => {
+  const [isChecked, setIsChecked] = useState(false);
+  const handleClick = () => {
+    setIsChecked(!isChecked);
+    console.log("box checked");
+  };
+  return (
+    <div className="container mt-5">
+      <button
+        className="btn btn-secondary btn-checkbox"
+        onClick={handleClick}
+      >
+        <FontAwesomeIcon
+          icon={isChecked ? faCheckSquare : faSquare}
+          className="mr-2"
+        />
+        Toggle
+      </button>
+    </div>
+  );
+};
 
 // page render
 const Fitness = () => {
@@ -252,29 +285,33 @@ const Fitness = () => {
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
 
-        <div>
-          <form id="addWorkout" onSubmit={addWorkoutToUser}>
-            <input type="hidden" name="username" value={username}></input>
-            {/* button displays different text if clicked or not clicked */}
-            <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
-              {isFormSubmitting ? (
-                <div>
-                  <p>Generating...</p>
-                  <div id="processing" className="spinner-border" role="status">
-                    <span className="sr-only">Loading...</span>
+          <div>
+            <form id="addWorkout" onSubmit={addWorkoutToUser}>
+              <input type="hidden" name="username" value={username}></input>
+              {/* button displays different text if clicked or not clicked */}
+              <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
+                {isFormSubmitting ? (
+                  <div>
+                    <p>Generating...</p>
+                    <div id="processing" className="spinner-border" role="status">
+                      <span className="sr-only">Loading...</span>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                'Create new workout plan'
-              )}
-            </button>
-            
-              <p><small>Generating takes 30-60 seconds</small></p>
-          </form>
-        </div>
+                ) : (
+                  'Create new workout plan'
+                )}
+              </button>
+              
+                <p><small>Generating takes 30-60 seconds</small></p>
+            </form>
+          </div>
 
 
-        <Workout/>
+          <Workout/>
+
+          <button id="completeAll">Complete All Tasks</button>
+
+          
 
         </div>
       </div>

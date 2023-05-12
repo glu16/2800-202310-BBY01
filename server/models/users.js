@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
   workouts: { type: Array },
   diets: { type: Array },
   userStats: { type: Array },
+
+  doneToday: { type: Boolean },
+  currentStreak: { type: Number },
+  longestStreak: { type: Number },
 });
 
 // GENERATES A TOKEN FOR THE USER
