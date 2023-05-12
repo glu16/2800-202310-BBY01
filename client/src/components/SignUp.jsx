@@ -29,7 +29,7 @@ function SignUp({ setToken }) {
       window.location = "/signupdetails";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      console.log(error);
+      console.log(error.response.data);
       setError(error.response.data);
     }
   };
@@ -55,7 +55,6 @@ function SignUp({ setToken }) {
             className={`user-input ${styles.userInput}`}
             placeholder="Username"
             size="30"
-            pattern="[A-Za-z]{2-40}"
             required
           />
           <label htmlFor="first-name"></label>
@@ -68,7 +67,6 @@ function SignUp({ setToken }) {
             className={`user-input ${styles.userInput}`}
             placeholder="First Name"
             size="30"
-            pattern="[A-Za-z]{2-40}"
             required
           />
 
