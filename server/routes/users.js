@@ -9,7 +9,17 @@ router.post("/", async (req, res) => {
   try {
     const { error } = validate(req.body);
     if (error) {
+      if (error.details[0].message.includes("username")) {
+        return res.status(400).send("Username must contain at least 4 characters.");
+      } else if (error.details[0].message.includes("firstName")) {
+        return res.status(400).send("First name must contain at least 4 characters.");
+      } else if (error.details[0].message.includes("lastName")) {
+        return res.status(400).send("Last name must contain at least 2 characters.");
+      } else if (error.details[0].message.includes("password")) {
+        return res.status(400).send("Password must contain at least 6 characters.");
+      } else {
       return res.status(400).send(error.details[0].message);
+      }
     }
 
     const user = await User.findOne({ email: req.body.email });
