@@ -377,74 +377,15 @@ app.post("/", async (req, res) => {
   const response = await openai.createCompletion({
     model: "text-davinci-003",
     prompt:
-      `${message}` +
-      `. Return response in the following parsable JSON format:
-      [
-      {
-          "Day": "day",
-          "item1": "item1",
-          "item2": "item2",
-          "item3": "item3",
-          "item4": "item4",
-          "planType": "fitness or diet"
-      }
-  ]
-
-      `,
+      `${message}`,
     max_tokens: 1000,
     temperature: 0,
   });
 
   const parsableJson = response.data.choices[0].text;
 
-  console.log(parsableJson);
 
-  const parsedJson = JSON.parse(parsableJson);
-  let messageOutTest = "";
-
-  // IF/ELSE THAT CHECKS IF THE PLAN IS A FITNESS PLAN OR DIET PLAN.
-  // CURRENTLY ASSUMES THAT ANYTHING THAT IS NOT A FITNESS PLAN IS A DIET PLAN.
-  parsedJson.forEach((choice) => {
-    if (choice.planType === "fitness") {
-      messageOutTest +=
-        "Day: " +
-        choice.Day +
-        "\n" +
-        "Exercise 1: " +
-        choice.item1 +
-        "\n" +
-        "Exercise 2: " +
-        choice.item2 +
-        "\n" +
-        "Exercise 3: " +
-        choice.item3 +
-        "\n" +
-        "Rest: " +
-        choice.item4 +
-        "\n" +
-        "\n";
-    } else {
-      messageOutTest +=
-        "Day: " +
-        choice.Day +
-        "\n" +
-        "BreakFast: " +
-        choice.item1 +
-        "\n" +
-        "Lunch: " +
-        choice.item2 +
-        "\n" +
-        "Dinner: " +
-        choice.item3 +
-        "\n" +
-        "Snack: " +
-        choice.item4 +
-        "\n" +
-        "\n";
-    }
-  });
-
-  console.log(messageOutTest);
+  let messageOutTest = parsableJson;
 
   // THE MESSAGE SENT TO THE USER
   res.json({
