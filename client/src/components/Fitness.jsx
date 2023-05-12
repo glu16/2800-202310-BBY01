@@ -79,14 +79,17 @@ function Workout() {
 
               // check if empty rest day
               if (Object.keys(obj[key]).length === 0) {
+                // use this to check if current page is today to render title card
                 let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
                 let today = new Date().toLocaleDateString('en-US', options);
+                // if this page is today
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
                       <strong>Today, {key}:</strong> Rest day
                     </div>
                   );
+                // if page is not today
                 } else {
                   return (
                     <div key={index} className={styles.day}>
@@ -100,6 +103,7 @@ function Workout() {
                 // use this to check if current page is today to render title card
                 let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
                 let today = new Date().toLocaleDateString('en-US', options);
+                // if this page is today
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
@@ -107,8 +111,7 @@ function Workout() {
                       {renderExercise(obj[key])}
                     </div>
                   );
-
-                  // if page is not today
+                // if page is not today
                 } else {
                   return (
                     <div key={index} className={styles.day}>
@@ -118,7 +121,7 @@ function Workout() {
                   );
                 }
               }
-            // if this workout day object is not today's
+            // return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
             } else {
               return null;
             }
@@ -137,12 +140,14 @@ function Workout() {
               // don't display detailKey if it is name or setsAndReps
               if (detailKey == "name" || detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+              // dispaly detailKey if it is calories
               } else if (detailKey == "calories") {
                 return (
                   <div key={detailKey} className={styles.aKey}>
                     Calories: {detailValue}
                   </div>
                 );
+              // shouldn't be any other option currently
               } else {
                 return; 
               }
@@ -197,7 +202,7 @@ function Workout() {
 
   return (
     <div>
-      <h2>Your Workout</h2>
+      <h2>{username}'s Workout</h2>
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>Previous Day</button>
       <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6}>Next Day</button> 
       <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
@@ -248,9 +253,9 @@ const Fitness = () => {
         <div className={`card-body ${styles.fitnessCardBody}`}>
 
         <div>
-          {username}
           <form id="addWorkout" onSubmit={addWorkoutToUser}>
             <input type="hidden" name="username" value={username}></input>
+            {/* button displays different text if clicked or not clicked */}
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
               {isFormSubmitting ? (
                 <div>
@@ -260,9 +265,10 @@ const Fitness = () => {
                   </div>
                 </div>
               ) : (
-                'Create workout plan'
+                'Create new workout plan'
               )}
             </button>
+            
               <p><small>Generating takes 30-60 seconds</small></p>
           </form>
         </div>
