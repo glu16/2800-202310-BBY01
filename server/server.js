@@ -69,18 +69,18 @@ app.get("/users/:username", async (req, res) => {
     // FIND THE USER BY USERNAME
     const user = await User.findOne({ username: userID });
     if (!user) {
-      return res.status(404).json({ message: "User not found"});
+      return res.status(404).json({ message: "User not found" });
     }
     res.send({
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
 
-      userStats: user.userStats 
+      userStats: user.userStats,
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "Server error"});
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -214,22 +214,22 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
-// to generate and store a user's workout plan
+// TO GENERATE AND STORE A USER'S WORKOUT PLAN
 app.put("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   // console.log(userID);
   // const newWorkout = req.body;
 
-  // call and execute workouts.js
+  // CALL AND EXECUTE workouts.js
   const workouts = require("./workouts");
 
-  // generates workout plan in workout.js
+  // GENERATES WORKOUT PLAN IN workout.js
   function generateWorkout(callback) {
     workouts.generate((newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
-  // writes workoutplan into database
+  // WRITES WORKOUT PLAN INTO THE DATABASE
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
@@ -256,15 +256,15 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
-// send workout plan to client
+// SEND WORKOUT PLAN TO CLIENT
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    // if workouts empty ie.new user
+    // IF WORKOUTS IS EMPTY (ex. NEW USER)
     if (user.workouts.length == 0) {
       res.send("empty");
-      // sends first workout in workouts
+      // SENDS FIRST WORKOUT IN WORKOUTS
     } else {
       res.send(user.workouts[0]);
     }
@@ -274,27 +274,26 @@ app.get("/fitness/:username", async (req, res) => {
   }
 });
 
-
-// to generate and store a user's workout plan
+// TO GENERATE AND STORE A USER'S DIET PLAN
 app.put("/diet/:email", async (req, res) => {
   const userID = req.params.email;
   // const newWorkout = req.body;
 
-  // call and execute workouts.js
+  // CALL AND EXECUTE diet.js
   const Diet = require("./diet");
 
-  // generates workout plan in workout.js
+  // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
     Diet.generate((newDiet) => {
       updateDiet(newDiet, callback);
     });
   }
-  // writes workoutplan into database
+  // WRITES DIET PLAN INTO THE DATABASE
   async function updateDiet(newDiet, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        {email: userID},
-        {$push: {diets: {$each: [JSON.parse(newDiet)], $position: 0}}}
+        { email: userID },
+        { $push: { diets: { $each: [JSON.parse(newDiet)], $position: 0 } } }
       );
       res.status(200).json({
         message: `New diet added to ${userID}.`,
@@ -302,7 +301,7 @@ app.put("/diet/:email", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({error: "Internal server error"});
+      res.status(500).json({ error: "Internal server error" });
     }
     if (callback) {
       callback();
@@ -311,11 +310,11 @@ app.put("/diet/:email", async (req, res) => {
   generateDiet();
 });
 
-// send workout plan to client
+// SEND WORKOUT PLAN TO CLIENT
 app.get("/diet/:email", async (req, res) => {
   const userID = req.params.email;
   try {
-    const user = await User.findOne({username: userID});
+    const user = await User.findOne({ username: userID });
     // if workouts empty ie.new user
     if (user.diets.length == 0) {
       res.send("empty");
@@ -325,15 +324,9 @@ app.get("/diet/:email", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
-
-
-
-
-
-
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
@@ -376,14 +369,12 @@ app.post("/", async (req, res) => {
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt:
-      `${message}`,
+    prompt: `${message}`,
     max_tokens: 1000,
     temperature: 0,
   });
 
   const parsableJson = response.data.choices[0].text;
-
 
   console.log(parsableJson);
   let messageOutTest = parsableJson;
@@ -394,13 +385,13 @@ app.post("/", async (req, res) => {
   });
 });
 
-// server hosting
+// SERVER HOSTING
 const localPort = 5050;
 const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
-// send server port info to client
+// SEND SERVER PORT INTO TO THE CLIENT
 app.get("/api/port", (req, res) => {
   res.json({ port });
 });
