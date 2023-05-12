@@ -82,7 +82,7 @@ function Login({ setToken }) {
           </Link>
         </p>
         <p className={`${styles.signupRedirect}`}>
-          Forgot your username?{" "}
+          Forgot your password?{" "}
           <Link to="/changepassword" className={`${styles.signupLink}`}>
             Change password
           </Link>

@@ -63,6 +63,11 @@
 .signupLink {
   text-decoration: none;
   color: rgb(69, 182, 148);
+  transition: 0.3s;
+}
+
+.signupLink:hover {
+ color:rgb(144, 213, 192);
 }
 
 .userInput {
