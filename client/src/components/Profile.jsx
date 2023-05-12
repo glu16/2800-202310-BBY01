@@ -116,7 +116,7 @@ const Profile = ({ username }) => {
     async function fetchChatHistory() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/coach/${localStorage.getItem("username")}`,
+          `https://healthify-enxj.onrender.com/coach/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

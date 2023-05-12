@@ -11,7 +11,7 @@ const username = localStorage.getItem("username");
 // get first item from user's workouts field from database
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:5050/fitness/${username}`, {
+  var response = await fetch(`https://healthify-enxj.onrender.com/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", },
   });
