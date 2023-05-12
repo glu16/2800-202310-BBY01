@@ -52,7 +52,6 @@ function SignupDetails() {
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
-    setIsModified(true);
   };
 
     // const response = await fetch(``, {
@@ -64,12 +63,10 @@ function SignupDetails() {
 
   return (
     <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.detailsContainer}`}
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.signupDetailsBody}`}
     >
-      <div className={`card ${styles.signupCard}`}>
-        <div className="card-body">
-          <div className="d-flex flex-column align-items-center text-center">
-            <h1 id={styles.detailsLabel}>Details</h1>
+      <div className={`card-body ${styles.signupCard}`}>
+            <h1 id={styles.detailsHeader}>Details</h1>
             <form id={styles.signupDetails} onSubmit={handleSubmit}>
               <div className={styles.radioInput}>
                 <label htmlFor="sex">Male</label>
@@ -103,7 +100,7 @@ function SignupDetails() {
                 placeholder="Age"
                 min="0"
                 max="99"
-                value={isModified? data.age: ""}
+                value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
@@ -116,7 +113,7 @@ function SignupDetails() {
                 name="height"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Height (m)"
-                value={isModified? data.height : ""}
+                value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
@@ -129,7 +126,7 @@ function SignupDetails() {
                 name="weight"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Weight (kg)"
-                value={isModified? data.weight : ""}
+                value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
@@ -153,7 +150,7 @@ function SignupDetails() {
                 <option value="Extremely Active">Extremely Active</option>
               </select>
 
-              <label htmlFor="goal"></label>
+              <label htmlFor="goal"></label> <br/>
               <select
                 defaultValue={"Fitness Goals"}
                 type="select"
@@ -180,8 +177,6 @@ function SignupDetails() {
             </form>
           </div>
         </div>
-      </div>
-    </div>
   );
 }
 
