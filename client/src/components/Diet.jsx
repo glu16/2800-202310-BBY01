@@ -231,8 +231,9 @@ const DietPlan = () => {
     window.location.reload();
   }
 
+  // alert message popup for the user
   const handleClick = () => {
-    window.alert('Generating diet plan... please do not refresh the page!');
+    window.alert("Generating diet plan... please do not refresh the page!");
   };
 
   return (
