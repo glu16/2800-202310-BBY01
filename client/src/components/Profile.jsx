@@ -69,7 +69,7 @@ const Profile = ({ username }) => {
   };
   // End of user profile update
 
-  // Retrieves the logged in user's chat history 
+  // Retrieves the logged in user's chat history
   const [chatHistory, setChatHistory] = useState([]);
 
   useEffect(() => {
@@ -83,7 +83,9 @@ const Profile = ({ username }) => {
             },
           }
         );
-        setChatHistory(response.data);
+        console.log(response.data);
+        // Displays a maximum of 4 chat conversations
+        setChatHistory(response.data.slice(0, 4));
       } catch (error) {
         console.error(error);
       }
@@ -159,10 +161,10 @@ const Profile = ({ username }) => {
             <div className="col-md-6">
               <div className="d-flex flex-column align-items-center text-center">
                 <h1 className={styles.chatHeader}>Chat History</h1>
-                {chatHistory.map((message, index) => (
-                  <div key={index} className={`${styles.profileItem} email`}>
-                    <h5 className={styles.chatItem}>{message.sender}</h5>
-                    <p>{message.text}</p>
+                {chatHistory.map((item, index) => (
+                  <div className={styles.chatItem} key={index}>
+                    <h5>{item.user}</h5>
+                    <p>{item.messages}</p>
                   </div>
                 ))}
               </div>
