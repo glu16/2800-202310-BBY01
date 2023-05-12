@@ -24,7 +24,6 @@ const ChatMessage = ({ message }) => {
               return (
                 <React.Fragment key={index}>
                   <li>{line}</li>
-                  <br />
                 </React.Fragment>
               );
             } else {
