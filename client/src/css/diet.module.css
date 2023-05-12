@@ -20,7 +20,8 @@
   margin: 20px 0px;
   border-radius: 10px;
   padding: 0px;
-  /* min-width: 120px; */
+  background-color: #2b2b2b;
+  color: white;
 }
 
 .dietCard {
@@ -28,6 +29,8 @@
   margin-top: 160px;
   margin-bottom: 50px;
   border-radius: 10px;
+  background-color: #2b2b2b;
+  color: white;
 }
 
 .dietCardBody {
@@ -38,7 +41,7 @@
   text-align: center;
   margin-top: 20px;
   font-weight: bold;
-  color: black;
+  color: white;
 }
 
 @media (max-width: 767px) {
