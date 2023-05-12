@@ -149,7 +149,7 @@ const runAI = async (input) => {
           mealDetails = Object.assign(mealDetails, {
             ["name"]: name,
             ["nutritionalInfo"]: nutritionalInfo,
-            ["calories"]: calories,
+            ["Calories"]: calories,
           });
           meals = Object.assign(meals, {
             ["Meal " + jAdjusted]: mealDetails,
