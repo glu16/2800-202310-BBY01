@@ -7,12 +7,12 @@ const joi = require("joi");
 
 // THE SCHEMA FOR THE USER COLLECTION
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, trim: true },
+  username: { type: String, required: true, trim: true, unique: true},
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   phoneNumber: { type: Number, trim: true },
 
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true},
   password: { type: String, required: true, trim: true, minlength: 4 },
 
   messages: { type: Array },
@@ -32,11 +32,11 @@ const User = mongoose.model("User", userSchema);
 // JOI VALIDATION
 const validate = (user) => {
   const scheme = joi.object({
-    username: joi.string().required(),
-    firstName: joi.string().required(),
-    lastName: joi.string().required(),
+    username: joi.string().min(4).max(50).required(),
+    firstName: joi.string().min(4).required(),
+    lastName: joi.string().min(2).required(),
     email: joi.string().required(),
-    password: joi.string().required(),
+    password: joi.string().min(6).required(),
   });
   return scheme.validate(user);
 };
