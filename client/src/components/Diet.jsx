@@ -28,6 +28,7 @@ function Diet() {
   const [diet, setDiet] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedDiet, setSelectedDiet] = useState(null);
+  const [dayOfMealPlan, setDayOfMealPlan] = useState(0);
 
   // use today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
@@ -63,6 +64,8 @@ function Diet() {
             return Object.keys(obj).map((key, index) => {
               // check if key matches date
               if (key == date) {
+
+                setDayOfMealPlan(index)
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
                   return (
@@ -155,9 +158,9 @@ function Diet() {
   return (
     <div>
       <h2>Your Diet Plan</h2>
-      <button onClick={handleDecrementDays}>Previous Day</button>{" "}
+      <button onClick={handleDecrementDays} disabled={dayOfMealPlan == 0}>Previous Day</button>{" "}
       {/* Add the decrement button */}
-      <button onClick={handleIncrementDays}>Next Day</button>{" "}
+      <button onClick={handleIncrementDays} disabled={dayOfMealPlan >= 6}>Next Day</button>{" "}
       {/* Add the increment button */}
       <div className="d-flex align-items-center text-center justify-content-center row">
         {diet}
