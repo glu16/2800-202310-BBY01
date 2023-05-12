@@ -55,6 +55,7 @@ function SignUp({ setToken }) {
             className={`user-input ${styles.userInput}`}
             size="30"
             required
+            autocomplete="off"
           />
           <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Username</span></label>
 
