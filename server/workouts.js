@@ -28,6 +28,35 @@ const stopProgress = () => {
     process.stdout.cursorTo(0);
 };
 
+
+/* 
+(SOME GET METHOD THAT GETS THE USERS PREFERENCES FOR THE FITNESS PLAN)
+var sex;
+var age;
+var height;
+var weight;
+var activityLevel;
+var goal;
+
+var workoutRestrictions = [];
+var workoutPreferences = [];
+
+if workoutRestrictions.length == 0 {
+    workoutRestrictions = ["none"];
+}
+if workoutPreferences.length == 0 {
+    workoutPreferences = ["none"];
+}
+
+var inputPromt = `I am a ${age} ${sex} and I am ${height} cm tall and weigh ${weight} kilograms.
+My activity level is ${activityLevel} and my goal is to ${goal}.
+My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
+
+
+REST OF THE PROMPT ABOUT FITNESS....
+*/
+
+
 // define input strings
 const muscles = ['back', 'chest']; // replace with the user's personsalized list
 const level = "intermediate"; // beginner, intermediate, expert
@@ -51,7 +80,7 @@ inputPrompt += "Format each exercise with the following structure: exercise name
 const runAI = async (input) => {
     
     // loading animation
-    console.log("generating workout plan...");
+    console.log("Generating workout plan...");
     startProgress();  
 
     //default max tokens = 4096
@@ -105,6 +134,7 @@ const runAI = async (input) => {
                     let marker = Math.min(
                     day[j].indexOf(",") == -1 ? day[j].length : day[j].indexOf(","), 
                     day[j].indexOf(" -") == -1 ? day[j].length : day[j].indexOf(" -"), 
+                    day[j].indexOf(" –") == -1 ? day[j].length : day[j].indexOf(" –"), 
                     day[j].indexOf(":") == -1 ? day[j].length : day[j].indexOf(":") 
                     );
                     // console.log(marker);
@@ -121,7 +151,15 @@ const runAI = async (input) => {
 
                 var setsAndReps;
                 try {
-                    setsAndReps = day[j].substring(day[j].indexOf("sets") - 2, day[j].indexOf("reps") + "reps".length);
+                    // check that set and reps is in string
+                    if (day[j].indexOf("sets") !== -1) {
+                        setsAndReps = day[j].substring(day[j].indexOf("sets") - 2, day[j].indexOf("reps") + "reps".length);
+                    // some are measured in minutes like planking
+                    } else if (day[j].indexOf("minutes") !== -1) {
+                        setsAndReps = day[j].substring(day[j].indexOf("min") - 3), day[j].indexOf("minutes") + "minutes".length;
+                    } else {
+                        setsAndReps = "n/a"
+                    }
                     // console.log("setsAndReps: " + setsAndReps);
                     if (setsAndReps == null) { throw new Error("setsAndReps are null.")}; 
                   } catch (error) {
@@ -194,7 +232,7 @@ const runAI = async (input) => {
         console.error("Error parsing paragraphs into workout plan:", error);
     }
 
-    // console.log(workoutPlan);
+    console.log(workoutPlan);
     console.log("...workout plan generated.");
     return(JSON.stringify(workoutPlan));
 }

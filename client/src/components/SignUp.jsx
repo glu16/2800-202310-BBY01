@@ -29,7 +29,7 @@ function SignUp({ setToken }) {
       window.location = "/signupdetails";
     } catch (error) {
       //ERROR IS CAUGHT HERE
-      console.log(error);
+      console.log(error.response.data);
       setError(error.response.data);
     }
   };
@@ -45,7 +45,7 @@ function SignUp({ setToken }) {
       <div className={`card-body ${styles.signupCard}`}>
         <h1 id={styles.signupHeader}>Sign Up</h1>
         <form id={styles.signup} onSubmit={handleSubmit}>
-          <label htmlFor="username"></label>
+
           <input
             type="text"
             id="username"
@@ -53,12 +53,12 @@ function SignUp({ setToken }) {
             value={data.username}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Username"
             size="30"
-            pattern="[A-Za-z]{2-40}"
             required
+            autocomplete="off"
           />
-          <label htmlFor="first-name"></label>
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Username</span></label>
+
           <input
             type="text"
             id="first-name"
@@ -66,13 +66,11 @@ function SignUp({ setToken }) {
             value={data.firstName}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="First Name"
             size="30"
-            pattern="[A-Za-z]{2-40}"
             required
           />
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>First Name</span></label>
 
-          <label htmlFor="last-name"></label>
           <input
             type="text"
             id="last-name"
@@ -80,9 +78,9 @@ function SignUp({ setToken }) {
             value={data.lastName}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Last Name"
             required
           />
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Last Name</span></label>
 
           <label htmlFor="email-input"></label>
           <input
@@ -92,9 +90,9 @@ function SignUp({ setToken }) {
             value={data.email}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Email"
             required
           />
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName} ${styles.emailPlaceholder}`}>Email</span></label>
 
           <label htmlFor="password-input"></label>
           <input
@@ -104,12 +102,11 @@ function SignUp({ setToken }) {
             value={data.password}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Password"
             required
           />
-
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Password</span></label>
           {/* ERROR IS DISPLAYED HERE  */}
-          {error && <div>{error}</div>}
+          {error && <div className={`${styles.errorMessage}`}>{error}</div>}
 
           <label htmlFor="submit-btn"></label>
           <input

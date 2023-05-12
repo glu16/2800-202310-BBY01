@@ -58,3 +58,24 @@ td img {
   font-weight: bold;
   color: white;
 }
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+    margin-bottom: 80px;
+  }
+
+  .cardWrapper {
+    height: 100%;
+    max-width: 1000px;
+    border-radius: 10px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 80px;
+  }
+}

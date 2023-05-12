@@ -14,6 +14,7 @@ ul {
 
 .coachTitle {
   color: white;
+  margin-bottom: 20px;
 }
 
 .chatLogContainer {
@@ -23,17 +24,19 @@ ul {
   margin-bottom: 50px;
   overflow-y: auto;
   color: white;
+  width: auto;
 }
 
 .chatMessageContainer {
   display: flex;
   align-items: center;
   margin-top: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 30px;
 }
 
 .userAvatar {
   background-color: white;
+  margin-right: 10px;
   width: 40px;
   height: 40px;
 }
@@ -42,11 +45,31 @@ ul {
   background-color: rgb(4, 246, 61);
   width: 40px;
   height: 40px;
+  /* margin-top: 17px; */
+  margin-right: 10px;
+  align-self: flex-start;
+  background-image: url("../img/terminator.jpg");
+  background-position: center;
+  background-size: cover;
 }
 
 .message {
-  padding: 0 30px;
+  padding: 10px 30px 10px 30px;
+  border-radius: 10px;
+  left: 40px;
+  position: relative;
+  background-color: gray;
+}
 
+.message:before {
+  content: "";
+  position: absolute;
+
+  height: 0;
+  border-top: 13px solid transparent;
+  border-right: 50px solid gray;
+  border-bottom: 25px solid transparent;
+  margin: -6px 0 0 -55px;
 }
 
 .textInputContainer {
@@ -68,3 +91,41 @@ ul {
   margin: 0;
 }
 
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+    margin-bottom: 80px;
+  }
+
+  .coachTitle {
+    color: white;
+    margin-bottom: 24px;
+  }
+
+  .chatLogContainer {
+    padding: 24px;
+    padding-bottom: 100rem;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    overflow-y: auto;
+    color: white;
+    width: auto;
+  }
+
+  .chatMessageContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+  }
+
+  .textInputContainer {
+    background-color: #d4d4d4;
+    padding: 12px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-bottom: 100px;
+  }
+}

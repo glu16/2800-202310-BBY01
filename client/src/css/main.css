@@ -24,8 +24,6 @@ label {
 .card {
   height: 100%;
   display: flex;
-  width: 600px;
-  margin-top: 160px;
   text-align: center;
   background-color: #d4d4d4;
 }

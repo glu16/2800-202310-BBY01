@@ -13,60 +13,65 @@ function SignupDetails() {
     goal: "",
   });
 
+  const [isModified, setIsModified] = useState(false);
+
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      const url = `https://healthify-enxj.onrender.com/signupdetails/${localStorage.getItem("username")}`;
-      const { data: res } = await axios.post(url, data);
-      window.location = "/"
-    
-      //THIS ACTUALLY WORKS BUT THE AI IS 50/50 WHEN CREATING A WORKOUT
-      const userName = localStorage.getItem("email");
-        // key to store individual workout
-        const today = new Date().toISOString().slice(0, 10);
-        const workoutKey = "workout_" + today;
-        // workout to write into user database, will generate with server side call to workouts.js
-        const workout = {}
-    
-        const data2 = { [workoutKey]: workout };
-        const response = await fetch(`https://healthify-enxj.onrender.com/fitness/${localStorage.getItem("email")}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json", },
-          body: JSON.stringify(data2),
-        });
-        const updatedUser = await response.json();
-        console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userName);
-        //END OF WORKOUT CREATION
+  event.preventDefault();
+  try {
+    const url = `http://localhost:5050/signupdetails/${localStorage.getItem("username")}`;
+    const { data: res } = await axios.post(url, data);
+    window.location = "/";
 
+    const userName = localStorage.getItem("email");
+    const today = new Date().toISOString().slice(0, 10);
+    const workoutKey = "workout_" + today;
+    const workout = {};
 
-    } catch (error) {
-      //ERROR IS CAUGHT HERE
-      console.log(error.response.data);
-      setError(error.response.data);
-    }
-  };
+    // GENERATES AND STORES WORKOUT PLAN
+    const data2 = { [workoutKey]: workout };
+    const workoutRequest = fetch(`http://localhost:5050/fitness/${localStorage.getItem("username")}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data2),
+    });
+
+    const mealKey = "meal_" + today;
+    const diet = {};
+
+    // GENERATES AND STORES DIET PLAN
+    const data3 = { [mealKey]: diet };
+    const dietRequest = fetch(`http://localhost:5050/diet/${localStorage.getItem("email")}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data3),
+    });
+
+    //ChatGPT was used to generate the code that allows for concurrent API calls
+    const [workoutResponse, dietResponse] = await Promise.all([workoutRequest, dietRequest]);
+    const updatedUser = await workoutResponse.json();
+    const updatedUser2 = await dietResponse.json();
+
+    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userName);
+    console.log("New workout " + JSON.stringify(updatedUser2.diets) + " added to " + userName);
+  } catch (error) {
+    console.log(error.response.data);
+    setError(error.response.data);
+  }
+};
+
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
 
-    // const response = await fetch(``, {
-
-
-
-
-
-
   return (
     <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.detailsContainer}`}
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.signupDetailsBody}`}
     >
-      <div className={`card ${styles.signupCard}`}>
-        <div className="card-body">
-          <div className="d-flex flex-column align-items-center text-center">
-            <h1 id={styles.detailsLabel}>Details</h1>
+      <div className={`card-body ${styles.signupCard}`}>
+            <h1 id={styles.detailsHeader}>Details</h1>
             <form id={styles.signupDetails} onSubmit={handleSubmit}>
               <div className={styles.radioInput}>
                 <label htmlFor="sex">Male</label>
@@ -100,7 +105,7 @@ function SignupDetails() {
                 placeholder="Age"
                 min="0"
                 max="99"
-                value={data.age}
+                value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
@@ -113,7 +118,7 @@ function SignupDetails() {
                 name="height"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Height (m)"
-                value={data.height}
+                value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
@@ -126,7 +131,7 @@ function SignupDetails() {
                 name="weight"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Weight (kg)"
-                value={data.weight}
+                value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
@@ -150,7 +155,7 @@ function SignupDetails() {
                 <option value="Extremely Active">Extremely Active</option>
               </select>
 
-              <label htmlFor="goal"></label>
+              <label htmlFor="goal"></label> <br/>
               <select
                 defaultValue={"Fitness Goals"}
                 type="select"
@@ -177,8 +182,6 @@ function SignupDetails() {
             </form>
           </div>
         </div>
-      </div>
-    </div>
   );
 }
 

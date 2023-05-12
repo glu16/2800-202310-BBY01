@@ -1,10 +1,10 @@
-/*
-A LARGE MARJORITY OF THIS CODE THAT HOOKS UP THE 
-SIGNIN/LOGIN WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
-https://www.youtube.com/watch?v=HGgyd1bYWsE 
+/* 
+A LARGE MARJORITY OF THIS CODE THAT HOOKS UP OPENAI
+TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
+https://www.youtube.com/watch?v=qwM23_kF4v4
 */
 
-const {Configuration, OpenAIApi} = require("openai");
+const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
@@ -13,7 +13,7 @@ const authRouter = require("./routes/auth");
 const passChangeRouter = require("./routes/passChange");
 
 // THE MODELS
-const {User} = require("./models/users");
+const { User } = require("./models/users");
 const Tips = require("./models/tips");
 
 const cors = require("cors");
@@ -49,7 +49,7 @@ app.get("/getFromUser/:email", async (req, res) => {
 
   try {
     // FINDS THE USER BY EMAIL
-    const user = await User.findOne({email: userID});
+    const user = await User.findOne({ email: userID });
     if (!user) {
       return res.status(400).send("Email not registered" + userID);
     }
@@ -63,21 +63,24 @@ app.get("/getFromUser/:email", async (req, res) => {
 
 // GETS THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
-  // THE USER'S EMAIL
+  // THE USER'S USERNAME
   const userID = req.params.username;
   try {
-    // FIND THE USER BY EMAIL
-    const user = await User.findOne({username: userID});
+    // FIND THE USER BY USERNAME
+    const user = await User.findOne({ username: userID });
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).json({ message: "User not found" });
     }
     res.send({
       firstName: user.firstName,
       email: user.email,
+      phoneNumber: user.phoneNumber,
+
+      userStats: user.userStats,
     });
   } catch (e) {
     console.log(e);
-    res.status(500).send("Server error");
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -96,7 +99,7 @@ app.post("/signupdetails/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {username: userID},
+      { username: userID },
       // SET THE USER STATS
       {
         $set: {
@@ -113,7 +116,7 @@ app.post("/signupdetails/:username", async (req, res) => {
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      {new: true, upsert: true}
+      { new: true, upsert: true }
     );
 
     res.status(200).json({
@@ -122,47 +125,33 @@ app.post("/signupdetails/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
-// GETS THE USER'S STATS FROM THE DATABASE
-app.get("/profile/:username", async (req, res) => {
-  const username = req.params.username;
-
-  try {
-    const user = await User.findOne({ username });
-
-    if (user) {
-      res.status(200).json(user.userStats);
-    } else {
-      res.status(404).json({ message: "User not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-// SAVES THE USER'S PHONE NUMBER IN THE DATABASE
+// UPDATES AND SAVES THE USER'S PROFILE INFORMATION IN THE DATABASE
 app.post("/profile/:username", async (req, res) => {
   const userID = req.params.username;
-  console.log(req.body)
+  console.log(req.body);
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {username: userID},
-      // SET THE USER'S PHONE NUMBER
+      { username: userID },
+      // SETS THE USER'S PROFILE INFORMATION
       {
         $set: {
           username: req.body.username,
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
+          sex: req.body.sex,
+          age: req.body.age,
+          height: req.body.height,
+          weight: req.body.weight,
         },
       },
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      {new: true, upsert: true}
+      { new: true }
     );
 
     res.status(200).json({
@@ -171,7 +160,7 @@ app.post("/profile/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -185,12 +174,12 @@ app.put("/users/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      {username: userID},
+      { username: userID },
       // SET THE MESSAGES TO THE UPDATED MESSAGES
-      {$push: {messages: updatedUserData}},
+      { $push: { messages: updatedUserData } },
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      {new: true, upsert: true}
+      { new: true, upsert: true }
     );
 
     res.status(200).json({
@@ -199,7 +188,7 @@ app.put("/users/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -210,7 +199,7 @@ app.get("/coach/:username", async (req, res) => {
 
   try {
     // FINDS THE USER BY USERNAME
-    const user = await User.findOne({username: userID});
+    const user = await User.findOne({ username: userID });
     if (!user) {
       return res.status(400).send("Username not registered: " + userID);
     }
@@ -225,34 +214,40 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
-// to generate and store a user's workout plan
+// TO GENERATE AND STORE A USER'S WORKOUT PLAN
 app.put("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
+  // console.log(userID);
   // const newWorkout = req.body;
 
-  // call and execute workouts.js
+  // CALL AND EXECUTE workouts.js
   const workouts = require("./workouts");
 
-  // generates workout plan in workout.js
+  // GENERATES WORKOUT PLAN IN workout.js
   function generateWorkout(callback) {
     workouts.generate((newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
-  // writes workoutplan into database
+  // WRITES WORKOUT PLAN INTO THE DATABASE
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        {email: userID},
-        {$push: {workouts: {$each: [JSON.parse(newWorkout)], $position: 0}}}
+        { username: userID },
+        {
+          $push: {
+            workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
+          },
+        }
       );
+      console.log("pushed into ");
       res.status(200).json({
         message: `New workout added to ${userID}.`,
         user,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({error: "Internal server error"});
+      res.status(500).json({ error: "Internal server error" });
     }
     if (callback) {
       callback();
@@ -261,21 +256,75 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
-// send workout plan to client
+// SEND WORKOUT PLAN TO CLIENT
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
-    const user = await User.findOne({username: userID});
-    // if workouts empty ie.new user
+    const user = await User.findOne({ username: userID });
+    // IF WORKOUTS IS EMPTY (ex. NEW USER)
     if (user.workouts.length == 0) {
       res.send("empty");
-      // sends first workout in workouts
+      // SENDS FIRST WORKOUT IN WORKOUTS
     } else {
       res.send(user.workouts[0]);
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// TO GENERATE AND STORE A USER'S DIET PLAN
+app.put("/diet/:email", async (req, res) => {
+  const userID = req.params.email;
+  // const newWorkout = req.body;
+
+  // CALL AND EXECUTE diet.js
+  const Diet = require("./diet");
+
+  // GENERATES DIET PLAN IN diet.js
+  function generateDiet(callback) {
+    Diet.generate((newDiet) => {
+      updateDiet(newDiet, callback);
+    });
+  }
+  // WRITES DIET PLAN INTO THE DATABASE
+  async function updateDiet(newDiet, callback) {
+    try {
+      const user = await User.findOneAndUpdate(
+        { email: userID },
+        { $push: { diets: { $each: [JSON.parse(newDiet)], $position: 0 } } }
+      );
+      res.status(200).json({
+        message: `New diet added to ${userID}.`,
+        user,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error" });
+    }
+    if (callback) {
+      callback();
+    }
+  }
+  generateDiet();
+});
+
+// SEND WORKOUT PLAN TO CLIENT
+app.get("/diet/:email", async (req, res) => {
+  const userID = req.params.email;
+  try {
+    const user = await User.findOne({ username: userID });
+    // if workouts empty ie.new user
+    if (user.diets.length == 0) {
+      res.send("empty");
+      // sends first workout in workouts
+    } else {
+      res.send(user.diets[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -290,7 +339,7 @@ app.get("/home/tips", async (req, res) => {
     const currentDate = new Date().toISOString().slice(0, 10);
 
     if (!selectedTip || selectedDate !== currentDate) {
-      const tips = await Tips.aggregate([{$sample: {size: 1}}]);
+      const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
       selectedTip = tips[0];
       selectedDate = currentDate;
     }
@@ -298,7 +347,7 @@ app.get("/home/tips", async (req, res) => {
     res.status(200).json(selectedTip);
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -314,27 +363,13 @@ setInterval(() => {
 
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
-  const {message} = req.body;
+  const { message } = req.body;
   console.log(message);
 
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
     model: "text-davinci-003",
-    prompt:
-      `${message}` +
-      `. Return response in the following parsable JSON format:
-      [
-      {
-          "Day": "day",
-          "item1": "item1",
-          "item2": "item2",
-          "item3": "item3",
-          "item4": "item4",
-          "planType": "fitness or diet"
-      }
-  ]
-
-      `,
+    prompt: `${message}`,
     max_tokens: 1000,
     temperature: 0,
   });
@@ -342,53 +377,7 @@ app.post("/", async (req, res) => {
   const parsableJson = response.data.choices[0].text;
 
   console.log(parsableJson);
-
-  const parsedJson = JSON.parse(parsableJson);
-  let messageOutTest = "";
-
-  // IF/ELSE THAT CHECKS IF THE PLAN IS A FITNESS PLAN OR DIET PLAN.
-  // CURRENTLY ASSUMES THAT ANYTHING THAT IS NOT A FITNESS PLAN IS A DIET PLAN.
-  parsedJson.forEach((choice) => {
-    if (choice.planType === "fitness") {
-      messageOutTest +=
-        "Day: " +
-        choice.Day +
-        "\n" +
-        "Exercise 1: " +
-        choice.item1 +
-        "\n" +
-        "Exercise 2: " +
-        choice.item2 +
-        "\n" +
-        "Exercise 3: " +
-        choice.item3 +
-        "\n" +
-        "Rest: " +
-        choice.item4 +
-        "\n" +
-        "\n";
-    } else {
-      messageOutTest +=
-        "Day: " +
-        choice.Day +
-        "\n" +
-        "BreakFast: " +
-        choice.item1 +
-        "\n" +
-        "Lunch: " +
-        choice.item2 +
-        "\n" +
-        "Dinner: " +
-        choice.item3 +
-        "\n" +
-        "Snack: " +
-        choice.item4 +
-        "\n" +
-        "\n";
-    }
-  });
-
-  console.log(messageOutTest);
+  let messageOutTest = parsableJson;
 
   // THE MESSAGE SENT TO THE USER
   res.json({
@@ -396,13 +385,13 @@ app.post("/", async (req, res) => {
   });
 });
 
-// server hosting
+// SERVER HOSTING
 const localPort = 5050;
 const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
-// send server port info to client
+// SEND SERVER PORT INTO TO THE CLIENT
 app.get("/api/port", (req, res) => {
-  res.json({port});
+  res.json({ port });
 });

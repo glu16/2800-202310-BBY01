@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../css/fitness.module.css";
+// import Modal from 'react-modal';
 
 // import server hosting port
 const port = '5050';
@@ -10,8 +11,7 @@ const username = localStorage.getItem("username");
 // get first item from user's workouts field from database
 var workout;
 async function getWorkout() {
-  // var response = await fetch(`https://healthify-enxj.onrender.com/fitness/${username}`, {
-  var response = await fetch(`http://localhost:${port}/fitness/${username}`, {
+  var response = await fetch(`http://localhost:5050/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", },
   });
@@ -28,8 +28,6 @@ async function getWorkout() {
 // display user's workout, can't be async
 function Workout() {
   const [workout, setWorkout] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
   
   // use today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
@@ -37,14 +35,28 @@ function Workout() {
   today.setDate(today.getDate() + daysToAdd);
   const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   const date = today.toLocaleDateString('en-CA', dateOptions);
-  // console.log(date);
-
+  // tracks which day x/7 of the weeklong workout plan is today's, going to use this to limit button navigation
+  const [dayOfWorkoutPlan, setDayOfWorkoutPlan] = useState(0);
+  
+  // for previous day and next day button navigation
   const handleIncrementDays = () => {
-    setDaysToAdd(daysToAdd + 1); // Increment daysToAdd by 1
+    setDaysToAdd(daysToAdd + 1); 
   };
   const handleDecrementDays = () => {
-    setDaysToAdd(daysToAdd - 1); // Decrement daysToAdd by 1
+    setDaysToAdd(daysToAdd - 1); 
   };
+
+  // for modal stuff
+  const [showModal, setShowModal] = useState(false);
+  const handleOpenModal = () => {
+    console.log("modal opened");
+    setShowModal(true);
+  };
+  const handleCloseModal = () => {
+    console.log("modal closed");
+    setShowModal(false);
+  };
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -59,24 +71,57 @@ function Workout() {
         if (typeof obj === 'object' && obj !== null) {
           // if it's a nested object, recursively render its properties
           return Object.keys(obj).map((key, index) => {
-            // check if key matches date
+            
+            // check if key matches date so only render the one day on the page
             if (key == date) {
+              // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
+              setDayOfWorkoutPlan(index);
+
               // check if empty rest day
               if (Object.keys(obj[key]).length === 0) {
-                return (
-                  <div key={index} className={styles.day}>
-                    <strong>{key}:</strong> Rest day
-                  </div>
-                );
-                // sends the day title ex. Thursday, May 11, 2023:
+                // use this to check if current page is today to render title card
+                let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                let today = new Date().toLocaleDateString('en-US', options);
+                // if this page is today
+                if (key == today) {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>Today, {key}:</strong> Rest day
+                    </div>
+                  );
+                // if page is not today
+                } else {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>{key}:</strong> Rest day
+                    </div>
+                  );
+                }
+
+              // sends the day title ex. Thursday, May 11, 2023:
               } else {
-                return (
-                  <div key={index} className={styles.day}>
-                    <strong>{key}</strong>
-                    {renderExercise(obj[key])}
-                  </div>
-                );
+                // use this to check if current page is today to render title card
+                let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                let today = new Date().toLocaleDateString('en-US', options);
+                // if this page is today
+                if (key == today) {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>Today, {key}</strong>
+                      {renderExercise(obj[key])}
+                    </div>
+                  );
+                // if page is not today
+                } else {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>{key}</strong>
+                      {renderExercise(obj[key])}
+                    </div>
+                  );
+                }
               }
+            // return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
             } else {
               return null;
             }
@@ -95,14 +140,33 @@ function Workout() {
               // don't display detailKey if it is name or setsAndReps
               if (detailKey == "name" || detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              } else {
+              // dispaly detailKey if it is calories
+              } else if (detailKey == "calories") {
                 return (
                   <div key={detailKey} className={styles.aKey}>
-                    {detailKey}: {detailValue}
+                    Calories: {detailValue}
                   </div>
                 );
+              // shouldn't be any other option currently
+              } else {
+                return; 
               }
             })}
+          {/* this opens up images for the exercise */}
+          {/* <button onClick={handleOpenModal}>Get instructions</button>
+          <Modal
+            isOpen={showModal}
+            onRequestClose={handleCloseModal}
+            contentLabel="Image Popup"
+            appElement={document.getElementById('root')}
+            ariaHideApp={false}
+          >
+            {/* Modal content goes here */}
+            {/* <img src="path/to/your/image.jpg" alt="Image" /> */}
+            {/* <p>test</p>
+          </Modal> */} 
+          
+
           </div>
           );
         });
@@ -121,8 +185,11 @@ function Workout() {
           } else {
             // Assign the value directly
             const variableValue = value; 
-            // Wrap key and value in quotes
-            eval(`var ${variableName} = { key: "${key}", value: "${variableValue}" };`); 
+            // dynamically generate a new variable with the name of the date and exercise
+            // caution dangerous to use eval
+            // fixed eval error by assigning each variableName the day of the week so only works on max 7-days plan
+            // console.log("variableName: " + variableName + ". key: " + key + ". variableValue: " + variableValue);
+            eval(`var ${variableName.substring(0, variableName.indexOf(","))} = { key: "${key}", value: "${variableValue}" };`); 
           }
         }
       }
@@ -133,44 +200,12 @@ function Workout() {
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
-  const handleExerciseClick = (exercise) => {
-    setSelectedExercise(exercise);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-
   return (
     <div>
-      <h2>Your Workout</h2>
-      <button onClick={handleDecrementDays} disabled={daysToAdd <= 0}>Previous Day</button>
-      <button onClick={handleIncrementDays} disabled={daysToAdd >= 6}>Next Day</button> 
+      <h2>{username}'s Workout</h2>
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>Previous Day</button>
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6}>Next Day</button> 
       <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
-      {showModal && (
-        <Modal onClose={handleCloseModal}>
-          <h3>{selectedExercise}</h3>
-          {/* Render the details of the selected exercise */}
-          {/* For example: */}
-          <div>{selectedExercise.details.details_values}</div>
-        </Modal>
-      )}
-    </div>
-  );
-}
-
-// Example Modal component
-function Modal({ onClose, children }) {
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-        {children}
-      </div>
     </div>
   );
 }
@@ -218,9 +253,9 @@ const Fitness = () => {
         <div className={`card-body ${styles.fitnessCardBody}`}>
 
         <div>
-          {username}
           <form id="addWorkout" onSubmit={addWorkoutToUser}>
             <input type="hidden" name="username" value={username}></input>
+            {/* button displays different text if clicked or not clicked */}
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
               {isFormSubmitting ? (
                 <div>
@@ -230,10 +265,11 @@ const Fitness = () => {
                   </div>
                 </div>
               ) : (
-                'Create workout plan'
+                'Create new workout plan'
               )}
             </button>
-              <p><small>generating takes 30-60 seconds</small></p>
+            
+              <p><small>Generating takes 30-60 seconds</small></p>
           </form>
         </div>
 
