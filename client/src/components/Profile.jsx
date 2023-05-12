@@ -6,9 +6,10 @@ import profile from "../img/placeholder-profile.png";
 
 const Profile = ({ username }) => {
   /* Retrieves logged in user's data */
-  const [userName, setUserName] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
   const userEmail = localStorage.getItem("email");
-  const [userPhoneNumber, setUserPhoneNumber] = useState("");
+  const userID = localStorage.getItem("username");
+  
 
   useEffect(() => {
     async function fetchUserData() {
@@ -21,47 +22,36 @@ const Profile = ({ username }) => {
             },
           }
         );
-        const firstName = response.data.firstName;
-        setUserName(firstName);
+        
+        setUserInfo(response.data);
         const phoneNumber = response.data.phoneNumber;
-        setUserPhoneNumber(phoneNumber);
-        console.log(response.data);
+        // Sets retrieved phone number as an initial value for state variable 'data'
+        setData((prevData) => ({
+          ...prevData,
+          phoneNumber: phoneNumber,
+          age: response.data.userStats[0].age,
+          height: response.data.userStats[0].height,
+          weight: response.data.userStats[0].weight,
+        }));  
       } catch (error) {
         console.error(error);
       }
     }
 
     fetchUserData();
-  }, []);
-  /* End of user data retrieval */
-
-  /* Retrieves logged in user's stats */
-  const [userStats, setUserStats] = useState(null);
-
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/profile/${localStorage.getItem(
-            "username"
-          )}`
-        );
-        setUserStats(response.data);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    fetchUserStats();
   }, [username]);
-  /* End of user stats retrieval */
+  /* End of user data retrieval */
 
   /* Allows the user to update their profile */
   const [data, setData] = useState({
-    username: "",
+    username: `${userID}`,
     email: `${userEmail}`,
     phoneNumber: "",
+    age: "",
+    height: "",
+    weight: "",
   });
+
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -105,7 +95,7 @@ const Profile = ({ username }) => {
                   <div className={`${styles.profileItem} email`}>
                     <h5 className={styles.profileHeader}>Name</h5>
                     <p>
-                      <span id="name-goes-here">{userName}</span>
+                      <span id="name-goes-here">{userID}</span>
                     </p>
                   </div>
                   <div className={`${styles.profileItem} email`}>
@@ -117,17 +107,17 @@ const Profile = ({ username }) => {
                   <div className={`${styles.profileItem} phone`}>
                     <h5 className={styles.profileHeader}>Phone</h5>
                     <p>
-                      <span id="phone-goes-here">{userPhoneNumber}</span>
+                      <span id="phone-goes-here">{userInfo && userInfo.phoneNumber}</span>
                     </p>
                   </div>
                   <div className={`${styles.profileItem} phone`}>
                     <h5 className={styles.profileHeader}>User Statistics</h5>
-                    {userStats && (
+                    {userInfo && (
                       <>
-                        <p>Sex: {userStats[0].sex}</p>
-                        <p>Age: {userStats[0].age}</p>
-                        <p>Height: {userStats[0].height}m</p>
-                        <p>Weight: {userStats[0].weight} kg</p>
+                        <p>Sex: {userInfo.userStats[0].sex}</p>
+                        <p>Age: {userInfo.userStats[0].age}</p>
+                        <p>Height: {userInfo.userStats[0].height}m</p>
+                        <p>Weight: {userInfo.userStats[0].weight} kg</p>
                       </>
                     )}
                   </div>
@@ -221,6 +211,56 @@ const Profile = ({ username }) => {
                     id="phoneInput"
                     name="phoneNumber"
                     value={data.phoneNumber}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="phoneInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Age
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="ageInput"
+                    name="age"
+                    value={data.age}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="phoneInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Height
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    className="form-control"
+                    id="heightInput"
+                    name="height"
+                    value={data.height}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="phoneInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Weight
+                  </label>
+                  <input
+                    type="number"
+                    step="any"
+                    className="form-control"
+                    id="weightInput"
+                    name="weight"
+                    value={data.weight}
                     onChange={handleChange}
                   />
                 </div>
