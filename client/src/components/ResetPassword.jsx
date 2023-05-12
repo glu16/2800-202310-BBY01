@@ -11,11 +11,11 @@ function ResetPassword() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("/forgot-password", { email });
+      await axios.post("http://localhost:5050/reset-password", {email} );
       alert("Password reset email sent");
       history.push("/"); // Navigate to the login page or any other desired page
     } catch (error) {
-      console.error("Error occurred while initiating password reset:", error);
+      console.error("Error occurred while initiating password reset:", error.message);
       alert("An error occurred while initiating password reset");
     }
   };
@@ -30,6 +30,7 @@ function ResetPassword() {
             id="email-input"
             className={`${styles.userInput}`}
             placeholder="Email"
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required

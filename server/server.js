@@ -418,20 +418,23 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-app.post('/forgot-password', async (req, res) => {
-  const { email } = req.body;
+app.post('/reset-password', async (req, res) => {
+  console.log(req.body)
+  const email = req.body.email;
 
   try {
     // Generate a unique password reset token
     const resetToken = uuidv4();
 
     // Save the token and expiration timestamp to the user's document in MongoDB
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: email });
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
     user.resetToken = resetToken;
     user.resetTokenExpiration = Date.now() + 3600000; // Token expires in 1 hour
+
+    // PROGRAM STOPS WORKING HERE
     await User.save(user);
 
     // Send password reset email
