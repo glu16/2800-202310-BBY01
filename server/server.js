@@ -69,22 +69,23 @@ app.get("/getFromUser/:email", async (req, res) => {
 
 // GETS THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
-  // THE USER'S EMAIL
+  // THE USER'S USERNAME
   const userID = req.params.username;
   try {
-    // FIND THE USER BY EMAIL
+    // FIND THE USER BY USERNAME
     const user = await User.findOne({ username: userID });
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).json({ message: "User not found"});
     }
     res.send({
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
+      userStats: user.userStats 
     });
   } catch (e) {
     console.log(e);
-    res.status(500).send("Server error");
+    res.status(500).json({ message: "Server error"});
   }
 });
 
@@ -130,23 +131,6 @@ app.post("/signupdetails/:username", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// GETS THE USER'S STATS FROM THE DATABASE
-app.get("/profile/:username", async (req, res) => {
-  const username = req.params.username;
-
-  try {
-    const user = await User.findOne({ username });
-
-    if (user) {
-      res.status(200).json(user.userStats);
-    } else {
-      res.status(404).json({ message: "User not found" });
-    }
-  } catch (error) {
-    res.status(500).json({ message: "Internal server error" });
   }
 });
 
