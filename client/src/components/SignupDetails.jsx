@@ -13,6 +13,8 @@ function SignupDetails() {
     goal: "",
   });
 
+  const [isModified, setIsModified] = useState(false);
+
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
@@ -50,6 +52,7 @@ function SignupDetails() {
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
+    setIsModified(true);
   };
 
     // const response = await fetch(``, {
@@ -100,7 +103,7 @@ function SignupDetails() {
                 placeholder="Age"
                 min="0"
                 max="99"
-                value={data.age}
+                value={isModified? data.age: ""}
                 onChange={handleChange}
                 required
               />
@@ -113,7 +116,7 @@ function SignupDetails() {
                 name="height"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Height (m)"
-                value={data.height}
+                value={isModified? data.height : ""}
                 onChange={handleChange}
                 required
               />
@@ -126,7 +129,7 @@ function SignupDetails() {
                 name="weight"
                 className={`user-input ${styles.userInput}`}
                 placeholder="Weight (kg)"
-                value={data.weight}
+                value={isModified? data.weight : ""}
                 onChange={handleChange}
                 required
               />
