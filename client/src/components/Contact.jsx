@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useSpring, animated } from "react-spring";
 
+import "../css/main.css";
 import styles from "../css/about.module.css";
 
 const Contact = () => {

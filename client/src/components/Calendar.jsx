@@ -9,7 +9,7 @@ const Calendar = () => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.calendarContainer}`}
     >
-      <div className={`card ${styles.calendarCard}`}>
+      <div className={`${styles.calendarCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <h1>Welcome to the Calendar Page</h1>
