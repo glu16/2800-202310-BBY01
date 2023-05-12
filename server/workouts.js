@@ -80,7 +80,7 @@ inputPrompt += "Format each exercise with the following structure: exercise name
 const runAI = async (input) => {
     
     // loading animation
-    console.log("generating workout plan...");
+    console.log("Generating workout plan...");
     startProgress();  
 
     //default max tokens = 4096

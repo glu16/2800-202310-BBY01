@@ -232,7 +232,7 @@ const DietPlan = () => {
                 'Create diet plan'
               )}
             </button>
-              <p><small>generating takes 30-60 seconds</small></p>
+              <p><small>Generating takes 30-60 seconds</small></p>
           </form>
         </div>
 

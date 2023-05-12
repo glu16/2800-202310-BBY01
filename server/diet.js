@@ -68,7 +68,7 @@ inputPrompt +=
   "Format each meal option like this example sentance: Meal 1: Broccoli and chicken fajitas (Protein: 25g, Carbs: 20g, Fat: 8g) Calories: 270";
 
 const runAI = async (input) => {
-  console.log("generating diet plan...");
+  console.log("Generating diet plan...");
   startProgress();
   const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
