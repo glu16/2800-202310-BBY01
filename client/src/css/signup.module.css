@@ -71,7 +71,12 @@
 .loginLink {
   text-decoration: none;
   color: rgb(69, 182, 148);
+  transition: 0.2s;
 }
+
+.loginLink:hover {
+  color:rgb(144, 213, 192);
+ }
 
 .userInput {
   border: 2px solid #c0c0c0;
@@ -90,7 +95,7 @@
   position: relative;
   bottom: 50px;
   right: 100px;
-  transition: all 0.3s ease;
+  transition: 0.2s;
   display: inline-block;
 }
 .emailPlaceholder{
