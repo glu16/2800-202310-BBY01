@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../css/fitness.module.css";
-import Modal from 'react-modal';
+// import Modal from 'react-modal';
 
 // import server hosting port
 const port = '5050';
@@ -147,7 +147,7 @@ function Workout() {
               }
             })}
           {/* this opens up images for the exercise */}
-          <button onClick={handleOpenModal}>Get instructions</button>
+          {/* <button onClick={handleOpenModal}>Get instructions</button>
           <Modal
             isOpen={showModal}
             onRequestClose={handleCloseModal}
@@ -157,8 +157,8 @@ function Workout() {
           >
             {/* Modal content goes here */}
             {/* <img src="path/to/your/image.jpg" alt="Image" /> */}
-            <p>test</p>
-          </Modal>
+            {/* <p>test</p>
+          </Modal> */} 
           
 
           </div>
@@ -262,7 +262,7 @@ const Fitness = () => {
                 'Create workout plan'
               )}
             </button>
-              <p><small>generating takes 30-60 seconds</small></p>
+              <p><small>Generating takes 30-60 seconds</small></p>
           </form>
         </div>
 
