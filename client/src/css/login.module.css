@@ -27,6 +27,9 @@
   padding: 10px;
 }
 
+.errorMessage{
+  color: red;
+}
 #loginHeader {
   color: white;
   margin-top: 30px;
