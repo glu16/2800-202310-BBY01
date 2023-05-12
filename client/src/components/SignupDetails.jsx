@@ -31,7 +31,7 @@ function SignupDetails() {
 
     // GENERATES AND STORES WORKOUT PLAN
     const data2 = { [workoutKey]: workout };
-    const workoutRequest = fetch(`http://localhost:5050/fitness/${localStorage.getItem("email")}`, {
+    const workoutRequest = fetch(`http://localhost:5050/fitness/${localStorage.getItem("username")}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data2),

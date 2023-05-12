@@ -198,7 +198,7 @@ const DietPlan = () => {
     const diet = {}
 
     const data = { [mealKey]: diet };
-    const response = await fetch(`http://localhost:5050/diet/${username}`, {
+    const response = await fetch(`http://localhost:5050/diet/${localStorage.getItem("email")}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
