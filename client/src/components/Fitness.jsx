@@ -28,8 +28,6 @@ async function getWorkout() {
 // display user's workout, can't be async
 function Workout() {
   const [workout, setWorkout] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
   
   // use today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
@@ -40,8 +38,6 @@ function Workout() {
   // tracks which day x/7 of the weeklong workout plan is today's, going to use this to limit button navigation
   const [dayOfWorkoutPlan, setDayOfWorkoutPlan] = useState(0);
   
-
-
   // for previous day and next day button navigation
   const handleIncrementDays = () => {
     setDaysToAdd(daysToAdd + 1); 
@@ -167,44 +163,12 @@ function Workout() {
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
-  const handleExerciseClick = (exercise) => {
-    setSelectedExercise(exercise);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-
   return (
     <div>
       <h2>Your Workout</h2>
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>Previous Day</button>
       <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6}>Next Day</button> 
       <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
-      {showModal && (
-        <Modal onClose={handleCloseModal}>
-          <h3>{selectedExercise}</h3>
-          {/* Render the details of the selected exercise */}
-          {/* For example: */}
-          <div>{selectedExercise.details.details_values}</div>
-        </Modal>
-      )}
-    </div>
-  );
-}
-
-// Example Modal component
-function Modal({ onClose, children }) {
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-        {children}
-      </div>
     </div>
   );
 }
