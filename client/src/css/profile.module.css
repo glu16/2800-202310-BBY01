@@ -21,6 +21,11 @@
   margin-top: 10px;
 }
 
+.chatItem {
+  color: rgb(92, 208, 216);
+  margin-top: 10px;
+}
+
 .formLabel {
   color: black;
 }

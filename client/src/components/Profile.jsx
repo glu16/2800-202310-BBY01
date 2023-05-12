@@ -5,12 +5,12 @@ import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = ({ username }) => {
-  /* Retrieves logged in user's data */
+  // Retrieves logged in user's data
   const [userInfo, setUserInfo] = useState(null);
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
-  
 
+  // useEffect hook to fetch user data
   useEffect(() => {
     async function fetchUserData() {
       try {
@@ -22,7 +22,7 @@ const Profile = ({ username }) => {
             },
           }
         );
-        
+
         setUserInfo(response.data);
         const phoneNumber = response.data.phoneNumber;
         // Sets retrieved phone number as an initial value for state variable 'data'
@@ -32,7 +32,7 @@ const Profile = ({ username }) => {
           age: response.data.userStats[0].age,
           height: response.data.userStats[0].height,
           weight: response.data.userStats[0].weight,
-        }));  
+        }));
       } catch (error) {
         console.error(error);
       }
@@ -40,9 +40,9 @@ const Profile = ({ username }) => {
 
     fetchUserData();
   }, [username]);
-  /* End of user data retrieval */
+  // End of user data retrieval
 
-  /* Allows the user to update their profile */
+  // Allows the user to update their profile
   const [data, setData] = useState({
     username: `${userID}`,
     email: `${userEmail}`,
@@ -51,7 +51,6 @@ const Profile = ({ username }) => {
     height: "",
     weight: "",
   });
-
 
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
@@ -68,7 +67,31 @@ const Profile = ({ username }) => {
       console.log(error);
     }
   };
-  /* End of user profile update */
+  // End of user profile update
+
+  // Retrieves the logged in user's chat history 
+  const [chatHistory, setChatHistory] = useState([]);
+
+  useEffect(() => {
+    async function fetchChatHistory() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5050/coach/${localStorage.getItem("username")}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        setChatHistory(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchChatHistory();
+  }, []);
+  // End of chat history retrieval
 
   return (
     <div
@@ -107,7 +130,9 @@ const Profile = ({ username }) => {
                   <div className={`${styles.profileItem} phone`}>
                     <h5 className={styles.profileHeader}>Phone</h5>
                     <p>
-                      <span id="phone-goes-here">{userInfo && userInfo.phoneNumber}</span>
+                      <span id="phone-goes-here">
+                        {userInfo && userInfo.phoneNumber}
+                      </span>
                     </p>
                   </div>
                   <div className={`${styles.profileItem} phone`}>
@@ -134,6 +159,12 @@ const Profile = ({ username }) => {
             <div className="col-md-6">
               <div className="d-flex flex-column align-items-center text-center">
                 <h1 className={styles.chatHeader}>Chat History</h1>
+                {chatHistory.map((message, index) => (
+                  <div key={index} className={`${styles.profileItem} email`}>
+                    <h5 className={styles.chatItem}>{message.sender}</h5>
+                    <p>{message.text}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
