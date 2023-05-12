@@ -1,7 +1,14 @@
-import React from "react";
-import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import NavbarAfterLogin from "./components/NavbarAfterLogin";
 import NavbarBeforeLogin from "./components/NavbarBeforeLogin";
+import MobileFooter from "./components/MobileFooter";
+import MobileNavbar from "./components/MobileNavbar";
 import Index from "./components/Index";
 import About from "./components/About";
 import Contact from "./components/Contact";
@@ -20,9 +27,23 @@ import Settings from "./components/Settings";
 import useToken from "./components/useToken";
 
 function App() {
-  const {token, setToken} = useToken();
+  const { token, setToken } = useToken();
 
-  // console.log(token);
+  /* Mobile View Hook to check if screen is less than or equal to 767px */
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 767);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  /* End of Mobile View Hook */
 
   if (!token) {
     return (
@@ -32,7 +53,7 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login setToken={setToken} />} />
             <Route path="/changepassword" element={<ChangePassword />} />
-            <Route path="/signup" element={<SignUp setToken={setToken}/>} />
+            <Route path="/signup" element={<SignUp setToken={setToken} />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/" element={<Index />} />
@@ -45,7 +66,8 @@ function App() {
 
   return (
     <Router>
-      <NavbarAfterLogin />
+      {isMobile ? <MobileNavbar /> : <NavbarAfterLogin />}
+      {isMobile && <MobileFooter />}
       <Routes>
         <Route path="/signupdetails" element={<SignupDetails />} />
         <Route path="/" element={<Home />} />
