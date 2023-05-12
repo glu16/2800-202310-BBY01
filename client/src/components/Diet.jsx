@@ -1,121 +1,248 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import styles from "../css/fitness.module.css";
 
-import styles from "../css/diet.module.css";
+// This is literally the same as Fitness.jsx but with different variable names
+// Might need an update
 
-const meals = [
-  {
-    day: "Day 1",
-    meal1: "Oatmeal",
-    meal2: "chicken and broccoli",
-    meal3: "Meat lasagna",
-    calories1: 300,
-    calories2: 400,
-    calories3: 1000,
-  },
-  {
-    day: "Day 2",
-    meal1: "Bacon and Eggs",
-    meal2: "chicken salad",
-    meal3: "Veggie lasagna",
-    calories1: 400,
-    calories2: 500,
-    calories3: 1000,
-  },
-  {
-    day: "Day 3",
-    meal1: "Granola Bar",
-    meal2: "chicken nuggets",
-    meal3: "Food lasagna",
-    calories1: 500,
-    calories2: 600,
-    calories3: 1000,
-  },
-  {
-    day: "Day 4",
-    meal1: "Yogurt",
-    meal2: "popcorn chicken",
-    meal3: "Dessert lasagna",
-    calories1: 100,
-    calories2: 700,
-    calories3: 1000,
-  },
-  {
-    day: "Day 5",
-    meal1: "Coffee",
-    meal2: "McChicken",
-    meal3: "Pasta",
-    calories1: 0,
-    calories2: 600,
-    calories3: 1000,
-  },
-  {
-    day: "Day 6",
-    meal1: "Overnight Oats",
-    meal2: "Alfredo chicken",
-    meal3: "Baked Chicken Rice",
-    calories1: 300,
-    calories2: 500,
-    calories3: 1000,
-  },
-  {
-    day: "Day 7",
-    meal1: "Overnight Oats",
-    meal2: "Alfredo chicken",
-    meal3: "Baked Chicken Rice",
-    calories1: 300,
-    calories2: 500,
-    calories3: 1000,
-  },
-];
-const Meals = (props) => {
+// used to identify user for database modification
+const username = localStorage.getItem("username");
+
+
+var diet;
+async function getDiet() {
+  var response = await fetch(`http://localhost:5050/diet/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json", },
+  });
+  var data = await response.json(); 
+  // check if workouts is empty
+  if (data == "empty") {
+    return "empty";
+  } else {
+    diet = data;
+    return data;
+  }
+}
+
+// display user's workout, can't be async
+function Diet() {
+  const [diet, setDiet] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDiet, setSelectedDiet] = useState(null);
+  
+  // use today variable to determine which day of workout is rendered to display
+  const [daysToAdd, setDaysToAdd] = useState(0);
+  const today = new Date();
+  today.setDate(today.getDate() + daysToAdd);
+  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const date = today.toLocaleDateString('en-CA', dateOptions);
+  // console.log(date);
+
+  const handleIncrementDays = () => {
+    setDaysToAdd(daysToAdd + 1); // Increment daysToAdd by 1
+  };
+  const handleDecrementDays = () => {
+    setDaysToAdd(daysToAdd - 1); // Decrement daysToAdd by 1
+  };
+
+  useEffect(() => {
+    async function fetchData() {
+      const workoutData = await getDiet();
+
+      if (workoutData === "empty") {
+        setDiet("No workout available"); // Set default value
+      } else {
+
+       function renderNestedObject(obj) {
+        // check if the object is a nested object
+        if (typeof obj === 'object' && obj !== null) {
+          // if it's a nested object, recursively render its properties
+          return Object.keys(obj).map((key, index) => {
+            // check if key matches date
+            if (key == date) {
+              // check if empty rest day
+              if (Object.keys(obj[key]).length === 0) {
+                return (
+                  <div key={index} className={styles.day}>
+                    <strong>{key}:</strong> Rest day
+                  </div>
+                );
+                // sends the day title ex. Thursday, May 11, 2023:
+              } else {
+                return (
+                  <div key={index} className={styles.day}>
+                    <strong>{key}</strong>
+                    {renderDiet(obj[key])}
+                  </div>
+                );
+              }
+            } else {
+              return null;
+            }
+          });
+        }
+        return obj;
+      }
+    
+      // for the sublevel exercise object inside day object
+      function renderDiet(dietObj) {
+        return Object.keys(dietObj).map((dietKey, index) => {
+          return (
+            <div key={index} className={styles.aDiet}>
+            <strong className={styles.aDietTitle}>{dietKey}</strong>{" "}
+            {Object.entries(dietObj[dietKey]).map(([detailKey, detailValue]) => {
+              // don't display detailKey if it is name or setsAndReps
+              if (detailKey == "name" || detailKey == "nutritionalInfo" ) {
+                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+              } else {
+                return (
+                  <div key={detailKey} className={styles.aKey}>
+                    {detailKey}: {detailValue}
+                  </div>
+                );
+              }
+            })}
+          </div>
+          );
+        });
+      }
+      setDiet(renderNestedObject(workoutData));
+
+      function assignVariables(data, variablePrefix = "") {
+        for (const key in data) {
+          const value = data[key];
+          // console.log("value: " + value);
+          const variableName = variablePrefix + key;
+          // console.log("variableName: " + variableName);
+      
+          if (typeof value === "object") {
+            assignVariables(value, variableName + "_");
+          } else {
+            // Assign the value directly
+            const variableValue = value; 
+            // Wrap key and value in quotes
+            eval(`var ${variableName} = { key: "${key}", value: "${variableValue}" };`); 
+          }
+        }
+      }
+      assignVariables(workoutData);
+    }
+  }
+
+    fetchData();
+  }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
+
+  const handleExerciseClick = (exercise) => {
+    setSelectedDiet(exercise);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+
   return (
-    <div className={`card col-md ${styles.mealCard}`}>
-      <h1>{props.day}</h1>
-      <h3>Breakfast</h3>
-      <p>
-        <b>{props.meal1}</b>
-      </p>
-      <p>{props.calories1}</p>
-
-      <h3>Lunch</h3>
-      <p>
-        <b>{props.meal2}</b>
-      </p>
-      <p>{props.calories2}</p>
-
-      <h3>Dinner</h3>
-      <p>
-        <b>{props.meal3}</b>
-      </p>
-      <p>{props.calories3}</p>
+    <div>
+      <h2>Your Diet Plan</h2>
+      <button onClick={handleDecrementDays}>Previous Day</button> {/* Add the decrement button */}
+      <button onClick={handleIncrementDays}>Next Day</button> {/* Add the increment button */}
+      <div className="d-flex align-items-center text-center justify-content-center row">{diet}</div>
+      {showModal && (
+        <Modal onClose={handleCloseModal}>
+          <h3>{selectedDiet}</h3>
+          {/* Render the details of the selected exercise */}
+          {/* For example: */}
+          <div>{selectedDiet.details.details_values}</div>
+        </Modal>
+      )}
     </div>
   );
-};
+}
 
-const Diet = () => {
+// Example Modal component
+function Modal({ onClose, children }) {
   return (
-    <div className={`d-flex justify-content-center align-items-center h-100`}>
-      <div className={`card ${styles.dietCard}`}>
-        <div className={`card-body ${styles.dietCardBody}`}>
-          <h1 className={`${styles.title}`}>Meal Suggestions</h1>
-          <div className={`d-flex align-items-center text-center justify-content-center row`}>
-            {meals.map((meal, index) => (
-              <Meals
-                key={index}
-                day={meal.day}
-                meal1={meal.meal1}
-                meal2={meal.meal2}
-                meal3={meal.meal3}
-                calories1={meal.calories1}
-                calories2={meal.calories2}
-                calories3={meal.calories3}
-              />
-            ))}
-          </div>
+    <div className="modal">
+      <div className="modal-content">
+        <span className="close" onClick={onClose}>
+          &times;
+        </span>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+
+// page render
+const DietPlan = () => {
+
+  // used to disable button after clicking until current execution is finished
+  const [isFormSubmitting, setFormSubmitting] = useState(false);
+
+  // function to update user in database with workout plan
+  async function addDietToUser(event) {
+    event.preventDefault();
+
+    // ignore form submission if already submitting
+    if (isFormSubmitting) {
+      return; 
+    }
+    setFormSubmitting(true);
+
+    // key to store individual workout
+    const today = new Date().toISOString().slice(0, 10);
+    const mealKey = "meal_" + today;
+    // workout to write into user database, will generate with server side call to workouts.js
+    const diet = {}
+
+    const data = { [mealKey]: diet };
+    const response = await fetch(`http://localhost:5050/diet/${username}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", },
+      body: JSON.stringify(data),
+    });
+    const updatedUser = await response.json();
+    console.log("New workout " + JSON.stringify(updatedUser.diets) + " added to " + username);
+    // re-enable button after finishing code
+    setFormSubmitting(false);
+    // reload page so new workout is displayed
+    window.location.reload();
+  }
+
+  return (
+    <div className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}>
+      <div className={`card ${styles.exerciseCard}`}>
+        <div className={`card-body ${styles.fitnessCardBody}`}>
+
+        <div>
+          {username}
+          <form id="addWorkout" onSubmit={addDietToUser}>
+            <input type="hidden" name="userEmail" value={username}></input>
+            <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
+              {isFormSubmitting ? (
+                <div>
+                  <p>Generating...</p>
+                  <div id="processing" className="spinner-border" role="status">
+                    <span className="sr-only">Loading...</span>
+                  </div>
+                </div>
+              ) : (
+                'Create diet plan'
+              )}
+            </button>
+              <p><small>generating takes 30-60 seconds</small></p>
+          </form>
+        </div>
+
+
+        <Diet/>
+
         </div>
       </div>
     </div>
   );
 };
 
-export default Diet;
+export default DietPlan;

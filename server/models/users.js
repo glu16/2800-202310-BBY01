@@ -17,6 +17,7 @@ const userSchema = new mongoose.Schema({
 
   messages: { type: Array },
   workouts: { type: Array },
+  diets: { type: Array },
   userStats: { type: Array },
 });
 
