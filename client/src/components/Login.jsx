@@ -41,20 +41,19 @@ function Login({ setToken }) {
       <div className={`card-body ${styles.loginCard}`}>
         <h1 id={styles.loginHeader}>Login</h1>
         <form id={styles.login} onSubmit={handleSubmit}>
-          <label htmlFor="username-input"></label>
+          
           <input
             type="text"
             id="username-input"
             className={`${styles.userInput}`}
-            placeholder="Username"
             name="username"
             value={data.username}
             onChange={handleChange}
             required
             size="30"
           />
-
-          <label htmlFor="password-input"></label>
+        <label htmlFor="username-input"className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Username</span></label>
+          
           <input
             type="password"
             id="password-input"
@@ -62,10 +61,9 @@ function Login({ setToken }) {
             name="password"
             value={data.password}
             onChange={handleChange}
-            placeholder="Password"
             required
           />
-
+          <label htmlFor="password-input" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Password</span></label>
           {/* ERROR IS DISPLAYED HERE  */}
           {error && <div className={`${styles.errorMessage}`}>{error}</div>}
 

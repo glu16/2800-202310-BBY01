@@ -1,7 +1,3 @@
-.errorMessage{
-  color: red;
-}
-
 .loginBody {
   height: 100%;
   width: 100%;
@@ -73,11 +69,34 @@
   border: 2px solid #c0c0c0;
   width: 300px;
   border-radius: 10px;
-  margin-top: 24px;
+  margin-top: 30px;
+  transition: 0.3s;
 }
 
 .userInput:focus {
   outline: solid rgb(129, 126, 126) 2px;
+}
+
+.inputName{
+  color: gray;
+  position: relative;
+  bottom: 35px;
+  right: 100px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.inputLabel{
+  height: 0;
+}
+
+.userInput:focus + .inputLabel .inputName,
+.userInput:valid + .inputLabel .inputName {
+  transform: translateY(-165%);
+  font-size: 15px;
+  right: 110px;
+  color: rgb(92, 208, 216);
+  outline: none;
 }
 
 @media (max-width: 767px) {
