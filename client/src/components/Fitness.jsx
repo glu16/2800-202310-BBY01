@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../css/fitness.module.css";
+import Modal from 'react-modal';
 
 // import server hosting port
 const port = '5050';
@@ -48,13 +49,14 @@ function Workout() {
 
   // for modal stuff
   const [showModal, setShowModal] = useState(false);
-  const handleShowModal = () => {
+  const handleOpenModal = () => {
+    console.log("modal opened");
     setShowModal(true);
   };
   const handleCloseModal = () => {
+    console.log("modal closed");
     setShowModal(false);
   };
-
   
 
   useEffect(() => {
@@ -145,8 +147,18 @@ function Workout() {
               }
             })}
           {/* this opens up images for the exercise */}
-          <button onClick={handleShowModal}>Get instructions</button>
-          
+          <button onClick={handleOpenModal}>Get instructions</button>
+          <Modal
+            isOpen={showModal}
+            onRequestClose={handleCloseModal}
+            contentLabel="Image Popup"
+            appElement={document.getElementById('root')}
+            ariaHideApp={false}
+          >
+            {/* Modal content goes here */}
+            {/* <img src="path/to/your/image.jpg" alt="Image" /> */}
+            <p>test</p>
+          </Modal>
           
 
           </div>
