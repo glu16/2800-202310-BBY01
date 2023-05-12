@@ -194,7 +194,7 @@ const runAI = async (input) => {
         console.error("Error parsing paragraphs into workout plan:", error);
     }
 
-    // console.log(workoutPlan);
+    console.log(workoutPlan);
     console.log("...workout plan generated.");
     return(JSON.stringify(workoutPlan));
 }

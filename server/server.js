@@ -279,6 +279,67 @@ app.get("/fitness/:email", async (req, res) => {
   }
 });
 
+
+// to generate and store a user's workout plan
+app.put("/diet/:email", async (req, res) => {
+  const userID = req.params.email;
+  // const newWorkout = req.body;
+
+  // call and execute workouts.js
+  const Diet = require("./diet");
+
+  // generates workout plan in workout.js
+  function generateDiet(callback) {
+    Diet.generate((newDiet) => {
+      updateDiet(newDiet, callback);
+    });
+  }
+  // writes workoutplan into database
+  async function updateDiet(newDiet, callback) {
+    try {
+      const user = await User.findOneAndUpdate(
+        {email: userID},
+        {$push: {diets: {$each: [JSON.parse(newDiet)], $position: 0}}}
+      );
+      res.status(200).json({
+        message: `New diet added to ${userID}.`,
+        user,
+      });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({error: "Internal server error"});
+    }
+    if (callback) {
+      callback();
+    }
+  }
+  generateDiet();
+});
+
+// send workout plan to client
+app.get("/diet/:email", async (req, res) => {
+  const userID = req.params.email;
+  try {
+    const user = await User.findOne({username: userID});
+    // if workouts empty ie.new user
+    if (user.diets.length == 0) {
+      res.send("empty");
+      // sends first workout in workouts
+    } else {
+      res.send(user.diets[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({error: "Internal server error"});
+  }
+});
+
+
+
+
+
+
+
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
 let selectedTip = null;
