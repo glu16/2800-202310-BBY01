@@ -27,6 +27,7 @@ function SignupDetails() {
     const workoutKey = "workout_" + today;
     const workout = {};
 
+    // GENERATES AND STORES WORKOUT PLAN
     const data2 = { [workoutKey]: workout };
     const workoutRequest = fetch(`http://localhost:5050/fitness/${localStorage.getItem("email")}`, {
       method: "PUT",
@@ -37,6 +38,7 @@ function SignupDetails() {
     const mealKey = "meal_" + today;
     const diet = {};
 
+    // GENERATES AND STORES DIET PLAN
     const data3 = { [mealKey]: diet };
     const dietRequest = fetch(`http://localhost:5050/diet/${localStorage.getItem("email")}`, {
       method: "PUT",
@@ -61,13 +63,6 @@ function SignupDetails() {
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
-
-    // const response = await fetch(``, {
-
-
-
-
-
 
   return (
     <div

@@ -1,5 +1,7 @@
 require("dotenv").config();
 
+//This page is bascially the same as workout.js, but it is for diet plans instead of workout plans.
+
 const { Configuration, OpenAIApi } = require("openai");
 const openai = new OpenAIApi(
   new Configuration({
@@ -73,8 +75,7 @@ const runAI = async (input) => {
         }
         var name;
         try {
-          //CHAT GPT
-          // name = day[j].match(/\d+: (.*?):/);
+          // chatGPT source for regex:
           name = (day[j].match(/\d+: (.*?)(?=\s\()/) || [])[1];
           if (name == null) {
             throw new Error("name is null.");
@@ -86,7 +87,7 @@ const runAI = async (input) => {
 
         var nutritionalInfo;
         try {
-          //CHAT GPT
+            // chatGPT source for regex:
           nutritionalInfo = (day[j].match(/\((.*?)\)/) || [])[1];
           if (nutritionalInfo == null) {
             throw new Error("nutritionalInfo is null.");
