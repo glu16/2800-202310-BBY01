@@ -75,6 +75,7 @@ app.get("/users/:username", async (req, res) => {
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
+
       userStats: user.userStats 
     });
   } catch (e) {
@@ -88,7 +89,7 @@ app.post("/signupdetails/:username", async (req, res) => {
   console.log(req.body.age);
   console.log(req.body.weight);
   const userID = req.params.username;
-  const sex = req.body.gender;
+  const sex = req.body.sex;
   const age = req.body.age;
   const height = req.body.height;
   const weight = req.body.weight;
