@@ -23,7 +23,7 @@ const Settings = () => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`}
     >
-      <div className={`card ${styles.settingsCard}`}>
+      <div className={`${styles.settingsCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <div className={styles.settings}>

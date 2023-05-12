@@ -1,10 +1,14 @@
 .dietContainer {
-  position: relative;
-  padding-top: 160px;
   height: 100%;
-  max-width: 1800px;
+  max-width: 1000px;
   border-radius: 10px;
-  margin-bottom: 80px;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-top: 160px;
 }
 
 .container-fluid {
@@ -21,6 +25,7 @@
 
 .dietCard {
   width: 1300px;
+  margin-top: 160px;
   margin-bottom: 50px;
   border-radius: 10px;
 }
@@ -34,4 +39,31 @@
   margin-top: 20px;
   font-weight: bold;
   color: black;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+    margin-bottom: 80px;
+  }
+
+  .dietCard {
+    width: 1300px;
+    margin-bottom: 50px;
+    border-radius: 10px;
+  }
+  
+  .dietContainer {
+    height: 100%;
+    max-width: 1000px;
+    border-radius: 10px;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    margin-top: 80px;
+  }
 }

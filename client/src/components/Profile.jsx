@@ -84,7 +84,7 @@ const Profile = ({ username }) => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
     >
-      <div className={`card ${styles.profileCard}`}>
+      <div className={`${styles.profileCard}`}>
         <div className={`card-body ${styles.cardBody}`}>
           <div className="row">
             <div className="col-md-6">

@@ -33,6 +33,7 @@
   height: 100%;
   width: 100%;
   max-width: 1400px;
+  margin-top: 160px;
   border-radius: 10px;
   text-align: center;
   background-color: #2b2b2b;
@@ -89,5 +90,15 @@
   html,
   body {
     height: auto;
+  }
+
+  .profileCard {
+    height: 100%;
+    width: 100%;
+    max-width: 1400px;
+    margin-top: 80px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #2b2b2b;
   }
 }

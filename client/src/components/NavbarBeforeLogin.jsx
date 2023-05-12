@@ -11,7 +11,7 @@ function NavbarBeforeLogin() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
       <div className="container-fluid nav-dropdown">
         <Link to="/" className="navbar-brand">
           Healthify
