@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../css/fitness.module.css";
 
-// import server hosting port
-const port = '5050';
+// This is literally the same as Fitness.jsx but with different variable names
+// Might need an update
 
 // used to identify user for database modification
 const username = localStorage.getItem("username");
 
-// get first item from user's workouts field from database
-var workout;
-async function getWorkout() {
+
+var diet;
+async function getDiet() {
   var response = await fetch(`http://localhost:5050/diet/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json", },
@@ -19,16 +19,16 @@ async function getWorkout() {
   if (data == "empty") {
     return "empty";
   } else {
-    workout = data;
+    diet = data;
     return data;
   }
 }
 
 // display user's workout, can't be async
-function Workout() {
-  const [workout, setWorkout] = useState(null);
+function Diet() {
+  const [diet, setDiet] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [selectedExercise, setSelectedExercise] = useState(null);
+  const [selectedDiet, setSelectedDiet] = useState(null);
   
   // use today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
@@ -47,10 +47,10 @@ function Workout() {
 
   useEffect(() => {
     async function fetchData() {
-      const workoutData = await getWorkout();
+      const workoutData = await getDiet();
 
       if (workoutData === "empty") {
-        setWorkout("No workout available"); // Set default value
+        setDiet("No workout available"); // Set default value
       } else {
 
        function renderNestedObject(obj) {
@@ -72,7 +72,7 @@ function Workout() {
                 return (
                   <div key={index} className={styles.day}>
                     <strong>{key}</strong>
-                    {renderExercise(obj[key])}
+                    {renderDiet(obj[key])}
                   </div>
                 );
               }
@@ -85,12 +85,12 @@ function Workout() {
       }
     
       // for the sublevel exercise object inside day object
-      function renderExercise(exerciseObj) {
-        return Object.keys(exerciseObj).map((exerciseKey, index) => {
+      function renderDiet(dietObj) {
+        return Object.keys(dietObj).map((dietKey, index) => {
           return (
-            <div key={index} className={styles.anExercise}>
-            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
-            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+            <div key={index} className={styles.aDiet}>
+            <strong className={styles.aDietTitle}>{dietKey}</strong>{" "}
+            {Object.entries(dietObj[dietKey]).map(([detailKey, detailValue]) => {
               // don't display detailKey if it is name or setsAndReps
               if (detailKey == "name" || detailKey == "nutritionalInfo" ) {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
@@ -106,7 +106,7 @@ function Workout() {
           );
         });
       }
-      setWorkout(renderNestedObject(workoutData));
+      setDiet(renderNestedObject(workoutData));
 
       function assignVariables(data, variablePrefix = "") {
         for (const key in data) {
@@ -133,7 +133,7 @@ function Workout() {
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
   const handleExerciseClick = (exercise) => {
-    setSelectedExercise(exercise);
+    setSelectedDiet(exercise);
     setShowModal(true);
   };
 
@@ -147,13 +147,13 @@ function Workout() {
       <h2>Your Diet Plan</h2>
       <button onClick={handleDecrementDays}>Previous Day</button> {/* Add the decrement button */}
       <button onClick={handleIncrementDays}>Next Day</button> {/* Add the increment button */}
-      <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
+      <div className="d-flex align-items-center text-center justify-content-center row">{diet}</div>
       {showModal && (
         <Modal onClose={handleCloseModal}>
-          <h3>{selectedExercise}</h3>
+          <h3>{selectedDiet}</h3>
           {/* Render the details of the selected exercise */}
           {/* For example: */}
-          <div>{selectedExercise.details.details_values}</div>
+          <div>{selectedDiet.details.details_values}</div>
         </Modal>
       )}
     </div>
@@ -176,13 +176,13 @@ function Modal({ onClose, children }) {
 
 
 // page render
-const Diet = () => {
+const DietPlan = () => {
 
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
   // function to update user in database with workout plan
-  async function addWorkoutToUser(event) {
+  async function addDietToUser(event) {
     event.preventDefault();
 
     // ignore form submission if already submitting
@@ -193,18 +193,18 @@ const Diet = () => {
 
     // key to store individual workout
     const today = new Date().toISOString().slice(0, 10);
-    const workoutKey = "workout_" + today;
+    const mealKey = "meal_" + today;
     // workout to write into user database, will generate with server side call to workouts.js
-    const workout = {}
+    const diet = {}
 
-    const data = { [workoutKey]: workout };
-    const response = await fetch(`http://localhost:${port}/diet/${username}`, {
+    const data = { [mealKey]: diet };
+    const response = await fetch(`http://localhost:5050/diet/${username}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json", },
       body: JSON.stringify(data),
     });
     const updatedUser = await response.json();
-    console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + username);
+    console.log("New workout " + JSON.stringify(updatedUser.diets) + " added to " + username);
     // re-enable button after finishing code
     setFormSubmitting(false);
     // reload page so new workout is displayed
@@ -218,7 +218,7 @@ const Diet = () => {
 
         <div>
           {username}
-          <form id="addWorkout" onSubmit={addWorkoutToUser}>
+          <form id="addWorkout" onSubmit={addDietToUser}>
             <input type="hidden" name="userEmail" value={username}></input>
             <button type="submit" className="btn btn-success" disabled={isFormSubmitting}>
               {isFormSubmitting ? (
@@ -237,7 +237,7 @@ const Diet = () => {
         </div>
 
 
-        <Workout/>
+        <Diet/>
 
         </div>
       </div>
@@ -245,4 +245,4 @@ const Diet = () => {
   );
 };
 
-export default Diet;
+export default DietPlan;
