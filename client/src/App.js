@@ -69,7 +69,6 @@ function App() {
       {isMobile ? <MobileNavbar /> : <NavbarAfterLogin />}
       {isMobile && <MobileFooter />}
       <Routes>
-        <Route path="/signupdetails" element={<SignupDetails />} />
         <Route path="/" element={<Home />} />
         <Route path="/coach" element={<Coach />} />
         <Route path="/diet" element={<Diet />} />
