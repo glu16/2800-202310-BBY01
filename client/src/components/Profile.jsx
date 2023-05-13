@@ -66,6 +66,10 @@ const Profile = ({ username }) => {
       timer = setTimeout(() => {
         setShowAlert(false);
         setShowModal(false);
+        document.querySelector(".modal-backdrop").remove();
+        let body = document.querySelector("body");
+        body.classList.remove("modal-open");
+        body.removeAttribute('style');
       }, 3000);
     }
     return () => clearTimeout(timer);
@@ -223,7 +227,10 @@ const Profile = ({ username }) => {
         id="editModal"
         tabIndex="-1"
         aria-labelledby="editModalLabel"
-        aria-hidden="true"
+        aria-hidden="false"
+        style={{display:  showModal ? "block" : "none"}}
+        role={showModal? "dialog": ""}
+        aria-modal={showModal? "true" : "false"}
       >
         <div className="modal-dialog">
           <div className="modal-content">
