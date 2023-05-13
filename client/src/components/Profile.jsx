@@ -10,62 +10,38 @@ const Profile = ({ username }) => {
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
 
-  // useEffect hook to fetch user data
-  useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
-            "username"
-          )}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+  // Function to fetch user data
+  async function fetchUserData() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/users/${localStorage.getItem(
+          "username"
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-        setUserInfo(response.data);
-        const phoneNumber = response.data.phoneNumber;
-        // Sets retrieved phone number as an initial value for state variable 'data'
-        setData((prevData) => ({
-          ...prevData,
-          phoneNumber: phoneNumber,
-          age: response.data.userStats[0].age,
-          height: response.data.userStats[0].height,
-          weight: response.data.userStats[0].weight,
-        }));
-      } catch (error) {
-        console.error(error);
-      }
+      setUserInfo(response.data);
+      const phoneNumber = response.data.phoneNumber;
+      // Sets retrieved phone number as an initial value for state variable 'data'
+      setData((prevData) => ({
+        ...prevData,
+        phoneNumber: phoneNumber,
+        age: response.data.userStats[0].age,
+        height: response.data.userStats[0].height,
+        weight: response.data.userStats[0].weight,
+      }));
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    fetchUserData();
-  }, []);
+  // useEffect hook to call fetchUserData function
+  useEffect(() => {fetchUserData()}, []);
   /* End of user data retrieval */
-
-  /* Retrieves logged in user's stats */
-  const [userStats, setUserStats] = useState(null);
-
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/profile/${localStorage.getItem("username")}`
-        );
-        console.log(response.data[0].sex);
-        console.log(response.data[0].age);
-        console.log(response.data[0].height);
-        console.log(response.data[0].weight);
-        setUserStats(response.data);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    fetchUserStats();
-  }, [username]);
-  // End of user data retrieval
 
   // Allows the user to update their profile
   const [data, setData] = useState({
@@ -101,8 +77,11 @@ const Profile = ({ username }) => {
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
+      localStorage.setItem("username", data.username);
+      console.log(data.age)
       setShowModal(false);
       setShowAlert(true);
+      fetchUserData();
     } catch (error) {
       console.log(error);
     }
@@ -277,6 +256,7 @@ const Profile = ({ username }) => {
                     name="username"
                     value={data.username}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <div className="mb-3">
