@@ -72,6 +72,7 @@ app.get("/users/:username", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     res.send({
+      username: user.username,
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
@@ -84,10 +85,10 @@ app.get("/users/:username", async (req, res) => {
   }
 });
 
-// GETS ALL THE USERS IN THE DATABASE 
+// GETS ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { username: 1 }); 
+    const users = await User.find({}, { username: 1 });
     res.send(users);
   } catch (error) {
     console.log(error);
@@ -96,20 +97,28 @@ app.get("/leaderboard/users", async (req, res) => {
 });
 
 // UPDATES AND SAVES THE USER'S FRIEND IN THE DATABASE
-app.post("/leaderboard/:username", async (req, res) => {
-  const { userId, friendUsername } = req.body;
+app.post("/leaderboard/:friendUsername", async (req, res) => {
+  const { friendUsername } = req.params;
+  const { username } = req.body;
 
   try {
-    // FIND THE USER BY ID
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { $addToSet: { friendRequests: friendUsername } },
-      { new: true, upsert: true }
-    );
+    // FIND THE FRIEND BY USERNAME
+    const friend = await User.findOne({ username: friendUsername });
+
+    if (!friend) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+
+    // CHECKS IF THE FIELD ALREADY EXISTS IN THE ARRAY
+    if (!friend.friendRequests.includes(username)) {
+      friend.friendRequests.push(username);
+    }
+
+    await friend.save();
 
     res.status(200).json({
       message: "Friend request sent successfully",
-      user,
+      friend,
     });
   } catch (error) {
     console.error(error);

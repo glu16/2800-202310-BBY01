@@ -4,6 +4,30 @@ import axios from "axios";
 import styles from "../css/leaderboard.module.css";
 
 const Leaderboard = () => {
+  // Retrieves the logged in user's username
+  useEffect(() => {
+    async function fetchUserName() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const username = response.data.username;
+        localStorage.setItem("username", username);
+        console.log(username);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    fetchUserName();
+  }, []);
+  // End of username retrieval
+
   // Retrieves users from the database
   const [users, setUsers] = useState([]);
 
@@ -26,11 +50,17 @@ const Leaderboard = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const addFriend = async (userId) => {
+  const addFriend = async (username, friendUsername) => {
     try {
-      await axios.post("http://localhost:5050/leaderboard", { userId });
-      console.log("Friend added successfully!");
-      window.alert("Friend request sent successfully!");
+      console.log("Specified user's name:", friendUsername);
+      console.log("Logged in user's name:", username);
+
+      await axios.post(`http://localhost:5050/leaderboard/${friendUsername}`, {
+        username: username,
+        friendUsername: friendUsername,
+      });
+
+      console.log("Friend request sent successfully!");
     } catch (error) {
       console.error(error);
     }
@@ -61,7 +91,9 @@ const Leaderboard = () => {
           <div className={styles.modalFooter}>
             <button
               className={styles.modalBtn}
-              onClick={() => addFriend(selectedUser.userId)}
+              onClick={() =>
+                addFriend(selectedUser.userId, selectedUser.username)
+              }
             >
               Send Request
             </button>
