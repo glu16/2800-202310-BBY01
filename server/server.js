@@ -84,10 +84,10 @@ app.get("/users/:username", async (req, res) => {
   }
 });
 
-// GETS ALL THE USERS IN THE DATABASE 
+// GETS ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { firstName: 1 }); 
+    const users = await User.find({}, { firstName: 1 });
     res.send(users);
   } catch (error) {
     console.log(error);
@@ -154,10 +154,11 @@ app.post("/profile/:username", async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
-          sex: req.body.sex,
-          age: req.body.age,
-          height: req.body.height,
-          weight: req.body.weight,
+          userStats: {
+            age: req.body.age,
+            height: req.body.height,
+            weight: req.body.weight,
+          },
         },
       },
 
