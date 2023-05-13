@@ -10,7 +10,9 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("http://localhost:5050/leaderboard/users");
+        const response = await axios.get(
+          "http://localhost:5050/leaderboard/users"
+        );
         setUsers(response.data);
       } catch (error) {
         console.error(error);
@@ -84,13 +86,17 @@ const Leaderboard = () => {
             <h1 className={styles.ranksHeader}>Leaderboard Ranks</h1>
             <div className={styles.tabs}>
               <button
-                className={activeTab === "global" ? styles.activeTab : ""}
+                className={`${styles.button} ${
+                  activeTab === "global" ? styles.active : ""
+                }`}
                 onClick={() => handleTabChange("global")}
               >
                 Global Leaderboard
               </button>
               <button
-                className={activeTab === "local" ? styles.activeTab : ""}
+                className={`${styles.button} ${
+                  activeTab === "local" ? styles.active : ""
+                }`}
                 onClick={() => handleTabChange("local")}
               >
                 Local Leaderboard
