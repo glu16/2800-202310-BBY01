@@ -145,6 +145,7 @@ app.post("/profile/:username", async (req, res) => {
   const userID = req.params.username;
   console.log(req.body);
   try {
+
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
       { username: userID },
@@ -161,7 +162,7 @@ app.post("/profile/:username", async (req, res) => {
       },
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true }
+      { new: true },
     );
 
     res.status(200).json({
@@ -169,8 +170,15 @@ app.post("/profile/:username", async (req, res) => {
       user,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    
+    // Returns error message based on err object properties
+    if (err.codeName == "DuplicateKey" && err.keyValue.username) {
+      res.status(500).send("Username is already taken")
+    } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
+      res.status(500).send("Email is already taken");
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 });
 
