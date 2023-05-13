@@ -65,6 +65,7 @@ const Profile = ({ username }) => {
     if (showAlert) {
       timer = setTimeout(() => {
         setShowAlert(false);
+        setShowModal(false);
       }, 3000);
     }
     return () => clearTimeout(timer);
@@ -79,7 +80,7 @@ const Profile = ({ username }) => {
       const { data: res } = await axios.post(url, data);
       localStorage.setItem("username", data.username);
       console.log(data.age)
-      setShowModal(false);
+      setShowModal(true);
       setShowAlert(true);
       fetchUserData();
     } catch (error) {
@@ -218,7 +219,7 @@ const Profile = ({ username }) => {
 
       {/* Edit Profile Modal */}
       <div
-        className="modal fade"
+        className={ showModal ? `modal fade show` : `modal fade`} 
         id="editModal"
         tabIndex="-1"
         aria-labelledby="editModalLabel"
