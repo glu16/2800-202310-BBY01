@@ -7,18 +7,25 @@ const joi = require("joi");
 
 // THE SCHEMA FOR THE USER COLLECTION
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, trim: true, unique: true},
+  username: { type: String, required: true, trim: true, unique: true },
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   phoneNumber: { type: Number, trim: true },
 
-  email: { type: String, required: true, unique: true},
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true, trim: true, minlength: 4 },
 
   messages: { type: Array },
   workouts: { type: Array },
   diets: { type: Array },
   userStats: { type: Array },
+
+  friendRequests: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 // GENERATES A TOKEN FOR THE USER

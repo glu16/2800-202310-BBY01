@@ -87,11 +87,33 @@ app.get("/users/:username", async (req, res) => {
 // GETS ALL THE USERS IN THE DATABASE 
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { firstName: 1 }); 
+    const users = await User.find({}, { username: 1 }); 
     res.send(users);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+// UPDATES AND SAVES THE USER'S FRIEND IN THE DATABASE
+app.post("/leaderboard/:username", async (req, res) => {
+  const { userId, friendUsername } = req.body;
+
+  try {
+    // FIND THE USER BY ID
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $addToSet: { friendRequests: friendUsername } },
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json({
+      message: "Friend request sent successfully",
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

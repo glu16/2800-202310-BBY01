@@ -22,13 +22,15 @@ const Leaderboard = () => {
   }, []);
   // End of user retrieval
 
+  // Displays friend request modal
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   const addFriend = async (userId) => {
     try {
-      await axios.post("", { userId });
+      await axios.post("http://localhost:5050/leaderboard", { userId });
       console.log("Friend added successfully!");
+      window.alert("Friend request sent successfully!");
     } catch (error) {
       console.error(error);
     }
@@ -53,7 +55,7 @@ const Leaderboard = () => {
           </div>
           <div className={styles.modalBody}>
             <p>
-              Do you want to send a friend request to {selectedUser.firstName}?
+              Do you want to send a friend request to {selectedUser.username}?
             </p>
           </div>
           <div className={styles.modalFooter}>
@@ -71,6 +73,7 @@ const Leaderboard = () => {
       </div>
     );
   };
+  // End of friend request modal
 
   // Allows users to switch between global and local leaderboards
   const [activeTab, setActiveTab] = useState("global");
@@ -100,7 +103,7 @@ const Leaderboard = () => {
                     className={styles.userNameLink}
                     onClick={() => handleUserClick(user)}
                   >
-                    {user.firstName}
+                    {user.username}
                   </a>
                 </td>
                 <td>{user.points}</td>
