@@ -69,11 +69,14 @@ td img {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  transition: 0.1s;
 }
 
+
 .button.active {
-  background-color: #333;
-  color: #fff;
+ background-color: #dddcdc;
+  /* color:rgb(92, 208, 216); */
+  box-shadow: inset 0px 0px 9px 1px #222222;
 }
 
 .tabs {
