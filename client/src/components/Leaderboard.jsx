@@ -22,6 +22,51 @@ const Leaderboard = () => {
   }, []);
   // End of user retrieval
 
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const addFriend = async (userId) => {
+    try {
+      await axios.post("", { userId });
+      console.log("Friend added successfully!");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setSelectedUser(null);
+    setShowModal(false);
+  };
+
+  const FriendRequestModal = () => {
+    return (
+      <div className={styles.modal}>
+        <div className={styles.modalContent}>
+          <div className={styles.modalHeader}>
+            <h2>Friend Request</h2>
+          </div>
+          <div className={styles.modalBody}>
+            <p>
+              Do you want to send a friend request to {selectedUser.firstName}?
+            </p>
+          </div>
+          <div className={styles.modalFooter}>
+            <button onClick={() => addFriend(selectedUser.userId)}>
+              Send Request
+            </button>
+            <button onClick={closeModal}>Cancel</button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Allows users to switch between global and local leaderboards
   const [activeTab, setActiveTab] = useState("global");
 
@@ -44,7 +89,15 @@ const Leaderboard = () => {
             {users.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>{user.firstName}</td>
+                <td>
+                  {" "}
+                  <a
+                    className={styles.userNameLink}
+                    onClick={() => handleUserClick(user)}
+                  >
+                    {user.firstName}
+                  </a>
+                </td>
                 <td>{user.points}</td>
               </tr>
             ))}
@@ -106,6 +159,8 @@ const Leaderboard = () => {
           </div>
         </div>
       </div>
+      {/* Render the FriendRequestModal */}
+      {showModal && <FriendRequestModal />}
     </div>
   );
 };

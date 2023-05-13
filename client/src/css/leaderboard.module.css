@@ -1,4 +1,3 @@
-
 table {
   width: 100%;
   border-collapse: collapse;
@@ -80,6 +79,21 @@ td img {
   display: flex;
   justify-content: center;
   margin: 10px 10px 16px 10px;
+}
+
+.userNameLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.modal {
+  margin-top: 20px;
+}
+
+.modalHeader,
+.modalBody {
+  color: white;
 }
 
 @media (max-width: 767px) {
