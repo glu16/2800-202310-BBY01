@@ -84,6 +84,17 @@ app.get("/users/:username", async (req, res) => {
   }
 });
 
+// GETS ALL THE USERS IN THE DATABASE 
+app.get("/leaderboard/users", async (req, res) => {
+  try {
+    const users = await User.find({}, { firstName: 1 }); 
+    res.send(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // GENERATES USER STATS AND SAVES IT IN THE DATABASE
 app.post("/signupdetails/:username", async (req, res) => {
   console.log(req.body.age);

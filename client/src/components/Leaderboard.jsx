@@ -10,7 +10,7 @@ const Leaderboard = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("");
+        const response = await axios.get("http://localhost:5050/leaderboard/users");
         setUsers(response.data);
       } catch (error) {
         console.error(error);
@@ -42,7 +42,7 @@ const Leaderboard = () => {
             {users.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>{user.name}</td>
+                <td>{user.firstName}</td>
                 <td>{user.points}</td>
               </tr>
             ))}
