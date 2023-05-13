@@ -96,6 +96,20 @@ td img {
   color: white;
 }
 
+.modalBtn {
+  padding: 4px 20px;
+  margin: 0px 10px;
+  color: white;
+  background-color: #2b2b2b;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.modalBtn:hover {
+  background-color: #949494;
+}
+
 @media (max-width: 767px) {
   html,
   body {

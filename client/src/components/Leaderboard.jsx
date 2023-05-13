@@ -57,10 +57,15 @@ const Leaderboard = () => {
             </p>
           </div>
           <div className={styles.modalFooter}>
-            <button onClick={() => addFriend(selectedUser.userId)}>
+            <button
+              className={styles.modalBtn}
+              onClick={() => addFriend(selectedUser.userId)}
+            >
               Send Request
             </button>
-            <button onClick={closeModal}>Cancel</button>
+            <button className={styles.modalBtn} onClick={closeModal}>
+              Cancel
+            </button>
           </div>
         </div>
       </div>
