@@ -4,7 +4,7 @@ import axios from "axios";
 import styles from "../css/leaderboard.module.css";
 
 const Leaderboard = () => {
-  // Retrieves the users from the database
+  // Retrieves users from the database
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
