@@ -20,12 +20,10 @@ const userSchema = new mongoose.Schema({
   diets: { type: Array },
   userStats: { type: Array },
 
-  friendRequests: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-    },
-  ],
+  friendRequests: {
+    type: [String],
+    default: [],
+  },
 });
 
 // GENERATES A TOKEN FOR THE USER

@@ -96,7 +96,7 @@ app.get("/leaderboard/users", async (req, res) => {
   }
 });
 
-// UPDATES AND SAVES THE USER'S FRIEND IN THE DATABASE
+// UPDATES AND SAVES THE LOGGED IN USER'S NAME INTO THE SPECIFIED USER'S COLLECTION
 app.post("/leaderboard/:friendUsername", async (req, res) => {
   const { friendUsername } = req.params;
   const { username } = req.body;

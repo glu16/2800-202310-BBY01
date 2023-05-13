@@ -17,8 +17,8 @@ const Leaderboard = () => {
           }
         );
         const username = response.data.username;
+        console.log("Logged in user's name:", username);
         localStorage.setItem("username", username);
-        console.log(username);
       } catch (error) {
         console.error(error.message);
       }
@@ -50,8 +50,9 @@ const Leaderboard = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  const addFriend = async (username, friendUsername) => {
+  const addFriend = async (friendUsername) => {
     try {
+      const username = localStorage.getItem("username");
       console.log("Specified user's name:", friendUsername);
       console.log("Logged in user's name:", username);
 
@@ -91,9 +92,7 @@ const Leaderboard = () => {
           <div className={styles.modalFooter}>
             <button
               className={styles.modalBtn}
-              onClick={() =>
-                addFriend(selectedUser.userId, selectedUser.username)
-              }
+              onClick={() => addFriend(selectedUser.username)}
             >
               Send Request
             </button>
