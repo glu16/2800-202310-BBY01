@@ -17,6 +17,7 @@
     "openai": "^3.2.1",
     "react-animated-text": "^0.1.4",
     "react-bootstrap": "^2.7.4",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.11.1",
     "react-step-progress-bar": "^1.0.3",
     "react-typed": "^1.2.0",

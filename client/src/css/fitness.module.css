@@ -46,6 +46,11 @@
   border-radius: 10px;
 }
 
+.modalImage {
+  height: 500px;
+  width: 500px;
+}
+
 @media (max-width: 767px) {
   html,
   body {
