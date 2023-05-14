@@ -82,7 +82,7 @@ const Leaderboard = () => {
         friendUsername: friendUsername,
       });
 
-      console.log("Friend request sent successfully!");
+      console.log("Friend added successfully!");
     } catch (error) {
       console.error(error);
     }

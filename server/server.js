@@ -107,7 +107,7 @@ app.get("/leaderboard/:username", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     // RETRIEVE THE FRIEND OBJECTS
-    const friends = loggedInUser.friendRequests.map((friend) => ({
+    const friends = loggedInUser.friends.map((friend) => ({
       username: friend.username,
       points: friend.points,
       _id: friend._id,
@@ -132,8 +132,8 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
       return res.status(404).json({ error: "Friend not found" });
     }
     // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE ARRAY
-    if (!friend.friendRequests.some((f) => f.username === username)) {
-      friend.friendRequests.push({
+    if (!friend.friends.some((f) => f.username === username)) {
+      friend.friends.push({
         username: username,
         points: friend.points,
         _id: friend._id,
@@ -142,7 +142,7 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     await friend.save();
     // SEND THE REQUEST RESPONSE
     res.status(200).json({
-      message: "Friend request sent successfully",
+      message: "Friend added successfully",
       friend,
     });
   } catch (error) {

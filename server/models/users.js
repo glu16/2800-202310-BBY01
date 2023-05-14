@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   diets: { type: Array },
   userStats: { type: Array },
 
-  friendRequests: [
+  friends: [
     {
       username: { type: String, required: true },
       points: { type: Number, default: 0 },
