@@ -16,6 +16,11 @@
   background-color: hsl(184, 62%, 73%);
 }
 
+.errorMessage{
+  color: red;
+  font-size: 9pt;
+}
+
 .chatHeader {
   color: rgb(92, 208, 216);
   margin-top: 10px;

@@ -7,65 +7,42 @@ import profile from "../img/placeholder-profile.png";
 const Profile = ({ username }) => {
   // Retrieves logged in user's data
   const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState("");
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
 
-  // useEffect hook to fetch user data
-  useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
-            "username"
-          )}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+  // Function to fetch user data
+  async function fetchUserData() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/users/${localStorage.getItem(
+          "username"
+        )}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
-        setUserInfo(response.data);
-        const phoneNumber = response.data.phoneNumber;
-        // Sets retrieved phone number as an initial value for state variable 'data'
-        setData((prevData) => ({
-          ...prevData,
-          phoneNumber: phoneNumber,
-          age: response.data.userStats[0].age,
-          height: response.data.userStats[0].height,
-          weight: response.data.userStats[0].weight,
-        }));
-      } catch (error) {
-        console.error(error);
-      }
+      setUserInfo(response.data);
+      const phoneNumber = response.data.phoneNumber;
+      // Sets retrieved phone number as an initial value for state variable 'data'
+      setData((prevData) => ({
+        ...prevData,
+        phoneNumber: phoneNumber,
+        age: response.data.userStats[0].age,
+        height: response.data.userStats[0].height,
+        weight: response.data.userStats[0].weight,
+      }));
+    } catch (error) {
+      console.error(error.response.data);
     }
+  }
 
-    fetchUserData();
-  }, []);
+  // useEffect hook to call fetchUserData function
+  useEffect(() => {fetchUserData()}, []);
   /* End of user data retrieval */
-
-  /* Retrieves logged in user's stats */
-  const [userStats, setUserStats] = useState(null);
-
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/profile/${localStorage.getItem("username")}`
-        );
-        console.log(response.data[0].sex);
-        console.log(response.data[0].age);
-        console.log(response.data[0].height);
-        console.log(response.data[0].weight);
-        setUserStats(response.data);
-      } catch (error) {
-        console.error(error.message);
-      }
-    };
-
-    fetchUserStats();
-  }, [username]);
-  // End of user data retrieval
 
   // Allows the user to update their profile
   const [data, setData] = useState({
@@ -81,7 +58,11 @@ const Profile = ({ username }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handleChange = ({ currentTarget: input }) => {
+    // Input is saved into the data array
     setData({ ...data, [input.name]: input.value });
+
+    // Clears error message on change
+    setError("");
   };
 
   useEffect(() => {
@@ -89,6 +70,11 @@ const Profile = ({ username }) => {
     if (showAlert) {
       timer = setTimeout(() => {
         setShowAlert(false);
+        setShowModal(false);
+        document.querySelector(".modal-backdrop").remove();
+        let body = document.querySelector("body");
+        body.classList.remove("modal-open");
+        body.removeAttribute('style');
       }, 3000);
     }
     return () => clearTimeout(timer);
@@ -96,15 +82,37 @@ const Profile = ({ username }) => {
 
   const handleSaveChanges = async (event) => {
     event.preventDefault();
+
+    // Regex for validating email format
+    var emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    // Checks to see if username that was input is a minimum of 3 characters
+    if (data["username"].length < 3){
+      setError("Username must be a minimum of 3 characters.");
+      return;
+    };
+    // Checks email formatting
+    if (!emailReg.test(data["email"])){
+      setError("Email must be valid.");
+      return;
+    }
+
     try {
       const url = `http://localhost:5050/profile/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
-      setShowModal(false);
+
+      // Updates localStorage with newly entered username
+      localStorage.setItem("username", data.username);
+      console.log(data.age)
+      setShowModal(true);
       setShowAlert(true);
+      fetchUserData();
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
+      //Error returned from server 
+      setError(error.response.data);
     }
   };
   // End of user profile update
@@ -239,11 +247,14 @@ const Profile = ({ username }) => {
 
       {/* Edit Profile Modal */}
       <div
-        className="modal fade"
+        className={ showModal ? `modal fade show` : `modal fade`} 
         id="editModal"
         tabIndex="-1"
         aria-labelledby="editModalLabel"
-        aria-hidden="true"
+        aria-hidden="false"
+        style={{display:  showModal ? "block" : "none"}}
+        role={showModal? "dialog": ""}
+        aria-modal={showModal? "true" : "false"}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -277,7 +288,9 @@ const Profile = ({ username }) => {
                     name="username"
                     value={data.username}
                     onChange={handleChange}
+                    required
                   />
+                  {error.includes("Username") && <span className={`${styles.errorMessage}`}>{error}</span>}
                 </div>
                 <div className="mb-3">
                   <label
@@ -294,6 +307,7 @@ const Profile = ({ username }) => {
                     value={data.email}
                     onChange={handleChange}
                   />
+                  {error.includes("Email") && <span className={`${styles.errorMessage}`}>{error}</span>}
                 </div>
                 <div className="mb-3">
                   <label
