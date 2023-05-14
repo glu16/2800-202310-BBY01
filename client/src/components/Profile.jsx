@@ -11,6 +11,7 @@ const Profile = ({ username }) => {
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
   const[image, setImage] = useState();
+  const[pfp, setPfp] = useState();
 
   // Function to fetch user data
   async function fetchUserData() {
@@ -66,6 +67,14 @@ const Profile = ({ username }) => {
     setError("");
   };
 
+  const handleImageChange = ({ currentTarget: input}) => {
+    console.log(input.files[0]);
+    let imageURL = URL.createObjectURL(input.files[0]);
+    setPfp(imageURL);
+    setImage(input.files[0]);
+
+  }
+console.log(profile);
   useEffect(() => {
     let timer;
     if (showAlert) {
@@ -163,14 +172,14 @@ const Profile = ({ username }) => {
                 <div className={`${styles.profileImage} profile-image`}>
                   <img
                     className={`${styles.imgProfile}`}
-                    src={profile}
+                    src={pfp? pfp : profile}
                     alt="Profile Image"
                     id="profile-picture"
                   />
                   <label htmlFor="img-upload">
                     <i className="fa fa-camera"></i>
                   </label>
-                  <input type="file" id="img-upload" accept="image/*" onChange={(e) => setImage(e.target.files[0])}/>
+                  <input type="file" id="img-upload" accept="image/*" onChange={handleImageChange}/>
                 </div>
                 <div className={`mt-3 ${styles.profileInfo}`}>
                   <div className={`${styles.profileItem} email`}>
