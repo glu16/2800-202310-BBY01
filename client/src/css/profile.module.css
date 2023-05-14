@@ -119,6 +119,12 @@
   display: none;
 }
 
+.userNameLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+}
+
 @media (max-width: 767px) {
   html,
   body {
