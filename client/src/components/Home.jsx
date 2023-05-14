@@ -108,7 +108,7 @@ const Home = () => {
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
-              Welcome, {userName}!
+              Welcome, <span className={styles.username}>{userName}</span>!
             </animated.h1>
             <animated.h4 className={styles.homeHeader} style={greetings}>
               Here's your daily tip:
@@ -127,7 +127,7 @@ const Home = () => {
       >
         <div className={styles.progressCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
-          <div className="progress-bar-container">
+          <div className={styles.progressBarContainer}>
             <ProgressBar
               percent={dietProgress}
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
@@ -146,7 +146,7 @@ const Home = () => {
       >
         <div className={styles.progressCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
-          <div className="progress-bar-container">
+          <div className={styles.progressBarContainer}>
             <ProgressBar
               percent={fitnessProgress}
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
