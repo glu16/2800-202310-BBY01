@@ -11,7 +11,6 @@ import MobileFooter from "./components/MobileFooter";
 import MobileNavbar from "./components/MobileNavbar";
 import Index from "./components/Index";
 import About from "./components/About";
-import Contact from "./components/Contact";
 import SignUp from "./components/SignUp";
 import SignupDetails from "./components/SignupDetails";
 import Login from "./components/Login";
@@ -55,7 +54,6 @@ function App() {
             <Route path="/changepassword" element={<ChangePassword />} />
             <Route path="/signup" element={<SignUp setToken={setToken} />} />
             <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
             <Route path="/" element={<Index />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
