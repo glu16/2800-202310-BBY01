@@ -96,7 +96,7 @@ app.get("/leaderboard/users", async (req, res) => {
   }
 });
 
-// GETS ALL LOGGED IN USER'S FRIENDS IN THE DATABASE
+// GETS ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
 app.get("/leaderboard/:username", async (req, res) => {
   try {
     const { username } = req.params;
@@ -131,15 +131,31 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     if (!friend) {
       return res.status(404).json({ error: "Friend not found" });
     }
-    // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE ARRAY
-    if (!friend.friends.some((f) => f.username === username)) {
-      friend.friends.push({
-        username: username,
+
+    // FIND THE LOGGED IN USER
+    const loggedInUser = await User.findOne({ username });
+
+    // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
+    if (!loggedInUser.friends.some((f) => f.username === friend.username)) {
+      loggedInUser.friends.push({
+        username: friend.username,
         points: friend.points,
         _id: friend._id,
       });
     }
-    await friend.save();
+
+    // CHECK IF THE LOGGED IN USER OBJECT ALREADY EXISTS IN THE FRIEND'S ARRAY
+    if (!friend.friends.some((f) => f.username === loggedInUser.username)) {
+      friend.friends.push({
+        username: loggedInUser.username,
+        points: loggedInUser.points,
+        _id: loggedInUser._id,
+      });
+    }
+
+    // SAVE BOTH THE LOGGED IN USER AND FRIEND
+    await Promise.all([loggedInUser.save(), friend.save()]);
+
     // SEND THE REQUEST RESPONSE
     res.status(200).json({
       message: "Friend added successfully",
@@ -150,6 +166,7 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
 
 // GENERATES USER STATS AND SAVES IT IN THE DATABASE
 app.post("/signupdetails/:username", async (req, res) => {
@@ -227,7 +244,7 @@ app.post("/profile/:username", async (req, res) => {
     });
   } catch (err) {
     
-    // Returns error message based on err object properties
+    // RETURNS ERROR MESSAGE BASED ON ERR OBJECT PROPERTIES
     if (err.codeName == "DuplicateKey" && err.keyValue.username) {
       res.status(500).send("Username is already taken")
     } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
