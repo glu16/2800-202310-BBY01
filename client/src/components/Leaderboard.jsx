@@ -83,43 +83,80 @@ const Leaderboard = () => {
       });
 
       console.log("Friend added successfully!");
+      closeModal();
     } catch (error) {
       console.error(error);
     }
   };
 
+  // Click event handler
   const handleUserClick = (user) => {
     setSelectedUser(user);
     setShowModal(true);
   };
 
+  // Modal close handler
   const closeModal = () => {
     setSelectedUser(null);
     setShowModal(false);
   };
 
-  const FriendRequestModal = () => {
+  // Alert popup to yield closure
+  const handleClick = () => {
+    window.alert("Friend added successfully!");
+  };
+
+  const AddFriendModal = () => {
     return (
-      <div className={styles.modal}>
-        <div className={styles.modalContent}>
-          <div className={styles.modalHeader}>
-            <h2>Add Friend</h2>
-          </div>
-          <div className={styles.modalBody}>
-            <p>
-              Do you want to add {selectedUser.username} as a friend?
-            </p>
-          </div>
-          <div className={styles.modalFooter}>
-            <button
-              className={styles.modalBtn}
-              onClick={() => addFriend(selectedUser.username)}
-            >
-              Submit
-            </button>
-            <button className={styles.modalBtn} onClick={closeModal}>
-              Cancel
-            </button>
+      <div
+        className={showModal ? `modal fade show` : `modal fade`}
+        id="addFriendModal"
+        tabIndex="-1"
+        aria-labelledby="addFriendModalLabel"
+        aria-hidden="false"
+        style={{ display: showModal ? "block" : "none" }}
+        role={showModal ? "dialog" : ""}
+        aria-modal={showModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="addFriendModalLabel"
+              >
+                Add Friend
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>Do you want to add {selectedUser.username} as a friend?</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={`btn btn-primary ${styles.modalBtn}`}
+                onClick={() => {
+                  addFriend(selectedUser.username);
+                  handleClick();
+                }}
+              >
+                Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -220,7 +257,7 @@ const Leaderboard = () => {
         </div>
       </div>
       {/* Render the FriendRequestModal */}
-      {showModal && <FriendRequestModal />}
+      {showModal && <AddFriendModal />}
     </div>
   );
 };
