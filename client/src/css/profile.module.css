@@ -17,6 +17,7 @@
 }
 
 .cardContainer {
+  height: 100%;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -124,11 +125,13 @@
     height: auto;
   }
 
-  .profileCard {
-    margin: 80px 0px 80px 0px;
+  .cardContainer {
+    flex-direction: column;
+    margin-top: 60px;
   }
 
+  .profileCard,
   .friendsCard {
-    margin: 20px 0px 80px 0px;
+    margin: 20px 0;
   }
 }
