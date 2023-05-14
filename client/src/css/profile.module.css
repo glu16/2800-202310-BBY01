@@ -16,7 +16,7 @@
   background-color: hsl(184, 62%, 73%);
 }
 
-.errorMessage{
+.errorMessage {
   color: red;
   font-size: 9pt;
 }
@@ -43,10 +43,6 @@
 
 .formLabel {
   color: black;
-}
-
-.imgProfile {
-  margin-top: 10px;
 }
 
 .profileCard {
@@ -78,8 +74,10 @@
 
 .profileImage img {
   display: block;
-  width: 100%;
-  height: auto;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-top: 10px;
 }
 
 .profileImage label {

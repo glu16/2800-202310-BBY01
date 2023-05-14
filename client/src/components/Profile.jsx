@@ -171,7 +171,7 @@ console.log(profile);
               <div className="d-flex flex-column align-items-center text-center">
                 <div className={`${styles.profileImage} profile-image`}>
                   <img
-                    className={`${styles.imgProfile}`}
+                    className={`rounded-circle`}
                     src={pfp? pfp : profile}
                     alt="Profile Image"
                     id="profile-picture"
