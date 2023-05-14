@@ -103,11 +103,11 @@ const Leaderboard = () => {
       <div className={styles.modal}>
         <div className={styles.modalContent}>
           <div className={styles.modalHeader}>
-            <h2>Friend Request</h2>
+            <h2>Add Friend</h2>
           </div>
           <div className={styles.modalBody}>
             <p>
-              Do you want to send a friend request to {selectedUser.username}?
+              Do you want to add {selectedUser.username} as a friend?
             </p>
           </div>
           <div className={styles.modalFooter}>
@@ -115,7 +115,7 @@ const Leaderboard = () => {
               className={styles.modalBtn}
               onClick={() => addFriend(selectedUser.username)}
             >
-              Send Request
+              Submit
             </button>
             <button className={styles.modalBtn} onClick={closeModal}>
               Cancel
