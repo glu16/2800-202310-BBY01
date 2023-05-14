@@ -8,7 +8,8 @@ async function createFineTune() {
   try {
     const response = await openai.createFineTune({
       training_file: fileId,
-      model: 'davinci'
+      n_epochs: 16,
+      model: 'davinci:ft-personal-2023-05-14-21-14-45'
     })
     console.log('response: ', response)
   } catch (err) {
@@ -17,3 +18,5 @@ async function createFineTune() {
 }
 
 createFineTune()
+
+//node 2createFinetune.mjs

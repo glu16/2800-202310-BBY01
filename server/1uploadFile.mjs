@@ -4,7 +4,10 @@ import fs from 'fs'
 
 // THIS CODE IS FROM https://www.youtube.com/watch?v=Sb7U32kXMB0
 // THE FILE CREATES A FILE ID AND SAVES IT TO A FILE CALLED fileId.js
-// THIS FILE IS USED IN 2createFinetune.mjs
+// CHANGE THE FILE NAME TO 00fileId.mjs OR JUST REPLACE THE fieldId CONST
+// THE CREATED FILE IS USED IN 2createFinetune.mjs
+
+// ALL THE DATA FROM THE TRAINING FILE IS FROM CHATGPT
 
 async function upload() {
   try {
@@ -20,3 +23,5 @@ async function upload() {
 }
 
 upload()
+
+//node 1uploadFile.mjs

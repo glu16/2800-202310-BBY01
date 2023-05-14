@@ -14,3 +14,5 @@ async function listFineTunes() {
 }
 
 listFineTunes()
+
+//node 3listFinetune.mjs

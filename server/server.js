@@ -459,10 +459,10 @@ app.post("/", async (req, res) => {
 
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
-    model: "davinci:ft-personal-2023-05-14-08-33-54",
-    prompt: `${message}`,
-    max_tokens: 1000,
-    stop: ['\n']
+    model: "davinci:ft-personal-2023-05-14-21-14-45",
+    prompt: `${message}` + " &&&&&",
+    max_tokens: 200,
+    stop: ['#####']
   });
 
   const parsableJson = response.data.choices[0].text;
