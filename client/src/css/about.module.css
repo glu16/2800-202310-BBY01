@@ -1,7 +1,6 @@
 .aboutBody {
   height: 100%;
   width: 100%;
-  margin: 0;
   font-family: 'Quicksand', sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
@@ -15,6 +14,8 @@
   color: black;
   font-size: 4em;
   text-align: center;
+  font-weight: bold;
+  margin-bottom: 40px;
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
     0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
 }
@@ -27,4 +28,34 @@
   max-width: 1400px;
   border-radius: 10px;
   text-align: center;
+  margin-top: -20px;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+  }
+
+  .aboutHeader {
+    color: black;
+    font-size: 4em;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 460px;
+    margin-bottom: 40px;
+    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
+      0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
+  }
+  
+  .aboutDescription {
+    color: white;
+  }
+  
+  .aboutCard {
+    max-width: 1400px;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 50px;
+  }
 }
