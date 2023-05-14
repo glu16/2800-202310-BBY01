@@ -401,7 +401,7 @@ app.put("/diet/:email", async (req, res) => {
   generateDiet();
 });
 
-// SEND WORKOUT PLAN TO CLIENT
+// SEND DIET PLAN TO CLIENT
 app.get("/diet/:email", async (req, res) => {
   const userID = req.params.email;
   try {
@@ -459,10 +459,10 @@ app.post("/", async (req, res) => {
 
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
-    model: "text-davinci-003",
+    model: "davinci:ft-personal-2023-05-14-08-33-54",
     prompt: `${message}`,
     max_tokens: 1000,
-    temperature: 0,
+    stop: ['\n']
   });
 
   const parsableJson = response.data.choices[0].text;
