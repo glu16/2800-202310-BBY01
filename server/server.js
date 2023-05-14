@@ -11,6 +11,7 @@ const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const passChangeRouter = require("./routes/passChange");
+const imageRouter = require("./routes/img");
 
 // THE MODELS
 const { User } = require("./models/users");
@@ -37,6 +38,7 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
+app.use("/api/imageUpload", imageRouter);
 
 /*  
 GENERIC TEMPLATE FOR GETTING DATA FROM USER

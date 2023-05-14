@@ -10,6 +10,7 @@ const Profile = ({ username }) => {
   const [error, setError] = useState("");
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
+  const[image, setImage] = useState();
 
   // Function to fetch user data
   async function fetchUserData() {
@@ -169,7 +170,7 @@ const Profile = ({ username }) => {
                   <label htmlFor="img-upload">
                     <i className="fa fa-camera"></i>
                   </label>
-                  <input type="file" id="img-upload" />
+                  <input type="file" id="img-upload" accept="image/*" onChange={(e) => setImage(e.target.files[0])}/>
                 </div>
                 <div className={`mt-3 ${styles.profileInfo}`}>
                   <div className={`${styles.profileItem} email`}>
