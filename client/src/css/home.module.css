@@ -64,6 +64,21 @@
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
+.draggableList li{
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  padding: 15px 18px;
+  position: relative;
+  background: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  cursor: grab;
+}
+
 
 @media (max-width: 767px) {
   html,
