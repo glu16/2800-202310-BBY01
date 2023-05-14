@@ -20,10 +20,13 @@ const userSchema = new mongoose.Schema({
   diets: { type: Array },
   userStats: { type: Array },
 
-  friendRequests: {
-    type: [String],
-    default: [],
-  },
+  friendRequests: [
+    {
+      username: { type: String, required: true },
+      points: { type: Number, default: 0 },
+    },
+  ],
+  points: {type: Number, default: 0 },
 });
 
 // GENERATES A TOKEN FOR THE USER

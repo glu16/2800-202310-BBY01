@@ -44,9 +44,30 @@ const Leaderboard = () => {
     };
     fetchUsers();
   }, []);
-  // End of user retrieval
+  // End of users retrieval
 
-  // Displays friend request modal
+  // Retrieves the logged in user's friends from the database
+  const [friends, setFriends] = useState([]);
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5050/leaderboard/${localStorage.getItem(
+            "username"
+          )}`
+        );
+        console.log(response.data);
+        setFriends(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchFriends();
+  }, []);
+  // End of user's friends retrieval
+
+  // Displays the friend request modal
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -154,11 +175,11 @@ const Leaderboard = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
-              <tr key={user._id}>
+            {friends.map((friend, index) => (
+              <tr key={friend._id}>
                 <td>{index + 1}</td>
-                <td>{user.name}</td>
-                <td>{user.points}</td>
+                <td>{friend.username}</td>
+                <td>{friend.points}</td>
               </tr>
             ))}
           </tbody>
