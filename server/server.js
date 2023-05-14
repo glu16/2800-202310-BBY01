@@ -168,6 +168,9 @@ app.delete("/profile/:friendId", async (req, res) => {
   const { friendId } = req.params;
   const { username } = req.body;
   try {
+    console.log("Received DELETE request");
+    console.log("Friend ID:", friendId);
+    console.log("Username:", username);
     // FIND THE LOGGED IN USER BY USERNAME
     const loggedInUser = await User.findOne({ username });
     // THROWS ERROR IF NOT LOGGED IN

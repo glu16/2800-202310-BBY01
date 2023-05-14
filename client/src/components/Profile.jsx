@@ -188,14 +188,16 @@ const Profile = ({ username }) => {
 
   // Click event handler
   const handleUserClick = (user) => {
+    const friendId = user._id; 
     setSelectedUser(user);
     setShowDeleteModal(true);
+    deleteFriend(friendId);
   };
 
   // Modal close handler
   const closeModal = () => {
     setSelectedUser(null);
-    setShowModal(false);
+    setShowDeleteModal(false)
   };
 
   // Alert popup to yield closure
@@ -204,9 +206,6 @@ const Profile = ({ username }) => {
   };
 
   const DeleteFriendModal = () => {
-    if (!selectedUser) {
-      return null;
-    }  
     return (
       <div
         className={showDeleteModal ? `modal fade show` : `modal fade`}
