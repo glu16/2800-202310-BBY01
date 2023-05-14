@@ -15,9 +15,7 @@ const Profile = ({ username }) => {
     async function fetchUserData() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
-            "username"
-          )}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -109,129 +107,99 @@ const Profile = ({ username }) => {
   };
   // End of user profile update
 
-  // Retrieves the logged in user's chat history
-  const [chatHistory, setChatHistory] = useState([]);
+  // Retrieves the logged in user's friends from the database
+  const [friends, setFriends] = useState([]);
 
   useEffect(() => {
-    async function fetchChatHistory() {
+    const fetchFriends = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5050/coach/${localStorage.getItem("username")}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
+          `http://localhost:5050/leaderboard/${localStorage.getItem(
+            "username"
+          )}`
         );
         console.log(response.data);
-        // Displays a maximum of 2 chat conversations
-        setChatHistory(response.data.slice(0, 2));
+        setFriends(response.data);
       } catch (error) {
         console.error(error);
       }
-    }
-
-    fetchChatHistory();
+    };
+    fetchFriends();
   }, []);
-  // End of chat history retrieval
-
-  // Capitalizes the user name
-  const capitalizeName = (name) => {
-    return name.toUpperCase();
-  };
-
-  const specialWords = ["Day", "Breakfast", "Lunch", "Dinner"];
+  // End of user's friends retrieval
 
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
     >
-      <div className={`${styles.profileCard}`}>
-        <div className={`card-body ${styles.cardBody}`}>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="d-flex flex-column align-items-center text-center">
-                <div className={`${styles.profileImage} profile-image`}>
-                  <img
-                    className={`${styles.imgProfile}`}
-                    src={profile}
-                    alt="Profile Image"
-                    id="profile-picture"
-                  />
-                  <label htmlFor="img-upload">
-                    <i className="fa fa-camera"></i>
-                  </label>
-                  <input type="file" id="img-upload" />
+      <div className={styles.cardContainer}>
+        <div className={`${styles.profileCard}`}>
+          <div className={`card-body ${styles.cardBody}`}>
+            <div className="d-flex flex-column align-items-center text-center">
+              <div className={`${styles.profileImage} profile-image`}>
+                <img
+                  className={`${styles.imgProfile}`}
+                  src={profile}
+                  alt="Profile Image"
+                  id="profile-picture"
+                />
+                <label htmlFor="img-upload">
+                  <i className="fa fa-camera"></i>
+                </label>
+                <input type="file" id="img-upload" />
+              </div>
+              <div className={`mt-3 ${styles.profileInfo}`}>
+                <div className={`${styles.profileItem} email`}>
+                  <h5 className={styles.profileHeader}>Name</h5>
+                  <p>
+                    <span id="name-goes-here">{userID}</span>
+                  </p>
                 </div>
-                <div className={`mt-3 ${styles.profileInfo}`}>
-                  <div className={`${styles.profileItem} email`}>
-                    <h5 className={styles.profileHeader}>Name</h5>
-                    <p>
-                      <span id="name-goes-here">{userID}</span>
-                    </p>
-                  </div>
-                  <div className={`${styles.profileItem} email`}>
-                    <h5 className={styles.profileHeader}>Email</h5>
-                    <p>
-                      <span id="email-goes-here">{userEmail}</span>
-                    </p>
-                  </div>
-                  <div className={`${styles.profileItem} phone`}>
-                    <h5 className={styles.profileHeader}>Phone</h5>
-                    <p>
-                      <span id="phone-goes-here">
-                        {userInfo && userInfo.phoneNumber}
-                      </span>
-                    </p>
-                  </div>
-                  <div className={`${styles.profileItem} phone`}>
-                    <h5 className={styles.profileHeader}>User Statistics</h5>
-                    {userInfo && (
-                      <>
-                        <p>Sex: {userInfo.userStats[0].sex}</p>
-                        <p>Age: {userInfo.userStats[0].age}</p>
-                        <p>Height: {userInfo.userStats[0].height}m</p>
-                        <p>Weight: {userInfo.userStats[0].weight} kg</p>
-                      </>
-                    )}
-                  </div>
-                  <button
-                    className={`btn btn-primary ${styles.editProfileButton}`}
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal"
-                  >
-                    Edit Profile
-                  </button>
+                <div className={`${styles.profileItem} email`}>
+                  <h5 className={styles.profileHeader}>Email</h5>
+                  <p>
+                    <span id="email-goes-here">{userEmail}</span>
+                  </p>
                 </div>
+                <div className={`${styles.profileItem} phone`}>
+                  <h5 className={styles.profileHeader}>Phone</h5>
+                  <p>
+                    <span id="phone-goes-here">
+                      {userInfo && userInfo.phoneNumber}
+                    </span>
+                  </p>
+                </div>
+                <div className={`${styles.profileItem} phone`}>
+                  <h5 className={styles.profileHeader}>User Statistics</h5>
+                  {userInfo && (
+                    <>
+                      <p>Sex: {userInfo.userStats[0].sex}</p>
+                      <p>Age: {userInfo.userStats[0].age}</p>
+                      <p>Height: {userInfo.userStats[0].height}m</p>
+                      <p>Weight: {userInfo.userStats[0].weight} kg</p>
+                    </>
+                  )}
+                </div>
+                <button
+                  className={`btn btn-primary ${styles.editProfileButton}`}
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  Edit Profile
+                </button>
               </div>
             </div>
-            <div className="col-md-6">
-              <div className="d-flex flex-column align-items-center text-center">
-                <div className={styles.chatWrapper}>
-                  <h1 className={styles.chatHeader}>Chat History</h1>
-                  {chatHistory.map((item, index) => (
-                    <div className={styles.chatMessages} key={index}>
-                      <h5>{capitalizeName(item.user)}</h5>
-                      <p className={styles.chatMessages}>
-                        {item.messages
-                          .split(/(Day|Breakfast|Lunch|Dinner)/)
-                          .map((message, i) =>
-                            specialWords.includes(message) ? (
-                              <span key={i} className={styles.specialWord}>
-                                {message}
-                              </span>
-                            ) : (
-                              <React.Fragment key={i}>
-                                {message}
-                                <br />
-                              </React.Fragment>
-                            )
-                          )}
-                      </p>
-                    </div>
-                  ))}
+          </div>
+        </div>
+        <div className={`${styles.friendsCard}`}>
+          <div className={`card-body ${styles.friendsBody}`}>
+            <div className="d-flex flex-column align-items-center text-center">
+              <h1 className={styles.friendsHeader}>Friends List</h1>
+              {friends.map((friend, index) => (
+                <div className={styles.friendsList} key={index}>
+                  <p>{friend.username}</p>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
