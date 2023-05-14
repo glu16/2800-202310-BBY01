@@ -96,26 +96,51 @@ app.get("/leaderboard/users", async (req, res) => {
   }
 });
 
+// GETS ALL LOGGED IN USER'S FRIENDS IN THE DATABASE
+app.get("/leaderboard/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    // FIND THE USER BY USERNAME
+    const loggedInUser = await User.findOne({ username });
+    // THROW ERROR IF NOT LOGGED IN
+    if (!loggedInUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // RETRIEVE THE FRIEND OBJECTS
+    const friends = loggedInUser.friendRequests.map((friend) => ({
+      username: friend.username,
+      points: friend.points,
+      _id: friend._id,
+    }));
+    // SEND THE USER'S FRIENDS
+    res.json(friends);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // UPDATES AND SAVES THE LOGGED IN USER'S NAME INTO THE SPECIFIED USER'S COLLECTION
 app.post("/leaderboard/:friendUsername", async (req, res) => {
   const { friendUsername } = req.params;
   const { username } = req.body;
-
   try {
     // FIND THE FRIEND BY USERNAME
     const friend = await User.findOne({ username: friendUsername });
-
+    // THROW ERROR IF SELECTED USER CANNOT BE FOUND
     if (!friend) {
       return res.status(404).json({ error: "Friend not found" });
     }
-
-    // CHECKS IF THE FIELD ALREADY EXISTS IN THE ARRAY
-    if (!friend.friendRequests.includes(username)) {
-      friend.friendRequests.push(username);
+    // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE ARRAY
+    if (!friend.friendRequests.some((f) => f.username === username)) {
+      friend.friendRequests.push({
+        username: username,
+        points: friend.points,
+        _id: friend._id,
+      });
     }
-
     await friend.save();
-
+    // SEND THE REQUEST RESPONSE
     res.status(200).json({
       message: "Friend request sent successfully",
       friend,
