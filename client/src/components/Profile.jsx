@@ -163,10 +163,11 @@ const Profile = ({ username }) => {
   }, []);
   // End of user's friends retrieval
 
-  // Displays the delete friend modal
+  // useState hook variables for deleting a friend
   const [selectedUser, setSelectedUser] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
+  // Function to delete a friend
   const deleteFriend = async (friendId) => {
     try {
       const username = localStorage.getItem("username");
@@ -188,24 +189,34 @@ const Profile = ({ username }) => {
 
   // Click event handler
   const handleUserClick = (user) => {
-    const friendId = user._id; 
     setSelectedUser(user);
     setShowDeleteModal(true);
-    deleteFriend(friendId);
   };
 
   // Modal close handler
   const closeModal = () => {
     setSelectedUser(null);
-    setShowDeleteModal(false)
+    setShowDeleteModal(false);
   };
 
-  // Alert popup to yield closure
+  // Alert popup to yield closure for removing a friend
   const handleClick = () => {
     window.alert("Friend removed successfully!");
+    window.location.reload();
   };
 
+  // Start of delete friend modal component
   const DeleteFriendModal = () => {
+    const handleRemoveFriend = async () => {
+      try {
+        const friendId = selectedUser._id;
+        await deleteFriend(friendId);
+        handleClick();
+        closeModal();
+      } catch (error) {
+        console.error(error);
+      }
+    };
     return (
       <div
         className={showDeleteModal ? `modal fade show` : `modal fade`}
@@ -248,11 +259,7 @@ const Profile = ({ username }) => {
               <button
                 type="button"
                 className={`btn btn-danger ${styles.modalBtn}`}
-                onClick={() => {
-                  deleteFriend(selectedUser.username);
-                  handleClick();
-                  closeModal();
-                }}
+                onClick={handleRemoveFriend}
               >
                 Remove
               </button>
@@ -262,7 +269,7 @@ const Profile = ({ username }) => {
       </div>
     );
   };
-  // End of delete friend modal
+  // End of delete friend modal component
 
   return (
     <div
