@@ -92,34 +92,50 @@ const Profile = ({ username }) => {
     setError("");
   };
 
-  const handleImageChange = async ({ currentTarget: input}) => {
+  useEffect(() => {
+    if (image) {
+      handleImageUpload();
+    }
+  }, [image]);
+
+  const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
     console.log(input.files[0]);
+  };
+
+  const handleImageUpload = async () => {
     try {
       let imageURL = "";
+      console.log(image);
       if (image) {
-        console.log(image)
+        console.log("Inside image upload");
+        console.log(image);
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "healthify-app");
-        console.log(formData)
+        console.log(formData);
         const dataRes = await axios.post(
           "https://api.cloudinary.com/v1_1/dqhi5isl1/image/upload",
           formData
         );
         imageURL = dataRes.data.url;
-        console.log("******" + imageURL)
-      }
+        console.log("******" + imageURL);
 
-      const submitPost = {
-        image: imageURL,
-      };
-      await axios.post(`http://localhost:5050/pfp/${localStorage.getItem("username")}`, submitPost);
+        const submitPost = {
+          image: imageURL,
+        };
+        await axios.post(
+          `http://localhost:5050/pfp/${localStorage.getItem("username")}`,
+          submitPost
+        );
+      } else {
+        console.log("Error with image upload");
+      }
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     let timer;
