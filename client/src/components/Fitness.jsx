@@ -125,7 +125,7 @@ function Workout() {
                   return (
                     <div key={index} className={styles.day}>
                       <strong>Today, {key}</strong>
-                      {renderExercise(obj[key])}
+                      {renderExerciseToday(obj[key])}
                     </div>
                   );
                 // if page is not today
@@ -149,11 +149,38 @@ function Workout() {
     
       // for the sublevel exercise object inside day object
       function renderExercise(exerciseObj) {
-
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
-
           return (
-            
+            <div key={index} className={styles.anExercise}>
+            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+
+              // don't display detailKey if it is name or setsAndReps
+              if (detailKey == "name" || detailKey == "setsAndReps") {
+                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+              // dispaly detailKey if it is calories
+              } else if (detailKey == "calories") {
+                return (
+                  <div key={detailKey} className={styles.aKey}>
+                    Calories: {detailValue}
+                  </div>
+                );
+              // shouldn't be any other option currently
+              } else {
+                return; 
+              }
+            })}
+
+          </div>
+
+          );
+        });
+      }
+
+      // for the sublevel exercise object inside day object
+      function renderExerciseToday(exerciseObj) {
+        return Object.keys(exerciseObj).map((exerciseKey, index) => {
+          return (
             <div key={index} className={styles.anExercise}>
             <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
@@ -182,6 +209,7 @@ function Workout() {
           );
         });
       }
+      
 
       // recursively go through the nested json object that is workoutData
       setWorkout(renderNestedObject(workoutData));
@@ -226,10 +254,10 @@ function Workout() {
   );
 }
 
-
 // FOR THE TASK COMPLETION BUTTONS
 const CompleteExercisesButton = () => {
   const [isChecked, setIsChecked] = useState(false);
+
   const handleClick = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
@@ -241,18 +269,20 @@ const CompleteExercisesButton = () => {
       numberOfExercises++;
       localStorage.setItem('numberOfExercises', numberOfExercises);
     }
+
+
   };
   return (
     <div className="container mt-5">
     <button
-      className="btn btn-secondary btn-checkbox"
+      className="markExerciseComplete btn btn-secondary btn-checkbox"
       onClick={handleClick}
+      // disabled={}
     >
       <FontAwesomeIcon
         icon={isChecked ? faCheckSquare : faSquare}
         className="mr-2"
-      />
-      Mark exercise complete!
+      />Mark exercise complete!
     </button>
   </div>
   );
@@ -296,7 +326,7 @@ const Fitness = () => {
   }
 
 
-  // for completeAllExercises button
+  // For completeAllExercises button
   const [numberOfExercises, setNumberOfExercises] = useState(99);
   useEffect(() => {
     const storedValue = localStorage.getItem('numberOfExercises');
@@ -319,7 +349,7 @@ const Fitness = () => {
         setNumberOfExercises(Number(currentNumberOfExercises)); // Trigger re-render
       }
     };
-    const interval = setInterval(checkLocalStorage, 1000); // Adjust the interval as needed
+    const interval = setInterval(checkLocalStorage, 1000); 
     return () => {
       clearInterval(interval);
     };
