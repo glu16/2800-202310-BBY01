@@ -13,7 +13,7 @@ const port = '5050';
 // used to identify user for database modification
 const username = localStorage.getItem("username");
 
-// get first item from user's workouts field from database
+// FUNCTION CALLED TO GCONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
   var response = await fetch(`http://localhost:5050/fitness/${username}`, {
@@ -30,11 +30,12 @@ async function getWorkout() {
   }
 }
 
-// display user's workout, can't be async
+
+// PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
 function Workout() {
   const [workout, setWorkout] = useState(null);
-  
-  // use today variable to determine which day of workout is rendered to display
+ 
+  // use the today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
   today.setDate(today.getDate() + daysToAdd);
@@ -61,24 +62,35 @@ function Workout() {
   //   console.log("modal closed");
   //   setShowModal(false);
   // };
-  
 
+  // useEffect and new async function to house await getWorkout() because top level function Workout() not allowed to be async
   useEffect(() => {
     async function fetchData() {
+
+      // workoutData == the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
 
+      // handles if workout field is empty
       if (workoutData === "empty") {
-        setWorkout("No workout available"); // Set default value
+        setWorkout("No workout available");
+
       } else {
 
        function renderNestedObject(obj) {
-        // check if the object is a nested object
+
+        // check if current object is a nested object, recursively render its properties
         if (typeof obj === 'object' && obj !== null) {
-          // if it's a nested object, recursively render its properties
+          
           return Object.keys(obj).map((key, index) => {
             
             // check if key matches date so only render the one day on the page
             if (key == date) {
+
+              // tracks number of exercises on page, used for complete task buttons
+              // using browser local storage because state variables not too disfunctional with so many sub-components
+              let numOfExercises = Object.keys(workoutData[date]).length;
+              localStorage.setItem('numberOfExercises', numOfExercises);
+
               // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
               setDayOfWorkoutPlan(index);
 
@@ -137,11 +149,15 @@ function Workout() {
     
       // for the sublevel exercise object inside day object
       function renderExercise(exerciseObj) {
+
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
+
           return (
+            
             <div key={index} className={styles.anExercise}>
             <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+
               // don't display detailKey if it is name or setsAndReps
               if (detailKey == "name" || detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
@@ -159,29 +175,15 @@ function Workout() {
             })}
 
             {/* button to mark task completed */}
-            <ToggleButton />
-
-
-          {/* this opens up images for the exercise */}
-          {/* <button onClick={handleOpenModal}>Get instructions</button>
-          <Modal
-            isOpen={showModal}
-            onRequestClose={handleCloseModal}
-            contentLabel="Image Popup"
-            appElement={document.getElementById('root')}
-            ariaHideApp={false}
-          >
-            {/* Modal content goes here */}
-            {/* <img src="path/to/your/image.jpg" alt="Image" /> */}
-            {/* <p>test</p>
-          </Modal> */} 
-          
+            <CompleteExercisesButton />
 
           </div>
 
           );
         });
       }
+
+      // recursively go through the nested json object that is workoutData
       setWorkout(renderNestedObject(workoutData));
 
       function assignVariables(data, variablePrefix = "") {
@@ -221,31 +223,60 @@ function Workout() {
   );
 }
 
-// for the task completion buttons
-const ToggleButton = () => {
+
+// FOR THE TASK COMPLETION BUTTONS
+const CompleteExercisesButton = () => {
   const [isChecked, setIsChecked] = useState(false);
   const handleClick = () => {
     setIsChecked(!isChecked);
-    console.log("box checked");
+    if (!isChecked) {
+      let numberOfExercises = parseInt(localStorage.getItem('numberOfExercises'));
+      numberOfExercises--;
+      localStorage.setItem('numberOfExercises', numberOfExercises);
+    } else {
+      let numberOfExercises = parseInt(localStorage.getItem('numberOfExercises'));
+      numberOfExercises++;
+      localStorage.setItem('numberOfExercises', numberOfExercises);
+    }
   };
   return (
     <div className="container mt-5">
-      <button
-        className="btn btn-secondary btn-checkbox"
-        onClick={handleClick}
-      >
-        <FontAwesomeIcon
-          icon={isChecked ? faCheckSquare : faSquare}
-          className="mr-2"
-        />
-        Toggle
-      </button>
-    </div>
+    <button
+      className="btn btn-secondary btn-checkbox"
+      onClick={handleClick}
+    >
+      <FontAwesomeIcon
+        icon={isChecked ? faCheckSquare : faSquare}
+        className="mr-2"
+      />
+      Mark exercise complete!
+    </button>
+  </div>
   );
 };
 
-// page render
+
+// PAGE RENDER COMPONENT
 const Fitness = () => {
+  
+  // 
+  const [numberOfExercises, setNumberOfExercises] = useState(0);
+  // useEffect(() => {
+  //   const storedValue = localStorage.getItem('numberOfExercises');
+  //   if (storedValue) {
+  //     setNumberOfExercises(Number(storedValue));
+  //   }
+  // }, []);
+  // useEffect(() => {
+  //   localStorage.setItem('numberOfExercises', numberOfExercises.toString());
+  // }, [numberOfExercises]);
+
+
+  const completeAllExercises = () => {
+    console.log("All exercises complete!");
+  };
+
+
 
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
@@ -307,9 +338,9 @@ const Fitness = () => {
           </div>
 
 
-          <Workout/>
+          <Workout />
 
-          <button id="completeAll">Complete All Tasks</button>
+          <button id="completeAll" onClick={completeAllExercises} disabled={numberOfExercises !== 0}>Mark ALL exercises complete!</button>
 
           
 
