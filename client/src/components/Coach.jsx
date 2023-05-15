@@ -131,7 +131,7 @@ const Coach = () => {
   // End of code that sends the chat log to the database
 
   // useState hook variable for the modal
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
 
   // Modal open handler
   const openModal = () => {
@@ -142,6 +142,68 @@ const Coach = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+
+  // Beginning of info modal component
+  const InstructionsModal = () => {
+    return (
+      <div
+        className={showModal ? `modal fade show` : `modal fade`}
+        id="infoModal"
+        tabIndex="-1"
+        aria-labelledby="infoModalLabel"
+        aria-hidden="false"
+        style={{ display: showModal ? "block" : "none" }}
+        role={showModal ? "dialog" : ""}
+        aria-modal={showModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="infoModalLabel"
+              >
+                Instructions
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeModal}
+              ></button>
+            </div>
+            <div className={`modal-body ${styles.modalBody}`}>
+              <p>
+                Welcome to your AI Coach!
+                <br />
+                <br />
+                Our AI Coach is here to assist you with your diet and fitness
+                goals. To get started, simply enter your prompt or question in
+                the text input field. For example, you can ask for meal
+                suggestions, request workout routines, seek nutrition advice, or
+                inquire about specific exercises.
+                <br />
+                <br />
+                Once you've entered your prompt, hit the 'Enter' key. Our AI
+                Coach will process your input and provide a helpful response.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className={`btn btn-primary ${styles.modalBtn}`}
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  // End of info modal component
 
   // The code comes largely from this video
   // https://www.youtube.com/watch?v=qwM23_kF4v4
@@ -180,66 +242,13 @@ const Coach = () => {
       <div className={styles.chatLogContainer}>
         <animated.h1 className={styles.coachTitle} style={greetings}>
           Welcome to your AI Coach!
-        </animated.h1>
-        {showModal && (
-          <div
-            className={showModal ? `modal fade show` : `modal fade`}
-            id="modal"
-            tabIndex="-1"
-            aria-labelledby="modalLabel"
-            aria-hidden="false"
-            style={{ display: showModal ? "block" : "none" }}
-            role={showModal ? "dialog" : ""}
-            aria-modal={showModal ? "true" : "false"}
+          <a
+            className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
+            onClick={openModal}
           >
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5
-                    className={`modal-title ${styles.formLabel}`}
-                    id="modalLabel"
-                  >
-                    Instructions
-                  </h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                    onClick={closeModal}
-                  ></button>
-                </div>
-                <div className={`modal-body ${styles.modalBody}`}>
-                  <p>
-                    Welcome to your AI Coach!
-                    <br />
-                    <br />
-                    Our AI Coach is here to assist you with your diet and
-                    fitness goals. To get started, simply enter your prompt or
-                    question in the text input field. For example, you can ask
-                    for meal suggestions, request workout routines, seek
-                    nutrition advice, or inquire about specific exercises.
-                    <br />
-                    <br />
-                    Once you've entered your prompt, hit the 'Enter' key. Our AI
-                    Coach will process your input and provide a helpful
-                    response.
-                  </p>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className={`btn btn-primary ${styles.modalBtn}`}
-                    onClick={closeModal}
-                  >
-                    OK
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
+            info
+          </a>
+        </animated.h1>
         {chatLog.map((message, index) => (
           <ChatMessage key={index} message={message} />
         ))}
@@ -255,6 +264,10 @@ const Coach = () => {
           ></input>
         </form>
       </div>
+      {/* Render the InfoModal */}
+      {showModal && (
+        <InstructionsModal closeModal={() => setShowModal(false)} />
+      )}
     </div>
   );
 };
