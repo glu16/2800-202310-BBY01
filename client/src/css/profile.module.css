@@ -17,6 +17,7 @@
 }
 
 .cardContainer {
+  height: 100%;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -41,6 +42,8 @@
 .friendsHeader {
   color: rgb(92, 208, 216);
   margin-top: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .friendsList {
@@ -50,6 +53,17 @@
 
 .formLabel {
   color: black;
+}
+
+.icon {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+.infoLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .imgProfile {
@@ -118,17 +132,25 @@
   display: none;
 }
 
+.userNameLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+}
+
 @media (max-width: 767px) {
   html,
   body {
     height: auto;
   }
 
-  .profileCard {
-    margin: 80px 0px 80px 0px;
+  .cardContainer {
+    flex-direction: column;
+    margin-top: 60px;
   }
 
+  .profileCard,
   .friendsCard {
-    margin: 20px 0px 80px 0px;
+    margin: 20px 0;
   }
 }

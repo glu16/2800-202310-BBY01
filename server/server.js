@@ -131,10 +131,8 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     if (!friend) {
       return res.status(404).json({ error: "Friend not found" });
     }
-
     // FIND THE LOGGED IN USER
     const loggedInUser = await User.findOne({ username });
-
     // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
     if (!loggedInUser.friends.some((f) => f.username === friend.username)) {
       loggedInUser.friends.push({
@@ -143,7 +141,6 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
         _id: friend._id,
       });
     }
-
     // CHECK IF THE LOGGED IN USER OBJECT ALREADY EXISTS IN THE FRIEND'S ARRAY
     if (!friend.friends.some((f) => f.username === loggedInUser.username)) {
       friend.friends.push({
@@ -152,7 +149,6 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
         _id: loggedInUser._id,
       });
     }
-
     // SAVE BOTH THE LOGGED IN USER AND FRIEND
     await Promise.all([loggedInUser.save(), friend.save()]);
 
@@ -167,6 +163,54 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
   }
 });
 
+// DELETES THE SPECIFIED USER FROM THE FRIENDS ARRAY FOR BOTH
+app.delete("/profile/:friendId", async (req, res) => {
+  const { friendId } = req.params;
+  const { username } = req.body;
+  try {
+    console.log("Received DELETE request");
+    console.log("Friend ID:", friendId);
+    console.log("Username:", username);
+    // FIND THE LOGGED IN USER BY USERNAME
+    const loggedInUser = await User.findOne({ username });
+    // THROWS ERROR IF NOT LOGGED IN
+    if (!loggedInUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    // FIND THE FRIEND IN THE LOGGED IN USER'S FRIEND LIST
+    const friendIndex = loggedInUser.friends.findIndex(
+      (friend) => friend._id.toString() === friendId
+    );
+    if (friendIndex === -1) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    // REMOVE THE FRIEND FROM THE USER'S FRIEND LIST
+    loggedInUser.friends.splice(friendIndex, 1);
+    // SAVE THE UPDATED USER
+    await loggedInUser.save();
+    // FIND THE FRIEND BY ID
+    const friend = await User.findById(friendId);
+    // FIND THE LOGGED IN USER IN THE FRIEND'S FRIEND LIST
+    const loggedInUserIndex = friend.friends.findIndex(
+      (friend) => friend._id.toString() === loggedInUser._id.toString()
+    );
+    if (loggedInUserIndex === -1) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    // REMOVE THE LOGGED IN USER FROM THE FRIEND'S FRIEND LIST
+    friend.friends.splice(loggedInUserIndex, 1);
+    // SAVED THE UPDATED FRIEND
+    await friend.save();
+
+    // SEND THE RESPONSE
+    res.status(200).json({
+      message: "Friend removed successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 // GENERATES USER STATS AND SAVES IT IN THE DATABASE
 app.post("/signupdetails/:username", async (req, res) => {
@@ -218,7 +262,6 @@ app.post("/profile/:username", async (req, res) => {
   const userID = req.params.username;
   console.log(req.body);
   try {
-
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
       { username: userID },
@@ -235,7 +278,7 @@ app.post("/profile/:username", async (req, res) => {
       },
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json({
@@ -243,10 +286,9 @@ app.post("/profile/:username", async (req, res) => {
       user,
     });
   } catch (err) {
-    
     // RETURNS ERROR MESSAGE BASED ON ERR OBJECT PROPERTIES
     if (err.codeName == "DuplicateKey" && err.keyValue.username) {
-      res.status(500).send("Username is already taken")
+      res.status(500).send("Username is already taken");
     } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
       res.status(500).send("Email is already taken");
     } else {
