@@ -8,13 +8,13 @@ const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
-const userRouter = require("./routes/users");
-const authRouter = require("./routes/auth");
-const passChangeRouter = require("./routes/passChange");
+const userRouter = require("./routes/users.js");
+const authRouter = require("./routes/auth.js");
+const passChangeRouter = require("./routes/passChange.js");
 
 // THE MODELS
-const { User } = require("./models/users");
-const Tips = require("./models/tips");
+const { User } = require("./models/users.js");
+const Tips = require("./models/tips.js");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -312,7 +312,7 @@ app.put("/fitness/:username", async (req, res) => {
   // const newWorkout = req.body;
 
   // CALL AND EXECUTE workouts.js
-  const workouts = require("./workouts");
+  const workouts = require("./workouts.js");
 
   // GENERATES WORKOUT PLAN IN workout.js
   function generateWorkout(callback) {
@@ -371,7 +371,7 @@ app.put("/diet/:email", async (req, res) => {
   // const newWorkout = req.body;
 
   // CALL AND EXECUTE diet.js
-  const Diet = require("./diet");
+  const Diet = require("./diet.js");
 
   // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
@@ -459,7 +459,8 @@ app.post("/", async (req, res) => {
 
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
-    model: "davinci:ft-personal-2023-05-14-21-14-45",
+    // DEFAULT IS "text-davinci-003"
+    model: "davinci:ft-personal-2023-05-15-05-32-16",
     prompt: `${message}` + " &&&&&",
     max_tokens: 200,
     stop: ['#####']

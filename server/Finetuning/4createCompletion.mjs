@@ -10,8 +10,8 @@ import { openai } from './0API.mjs'
 async function createCompletion() {
   try {
     const response = await openai.createCompletion({
-      model: '',
-      prompt: `Who has the best app this project term? &&&&&`,
+      model: 'davinci:ft-personal-2023-05-15-05-32-16',
+      prompt: `Hello &&&&&`,
       max_tokens: 200,
       stop: ['#####', '\n', '&&&&&']
     })

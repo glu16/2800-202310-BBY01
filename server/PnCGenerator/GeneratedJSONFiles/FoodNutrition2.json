@@ -1,0 +1,1099 @@
+[
+    {
+        "prompt": "What are the nutritional facts of Cows' milk? &&&&&",
+        "completion": "Cows' milk has 660 calories per 1 qt.. It contains 32 grams of protein, 40 grams of fat, 0 grams of fiber, and 48 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Milk skim? &&&&&",
+        "completion": "Milk skim has 360 calories per 1 qt.. It contains 36 grams of protein, trace amounts grams of fat, 0 grams of fiber, and 52 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Buttermilk? &&&&&",
+        "completion": "Buttermilk has 127 calories per 1 cup. It contains 9 grams of protein, 5 grams of fat, 0 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Powdered milk? &&&&&",
+        "completion": "Powdered milk has 515 calories per 1 cup. It contains 27 grams of protein, 28 grams of fat, 0 grams of fiber, and 39 grams of carbohydrates. #####"
+    },
+
+    {
+        "prompt": "What are the nutritional facts of Goats' milk? &&&&&",
+        "completion": "Goats' milk has 165 calories per 1 cup. It contains 8 grams of protein, 10 grams of fat, 0 grams of fiber, and 11 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of (1/2 cup ice cream)? &&&&&",
+        "completion": "(1/2 cup ice cream) has 690 calories per 2 cups. It contains 24 grams of protein, 24 grams of fat, 0 grams of fiber, and 70 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cocoa? &&&&&",
+        "completion": "Cocoa has 235 calories per 1 cup. It contains 8 grams of protein, 11 grams of fat, 0 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of skim. milk? &&&&&",
+        "completion": "skim. milk has 128 calories per 1 cup. It contains 18 grams of protein, 4 grams of fat, 1 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of (cornstarch)? &&&&&",
+        "completion": "(cornstarch) has 275 calories per 1 cup. It contains 9 grams of protein, 10 grams of fat, 0 grams of fiber, and 40 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Custard? &&&&&",
+        "completion": "Custard has 285 calories per 1 cup. It contains 13 grams of protein, 14 grams of fat, 0 grams of fiber, and 28 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Ice cream? &&&&&",
+        "completion": "Ice cream has 300 calories per 1 cup. It contains 6 grams of protein, 18 grams of fat, 0 grams of fiber, and 29 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Ice milk? &&&&&",
+        "completion": "Ice milk has 275 calories per 1 cup. It contains 9 grams of protein, 10 grams of fat, 0 grams of fiber, and 32 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cream or half-and-half? &&&&&",
+        "completion": "Cream or half-and-half has 170 calories per 1/2 cup. It contains 4 grams of protein, 15 grams of fat, 0 grams of fiber, and 5 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of or whipping? &&&&&",
+        "completion": "or whipping has 430 calories per 1/2 cup. It contains 2 grams of protein, 44 grams of fat, 1 grams of fiber, and 3 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cheese? &&&&&",
+        "completion": "Cheese has 240 calories per 1 cup. It contains 30 grams of protein, 11 grams of fat, 0 grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cheddar? &&&&&",
+        "completion": "Cheddar has 70 calories per 1-in. cube. It contains 4 grams of protein, 6 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cream cheese? &&&&&",
+        "completion": "Cream cheese has 105 calories per 1 oz.. It contains 2 grams of protein, 11 grams of fat, 0 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Processed cheese? &&&&&",
+        "completion": "Processed cheese has 105 calories per 1 oz.. It contains 7 grams of protein, 9 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Roquefort type? &&&&&",
+        "completion": "Roquefort type has 105 calories per 1 oz.. It contains 6 grams of protein, 9 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Swiss? &&&&&",
+        "completion": "Swiss has 105 calories per 1 oz.. It contains 7 grams of protein, 8 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Eggs raw? &&&&&",
+        "completion": "Eggs raw has 150 calories per 2. It contains 12 grams of protein, 12 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Eggs Scrambled or fried? &&&&&",
+        "completion": "Eggs Scrambled or fried has 220 calories per 2. It contains 13 grams of protein, 16 grams of fat, 0 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Yolks? &&&&&",
+        "completion": "Yolks has 120 calories per 2. It contains 6 grams of protein, 10 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Butter? &&&&&",
+        "completion": "Butter has 100 calories per 1T.. It contains trace amounts grams of protein, 11 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Butter? &&&&&",
+        "completion": "Butter has 113 calories per 1/2 cup. It contains 114 grams of protein, 115 grams of fat, 117 grams of fiber, and 118 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Hydrogenated cooking fat? &&&&&",
+        "completion": "Hydrogenated cooking fat has 665 calories per 1/2 cup. It contains 0 grams of protein, 100 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lard? &&&&&",
+        "completion": "Lard has 992 calories per 1/2 cup. It contains 0 grams of protein, 110 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Margarine? &&&&&",
+        "completion": "Margarine has 806 calories per 1/2 cup. It contains trace amounts grams of protein, 91 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Mayonnaise? &&&&&",
+        "completion": "Mayonnaise has 110 calories per 1 T.. It contains trace amounts grams of protein, 12 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corn oil? &&&&&",
+        "completion": "Corn oil has 125 calories per 1 T.. It contains 0 grams of protein, 14 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Olive oil? &&&&&",
+        "completion": "Olive oil has 125 calories per 1T.. It contains 0 grams of protein, 14 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Safflower seed oil? &&&&&",
+        "completion": "Safflower seed oil has 125 calories per 1 T.. It contains 0 grams of protein, 14 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of French dressing? &&&&&",
+        "completion": "French dressing has 60 calories per 1 T.. It contains trace amounts grams of protein, 6 grams of fat, 0 grams of fiber, and 2 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Thousand Island sauce? &&&&&",
+        "completion": "Thousand Island sauce has 75 calories per 1 T.. It contains trace amounts grams of protein, 8 grams of fat, 0 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Salt pork? &&&&&",
+        "completion": "Salt pork has 470 calories per 2 oz.. It contains 3 grams of protein, 55 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Bacon? &&&&&",
+        "completion": "Bacon has 95 calories per 2 slices. It contains 4 grams of protein, 8 grams of fat, 0 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Beef? &&&&&",
+        "completion": "Beef has 245 calories per 3 oz.. It contains 23 grams of protein, 16 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Hamburger? &&&&&",
+        "completion": "Hamburger has 245 calories per 3 oz.. It contains 21 grams of protein, 17 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Ground lean? &&&&&",
+        "completion": "Ground lean has 185 calories per 3 oz.. It contains 24 grams of protein, 10 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Roast beef? &&&&&",
+        "completion": "Roast beef has 390 calories per 3 oz.. It contains 16 grams of protein, 36 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Steak? &&&&&",
+        "completion": "Steak has 330 calories per 3 oz.. It contains 20 grams of protein, 27 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corned beef? &&&&&",
+        "completion": "Corned beef has 185 calories per 3 oz.. It contains 22 grams of protein, 10 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corned beef hash canned? &&&&&",
+        "completion": "Corned beef hash canned has 120 calories per 3 oz.. It contains 12 grams of protein, 8 grams of fat, trace amounts grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corned beef hash Dried? &&&&&",
+        "completion": "Corned beef hash Dried has 115 calories per 2 oz.. It contains 19 grams of protein, 4 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pot-pie? &&&&&",
+        "completion": "Pot-pie has 480 calories per 1 pie. It contains 18 grams of protein, 28 grams of fat, trace amounts grams of fiber, and 32 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corned beef hash Stew? &&&&&",
+        "completion": "Corned beef hash Stew has 185 calories per 1 cup. It contains 15 grams of protein, 10 grams of fat, trace amounts grams of fiber, and 15 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of chicken? &&&&&",
+        "completion": "chicken has 185 calories per 3 oz.. It contains 23 grams of protein, 9 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Leg roasted? &&&&&",
+        "completion": "Leg roasted has 314 calories per 3 oz.. It contains 20 grams of protein, 14 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pork roast? &&&&&",
+        "completion": "Pork roast has 310 calories per 3 oz.. It contains 21 grams of protein, 24 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pork sausage? &&&&&",
+        "completion": "Pork sausage has 475 calories per 3 1/2 oz.. It contains 18 grams of protein, 44 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Turkey? &&&&&",
+        "completion": "Turkey has 265 calories per 3 1/2 oz.. It contains 27 grams of protein, 15 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Veal? &&&&&",
+        "completion": "Veal has 185 calories per 3 oz.. It contains 23 grams of protein, 9 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Roast? &&&&&",
+        "completion": "Roast has 305 calories per 3 oz.. It contains 13 grams of protein, 14 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Clams? &&&&&",
+        "completion": "Clams has 87 calories per 3 oz.. It contains 12 grams of protein, 1 grams of fat, 0 grams of fiber, and 2 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cod? &&&&&",
+        "completion": "Cod has 170 calories per 3 1/2 oz.. It contains 28 grams of protein, 5 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Crab meat? &&&&&",
+        "completion": "Crab meat has 90 calories per 3 oz.. It contains 14 grams of protein, 2 grams of fat, 0 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Fish sticks fried? &&&&&",
+        "completion": "Fish sticks fried has 200 calories per 5. It contains 19 grams of protein, 10 grams of fat, 0 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Flounder? &&&&&",
+        "completion": "Flounder has 200 calories per 3 1/2 oz.. It contains 30 grams of protein, 8 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Haddock? &&&&&",
+        "completion": "Haddock has 135 calories per 3 oz.. It contains 16 grams of protein, 5 grams of fat, 0 grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Halibut? &&&&&",
+        "completion": "Halibut has 182 calories per 3 1/2 oz.. It contains 26 grams of protein, 8 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Herring? &&&&&",
+        "completion": "Herring has 211 calories per 1 small. It contains 22 grams of protein, 13 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lobster? &&&&&",
+        "completion": "Lobster has 92 calories per aver.. It contains 18 grams of protein, 1 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Mackerel? &&&&&",
+        "completion": "Mackerel has 155 calories per 3 oz.. It contains 18 grams of protein, 9 grams of fat, a grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Oysters? &&&&&",
+        "completion": "Oysters has 231 calories per 6-8 med.. It contains 232 grams of protein, 233 grams of fat, 235 grams of fiber, and 236 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Oyster stew? &&&&&",
+        "completion": "Oyster stew has 125 calories per 1 cup. It contains 19 grams of protein, 6 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Salmon? &&&&&",
+        "completion": "Salmon has 120 calories per 3 oz.. It contains 17 grams of protein, 5 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Sardines? &&&&&",
+        "completion": "Sardines has 180 calories per 3 oz.. It contains 22 grams of protein, 9 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Scallops? &&&&&",
+        "completion": "Scallops has 104 calories per 3 1/2 oz.. It contains 18 grams of protein, 8 grams of fat, 0 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Shad? &&&&&",
+        "completion": "Shad has 170 calories per 3 oz.. It contains 20 grams of protein, 10 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Shrimp? &&&&&",
+        "completion": "Shrimp has 110 calories per 3 oz.. It contains 23 grams of protein, 1 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Swordfish? &&&&&",
+        "completion": "Swordfish has 180 calories per 1 steak. It contains 27 grams of protein, 6 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tuna? &&&&&",
+        "completion": "Tuna has 170 calories per 3 oz.. It contains 25 grams of protein, 7 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Artichoke? &&&&&",
+        "completion": "Artichoke has 8-44 calories per 1 large. It contains 2 grams of protein, trace amounts grams of fat, 2 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Asparagus? &&&&&",
+        "completion": "Asparagus has 18 calories per 6 spears. It contains 1 grams of protein, trace amounts grams of fat, 0.5 grams of fiber, and 3 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Beans? &&&&&",
+        "completion": "Beans has 25 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.8 grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lima? &&&&&",
+        "completion": "Lima has 140 calories per 1 cup. It contains 8 grams of protein, trace amounts grams of fat, 3 grams of fiber, and 24 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Red kidney? &&&&&",
+        "completion": "Red kidney has 230 calories per 1 cup. It contains 15 grams of protein, 1 grams of fat, 2.5 grams of fiber, and 42 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Bean sprouts? &&&&&",
+        "completion": "Bean sprouts has 17 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.3 grams of fiber, and 3 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Beet greens? &&&&&",
+        "completion": "Beet greens has 27 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 1.4 grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Beetroots? &&&&&",
+        "completion": "Beetroots has 1 calories per 1 cup. It contains 12 grams of protein, 0 grams of fat, trace amounts grams of fiber, and 0.8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Broccoli? &&&&&",
+        "completion": "Broccoli has 45 calories per 1 cup. It contains 5 grams of protein, trace amounts grams of fat, 1.9 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Brussels sprouts? &&&&&",
+        "completion": "Brussels sprouts has 60 calories per 1 cup. It contains 6 grams of protein, trace amounts grams of fat, 1.7 grams of fiber, and 12 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Sauerkraut? &&&&&",
+        "completion": "Sauerkraut has 32 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 1.2 grams of fiber, and 7 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Steamed cabbage? &&&&&",
+        "completion": "Steamed cabbage has 40 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 1.3 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Carrots? &&&&&",
+        "completion": "Carrots has 45 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.9 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cauliflower? &&&&&",
+        "completion": "Cauliflower has 30 calories per 1 cup. It contains 3 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Celery? &&&&&",
+        "completion": "Celery has 20 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 4 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Stalk raw? &&&&&",
+        "completion": "Stalk raw has 5 calories per 1 large. It contains 1 grams of protein, trace amounts grams of fat, 0.3 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Chard steamed? &&&&&",
+        "completion": "Chard steamed has 30 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 1.4 grams of fiber, and 7 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Collards? &&&&&",
+        "completion": "Collards has 51 calories per 1 cup. It contains 5 grams of protein, trace amounts grams of fat, 2 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corn? &&&&&",
+        "completion": "Corn has 92 calories per 1 ear. It contains 3 grams of protein, 1 grams of fat, 0.8 grams of fiber, and 21 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of cooked or canned? &&&&&",
+        "completion": "cooked or canned has 170 calories per 1 cup. It contains 5 grams of protein, trace amounts grams of fat, 1.6 grams of fiber, and 41 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cucumbers? &&&&&",
+        "completion": "Cucumbers has 6 calories per 8. It contains trace amounts grams of protein, 0 grams of fat, 0.2 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Dandelion greens? &&&&&",
+        "completion": "Dandelion greens has 80 calories per 1 cup. It contains 5 grams of protein, 1 grams of fat, 3.2 grams of fiber, and 16 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Eggplant? &&&&&",
+        "completion": "Eggplant has 30 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Endive? &&&&&",
+        "completion": "Endive has 10 calories per 2 oz.. It contains 1 grams of protein, trace amounts grams of fat, 0.6 grams of fiber, and 2 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Kale? &&&&&",
+        "completion": "Kale has 45 calories per 1 cup. It contains 4 grams of protein, 1 grams of fat, 0.9 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Kohlrabi? &&&&&",
+        "completion": "Kohlrabi has 40 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 1.5 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lentils? &&&&&",
+        "completion": "Lentils has 212 calories per 1 cup. It contains 15 grams of protein, trace amounts grams of fat, 2.4 grams of fiber, and 38 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lettuce? &&&&&",
+        "completion": "Lettuce has 14 calories per 1/4 head. It contains 1 grams of protein, trace amounts grams of fat, 0.5 grams of fiber, and 2 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Iceberg? &&&&&",
+        "completion": "Iceberg has 13 calories per 1/4 head. It contains trace amounts grams of protein, trace amounts grams of fat, 0.5 grams of fiber, and 3 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Mushrooms canned? &&&&&",
+        "completion": "Mushrooms canned has 12 calories per 4. It contains 2 grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 4 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Mustard greens? &&&&&",
+        "completion": "Mustard greens has 30 calories per 1. It contains 3 grams of protein, trace amounts grams of fat, 1.2 grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Okra? &&&&&",
+        "completion": "Okra has 32 calories per 1 1/3 cups. It contains 1 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 7 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Onions? &&&&&",
+        "completion": "Onions has 80 calories per 1. It contains 2 grams of protein, trace amounts grams of fat, 1.6 grams of fiber, and 18 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Parsley? &&&&&",
+        "completion": "Parsley has 2 calories per 2 T.. It contains trace amounts grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Parsnips? &&&&&",
+        "completion": "Parsnips has 95 calories per 1 cup. It contains 2 grams of protein, 1 grams of fat, 3 grams of fiber, and 22 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Peas? &&&&&",
+        "completion": "Peas has 66 calories per 1 cup. It contains 3 grams of protein, trace amounts grams of fat, 0.1 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Frozen peas? &&&&&",
+        "completion": "Frozen peas has  calories per 1 cup. It contains 5 grams of protein, trace amounts grams of fat, 1.8 grams of fiber, and 12 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Split cooked peas? &&&&&",
+        "completion": "Split cooked peas has 115 calories per 4 cups. It contains 8 grams of protein, trace amounts grams of fat, 0.4 grams of fiber, and 21 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of heated peas? &&&&&",
+        "completion": "heated peas has 53 calories per 1 cup. It contains 3 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Peppers canned? &&&&&",
+        "completion": "Peppers canned has 10 calories per 1 pod. It contains trace amounts grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 2 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Peppers with beef and crumbs? &&&&&",
+        "completion": "Peppers with beef and crumbs has 255 calories per 1 med.. It contains 19 grams of protein, 9 grams of fat, 1 grams of fiber, and 24 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of French-fried? &&&&&",
+        "completion": "French-fried has 155 calories per 10 pieces. It contains -1 grams of protein, 7 grams of fat, 0.4 grams of fiber, and 20 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Potatoes Mashed with milk and butter? &&&&&",
+        "completion": "Potatoes Mashed with milk and butter has 230 calories per 1 cup. It contains 4 grams of protein, 12 grams of fat, 0.7 grams of fiber, and 28 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Scalloped with cheese potatoes? &&&&&",
+        "completion": "Scalloped with cheese potatoes has 145 calories per 3/4 cup. It contains 6 grams of protein, 8 grams of fat, 0.4 grams of fiber, and 14 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Steamed potatoes before peeling? &&&&&",
+        "completion": "Steamed potatoes before peeling has 80 calories per 1 med.. It contains 2 grams of protein, trace amounts grams of fat, 0.4 grams of fiber, and 19 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Potato chips? &&&&&",
+        "completion": "Potato chips has 110 calories per 10. It contains 1 grams of protein, 7 grams of fat, trace amounts grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Radishes? &&&&&",
+        "completion": "Radishes has 10 calories per 5 small. It contains trace amounts grams of protein, 0 grams of fat, 0.3 grams of fiber, and 2 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Rutabagas? &&&&&",
+        "completion": "Rutabagas has 32 calories per 4 cups. It contains trace amounts grams of protein, 0 grams of fat, 1.4 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Soybeans? &&&&&",
+        "completion": "Soybeans has 260 calories per 1 cup. It contains 22 grams of protein, 11 grams of fat, 3.2 grams of fiber, and 20 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Spinach? &&&&&",
+        "completion": "Spinach has 26 calories per 1 cup. It contains 3 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 3 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Squash? &&&&&",
+        "completion": "Squash has 35 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.6 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Sweet potatoes? &&&&&",
+        "completion": "Sweet potatoes has 155 calories per 1 med.. It contains 2 grams of protein, 1 grams of fat, 1 grams of fiber, and 36 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Candied? &&&&&",
+        "completion": "Candied has 235 calories per 1 med.. It contains 2 grams of protein, 6 grams of fat, 1.5 grams of fiber, and 80 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tomatoes? &&&&&",
+        "completion": "Tomatoes has 50 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tomato juice? &&&&&",
+        "completion": "Tomato juice has 50 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 0.6 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tomato catsup? &&&&&",
+        "completion": "Tomato catsup has 15 calories per 1 T.. It contains trace amounts grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 4 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Turnip greens? &&&&&",
+        "completion": "Turnip greens has 45 calories per 1 cup. It contains 4 grams of protein, 1 grams of fat, 1.8 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Apple juice canned? &&&&&",
+        "completion": "Apple juice canned has 125 calories per 1 cup. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 34 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Apple vinegar? &&&&&",
+        "completion": "Apple vinegar has 14 calories per 1/3 cup. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 3 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Stewed or canned? &&&&&",
+        "completion": "Stewed or canned has 100 calories per 1 cup. It contains trace amounts grams of protein, trace amounts grams of fat, 2 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Apricots? &&&&&",
+        "completion": "Apricots has 220 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 57 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Fresh? &&&&&",
+        "completion": "Fresh has 55 calories per 3 med.. It contains 1 grams of protein, trace amounts grams of fat, 0.7 grams of fiber, and 14 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Avocado? &&&&&",
+        "completion": "Avocado has 185 calories per 1/2 large. It contains 2 grams of protein, 18 grams of fat, 1.8 grams of fiber, and 6 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Banana? &&&&&",
+        "completion": "Banana has 85 calories per 1 med.. It contains 1 grams of protein, trace amounts grams of fat, 0.9 grams of fiber, and 23 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Blackberries? &&&&&",
+        "completion": "Blackberries has 85 calories per 1 cup. It contains 2 grams of protein, 1 grams of fat, 6.6 grams of fiber, and 19 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Blueberries? &&&&&",
+        "completion": "Blueberries has 245 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 2 grams of fiber, and 65 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cantaloupe? &&&&&",
+        "completion": "Cantaloupe has 40 calories per 1/2 med.. It contains 1 grams of protein, trace amounts grams of fat, 2.2 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cherries? &&&&&",
+        "completion": "Cherries has 100 calories per 1 cup. It contains 2 grams of protein, 1 grams of fat, 2 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cranberry sauce sweetened? &&&&&",
+        "completion": "Cranberry sauce sweetened has 530 calories per 1 cup. It contains trace amounts grams of protein, trace amounts grams of fat, 1.2 grams of fiber, and 142 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Dates? &&&&&",
+        "completion": "Dates has 505 calories per 1 cup. It contains 4 grams of protein, trace amounts grams of fat, 3.6 grams of fiber, and 134 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Figs? &&&&&",
+        "completion": "Figs has 120 calories per 2. It contains 2 grams of protein, trace amounts grams of fat, 1.9 grams of fiber, and 30 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of figs Canned with syrup? &&&&&",
+        "completion": "figs Canned with syrup has 130 calories per 3. It contains 1 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 32 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Grapefruit sections? &&&&&",
+        "completion": "Grapefruit sections has 170 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.5 grams of fiber, and 44 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Grapefruit juice? &&&&&",
+        "completion": "Grapefruit juice has 100 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 24 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Grapes? &&&&&",
+        "completion": "Grapes has 70 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.8 grams of fiber, and 16 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Grape juice? &&&&&",
+        "completion": "Grape juice has 160 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 42 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lemon juice? &&&&&",
+        "completion": "Lemon juice has 30 calories per 1/2 cup. It contains trace amounts grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lemonade concentratefrozen? &&&&&",
+        "completion": "Lemonade concentratefrozen has 430 calories per 6-oz. can. It contains trace amounts grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 112 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Limeade concentrate frozen? &&&&&",
+        "completion": "Limeade concentrate frozen has 405 calories per 6-oz. can. It contains trace amounts grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 108 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Olives large? &&&&&",
+        "completion": "Olives large has 72 calories per 10. It contains 1 grams of protein, 10 grams of fat, 0.8 grams of fiber, and 3 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of OlivesRipe? &&&&&",
+        "completion": "OlivesRipe has 105 calories per 10. It contains 1 grams of protein, 13 grams of fat, 1 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Orange juice? &&&&&",
+        "completion": "Orange juice has 112 calories per 8 oz. or. It contains 2 grams of protein, trace amounts grams of fat, 0.2 grams of fiber, and 25 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Frozen? &&&&&",
+        "completion": "Frozen has 330 calories per 6-oz. can. It contains 2 grams of protein, trace amounts grams of fat, 0.4 grams of fiber, and 78 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Papaya? &&&&&",
+        "completion": "Papaya has 75 calories per 1/2 med.. It contains 1 grams of protein, trace amounts grams of fat, 1.8 grams of fiber, and 18 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Peaches? &&&&&",
+        "completion": "Peaches has 200 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 52 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pears? &&&&&",
+        "completion": "Pears has 195 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 2 grams of fiber, and 50 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Persimmons? &&&&&",
+        "completion": "Persimmons has 75 calories per 1 med.. It contains 1 grams of protein, trace amounts grams of fat, 2 grams of fiber, and 20 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pineapple? &&&&&",
+        "completion": "Pineapple has 95 calories per 1 large slice. It contains trace amounts grams of protein, trace amounts grams of fat, 0.4 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pineapple Crushed? &&&&&",
+        "completion": "Pineapple Crushed has 205 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.7 grams of fiber, and 55 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pineapple juice? &&&&&",
+        "completion": "Pineapple juice has 120 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.2 grams of fiber, and 32 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Plums? &&&&&",
+        "completion": "Plums has 185 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.7 grams of fiber, and 50 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Prunes? &&&&&",
+        "completion": "Prunes has 300 calories per 1 cup. It contains 3 grams of protein, 1 grams of fat, 0.8 grams of fiber, and 81 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Prune juice? &&&&&",
+        "completion": "Prune juice has 170 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.7 grams of fiber, and 45 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Raisins? &&&&&",
+        "completion": "Raisins has 230 calories per 1/2 cup. It contains 2 grams of protein, trace amounts grams of fat, 0.7 grams of fiber, and 82 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Raspberries? &&&&&",
+        "completion": "Raspberries has 100 calories per 1/2 cup. It contains trace amounts grams of protein, trace amounts grams of fat, 2 grams of fiber, and 25 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Rhubarb sweetened? &&&&&",
+        "completion": "Rhubarb sweetened has 385 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 1.9 grams of fiber, and 98 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Strawberries? &&&&&",
+        "completion": "Strawberries has 242 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 1.3 grams of fiber, and 60 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Raw? &&&&&",
+        "completion": "Raw has 54 calories per 1 cup. It contains trace amounts grams of protein, trace amounts grams of fat, 1.9 grams of fiber, and 12 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tangerines? &&&&&",
+        "completion": "Tangerines has 40 calories per I med.. It contains 1 grams of protein, trace amounts grams of fat, 1 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Watermelon? &&&&&",
+        "completion": "Watermelon has 120 calories per 1 wedge. It contains 2 grams of protein, 1 grams of fat, 3.6 grams of fiber, and 29 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Biscuits? &&&&&",
+        "completion": "Biscuits has 130 calories per 1. It contains 3 grams of protein, 4 grams of fat, trace amounts grams of fiber, and 18 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Bran flakes? &&&&&",
+        "completion": "Bran flakes has 117 calories per 1 cup. It contains 3 grams of protein, trace amounts grams of fat, 0.1 grams of fiber, and 32 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Whole-wheat? &&&&&",
+        "completion": "Whole-wheat has 55 calories per 1 slice. It contains 2 grams of protein, 1 grams of fat, 0.31 grams of fiber, and 11 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corn bread ground meal? &&&&&",
+        "completion": "Corn bread ground meal has 100 calories per 1 serving. It contains 3 grams of protein, 4 grams of fat, 0.3 grams of fiber, and 15 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cornflakes? &&&&&",
+        "completion": "Cornflakes has 110 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 0.1 grams of fiber, and 25 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corn grits cooked? &&&&&",
+        "completion": "Corn grits cooked has 120 calories per 1 cup. It contains 8 grams of protein, trace amounts grams of fat, 0.2 grams of fiber, and 27 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Corn meal? &&&&&",
+        "completion": "Corn meal has 360 calories per 1 cup. It contains 9 grams of protein, 4 grams of fat, 1.6 grams of fiber, and 74 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Crackers? &&&&&",
+        "completion": "Crackers has 55 calories per 2 med.. It contains 1 grams of protein, 1 grams of fat, trace amounts grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Farina? &&&&&",
+        "completion": "Farina has 105 calories per 1 cup. It contains 3 grams of protein, trace amounts grams of fat, 8 grams of fiber, and 22 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Flour? &&&&&",
+        "completion": "Flour has 460 calories per 1 cup. It contains 39 grams of protein, 22 grams of fat, 2.9 grams of fiber, and 33 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Wheat (all purpose)? &&&&&",
+        "completion": "Wheat (all purpose) has 400 calories per 1 cup. It contains 12 grams of protein, 1 grams of fat, 0.3 grams of fiber, and 84 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Wheat (whole)? &&&&&",
+        "completion": "Wheat (whole) has 390 calories per 1 cup. It contains 13 grams of protein, 2 grams of fat, 2.8 grams of fiber, and 79 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Macaroni? &&&&&",
+        "completion": "Macaroni has 155 calories per 1 cup. It contains 5 grams of protein, 1 grams of fat, 0.1 grams of fiber, and 32 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Baked with cheese? &&&&&",
+        "completion": "Baked with cheese has 475 calories per 1 cup. It contains 18 grams of protein, 25 grams of fat, trace amounts grams of fiber, and 44 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Muffins? &&&&&",
+        "completion": "Muffins has 135 calories per 1. It contains 4 grams of protein, 5 grams of fat, trace amounts grams of fiber, and 19 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Noodles? &&&&&",
+        "completion": "Noodles has 200 calories per 1 cup. It contains 7 grams of protein, 2 grams of fat, 0.1 grams of fiber, and 37 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Oatmeal? &&&&&",
+        "completion": "Oatmeal has 150 calories per 1 cup. It contains 5 grams of protein, 3 grams of fat, 4.6 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Popcorn salted? &&&&&",
+        "completion": "Popcorn salted has 152 calories per 2 cups. It contains 3 grams of protein, 7 grams of fat, 0.5 grams of fiber, and 20 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Puffed rice? &&&&&",
+        "completion": "Puffed rice has 55 calories per 1 cup. It contains trace amounts grams of protein, trace amounts grams of fat, trace amounts grams of fiber, and 12 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Puffed wheat presweetened? &&&&&",
+        "completion": "Puffed wheat presweetened has 105 calories per 1 cup. It contains 1 grams of protein, trace amounts grams of fat, 0.6 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Rice? &&&&&",
+        "completion": "Rice has 748 calories per 1 cup. It contains 15 grams of protein, 3 grams of fat, 1.2 grams of fiber, and 154 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Converted? &&&&&",
+        "completion": "Converted has 677 calories per 1 cup. It contains 14 grams of protein, trace amounts grams of fat, 0.4 grams of fiber, and 142 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of White? &&&&&",
+        "completion": "White has 692 calories per 1 cup. It contains 14 grams of protein, trace amounts grams of fat, 0.3 grams of fiber, and 150 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Rice flakes? &&&&&",
+        "completion": "Rice flakes has 115 calories per 1 cup. It contains 2 grams of protein, trace amounts grams of fat, 0.1 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Rice polish? &&&&&",
+        "completion": "Rice polish has 132 calories per 1/2 cup. It contains 6 grams of protein, 6 grams of fat, 1.2 grams of fiber, and 28 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Rolls? &&&&&",
+        "completion": "Rolls has 411 calories per 1 large. It contains 3 grams of protein, 12 grams of fat, 0.1 grams of fiber, and 23 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of of refined flour? &&&&&",
+        "completion": "of refined flour has 115 calories per 1. It contains 3 grams of protein, 2 grams of fat, trace amounts grams of fiber, and 20 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of whole-wheat? &&&&&",
+        "completion": "whole-wheat has 102 calories per 1. It contains 4 grams of protein, 1 grams of fat, 0.1 grams of fiber, and 20 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Spaghetti with meat sauce? &&&&&",
+        "completion": "Spaghetti with meat sauce has 285 calories per 1 cup. It contains 13 grams of protein, 10 grams of fat, 0.5 grams of fiber, and 35 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of with tomatoes and cheese? &&&&&",
+        "completion": "with tomatoes and cheese has 210 calories per 1 cup. It contains 6 grams of protein, 5 grams of fat, 0.5 grams of fiber, and 36 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Spanish rice? &&&&&",
+        "completion": "Spanish rice has 217 calories per 1 cup. It contains 4 grams of protein, 4 grams of fat, 1.2 grams of fiber, and 40 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Shredded wheat biscuit? &&&&&",
+        "completion": "Shredded wheat biscuit has 100 calories per 1. It contains 3 grams of protein, 1 grams of fat, 0.7 grams of fiber, and 23 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Waffles? &&&&&",
+        "completion": "Waffles has 240 calories per 1. It contains 8 grams of protein, 9 grams of fat, 0.1 grams of fiber, and 30 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Wheat germ? &&&&&",
+        "completion": "Wheat germ has 245 calories per 1 cup. It contains 17 grams of protein, 7 grams of fat, 2.5 grams of fiber, and 34 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Wheat-germ cereal toasted? &&&&&",
+        "completion": "Wheat-germ cereal toasted has 260 calories per 1 cup. It contains 20 grams of protein, 7 grams of fat, 2.5 grams of fiber, and 36 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Wheat meal cereal unrefined? &&&&&",
+        "completion": "Wheat meal cereal unrefined has 103 calories per 3/4 cup. It contains 4 grams of protein, 1 grams of fat, 0.7 grams of fiber, and 25 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Bean soups? &&&&&",
+        "completion": "Bean soups has 190 calories per 1 cup. It contains 8 grams of protein, 5 grams of fat, 0.6 grams of fiber, and 30 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Beef soup? &&&&&",
+        "completion": "Beef soup has 100 calories per 1 cup. It contains 6 grams of protein, 4 grams of fat, 0.5 grams of fiber, and 11 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Bouillon? &&&&&",
+        "completion": "Bouillon has 24 calories per 1 cup. It contains 5 grams of protein, 0 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of chicken soup? &&&&&",
+        "completion": "chicken soup has 75 calories per 1 cup. It contains 4 grams of protein, 2 grams of fat, 0 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Clam chowder? &&&&&",
+        "completion": "Clam chowder has 85 calories per 1 cup. It contains 5 grams of protein, 2 grams of fat, 0.5 grams of fiber, and 12 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cream soups? &&&&&",
+        "completion": "Cream soups has 200 calories per 1 cup. It contains 7 grams of protein, 12 grams of fat, 1.2 grams of fiber, and 18 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Noodle? &&&&&",
+        "completion": "Noodle has 115 calories per 1 cup. It contains 6 grams of protein, 4 grams of fat, 0.2 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Split-pea soup? &&&&&",
+        "completion": "Split-pea soup has 147 calories per 1 cup. It contains 8 grams of protein, 3 grams of fat, 0.5 grams of fiber, and 25 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tomato soup? &&&&&",
+        "completion": "Tomato soup has 175 calories per 1 cup. It contains 6 grams of protein, 7 grams of fat, 0.5 grams of fiber, and 22 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Vegetable? &&&&&",
+        "completion": "Vegetable has 80 calories per 1 cup. It contains 4 grams of protein, 2 grams of fat, 0 grams of fiber, and 14 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Apple betty? &&&&&",
+        "completion": "Apple betty has 150 calories per 1 serving. It contains 1 grams of protein, 4 grams of fat, 0.5 grams of fiber, and 29 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Bread pudding? &&&&&",
+        "completion": "Bread pudding has 374 calories per 3/4 cup. It contains 11 grams of protein, 12 grams of fat, 0.2 grams of fiber, and 56 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cakes? &&&&&",
+        "completion": "Cakes has 110 calories per 1 slice. It contains 3 grams of protein, trace amounts grams of fat, 0 grams of fiber, and 23 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Chocolate fudge? &&&&&",
+        "completion": "Chocolate fudge has 420 calories per 1 slice. It contains 5 grams of protein, 14 grams of fat, 0.3 grams of fiber, and 70 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cupcake? &&&&&",
+        "completion": "Cupcake has 160 calories per 1. It contains 3 grams of protein, 3 grams of fat, trace amounts grams of fiber, and 31 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Fruit cake? &&&&&",
+        "completion": "Fruit cake has 105 calories per 1 slice. It contains 2 grams of protein, 4 grams of fat, 0.2 grams of fiber, and 17 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Gingerbread? &&&&&",
+        "completion": "Gingerbread has 180 calories per 1 slice. It contains 2 grams of protein, 7 grams of fat, trace amounts grams of fiber, and 28 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Sponge cake? &&&&&",
+        "completion": "Sponge cake has 115 calories per 1 slice. It contains 3 grams of protein, 2 grams of fat, 0 grams of fiber, and 22 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Candy? &&&&&",
+        "completion": "Candy has 104 calories per 5. It contains trace amounts grams of protein, 3 grams of fat, 0 grams of fiber, and 19 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Chocolate creams? &&&&&",
+        "completion": "Chocolate creams has 130 calories per 2. It contains trace amounts grams of protein, 4 grams of fat, 0 grams of fiber, and 24 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Fudge? &&&&&",
+        "completion": "Fudge has 370 calories per 2 pieces. It contains trace amounts grams of protein, 12 grams of fat, 0.1 grams of fiber, and 80 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Hard candies? &&&&&",
+        "completion": "Hard candies has 90 calories per 1 oz.. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 28 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Marshmallows? &&&&&",
+        "completion": "Marshmallows has 98 calories per 5. It contains 1 grams of protein, 0 grams of fat, 0 grams of fiber, and 23 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Milk chocolate? &&&&&",
+        "completion": "Milk chocolate has 290 calories per 2-oz. bar. It contains 2 grams of protein, 6 grams of fat, 0.2 grams of fiber, and 44 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Chocolate syrup? &&&&&",
+        "completion": "Chocolate syrup has 80 calories per 2 T.. It contains trace amounts grams of protein, trace amounts grams of fat, 0 grams of fiber, and 22 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Doughnuts? &&&&&",
+        "completion": "Doughnuts has 135 calories per 1. It contains 2 grams of protein, 7 grams of fat, trace amounts grams of fiber, and 17 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Honey? &&&&&",
+        "completion": "Honey has 120 calories per 2 T.. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 30 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Ice cream? &&&&&",
+        "completion": "Ice cream has 250 calories per 2 cups. It contains 0 grams of protein, 0 grams of fat, 10 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Ices? &&&&&",
+        "completion": "Ices has 117 calories per 1 cup. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 48 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of preserves? &&&&&",
+        "completion": "preserves has 55 calories per 1 T.. It contains 0 grams of protein, 0 grams of fat, trace amounts grams of fiber, and 14 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Jellies? &&&&&",
+        "completion": "Jellies has 50 calories per 1 T.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Molasses? &&&&&",
+        "completion": "Molasses has 45 calories per 1 T.. It contains 0 grams of protein, 0 grams of fat, 8 grams of fiber, and 11 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cane Syrup? &&&&&",
+        "completion": "Cane Syrup has 50 calories per 1 T.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cherry Pie? &&&&&",
+        "completion": "Cherry Pie has 340 calories per 1 slice. It contains 3 grams of protein, 13 grams of fat, 0.1 grams of fiber, and 55 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Custard? &&&&&",
+        "completion": "Custard has 265 calories per 1 slice. It contains 7 grams of protein, 11 grams of fat, 0 grams of fiber, and 34 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Lemon meringue? &&&&&",
+        "completion": "Lemon meringue has 300 calories per 1 slice. It contains 4 grams of protein, 12 grams of fat, 0.1 grams of fiber, and 45 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Mince? &&&&&",
+        "completion": "Mince has 340 calories per 1 slice. It contains 3 grams of protein, 9 grams of fat, 0.7 grams of fiber, and 62 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pumpkin Pie? &&&&&",
+        "completion": "Pumpkin Pie has 265 calories per 1 slice. It contains 5 grams of protein, 12 grams of fat, 8 grams of fiber, and 34 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Puddings Sugar? &&&&&",
+        "completion": "Puddings Sugar has 770 calories per 1 cup. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 199 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of 3 teaspoons sugar? &&&&&",
+        "completion": "3 teaspoons sugar has 50 calories per 1 T.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 12 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Syrup? &&&&&",
+        "completion": "Syrup has 100 calories per 2 T.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 25 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of table blends sugar? &&&&&",
+        "completion": "table blends sugar has 110 calories per 2 T.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 29 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tapioca cream pudding? &&&&&",
+        "completion": "Tapioca cream pudding has 335 calories per 1 cup. It contains 10 grams of protein, 10 grams of fat, 0 grams of fiber, and 42 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Almonds? &&&&&",
+        "completion": "Almonds has 425 calories per 1/2 cup. It contains 13 grams of protein, 38 grams of fat, 1.8 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of roasted and salted? &&&&&",
+        "completion": "roasted and salted has 439 calories per 1/2 cup. It contains 13 grams of protein, 40 grams of fat, 1.8 grams of fiber, and 13 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Brazil nuts? &&&&&",
+        "completion": "Brazil nuts has 457 calories per 1/2 cup. It contains 10 grams of protein, 47 grams of fat, 2 grams of fiber, and 7 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cashews? &&&&&",
+        "completion": "Cashews has 392 calories per 1/2 cup. It contains 12 grams of protein, 32 grams of fat, 0.9 grams of fiber, and 20 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of coconut sweetened? &&&&&",
+        "completion": "coconut sweetened has 274 calories per 1/2 cup. It contains 1 grams of protein, 20 grams of fat, 2 grams of fiber, and 26 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Peanut butter? &&&&&",
+        "completion": "Peanut butter has 300 calories per 1/3 cup. It contains 12 grams of protein, 25 grams of fat, 0.9 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Peanuts? &&&&&",
+        "completion": "Peanuts has 290 calories per 1/3 cup. It contains 13 grams of protein, 25 grams of fat, 1.2 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Pecans? &&&&&",
+        "completion": "Pecans has 343 calories per 1/2 cup. It contains 5 grams of protein, 35 grams of fat, 1.1 grams of fiber, and 7 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Sesame seeds? &&&&&",
+        "completion": "Sesame seeds has 280 calories per 1/2 cup. It contains 9 grams of protein, 24 grams of fat, 3.1 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Sunflower seeds? &&&&&",
+        "completion": "Sunflower seeds has 280 calories per 1/2 cup. It contains 12 grams of protein, 26 grams of fat, 1.9 grams of fiber, and 10 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Walnuts? &&&&&",
+        "completion": "Walnuts has 325 calories per 1/2 cup. It contains 7 grams of protein, 32 grams of fat, 1 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Beer? &&&&&",
+        "completion": "Beer has 228 calories per 2 cups. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 8 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Gin? &&&&&",
+        "completion": "Gin has 70 calories per 1 oz.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and trace amounts grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Wines? &&&&&",
+        "completion": "Wines has 164 calories per 1/2 cup. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 9 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Table (12.2% alcohol)? &&&&&",
+        "completion": "Table (12.2% alcohol) has 100 calories per 1/2 cup. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 5 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Carbonated drinks Artificially sweetened? &&&&&",
+        "completion": "Carbonated drinks Artificially sweetened has 0 calories per 12 oz.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Club soda? &&&&&",
+        "completion": "Club soda has 0 calories per 12 oz.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 0 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Cola drinks? &&&&&",
+        "completion": "Cola drinks has 137 calories per 12 oz.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 38 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Fruit-flavored soda? &&&&&",
+        "completion": "Fruit-flavored soda has 161 calories per 12 oz.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 42 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Ginger ale? &&&&&",
+        "completion": "Ginger ale has 105 calories per 12 oz.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 28 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Root beer? &&&&&",
+        "completion": "Root beer has 140 calories per 12 oz.. It contains 0 grams of protein, 0 grams of fat, 0 grams of fiber, and 35 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Coffee? &&&&&",
+        "completion": "Coffee has 3 calories per 1 cup. It contains trace amounts grams of protein, 0 grams of fat, 0 grams of fiber, and 1 grams of carbohydrates. #####"
+    },
+    {
+        "prompt": "What are the nutritional facts of Tea? &&&&&",
+        "completion": "Tea has 4 calories per 1 cup. It contains 0 grams of protein, trace amounts grams of fat, 0 grams of fiber, and 1 grams of carbohydrates. #####"
+    }
+]

@@ -8,7 +8,6 @@ async function createFineTune() {
   try {
     const response = await openai.createFineTune({
       training_file: fileId,
-      n_epochs: 8,
       model: 'davinci'
     })
     console.log('response: ', response)
