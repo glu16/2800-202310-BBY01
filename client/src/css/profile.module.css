@@ -42,6 +42,8 @@
 .friendsHeader {
   color: rgb(92, 208, 216);
   margin-top: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .friendsList {
@@ -51,6 +53,17 @@
 
 .formLabel {
   color: black;
+}
+
+.icon {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+.infoLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .imgProfile {

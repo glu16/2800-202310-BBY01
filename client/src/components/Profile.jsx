@@ -163,6 +163,74 @@ const Profile = ({ username }) => {
   }, []);
   // End of user's friends retrieval
 
+  // Sorts the list of friends by alphabetical order
+  const sortedFriends = friends.sort((a, b) =>
+    a.username.localeCompare(b.username)
+  );
+
+  // useState hook variable for the info modal
+  const [showInfoModal, setShowInfoModal] = useState(false);
+
+  // Info modal open handler
+  const openInfoModal = () => {
+    setShowInfoModal(true);
+  };
+
+  // Info modal close handler
+  const closeInfoModal = () => {
+    setShowInfoModal(false);
+  };
+
+  const InfoModal = () => {
+    return (
+      <div
+        className={showInfoModal ? `modal fade show` : `modal fade`}
+        id="deleteFriendModal"
+        tabIndex="-1"
+        aria-labelledby="deleteFriendModalLabel"
+        aria-hidden="false"
+        style={{ display: showInfoModal ? "block" : "none" }}
+        role={showInfoModal ? "dialog" : ""}
+        aria-modal={showInfoModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="addFriendModalLabel"
+              >
+                Information
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeInfoModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>
+                To delete a friend, click on their username and confirm the
+                deletion.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className={`btn btn-primary ${styles.modalBtn}`}
+                onClick={closeInfoModal}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // useState hook variables for deleting a friend
   const [selectedUser, setSelectedUser] = useState(null);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -193,7 +261,7 @@ const Profile = ({ username }) => {
     setShowDeleteModal(true);
   };
 
-  // Modal close handler
+  // Delete friend modal close handler
   const closeModal = () => {
     setSelectedUser(null);
     setShowDeleteModal(false);
@@ -337,8 +405,16 @@ const Profile = ({ username }) => {
         <div className={`${styles.friendsCard}`}>
           <div className={`card-body ${styles.friendsBody}`}>
             <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.friendsHeader}>Friends List</h1>
-              {friends.map((friend, index) => (
+              <h1 className={styles.friendsHeader}>
+                Friends List
+                <a
+                  className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
+                  onClick={openInfoModal}
+                >
+                  info
+                </a>
+              </h1>
+              {sortedFriends.map((friend, index) => (
                 <div className={styles.friendsList} key={index}>
                   <a
                     className={styles.userNameLink}
@@ -350,12 +426,16 @@ const Profile = ({ username }) => {
               ))}
             </div>
           </div>
-          {/* Render the FriendRequestModal */}
+          {/* Render the DeleteFriendModal */}
           {showDeleteModal && (
             <DeleteFriendModal
               selectedUser={selectedUser}
               closeModal={() => setShowDeleteModal(false)}
             />
+          )}
+          {/* Render the InfoModal */}
+          {showInfoModal && (
+            <InfoModal closeModal={() => setShowDeleteModal(false)} />
           )}
         </div>
       </div>
