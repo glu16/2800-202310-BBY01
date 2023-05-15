@@ -439,7 +439,7 @@ app.post("/fitness/:username", async (req, res) => {
 });
 
 
-// Schedule the task to run at 11:58 pm every day
+// Daily at 11:58 pm every day go through all users and if their doneToday is false then set their currentStreak to 0
 cron.schedule('58 23 * * *', async () => {
   try {
     // Find all users
@@ -447,21 +447,27 @@ cron.schedule('58 23 * * *', async () => {
     
     // Iterate over each user
     for (const user of users) {
-      if (user.doneToday) {
-        // If doneToday is true, set it to false
-        user.doneToday = false;
-      } else {
+      if (user.doneToday == false) {
         // If doneToday is false, set currentStreak to 0
         user.currentStreak = 0;
-      }
-      
+      } 
       // Save the updated user
       await user.save();
     }
-    
-    console.log('Daily task completed successfully.');
+    console.log("Users' currentStreaks updated.");
   } catch (err) {
-    console.error('Error running daily task:', err);
+    console.error('Error updating currentStreaks: ', err);
+  }
+});
+// Daily at 12:01 AM every day go through all users and reset their doneToday to false
+cron.schedule('1 0 * * *', async () => {
+  try {
+    // Find all users and update their `doneToday` field to false
+    const users = await User.updateMany({}, { $set: { doneToday: false } });
+    console.log('Resetting doneToday field for all users.');
+    console.log(`${users.nModified} users updated successfully.`);
+  } catch (err) {
+    console.error('An error occurred while resetting doneToday field: ', err);
   }
 });
 
