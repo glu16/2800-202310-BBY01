@@ -77,7 +77,7 @@ function SignUp({ setToken }) {
             size="30"
             required
           />
-          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>First Name</span></label>
+          <label htmlFor="first-name" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>First Name</span></label>
 
           <input
             type="text"
@@ -88,7 +88,7 @@ function SignUp({ setToken }) {
             className={`user-input ${styles.userInput}`}
             required
           />
-          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Last Name</span></label>
+          <label htmlFor="last-name" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Last Name</span></label>
 
           <label htmlFor="email-input"></label>
           <input
@@ -100,7 +100,7 @@ function SignUp({ setToken }) {
             className={`user-input ${styles.userInput}`}
             required
           />
-          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName} ${styles.emailPlaceholder}`}>Email</span></label>
+          <label htmlFor="email-input" className={`${styles.inputLabel}`}><span className={`${styles.inputName} ${styles.emailPlaceholder}`}>Email</span></label>
 
           <label htmlFor="password-input"></label>
           <input
@@ -112,7 +112,7 @@ function SignUp({ setToken }) {
             className={`user-input ${styles.userInput}`}
             required
           />
-          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Password</span></label>
+          <label htmlFor="password-input" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Password</span></label>
           {/* ERROR IS DISPLAYED HERE  */}
           {error && <div className={`${styles.errorMessage}`}>{error}</div>}
 

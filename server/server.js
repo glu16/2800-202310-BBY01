@@ -8,13 +8,13 @@ const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
-const userRouter = require("./routes/users");
-const authRouter = require("./routes/auth");
-const passChangeRouter = require("./routes/passChange");
+const userRouter = require("./routes/users.js");
+const authRouter = require("./routes/auth.js");
+const passChangeRouter = require("./routes/passChange.js");
 
 // THE MODELS
-const { User } = require("./models/users");
-const Tips = require("./models/tips");
+const { User } = require("./models/users.js");
+const Tips = require("./models/tips.js");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -76,8 +76,8 @@ app.get("/users/:username", async (req, res) => {
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
-
       userStats: user.userStats,
+      imageURL: user.imageURL,
     });
   } catch (e) {
     console.log(e);
@@ -88,8 +88,32 @@ app.get("/users/:username", async (req, res) => {
 // GETS ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { username: 1 });
+    const users = await User.find({}, { username: 1, points: 1, _id: 1 });
     res.send(users);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// GETS ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
+app.get("/leaderboard/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    // FIND THE USER BY USERNAME
+    const loggedInUser = await User.findOne({ username });
+    // THROW ERROR IF NOT LOGGED IN
+    if (!loggedInUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // RETRIEVE THE FRIEND OBJECTS
+    const friends = loggedInUser.friends.map((friend) => ({
+      username: friend.username,
+      points: friend.points,
+      _id: friend._id,
+    }));
+    // SEND THE USER'S FRIENDS
+    res.json(friends);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
@@ -100,25 +124,87 @@ app.get("/leaderboard/users", async (req, res) => {
 app.post("/leaderboard/:friendUsername", async (req, res) => {
   const { friendUsername } = req.params;
   const { username } = req.body;
-
   try {
     // FIND THE FRIEND BY USERNAME
     const friend = await User.findOne({ username: friendUsername });
-
+    // THROW ERROR IF SELECTED USER CANNOT BE FOUND
     if (!friend) {
       return res.status(404).json({ error: "Friend not found" });
     }
-
-    // CHECKS IF THE FIELD ALREADY EXISTS IN THE ARRAY
-    if (!friend.friendRequests.includes(username)) {
-      friend.friendRequests.push(username);
+    // FIND THE LOGGED IN USER
+    const loggedInUser = await User.findOne({ username });
+    // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
+    if (!loggedInUser.friends.some((f) => f.username === friend.username)) {
+      loggedInUser.friends.push({
+        username: friend.username,
+        points: friend.points,
+        _id: friend._id,
+      });
     }
+    // CHECK IF THE LOGGED IN USER OBJECT ALREADY EXISTS IN THE FRIEND'S ARRAY
+    if (!friend.friends.some((f) => f.username === loggedInUser.username)) {
+      friend.friends.push({
+        username: loggedInUser.username,
+        points: loggedInUser.points,
+        _id: loggedInUser._id,
+      });
+    }
+    // SAVE BOTH THE LOGGED IN USER AND FRIEND
+    await Promise.all([loggedInUser.save(), friend.save()]);
 
+    // SEND THE REQUEST RESPONSE
+    res.status(200).json({
+      message: "Friend added successfully",
+      friend,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// DELETES THE SPECIFIED USER FROM THE FRIENDS ARRAY FOR BOTH
+app.delete("/profile/:friendId", async (req, res) => {
+  const { friendId } = req.params;
+  const { username } = req.body;
+  try {
+    console.log("Received DELETE request");
+    console.log("Friend ID:", friendId);
+    console.log("Username:", username);
+    // FIND THE LOGGED IN USER BY USERNAME
+    const loggedInUser = await User.findOne({ username });
+    // THROWS ERROR IF NOT LOGGED IN
+    if (!loggedInUser) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    // FIND THE FRIEND IN THE LOGGED IN USER'S FRIEND LIST
+    const friendIndex = loggedInUser.friends.findIndex(
+      (friend) => friend._id.toString() === friendId
+    );
+    if (friendIndex === -1) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    // REMOVE THE FRIEND FROM THE USER'S FRIEND LIST
+    loggedInUser.friends.splice(friendIndex, 1);
+    // SAVE THE UPDATED USER
+    await loggedInUser.save();
+    // FIND THE FRIEND BY ID
+    const friend = await User.findById(friendId);
+    // FIND THE LOGGED IN USER IN THE FRIEND'S FRIEND LIST
+    const loggedInUserIndex = friend.friends.findIndex(
+      (friend) => friend._id.toString() === loggedInUser._id.toString()
+    );
+    if (loggedInUserIndex === -1) {
+      return res.status(404).json({ error: "Friend not found" });
+    }
+    // REMOVE THE LOGGED IN USER FROM THE FRIEND'S FRIEND LIST
+    friend.friends.splice(loggedInUserIndex, 1);
+    // SAVED THE UPDATED FRIEND
     await friend.save();
 
+    // SEND THE RESPONSE
     res.status(200).json({
-      message: "Friend request sent successfully",
-      friend,
+      message: "Friend removed successfully",
     });
   } catch (error) {
     console.error(error);
@@ -153,6 +239,9 @@ app.post("/signupdetails/:username", async (req, res) => {
             activityLevel: activityLevel,
             goal: goal,
           },
+          doneToday: false,
+          currentStreak: 0,
+          longesstStreak: 0,
         },
       },
 
@@ -185,10 +274,9 @@ app.post("/profile/:username", async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
-          sex: req.body.sex,
-          age: req.body.age,
-          height: req.body.height,
-          weight: req.body.weight,
+          "userStats.0.age": req.body.age,
+          "userStats.0.height": req.body.height,
+          "userStats.0.weight": req.body.weight,
         },
       },
 
@@ -201,8 +289,44 @@ app.post("/profile/:username", async (req, res) => {
       user,
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    // RETURNS ERROR MESSAGE BASED ON ERR OBJECT PROPERTIES
+    if (err.codeName == "DuplicateKey" && err.keyValue.username) {
+      res.status(500).send("Username is already taken");
+    } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
+      res.status(500).send("Email is already taken");
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+});
+
+// UPDATES AND SAVES DOWNLOAD LINK FOR PROFILE PICTURE FOR USER IN DATABASE
+app.post("/pfp/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body.image);
+  try {
+    if (req.body == ""){
+      res.status(404).send("Please try uploading your image again.");
+    }
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      { username: userID },
+      // SETS THE USER'S IMAGE DOWNLOAD LINK
+      {
+        $set: {
+          imageURL: req.body.image,
+        },
+      },
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      { new: true },
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+      res.status(500).json({ error: "Internal server error (Image URL was not saved)" });
   }
 });
 
@@ -263,7 +387,7 @@ app.put("/fitness/:username", async (req, res) => {
   // const newWorkout = req.body;
 
   // CALL AND EXECUTE workouts.js
-  const workouts = require("./workouts");
+  const workouts = require("./workouts.js");
 
   // GENERATES WORKOUT PLAN IN workout.js
   function generateWorkout(callback) {
@@ -322,7 +446,7 @@ app.put("/diet/:email", async (req, res) => {
   // const newWorkout = req.body;
 
   // CALL AND EXECUTE diet.js
-  const Diet = require("./diet");
+  const Diet = require("./diet.js");
 
   // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
@@ -352,7 +476,7 @@ app.put("/diet/:email", async (req, res) => {
   generateDiet();
 });
 
-// SEND WORKOUT PLAN TO CLIENT
+// SEND DIET PLAN TO CLIENT
 app.get("/diet/:email", async (req, res) => {
   const userID = req.params.email;
   try {
@@ -410,10 +534,11 @@ app.post("/", async (req, res) => {
 
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: `${message}`,
-    max_tokens: 1000,
-    temperature: 0,
+    // DEFAULT IS "text-davinci-003"
+    model: "davinci:ft-personal-2023-05-15-05-32-16",
+    prompt: `${message}` + " &&&&&",
+    max_tokens: 200,
+    stop: ['#####', '&&&&&', `\n`]
   });
 
   const parsableJson = response.data.choices[0].text;

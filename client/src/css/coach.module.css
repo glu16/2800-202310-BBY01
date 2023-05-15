@@ -4,6 +4,19 @@ ul {
   padding: 0;
 }
 
+.modalBtn {
+  margin-top: 10px;
+  margin-bottom: 16px;
+  background-color: rgb(92, 208, 216);
+  border-color: rgb(92, 208, 216);
+}
+
+.modalBtn:hover {
+  color: black;
+  background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
+}
+
 .coach {
   top: 0;
   bottom: 0;
@@ -13,8 +26,12 @@ ul {
 }
 
 .coachTitle {
-  color: white;
-  margin-bottom: 20px;
+  color: rgb(92, 208, 216);
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chatLogContainer {
@@ -32,6 +49,26 @@ ul {
   align-items: center;
   margin-top: 16px;
   margin-bottom: 30px;
+}
+
+.formLabel {
+  color: black;
+}
+
+.icon {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+.infoLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.modalBody {
+  color: black;
+  text-align: center;
 }
 
 .userAvatar {

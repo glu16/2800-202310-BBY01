@@ -1,6 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from 'react';
 import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
+
+// for task completion buttons
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
 // import server hosting port
 const port = "5050";
@@ -8,7 +13,7 @@ const port = "5050";
 // used to identify user for database modification
 const username = localStorage.getItem("username");
 
-// get first item from user's workouts field from database
+// FUNCTION CALLED TO GCONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
   var response = await fetch(`http://localhost:5050/fitness/${username}`, {
@@ -25,11 +30,12 @@ async function getWorkout() {
   }
 }
 
-// display user's workout, can't be async
+
+// PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
 function Workout({ handleOpenModal }) {
   const [workout, setWorkout] = useState(null);
-
-  // use today variable to determine which day of workout is rendered to display
+ 
+  // use the today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
   today.setDate(today.getDate() + daysToAdd);
@@ -50,24 +56,37 @@ function Workout({ handleOpenModal }) {
 
   const handleDecrementDays = () => {
     setDaysToAdd(daysToAdd - 1);
-  };
-
+  }
+  
   useEffect(() => {
     async function fetchData() {
+
+      // workoutData == the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
 
+      // handles if workout field is empty
       if (workoutData === "empty") {
-        setWorkout("No workout available"); // Set default value
+        setWorkout("No workout available");
+
       } else {
-        function renderNestedObject(obj) {
-          // check if the object is a nested object
-          if (typeof obj === "object" && obj !== null) {
-            // if it's a nested object, recursively render its properties
-            return Object.keys(obj).map((key, index) => {
-              // check if key matches date so only render the one day on the page
-              if (key == date) {
-                // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
-                setDayOfWorkoutPlan(index);
+
+       function renderNestedObject(obj) {
+
+        // check if current object is a nested object, recursively render its properties
+        if (typeof obj === 'object' && obj !== null) {
+          
+          return Object.keys(obj).map((key, index) => {
+            
+            // check if key matches date so only render the one day on the page
+            if (key == date) {
+
+              // tracks number of exercises on page, used for complete exercse buttons
+              // using browser local storage because state variables not too disfunctional with so many sub-components
+              let numOfExercises = Object.keys(workoutData[date]).length;
+              localStorage.setItem('numberOfExercises', numOfExercises);
+
+              // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
+              setDayOfWorkoutPlan(index);
 
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
@@ -95,80 +114,110 @@ function Workout({ handleOpenModal }) {
                     );
                   }
 
-                  // sends the day title ex. Thursday, May 11, 2023:
-                } else {
-                  // use this to check if current page is today to render title card
-                  let options = {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  };
-                  let today = new Date().toLocaleDateString("en-US", options);
-                  // if this page is today
-                  if (key == today) {
-                    return (
-                      <div key={index} className={styles.day}>
-                        <strong>Today, {key}</strong>
-                        {renderExercise(obj[key])}
-                      </div>
-                    );
-                    // if page is not today
-                  } else {
-                    return (
-                      <div key={index} className={styles.day}>
-                        <strong>{key}</strong>
-                        {renderExercise(obj[key])}
-                      </div>
-                    );
-                  }
-                }
-                // return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
+              // sends the day title ex. Thursday, May 11, 2023:
               } else {
-                return null;
+                // use this to check if current page is today to render title card
+                let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                let today = new Date().toLocaleDateString('en-US', options);
+                // if this page is today
+                if (key == today) {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>Today, {key}</strong>
+                      {renderExerciseToday(obj[key])}
+                    </div>
+                  );
+                // if page is not today
+                } else {
+                  return (
+                    <div key={index} className={styles.day}>
+                      <strong>{key}</strong>
+                      {renderExercise(obj[key])}
+                    </div>
+                  );
+                }
               }
-            });
-          }
-          return obj;
-        }
-
-        // for the sublevel exercise object inside day object
-        function renderExercise(exerciseObj) {
-          return Object.keys(exerciseObj).map((exerciseKey, index) => {
-            return (
-              <div key={index} className={styles.anExercise}>
-                <strong className={styles.anExerciseTitle}>
-                  {exerciseKey}
-                </strong>{" "}
-                {Object.entries(exerciseObj[exerciseKey]).map(
-                  ([detailKey, detailValue]) => {
-                    // don't display detailKey if it is name or setsAndReps
-                    if (detailKey == "name" || detailKey == "setsAndReps") {
-                      return (
-                        <div key={detailKey} className={styles.aKey}>
-                          {detailValue}
-                        </div>
-                      );
-                      // dispaly detailKey if it is calories
-                    } else if (detailKey == "calories") {
-                      return (
-                        <div key={detailKey} className={styles.aKey}>
-                          Calories: {detailValue}
-                        </div>
-                      );
-                      // shouldn't be any other option currently
-                    } else {
-                      return;
-                    }
-                  }
-                )}
-                {/* this opens up images for the exercise */}
-                <button onClick={handleOpenModal}>Get instructions</button>
-              </div>
-            );
+            // return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
+            } else {
+              return null;
+            }
           });
         }
-        setWorkout(renderNestedObject(workoutData));
+        return obj;
+      }
+    
+      // for the sublevel exercise object inside day object
+      function renderExercise(exerciseObj) {
+        return Object.keys(exerciseObj).map((exerciseKey, index) => {
+          return (
+            <div key={index} className={styles.anExercise}>
+            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+
+              // don't display detailKey if it is name or setsAndReps
+              if (detailKey == "name" || detailKey == "setsAndReps") {
+                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+              // dispaly detailKey if it is calories
+              } else if (detailKey == "calories") {
+                return (
+                  <div key={detailKey} className={styles.aKey}>
+                    Calories: {detailValue}
+                  </div>
+                );
+              // shouldn't be any other option currently
+              } else {
+                return; 
+              }
+            })}
+
+            {/* this opens up images for the exercise */}
+            <button onClick={handleOpenModal}>Get instructions</button>
+
+          </div>
+
+          );
+        });
+      }
+
+      // for the sublevel exercise object inside day object
+      function renderExerciseToday(exerciseObj) {
+        return Object.keys(exerciseObj).map((exerciseKey, index) => {
+          return (
+            <div key={index} className={styles.anExercise}>
+            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+
+              // don't display detailKey if it is name or setsAndReps
+              if (detailKey == "name" || detailKey == "setsAndReps") {
+                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+              // dispaly detailKey if it is calories
+              } else if (detailKey == "calories") {
+                return (
+                  <div key={detailKey} className={styles.aKey}>
+                    Calories: {detailValue}
+                  </div>
+                );
+              // shouldn't be any other option currently
+              } else {
+                return; 
+              }
+            })}
+
+            {/* this opens up images for the exercise */}
+            <button onClick={handleOpenModal}>Get instructions</button>
+
+            {/* button to mark task completed */}
+            <CompleteExercisesButton />
+
+          </div>
+
+          );
+        });
+      }
+      
+
+      // recursively go through the nested json object that is workoutData
+      setWorkout(renderNestedObject(workoutData));
 
         function assignVariables(data, variablePrefix = "") {
           for (const key in data) {
@@ -202,6 +251,7 @@ function Workout({ handleOpenModal }) {
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
+  // return for Workout()
   return (
     <div>
       <h2>{username}'s Workout</h2>
@@ -218,8 +268,44 @@ function Workout({ handleOpenModal }) {
   );
 }
 
-// page render
+// FOR THE TASK COMPLETION BUTTONS
+const CompleteExercisesButton = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleClick = () => {
+    setIsChecked(!isChecked);
+    if (!isChecked) {
+      let numberOfExercises = parseInt(localStorage.getItem('numberOfExercises'));
+      numberOfExercises--;
+      localStorage.setItem('numberOfExercises', numberOfExercises);
+    } else {
+      let numberOfExercises = parseInt(localStorage.getItem('numberOfExercises'));
+      numberOfExercises++;
+      localStorage.setItem('numberOfExercises', numberOfExercises);
+    }
+
+
+  };
+  return (
+    <div className="container mt-5">
+    <button
+      className="markExerciseComplete btn btn-secondary btn-checkbox"
+      onClick={handleClick}
+      // disabled={}
+    >
+      <FontAwesomeIcon
+        icon={isChecked ? faCheckSquare : faSquare}
+        className="mr-2"
+      />Mark exercise complete!
+    </button>
+  </div>
+  );
+};
+
+
+// PAGE RENDER COMPONENT
 const Fitness = () => {
+  
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
@@ -287,6 +373,39 @@ const Fitness = () => {
     setShowModal(false);
   };
 
+
+
+  // For completeAllExercises button
+  const [numberOfExercises, setNumberOfExercises] = useState(99);
+  useEffect(() => {
+    const storedValue = localStorage.getItem('numberOfExercises');
+      setNumberOfExercises(Number(storedValue));
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('numberOfExercises', numberOfExercises);
+  }, [numberOfExercises]);
+  const completeAllExercises = () => {
+    console.log("All exercises complete!");
+  };
+  // Pseudo-event listener for when numberOfExercises is modified
+  const prevNumberOfExercisesRef = useRef(localStorage.getItem('numberOfExercises'));
+  useEffect(() => {
+    const checkLocalStorage = () => {
+      const currentNumberOfExercises = localStorage.getItem('numberOfExercises');
+      if (currentNumberOfExercises !== prevNumberOfExercisesRef.current) {
+        // console.log('numberOfExercises has been modified:', currentNumberOfExercises);
+        prevNumberOfExercisesRef.current = currentNumberOfExercises;
+        setNumberOfExercises(Number(currentNumberOfExercises)); // Trigger re-render
+      }
+    };
+    const interval = setInterval(checkLocalStorage, 1000); 
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+
+  // return for Fitness()
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
@@ -324,13 +443,20 @@ const Fitness = () => {
             </form>
           </div>
 
-          <Workout workout={workout} handleOpenModal={handleOpenModal} />
+            <Workout workout={workout} handleOpenModal={handleOpenModal} />
           {showModal && (
             <ExerciseModal
               isOpen={showModal}
               onRequestClose={handleCloseModal}
-            />
+             />
           )}
+          <button id="completeAll" 
+            onClick={completeAllExercises} 
+            disabled={numberOfExercises !== 0}
+            >Mark ALL exercises complete!
+          </button>
+          
+
         </div>
       </div>
     </div>

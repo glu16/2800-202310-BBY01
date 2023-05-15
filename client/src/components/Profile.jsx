@@ -5,67 +5,71 @@ import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = ({ username }) => {
-  // Retrieves logged in user's data
-  const [userInfo, setUserInfo] = useState(null);
-  const userEmail = localStorage.getItem("email");
-  const userID = localStorage.getItem("username");
-
-  // useEffect hook to fetch user data
+  // Retrieves the logged in user's username
   useEffect(() => {
-    async function fetchUserData() {
+    async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
-            "username"
-          )}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
-
-        setUserInfo(response.data);
-        const phoneNumber = response.data.phoneNumber;
-        // Sets retrieved phone number as an initial value for state variable 'data'
-        setData((prevData) => ({
-          ...prevData,
-          phoneNumber: phoneNumber,
-          age: response.data.userStats[0].age,
-          height: response.data.userStats[0].height,
-          weight: response.data.userStats[0].weight,
-        }));
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchUserData();
-  }, []);
-  /* End of user data retrieval */
-
-  /* Retrieves logged in user's stats */
-  const [userStats, setUserStats] = useState(null);
-
-  useEffect(() => {
-    const fetchUserStats = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/profile/${localStorage.getItem("username")}`
-        );
-        console.log(response.data[0].sex);
-        console.log(response.data[0].age);
-        console.log(response.data[0].height);
-        console.log(response.data[0].weight);
-        setUserStats(response.data);
+        const username = response.data.username;
+        console.log("Logged in user's name:", username);
+        localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
       }
-    };
+    }
 
-    fetchUserStats();
-  }, [username]);
-  // End of user data retrieval
+    fetchUserName();
+  }, []);
+  // End of username retrieval
+
+  // Retrieves logged in user's data
+  const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState("");
+  const userEmail = localStorage.getItem("email");
+  const userID = localStorage.getItem("username");
+  const[image, setImage] = useState();
+  const[pfp, setPfp] = useState();
+
+  // Function to fetch user data
+  async function fetchUserData() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setUserInfo(response.data);
+      const phoneNumber = response.data.phoneNumber;
+      // Sets retrieved phone number as an initial value for state variable 'data'
+      setPfp(response.data.imageURL);
+      setData((prevData) => ({
+        ...prevData,
+        phoneNumber: phoneNumber,
+        age: response.data.userStats[0].age,
+        height: response.data.userStats[0].height,
+        weight: response.data.userStats[0].weight,
+      }));
+    } catch (error) {
+      console.error(error.response.data);
+    }
+  }
+
+  // useEffect hook to call fetchUserData function
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+  /* End of user data retrieval */
 
   // Allows the user to update their profile
   const [data, setData] = useState({
@@ -81,7 +85,56 @@ const Profile = ({ username }) => {
   const [showAlert, setShowAlert] = useState(false);
 
   const handleChange = ({ currentTarget: input }) => {
+    // Input is saved into the data array
     setData({ ...data, [input.name]: input.value });
+
+    // Clears error message on change
+    setError("");
+  };
+
+  useEffect(() => {
+    if (image) {
+      handleImageUpload();
+    }
+  }, [image]);
+
+  const handleImageChange = ({ currentTarget: input }) => {
+    setPfp(URL.createObjectURL(input.files[0]));
+    setImage(input.files[0]);
+    console.log(input.files[0]);
+  };
+
+  const handleImageUpload = async () => {
+    try {
+      let imageURL = "";
+      console.log(image);
+      if (image) {
+        console.log("Inside image upload");
+        console.log(image);
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "healthify-app");
+        console.log(formData);
+        const dataRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dqhi5isl1/image/upload",
+          formData
+        );
+        imageURL = dataRes.data.url;
+        console.log("******" + imageURL);
+
+        const submitPost = {
+          image: imageURL,
+        };
+        await axios.post(
+          `http://localhost:5050/pfp/${localStorage.getItem("username")}`,
+          submitPost
+        );
+      } else {
+        console.log("Error with image upload");
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -89,6 +142,11 @@ const Profile = ({ username }) => {
     if (showAlert) {
       timer = setTimeout(() => {
         setShowAlert(false);
+        setShowModal(false);
+        document.querySelector(".modal-backdrop").remove();
+        let body = document.querySelector("body");
+        body.classList.remove("modal-open");
+        body.removeAttribute("style");
       }, 3000);
     }
     return () => clearTimeout(timer);
@@ -96,154 +154,357 @@ const Profile = ({ username }) => {
 
   const handleSaveChanges = async (event) => {
     event.preventDefault();
+
+    // Regex for validating email format
+    var emailRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+    var phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+    // Checks to see if username that was input is a minimum of 3 characters
+    if (data["username"].length < 3) {
+      setError("Username must be a minimum of 3 characters.");
+      return;
+    }
+    if (!phoneRegex.test(data["phoneNumber"])){
+      setError("Phone number must be follow the format (000) 000-0000");
+      return;
+    }
+    // Checks email formatting
+    if (!emailRegex.test(data["email"])) {
+      setError("Email must be valid.");
+      return;
+    }
+
     try {
       const url = `http://localhost:5050/profile/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
-      setShowModal(false);
+
+      // Updates localStorage with newly entered username
+      localStorage.setItem("username", data.username);
+      console.log(data.age);
+      setShowModal(true);
       setShowAlert(true);
+      fetchUserData();
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
+      //Error returned from server
+      setError(error.response.data);
     }
   };
   // End of user profile update
 
-  // Retrieves the logged in user's chat history
-  const [chatHistory, setChatHistory] = useState([]);
+  // Retrieves the logged in user's friends from the database
+  const [friends, setFriends] = useState([]);
 
   useEffect(() => {
-    async function fetchChatHistory() {
+    const fetchFriends = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5050/coach/${localStorage.getItem("username")}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
+          `http://localhost:5050/leaderboard/${localStorage.getItem(
+            "username"
+          )}`
         );
         console.log(response.data);
-        // Displays a maximum of 2 chat conversations
-        setChatHistory(response.data.slice(0, 2));
+        setFriends(response.data);
       } catch (error) {
         console.error(error);
       }
-    }
-
-    fetchChatHistory();
+    };
+    fetchFriends();
   }, []);
-  // End of chat history retrieval
+  // End of user's friends retrieval
 
-  // Capitalizes the user name
-  const capitalizeName = (name) => {
-    return name.toUpperCase();
+  // Sorts the list of friends by alphabetical order
+  const sortedFriends = friends.sort((a, b) =>
+    a.username.localeCompare(b.username)
+  );
+
+  // useState hook variable for the info modal
+  const [showInfoModal, setShowInfoModal] = useState(false);
+
+  // Info modal open handler
+  const openInfoModal = () => {
+    setShowInfoModal(true);
   };
 
-  const specialWords = ["Day", "Breakfast", "Lunch", "Dinner"];
+  // Info modal close handler
+  const closeInfoModal = () => {
+    setShowInfoModal(false);
+  };
+
+// Beginning of info modal component
+  const InfoModal = () => {
+    return (
+      <div
+        className={showInfoModal ? `modal fade show` : `modal fade`}
+        id="infoModal"
+        tabIndex="-1"
+        aria-labelledby="infoModalLabel"
+        aria-hidden="false"
+        style={{ display: showInfoModal ? "block" : "none" }}
+        role={showInfoModal ? "dialog" : ""}
+        aria-modal={showInfoModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="infoModalLabel"
+              >
+                Information
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeInfoModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>
+                To remove a friend, click on their username and confirm the
+                removal.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className={`btn btn-primary ${styles.modalBtn}`}
+                onClick={closeInfoModal}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  // End of info modal component
+
+  // useState hook variables for deleting a friend
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  // Function to delete a friend
+  const deleteFriend = async (friendId) => {
+    try {
+      const username = localStorage.getItem("username");
+      console.log("Friend's ID:", friendId);
+      console.log("Logged in user's ID", username);
+
+      await axios.delete(`http://localhost:5050/profile/${friendId}`, {
+        data: {
+          username: username,
+        },
+      });
+
+      console.log("Friend removed successfully!");
+      closeModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Click event handler
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    setShowDeleteModal(true);
+  };
+
+  // Delete friend modal close handler
+  const closeModal = () => {
+    setSelectedUser(null);
+    setShowDeleteModal(false);
+  };
+
+  // Alert popup to yield closure for removing a friend
+  const handleClick = () => {
+    window.alert("Friend removed successfully!");
+    window.location.reload();
+  };
+
+  // Beginning of delete friend modal component
+  const DeleteFriendModal = () => {
+    const handleRemoveFriend = async () => {
+      try {
+        const friendId = selectedUser._id;
+        await deleteFriend(friendId);
+        handleClick();
+        closeModal();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    return (
+      <div
+        className={showDeleteModal ? `modal fade show` : `modal fade`}
+        id="deleteFriendModal"
+        tabIndex="-1"
+        aria-labelledby="deleteFriendModalLabel"
+        aria-hidden="false"
+        style={{ display: showDeleteModal ? "block" : "none" }}
+        role={showDeleteModal ? "dialog" : ""}
+        aria-modal={showDeleteModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="deleteFriendModalLabel"
+              >
+                Remove Friend
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>Do you want to remove {selectedUser.username} as a friend?</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={`btn btn-danger ${styles.modalBtn}`}
+                onClick={handleRemoveFriend}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  // End of delete friend modal component
 
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
     >
-      <div className={`${styles.profileCard}`}>
-        <div className={`card-body ${styles.cardBody}`}>
-          <div className="row">
-            <div className="col-md-6">
-              <div className="d-flex flex-column align-items-center text-center">
-                <div className={`${styles.profileImage} profile-image`}>
-                  <img
-                    className={`${styles.imgProfile}`}
-                    src={profile}
-                    alt="Profile Image"
-                    id="profile-picture"
-                  />
-                  <label htmlFor="img-upload">
-                    <i className="fa fa-camera"></i>
-                  </label>
-                  <input type="file" id="img-upload" />
-                </div>
-                <div className={`mt-3 ${styles.profileInfo}`}>
-                  <div className={`${styles.profileItem} email`}>
-                    <h5 className={styles.profileHeader}>Name</h5>
-                    <p>
-                      <span id="name-goes-here">{userID}</span>
-                    </p>
-                  </div>
-                  <div className={`${styles.profileItem} email`}>
-                    <h5 className={styles.profileHeader}>Email</h5>
-                    <p>
-                      <span id="email-goes-here">{userEmail}</span>
-                    </p>
-                  </div>
-                  <div className={`${styles.profileItem} phone`}>
-                    <h5 className={styles.profileHeader}>Phone</h5>
-                    <p>
-                      <span id="phone-goes-here">
-                        {userInfo && userInfo.phoneNumber}
-                      </span>
-                    </p>
-                  </div>
-                  <div className={`${styles.profileItem} phone`}>
-                    <h5 className={styles.profileHeader}>User Statistics</h5>
-                    {userInfo && (
-                      <>
-                        <p>Sex: {userInfo.userStats[0].sex}</p>
-                        <p>Age: {userInfo.userStats[0].age}</p>
-                        <p>Height: {userInfo.userStats[0].height}m</p>
-                        <p>Weight: {userInfo.userStats[0].weight} kg</p>
-                      </>
-                    )}
-                  </div>
-                  <button
-                    className={`btn btn-primary ${styles.editProfileButton}`}
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal"
-                  >
-                    Edit Profile
-                  </button>
-                </div>
+      <div className={styles.cardContainer}>
+        <div className={`${styles.profileCard}`}>
+          <div className={`card-body ${styles.cardBody}`}>
+            <div className="d-flex flex-column align-items-center text-center">
+              <div className={`${styles.profileImage} profile-image`}>
+                <img
+                  className={`rounded-circle`}
+                  src={pfp? pfp : profile}
+                  alt="Profile Image"
+                  id="profile-picture"
+                />
+                <label htmlFor="img-upload">
+                  <i className="fa fa-camera"></i>
+                </label>
+                <input type="file" id="img-upload" accept="image/*" onChange={handleImageChange}/>
               </div>
-            </div>
-            <div className="col-md-6">
-              <div className="d-flex flex-column align-items-center text-center">
-                <div className={styles.chatWrapper}>
-                  <h1 className={styles.chatHeader}>Chat History</h1>
-                  {chatHistory.map((item, index) => (
-                    <div className={styles.chatMessages} key={index}>
-                      <h5>{capitalizeName(item.user)}</h5>
-                      <p className={styles.chatMessages}>
-                        {item.messages
-                          .split(/(Day|Breakfast|Lunch|Dinner)/)
-                          .map((message, i) =>
-                            specialWords.includes(message) ? (
-                              <span key={i} className={styles.specialWord}>
-                                {message}
-                              </span>
-                            ) : (
-                              <React.Fragment key={i}>
-                                {message}
-                                <br />
-                              </React.Fragment>
-                            )
-                          )}
-                      </p>
-                    </div>
-                  ))}
+              <div className={`mt-3 ${styles.profileInfo}`}>
+                <div className={`${styles.profileItem} email`}>
+                  <h5 className={styles.profileHeader}>Name</h5>
+                  <p>
+                    <span id="name-goes-here">{userID}</span>
+                  </p>
                 </div>
+                <div className={`${styles.profileItem} email`}>
+                  <h5 className={styles.profileHeader}>Email</h5>
+                  <p>
+                    <span id="email-goes-here">{userEmail}</span>
+                  </p>
+                </div>
+                <div className={`${styles.profileItem} phone`}>
+                  <h5 className={styles.profileHeader}>Phone</h5>
+                  <p>
+                    <span id="phone-goes-here">
+                      {userInfo && userInfo.phoneNumber}
+                    </span>
+                  </p>
+                </div>
+                <div className={`${styles.profileItem} phone`}>
+                  <h5 className={styles.profileHeader}>User Statistics</h5>
+                  {userInfo && (
+                    <>
+                      <p>Sex: {userInfo.userStats[0].sex}</p>
+                      <p>Age: {userInfo.userStats[0].age}</p>
+                      <p>Height: {userInfo.userStats[0].height}m</p>
+                      <p>Weight: {userInfo.userStats[0].weight} kg</p>
+                    </>
+                  )}
+                </div>
+                <button
+                  className={`btn btn-primary ${styles.editProfileButton}`}
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  Edit Profile
+                </button>
               </div>
             </div>
           </div>
+        </div>
+        <div className={`${styles.friendsCard}`}>
+          <div className={`card-body ${styles.friendsBody}`}>
+            <div className="d-flex flex-column align-items-center text-center">
+              <h1 className={styles.friendsHeader}>
+                Friends List
+                <a
+                  className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
+                  onClick={openInfoModal}
+                >
+                  info
+                </a>
+              </h1>
+              {sortedFriends.map((friend, index) => (
+                <div className={styles.friendsList} key={index}>
+                  <a
+                    className={styles.userNameLink}
+                    onClick={() => handleUserClick(friend)}
+                  >
+                    {friend.username}
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* Render the DeleteFriendModal */}
+          {showDeleteModal && (
+            <DeleteFriendModal
+              selectedUser={selectedUser}
+              closeModal={() => setShowDeleteModal(false)}
+            />
+          )}
+          {/* Render the InfoModal */}
+          {showInfoModal && (
+            <InfoModal closeModal={() => setShowInfoModal(false)} />
+          )}
         </div>
       </div>
 
       {/* Edit Profile Modal */}
       <div
-        className="modal fade"
+        className={showModal ? `modal fade show` : `modal fade`}
         id="editModal"
         tabIndex="-1"
         aria-labelledby="editModalLabel"
-        aria-hidden="true"
+        aria-hidden="false"
+        style={{ display: showModal ? "block" : "none" }}
+        role={showModal ? "dialog" : ""}
+        aria-modal={showModal ? "true" : "false"}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -278,6 +539,10 @@ const Profile = ({ username }) => {
                     value={data.username}
                     onChange={handleChange}
                   />
+                  {error.includes("Username") && (
+                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  )}
+
                 </div>
                 <div className="mb-3">
                   <label
@@ -294,6 +559,10 @@ const Profile = ({ username }) => {
                     value={data.email}
                     onChange={handleChange}
                   />
+                  {error.includes("Email") && (
+                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  )}
+
                 </div>
                 <div className="mb-3">
                   <label
@@ -310,6 +579,10 @@ const Profile = ({ username }) => {
                     value={data.phoneNumber}
                     onChange={handleChange}
                   />
+                  {error.includes("Phone") && (
+                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  )}
+
                 </div>
                 <div className="mb-3">
                   <label

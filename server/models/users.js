@@ -10,7 +10,8 @@ const userSchema = new mongoose.Schema({
   username: { type: String, required: true, trim: true, unique: true },
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
-  phoneNumber: { type: Number, trim: true },
+  phoneNumber: { type: String, trim: true },
+  imageURL:{ type: String},
 
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, trim: true, minlength: 4 },
@@ -20,10 +21,17 @@ const userSchema = new mongoose.Schema({
   diets: { type: Array },
   userStats: { type: Array },
 
-  friendRequests: {
-    type: [String],
-    default: [],
-  },
+  friends: [
+    {
+      username: { type: String, required: true },
+      points: { type: Number, default: 0 },
+    },
+  ],
+  points: {type: Number, default: 0 },
+
+  doneToday: { type: Boolean },
+  currentStreak: { type: Number },
+  longestStreak: { type: Number },
 });
 
 // GENERATES A TOKEN FOR THE USER

@@ -21,6 +21,7 @@ img {
 .navbar {
   height: 100px;
   background-color: #2b2b2b;
+  z-index: 2;
 }
 
 .navbar-brand {
