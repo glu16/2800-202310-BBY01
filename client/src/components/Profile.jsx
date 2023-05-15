@@ -95,6 +95,7 @@ const Profile = ({ username }) => {
   const handleImageChange = async ({ currentTarget: input}) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
+    console.log(input.files[0]);
     try {
       let imageURL = "";
       if (image) {
@@ -139,16 +140,21 @@ const Profile = ({ username }) => {
     event.preventDefault();
 
     // Regex for validating email format
-    var emailReg =
+    var emailRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+    var phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
     // Checks to see if username that was input is a minimum of 3 characters
     if (data["username"].length < 3) {
       setError("Username must be a minimum of 3 characters.");
       return;
     }
+    if (!phoneRegex.test(data["phoneNumber"])){
+      setError("Phone number must be follow the format (000) 000-0000");
+      return;
+    }
     // Checks email formatting
-    if (!emailReg.test(data["email"])) {
+    if (!emailRegex.test(data["email"])) {
       setError("Email must be valid.");
       return;
     }
@@ -516,11 +522,11 @@ const Profile = ({ username }) => {
                     name="username"
                     value={data.username}
                     onChange={handleChange}
-                    required
                   />
                   {error.includes("Username") && (
                     <span className={`${styles.errorMessage}`}>{error}</span>
                   )}
+
                 </div>
                 <div className="mb-3">
                   <label
@@ -540,6 +546,7 @@ const Profile = ({ username }) => {
                   {error.includes("Email") && (
                     <span className={`${styles.errorMessage}`}>{error}</span>
                   )}
+
                 </div>
                 <div className="mb-3">
                   <label
@@ -556,6 +563,10 @@ const Profile = ({ username }) => {
                     value={data.phoneNumber}
                     onChange={handleChange}
                   />
+                  {error.includes("Phone") && (
+                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  )}
+
                 </div>
                 <div className="mb-3">
                   <label
