@@ -463,7 +463,7 @@ app.post("/", async (req, res) => {
     model: "davinci:ft-personal-2023-05-15-05-32-16",
     prompt: `${message}` + " &&&&&",
     max_tokens: 200,
-    stop: ['#####']
+    stop: ['#####', '&&&&&', `\n`]
   });
 
   const parsableJson = response.data.choices[0].text;
