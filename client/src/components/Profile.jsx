@@ -186,9 +186,9 @@ const Profile = ({ username }) => {
     return (
       <div
         className={showInfoModal ? `modal fade show` : `modal fade`}
-        id="InfoFriendModal"
+        id="infoModal"
         tabIndex="-1"
-        aria-labelledby="InfoModalLabel"
+        aria-labelledby="infoModalLabel"
         aria-hidden="false"
         style={{ display: showInfoModal ? "block" : "none" }}
         role={showInfoModal ? "dialog" : ""}
@@ -199,7 +199,7 @@ const Profile = ({ username }) => {
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="addFriendModalLabel"
+                id="infoModalLabel"
               >
                 Information
               </h5>
@@ -303,7 +303,7 @@ const Profile = ({ username }) => {
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="addFriendModalLabel"
+                id="deleteFriendModalLabel"
               >
                 Remove Friend
               </h5>

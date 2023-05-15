@@ -85,9 +85,9 @@ const Leaderboard = () => {
     return (
       <div
         className={showInfoModal ? `modal fade show` : `modal fade`}
-        id="InfoModal"
+        id="infoModal"
         tabIndex="-1"
-        aria-labelledby="InfoModalLabel"
+        aria-labelledby="infoModalLabel"
         aria-hidden="false"
         style={{ display: showInfoModal ? "block" : "none" }}
         role={showInfoModal ? "dialog" : ""}
@@ -98,7 +98,7 @@ const Leaderboard = () => {
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="addFriendModalLabel"
+                id="infoModalLabel"
               >
                 Information
               </h5>

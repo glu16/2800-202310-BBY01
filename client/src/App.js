@@ -26,11 +26,13 @@ import Settings from "./components/Settings";
 import useToken from "./components/useToken";
 
 function App() {
+  // useState hook variable to set user token
   const { token, setToken } = useToken();
 
-  /* Mobile View Hook to check if screen is less than or equal to 767px */
+  // useState hook variable for mobile view
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
+  // useEffect hook to check if the screen is in mobile view
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 767);
@@ -42,7 +44,6 @@ function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  /* End of Mobile View Hook */
 
   if (!token) {
     return (
