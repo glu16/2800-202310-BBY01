@@ -374,7 +374,6 @@ const Fitness = () => {
   };
 
 
-
   // For completeAllExercises button
   const [numberOfExercises, setNumberOfExercises] = useState(99);
   const [completeAllExercisesClicked, setCompleteAllExercisesClicked] = useState(false);
@@ -387,13 +386,34 @@ const Fitness = () => {
   }, [numberOfExercises]);
 
   // COMPLETE ALL EXERCISES BUTTON SHOULD CALL TWO SERVER METHODS
-  const completeAllExercises = () => {
+  const completeAllExercises = async () => {
     console.log("All exercises complete! Top");
 
+    // disable the button after it is clicked
     setCompleteAllExercisesClicked(true);
 
     // incriment the user field: streak
+    try {
+      const response = await fetch(`http://localhost:${port}/fitness/${username}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username, // Replace with the actual username
+        }),
+      });
 
+      if (response.ok) {
+        // Field update successful
+        console.log('Field updated successfully!');
+      } else {
+        // Field update failed
+        console.log('Field update failed!');
+      }
+    } catch (error) {
+      console.log('Error updating field:', error);
+    }
 
 
     // set user field: doneToday to true

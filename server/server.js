@@ -8,13 +8,13 @@ const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
-const userRouter = require("./routes/users.js");
-const authRouter = require("./routes/auth.js");
-const passChangeRouter = require("./routes/passChange.js");
+const userRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
+const passChangeRouter = require("./routes/passChange");
 
 // THE MODELS
-const { User } = require("./models/users.js");
-const Tips = require("./models/tips.js");
+const { User } = require("./models/users");
+const Tips = require("./models/tips");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -25,6 +25,9 @@ const configuration = new Configuration({
   apiKey: process.env.AI,
 });
 const openai = new OpenAIApi(configuration);
+
+// FOR TIME-BASED AUTO METHODS
+const cron = require('node-cron');
 
 // THE CONNECTION TO DATABASE
 db();
@@ -69,146 +72,18 @@ app.get("/users/:username", async (req, res) => {
     // FIND THE USER BY USERNAME
     const user = await User.findOne({ username: userID });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found"});
     }
     res.send({
-      username: user.username,
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
-      userStats: user.userStats,
-      imageURL: user.imageURL,
+
+      userStats: user.userStats 
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-// GETS ALL THE USERS IN THE DATABASE
-app.get("/leaderboard/users", async (req, res) => {
-  try {
-    const users = await User.find({}, { username: 1, points: 1, _id: 1 });
-    res.send(users);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-// GETS ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
-app.get("/leaderboard/:username", async (req, res) => {
-  try {
-    const { username } = req.params;
-    // FIND THE USER BY USERNAME
-    const loggedInUser = await User.findOne({ username });
-    // THROW ERROR IF NOT LOGGED IN
-    if (!loggedInUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    // RETRIEVE THE FRIEND OBJECTS
-    const friends = loggedInUser.friends.map((friend) => ({
-      username: friend.username,
-      points: friend.points,
-      _id: friend._id,
-    }));
-    // SEND THE USER'S FRIENDS
-    res.json(friends);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-// UPDATES AND SAVES THE LOGGED IN USER'S NAME INTO THE SPECIFIED USER'S COLLECTION
-app.post("/leaderboard/:friendUsername", async (req, res) => {
-  const { friendUsername } = req.params;
-  const { username } = req.body;
-  try {
-    // FIND THE FRIEND BY USERNAME
-    const friend = await User.findOne({ username: friendUsername });
-    // THROW ERROR IF SELECTED USER CANNOT BE FOUND
-    if (!friend) {
-      return res.status(404).json({ error: "Friend not found" });
-    }
-    // FIND THE LOGGED IN USER
-    const loggedInUser = await User.findOne({ username });
-    // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
-    if (!loggedInUser.friends.some((f) => f.username === friend.username)) {
-      loggedInUser.friends.push({
-        username: friend.username,
-        points: friend.points,
-        _id: friend._id,
-      });
-    }
-    // CHECK IF THE LOGGED IN USER OBJECT ALREADY EXISTS IN THE FRIEND'S ARRAY
-    if (!friend.friends.some((f) => f.username === loggedInUser.username)) {
-      friend.friends.push({
-        username: loggedInUser.username,
-        points: loggedInUser.points,
-        _id: loggedInUser._id,
-      });
-    }
-    // SAVE BOTH THE LOGGED IN USER AND FRIEND
-    await Promise.all([loggedInUser.save(), friend.save()]);
-
-    // SEND THE REQUEST RESPONSE
-    res.status(200).json({
-      message: "Friend added successfully",
-      friend,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// DELETES THE SPECIFIED USER FROM THE FRIENDS ARRAY FOR BOTH
-app.delete("/profile/:friendId", async (req, res) => {
-  const { friendId } = req.params;
-  const { username } = req.body;
-  try {
-    console.log("Received DELETE request");
-    console.log("Friend ID:", friendId);
-    console.log("Username:", username);
-    // FIND THE LOGGED IN USER BY USERNAME
-    const loggedInUser = await User.findOne({ username });
-    // THROWS ERROR IF NOT LOGGED IN
-    if (!loggedInUser) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    // FIND THE FRIEND IN THE LOGGED IN USER'S FRIEND LIST
-    const friendIndex = loggedInUser.friends.findIndex(
-      (friend) => friend._id.toString() === friendId
-    );
-    if (friendIndex === -1) {
-      return res.status(404).json({ error: "Friend not found" });
-    }
-    // REMOVE THE FRIEND FROM THE USER'S FRIEND LIST
-    loggedInUser.friends.splice(friendIndex, 1);
-    // SAVE THE UPDATED USER
-    await loggedInUser.save();
-    // FIND THE FRIEND BY ID
-    const friend = await User.findById(friendId);
-    // FIND THE LOGGED IN USER IN THE FRIEND'S FRIEND LIST
-    const loggedInUserIndex = friend.friends.findIndex(
-      (friend) => friend._id.toString() === loggedInUser._id.toString()
-    );
-    if (loggedInUserIndex === -1) {
-      return res.status(404).json({ error: "Friend not found" });
-    }
-    // REMOVE THE LOGGED IN USER FROM THE FRIEND'S FRIEND LIST
-    friend.friends.splice(loggedInUserIndex, 1);
-    // SAVED THE UPDATED FRIEND
-    await friend.save();
-
-    // SEND THE RESPONSE
-    res.status(200).json({
-      message: "Friend removed successfully",
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ message: "Server error"});
   }
 });
 
@@ -241,7 +116,7 @@ app.post("/signupdetails/:username", async (req, res) => {
           },
           doneToday: false,
           currentStreak: 0,
-          longesstStreak: 0,
+          longestStreak: 0,
         },
       },
 
@@ -274,9 +149,10 @@ app.post("/profile/:username", async (req, res) => {
           username: req.body.username,
           email: req.body.email,
           phoneNumber: req.body.phoneNumber,
-          "userStats.0.age": req.body.age,
-          "userStats.0.height": req.body.height,
-          "userStats.0.weight": req.body.weight,
+          sex: req.body.sex,
+          age: req.body.age,
+          height: req.body.height,
+          weight: req.body.weight,
         },
       },
 
@@ -289,44 +165,8 @@ app.post("/profile/:username", async (req, res) => {
       user,
     });
   } catch (err) {
-    // RETURNS ERROR MESSAGE BASED ON ERR OBJECT PROPERTIES
-    if (err.codeName == "DuplicateKey" && err.keyValue.username) {
-      res.status(500).send("Username is already taken");
-    } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
-      res.status(500).send("Email is already taken");
-    } else {
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
-});
-
-// UPDATES AND SAVES DOWNLOAD LINK FOR PROFILE PICTURE FOR USER IN DATABASE
-app.post("/pfp/:username", async (req, res) => {
-  const userID = req.params.username;
-  console.log(req.body.image);
-  try {
-    if (req.body == ""){
-      res.status(404).send("Please try uploading your image again.");
-    }
-    const user = await User.findOneAndUpdate(
-      // FIND BY EMAIL
-      { username: userID },
-      // SETS THE USER'S IMAGE DOWNLOAD LINK
-      {
-        $set: {
-          imageURL: req.body.image,
-        },
-      },
-      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true },
-    );
-
-    res.status(200).json({
-      message: `User with username ${userID} updated successfully`,
-      user,
-    });
-  } catch (err) {
-      res.status(500).json({ error: "Internal server error (Image URL was not saved)" });
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -380,22 +220,22 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
-// TO GENERATE AND STORE A USER'S WORKOUT PLAN
+// to generate and store a user's workout plan
 app.put("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   // console.log(userID);
   // const newWorkout = req.body;
 
-  // CALL AND EXECUTE workouts.js
-  const workouts = require("./workouts.js");
+  // call and execute workouts.js
+  const workouts = require("./workouts");
 
-  // GENERATES WORKOUT PLAN IN workout.js
+  // generates workout plan in workout.js
   function generateWorkout(callback) {
     workouts.generate((newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
-  // WRITES WORKOUT PLAN INTO THE DATABASE
+  // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
@@ -422,15 +262,15 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
-// SEND WORKOUT PLAN TO CLIENT
+// send workout plan to client
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    // IF WORKOUTS IS EMPTY (ex. NEW USER)
+    // if workouts empty ie.new user
     if (user.workouts.length == 0) {
       res.send("empty");
-      // SENDS FIRST WORKOUT IN WORKOUTS
+      // sends first workout in workouts
     } else {
       res.send(user.workouts[0]);
     }
@@ -440,26 +280,27 @@ app.get("/fitness/:username", async (req, res) => {
   }
 });
 
-// TO GENERATE AND STORE A USER'S DIET PLAN
+
+// to generate and store a user's workout plan
 app.put("/diet/:email", async (req, res) => {
   const userID = req.params.email;
   // const newWorkout = req.body;
 
-  // CALL AND EXECUTE diet.js
-  const Diet = require("./diet.js");
+  // call and execute workouts.js
+  const Diet = require("./diet");
 
-  // GENERATES DIET PLAN IN diet.js
+  // generates workout plan in workout.js
   function generateDiet(callback) {
     Diet.generate((newDiet) => {
       updateDiet(newDiet, callback);
     });
   }
-  // WRITES DIET PLAN INTO THE DATABASE
+  // writes workoutplan into database
   async function updateDiet(newDiet, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        { email: userID },
-        { $push: { diets: { $each: [JSON.parse(newDiet)], $position: 0 } } }
+        {email: userID},
+        {$push: {diets: {$each: [JSON.parse(newDiet)], $position: 0}}}
       );
       res.status(200).json({
         message: `New diet added to ${userID}.`,
@@ -467,7 +308,7 @@ app.put("/diet/:email", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({error: "Internal server error"});
     }
     if (callback) {
       callback();
@@ -476,11 +317,11 @@ app.put("/diet/:email", async (req, res) => {
   generateDiet();
 });
 
-// SEND DIET PLAN TO CLIENT
+// send workout plan to client
 app.get("/diet/:email", async (req, res) => {
   const userID = req.params.email;
   try {
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     // if workouts empty ie.new user
     if (user.diets.length == 0) {
       res.send("empty");
@@ -490,9 +331,15 @@ app.get("/diet/:email", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
+
+
+
+
+
+
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
@@ -534,14 +381,15 @@ app.post("/", async (req, res) => {
 
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
-    // DEFAULT IS "text-davinci-003"
-    model: "davinci:ft-personal-2023-05-15-05-32-16",
-    prompt: `${message}` + " &&&&&",
-    max_tokens: 200,
-    stop: ['#####', '&&&&&', `\n`]
+    model: "text-davinci-003",
+    prompt:
+      `${message}`,
+    max_tokens: 1000,
+    temperature: 0,
   });
 
   const parsableJson = response.data.choices[0].text;
+
 
   console.log(parsableJson);
   let messageOutTest = parsableJson;
@@ -552,13 +400,80 @@ app.post("/", async (req, res) => {
   });
 });
 
-// SERVER HOSTING
+
+// FOR STREAK TRACKER
+app.post("/fitness/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body);
+  try {
+    const user = await User.findOneAndUpdate(
+      // find user by username
+      { username: userID },
+      { 
+        // increment currentStreak FIELD BY 1
+        $inc: { currentStreak: 1 }, 
+        // set doneToday TO true
+        $set: { doneToday: true }
+      },
+      // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    // Compare currentStreak with longestStreak and update longestStreak if necessary
+    if (user.currentStreak > user.longestStreak) {
+      user.longestStreak = user.currentStreak;
+      await user.save();
+      console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
+    }
+    console.log(`Successfully updated ${userID}'s currentStreak and doneToday`);
+    res.status(200).json({
+      message: `${userID} currentStreak incremented successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+// Schedule the task to run at 11:58 pm every day
+cron.schedule('58 23 * * *', async () => {
+  try {
+    // Find all users
+    const users = await User.find();
+    
+    // Iterate over each user
+    for (const user of users) {
+      if (user.doneToday) {
+        // If doneToday is true, set it to false
+        user.doneToday = false;
+      } else {
+        // If doneToday is false, set currentStreak to 0
+        user.currentStreak = 0;
+      }
+      
+      // Save the updated user
+      await user.save();
+    }
+    
+    console.log('Daily task completed successfully.');
+  } catch (err) {
+    console.error('Error running daily task:', err);
+  }
+});
+
+
+
+// server hosting
 const localPort = 5050;
 const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
-// SEND SERVER PORT INTO TO THE CLIENT
+// send server port info to client
 app.get("/api/port", (req, res) => {
   res.json({ port });
 });
