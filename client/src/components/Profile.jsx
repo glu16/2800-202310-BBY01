@@ -34,6 +34,8 @@ const Profile = ({ username }) => {
   const [error, setError] = useState("");
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
+  const[image, setImage] = useState();
+  const[pfp, setPfp] = useState();
 
   // Function to fetch user data
   async function fetchUserData() {
@@ -50,6 +52,7 @@ const Profile = ({ username }) => {
       setUserInfo(response.data);
       const phoneNumber = response.data.phoneNumber;
       // Sets retrieved phone number as an initial value for state variable 'data'
+      setPfp(response.data.imageURL);
       setData((prevData) => ({
         ...prevData,
         phoneNumber: phoneNumber,
@@ -88,6 +91,34 @@ const Profile = ({ username }) => {
     // Clears error message on change
     setError("");
   };
+
+  const handleImageChange = async ({ currentTarget: input}) => {
+    setPfp(URL.createObjectURL(input.files[0]));
+    setImage(input.files[0]);
+    try {
+      let imageURL = "";
+      if (image) {
+        console.log(image)
+        const formData = new FormData();
+        formData.append("file", image);
+        formData.append("upload_preset", "healthify-app");
+        console.log(formData)
+        const dataRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dqhi5isl1/image/upload",
+          formData
+        );
+        imageURL = dataRes.data.url;
+        console.log("******" + imageURL)
+      }
+
+      const submitPost = {
+        image: imageURL,
+      };
+      await axios.post(`http://localhost:5050/pfp/${localStorage.getItem("username")}`, submitPost);
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   useEffect(() => {
     let timer;
@@ -351,15 +382,15 @@ const Profile = ({ username }) => {
             <div className="d-flex flex-column align-items-center text-center">
               <div className={`${styles.profileImage} profile-image`}>
                 <img
-                  className={`${styles.imgProfile}`}
-                  src={profile}
+                  className={`rounded-circle`}
+                  src={pfp? pfp : profile}
                   alt="Profile Image"
                   id="profile-picture"
                 />
                 <label htmlFor="img-upload">
                   <i className="fa fa-camera"></i>
                 </label>
-                <input type="file" id="img-upload" />
+                <input type="file" id="img-upload" accept="image/*" onChange={handleImageChange}/>
               </div>
               <div className={`mt-3 ${styles.profileInfo}`}>
                 <div className={`${styles.profileItem} email`}>

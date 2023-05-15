@@ -40,6 +40,11 @@
   background-color: #2b2b2b;
 }
 
+.errorMessage {
+  color: red;
+  font-size: 9pt;
+}
+
 .friendsHeader {
   color: rgb(92, 208, 216);
   margin-top: 10px;
@@ -115,8 +120,10 @@
 
 .profileImage img {
   display: block;
-  width: 100%;
-  height: auto;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  margin-top: 10px;
 }
 
 .profileImage label {
