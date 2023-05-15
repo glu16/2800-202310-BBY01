@@ -239,6 +239,9 @@ app.post("/signupdetails/:username", async (req, res) => {
             activityLevel: activityLevel,
             goal: goal,
           },
+          doneToday: false,
+          currentStreak: 0,
+          longesstStreak: 0,
         },
       },
 
