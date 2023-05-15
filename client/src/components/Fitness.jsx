@@ -377,6 +377,7 @@ const Fitness = () => {
 
   // For completeAllExercises button
   const [numberOfExercises, setNumberOfExercises] = useState(99);
+  const [completeAllExercisesClicked, setCompleteAllExercisesClicked] = useState(false);
   useEffect(() => {
     const storedValue = localStorage.getItem('numberOfExercises');
       setNumberOfExercises(Number(storedValue));
@@ -384,9 +385,23 @@ const Fitness = () => {
   useEffect(() => {
     localStorage.setItem('numberOfExercises', numberOfExercises);
   }, [numberOfExercises]);
+
+  // COMPLETE ALL EXERCISES BUTTON SHOULD CALL TWO SERVER METHODS
   const completeAllExercises = () => {
-    console.log("All exercises complete!");
+    console.log("All exercises complete! Top");
+
+    setCompleteAllExercisesClicked(true);
+
+    // incriment the user field: streak
+
+
+
+    // set user field: doneToday to true
+
+
+    console.log("All exercises complete! Bottom");
   };
+
   // Pseudo-event listener for when numberOfExercises is modified
   const prevNumberOfExercisesRef = useRef(localStorage.getItem('numberOfExercises'));
   useEffect(() => {
@@ -452,7 +467,7 @@ const Fitness = () => {
           )}
           <button id="completeAll" 
             onClick={completeAllExercises} 
-            disabled={numberOfExercises !== 0}
+            disabled={numberOfExercises !== 0 || completeAllExercisesClicked}
             >Mark ALL exercises complete!
           </button>
           
