@@ -126,7 +126,7 @@ const Leaderboard = () => {
                 <br />
                 <br />
                 Connect with others, challenge each other, and achieve your
-                goals together!"
+                goals together!
               </p>
             </div>
             <div className="modal-footer">
