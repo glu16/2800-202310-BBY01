@@ -3,7 +3,7 @@ import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
 
 // for task completion buttons
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 
