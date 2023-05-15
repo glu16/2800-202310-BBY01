@@ -186,9 +186,9 @@ const Profile = ({ username }) => {
     return (
       <div
         className={showInfoModal ? `modal fade show` : `modal fade`}
-        id="deleteFriendModal"
+        id="InfoFriendModal"
         tabIndex="-1"
-        aria-labelledby="deleteFriendModalLabel"
+        aria-labelledby="InfoModalLabel"
         aria-hidden="false"
         style={{ display: showInfoModal ? "block" : "none" }}
         role={showInfoModal ? "dialog" : ""}
@@ -213,8 +213,8 @@ const Profile = ({ username }) => {
             </div>
             <div className="modal-body">
               <p>
-                To delete a friend, click on their username and confirm the
-                deletion.
+                To remove a friend, click on their username and confirm the
+                removal.
               </p>
             </div>
             <div className="modal-footer">
@@ -437,7 +437,7 @@ const Profile = ({ username }) => {
           )}
           {/* Render the InfoModal */}
           {showInfoModal && (
-            <InfoModal closeModal={() => setShowDeleteModal(false)} />
+            <InfoModal closeModal={() => setShowInfoModal(false)} />
           )}
         </div>
       </div>

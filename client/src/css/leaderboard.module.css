@@ -67,6 +67,17 @@ td img {
   color: black;
 }
 
+.icon {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+.infoLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .ranksCard {
   height: 100%;
   width: 100%;
@@ -79,6 +90,8 @@ td img {
   color: rgb(92, 208, 216);
   text-align: center;
   margin-top: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .tabs {
