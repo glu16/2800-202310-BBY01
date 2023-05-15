@@ -32,7 +32,7 @@ async function getWorkout() {
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
-function Workout() {
+function Workout({ handleOpenModal }) {
   const [workout, setWorkout] = useState(null);
  
   // use the today variable to determine which day of workout is rendered to display
@@ -170,6 +170,9 @@ function Workout() {
               }
             })}
 
+            {/* this opens up images for the exercise */}
+            <button onClick={handleOpenModal}>Get instructions</button>
+
           </div>
 
           );
@@ -199,6 +202,9 @@ function Workout() {
                 return; 
               }
             })}
+
+            {/* this opens up images for the exercise */}
+            <button onClick={handleOpenModal}>Get instructions</button>
 
             {/* button to mark task completed */}
             <CompleteExercisesButton />
