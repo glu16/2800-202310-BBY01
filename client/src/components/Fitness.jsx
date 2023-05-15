@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from "../css/fitness.module.css";
 // import Modal from 'react-modal';
 
@@ -86,7 +86,7 @@ function Workout() {
             // check if key matches date so only render the one day on the page
             if (key == date) {
 
-              // tracks number of exercises on page, used for complete task buttons
+              // tracks number of exercises on page, used for complete exercse buttons
               // using browser local storage because state variables not too disfunctional with so many sub-components
               let numOfExercises = Object.keys(workoutData[date]).length;
               localStorage.setItem('numberOfExercises', numOfExercises);
@@ -213,12 +213,15 @@ function Workout() {
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
+  // return for Workout()
   return (
     <div>
       <h2>{username}'s Workout</h2>
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>Previous Day</button>
       <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6}>Next Day</button> 
-      <div className="d-flex align-items-center text-center justify-content-center row">{workout}</div>
+      <div className="d-flex align-items-center text-center justify-content-center row">
+        {workout}
+      </div>
     </div>
   );
 }
@@ -259,25 +262,6 @@ const CompleteExercisesButton = () => {
 // PAGE RENDER COMPONENT
 const Fitness = () => {
   
-  // 
-  const [numberOfExercises, setNumberOfExercises] = useState(0);
-  // useEffect(() => {
-  //   const storedValue = localStorage.getItem('numberOfExercises');
-  //   if (storedValue) {
-  //     setNumberOfExercises(Number(storedValue));
-  //   }
-  // }, []);
-  // useEffect(() => {
-  //   localStorage.setItem('numberOfExercises', numberOfExercises.toString());
-  // }, [numberOfExercises]);
-
-
-  const completeAllExercises = () => {
-    console.log("All exercises complete!");
-  };
-
-
-
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
@@ -311,6 +295,38 @@ const Fitness = () => {
     window.location.reload();
   }
 
+
+  // for completeAllExercises button
+  const [numberOfExercises, setNumberOfExercises] = useState(99);
+  useEffect(() => {
+    const storedValue = localStorage.getItem('numberOfExercises');
+      setNumberOfExercises(Number(storedValue));
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('numberOfExercises', numberOfExercises);
+  }, [numberOfExercises]);
+  const completeAllExercises = () => {
+    console.log("All exercises complete!");
+  };
+  // Pseudo-event listener for when numberOfExercises is modified
+  const prevNumberOfExercisesRef = useRef(localStorage.getItem('numberOfExercises'));
+  useEffect(() => {
+    const checkLocalStorage = () => {
+      const currentNumberOfExercises = localStorage.getItem('numberOfExercises');
+      if (currentNumberOfExercises !== prevNumberOfExercisesRef.current) {
+        // console.log('numberOfExercises has been modified:', currentNumberOfExercises);
+        prevNumberOfExercisesRef.current = currentNumberOfExercises;
+        setNumberOfExercises(Number(currentNumberOfExercises)); // Trigger re-render
+      }
+    };
+    const interval = setInterval(checkLocalStorage, 1000); // Adjust the interval as needed
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+
+  // return for Fitness()
   return (
     <div className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}>
       <div className={`card ${styles.exerciseCard}`}>
@@ -340,8 +356,11 @@ const Fitness = () => {
 
           <Workout />
 
-          <button id="completeAll" onClick={completeAllExercises} disabled={numberOfExercises !== 0}>Mark ALL exercises complete!</button>
-
+          <button id="completeAll" 
+            onClick={completeAllExercises} 
+            disabled={numberOfExercises !== 0}
+            >Mark ALL exercises complete!
+          </button>
           
 
         </div>
