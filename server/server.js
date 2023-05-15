@@ -11,7 +11,6 @@ const db = require("./database.js");
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const passChangeRouter = require("./routes/passChange");
-const imageRouter = require("./routes/img");
 
 // THE MODELS
 const { User } = require("./models/users");
@@ -38,7 +37,6 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
-app.use("/api/imageUpload", imageRouter);
 
 /*  
 GENERIC TEMPLATE FOR GETTING DATA FROM USER
@@ -78,8 +76,8 @@ app.get("/users/:username", async (req, res) => {
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
-
       userStats: user.userStats,
+      imageURL: user.imageURL,
     });
   } catch (e) {
     console.log(e);
@@ -237,6 +235,36 @@ app.post("/profile/:username", async (req, res) => {
     } else {
       res.status(500).json({ error: "Internal server error" });
     }
+  }
+});
+
+// UPDATES AND SAVES DOWNLOAD LINK FOR PROFILE PICTURE FOR USER IN DATABASE
+app.post("/pfp/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body.image);
+  try {
+    if (req.body == ""){
+      res.status(404).send("Please try uploading your image again.");
+    }
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      { username: userID },
+      // SETS THE USER'S IMAGE DOWNLOAD LINK
+      {
+        $set: {
+          imageURL: req.body.image,
+        },
+      },
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      { new: true },
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+      res.status(500).json({ error: "Internal server error (Image URL was not saved)" });
   }
 });
 
