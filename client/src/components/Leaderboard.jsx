@@ -28,9 +28,10 @@ const Leaderboard = () => {
   }, []);
   // End of username retrieval
 
-  // Retrieves users from the database
+  // useState hook variable for all the users
   const [users, setUsers] = useState([]);
 
+  // Retrieves users from the database
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -135,7 +136,7 @@ const Leaderboard = () => {
                 className={`btn btn-primary ${styles.modalBtn}`}
                 onClick={closeInfoModal}
               >
-                OK
+                Close
               </button>
             </div>
           </div>
@@ -183,6 +184,7 @@ const Leaderboard = () => {
   // Alert popup to yield closure for adding a friend
   const handleClick = () => {
     window.alert("Friend added successfully!");
+    window.location.reload();
   };
 
   // Beginning of add friend modal component
@@ -244,9 +246,10 @@ const Leaderboard = () => {
   };
   // End of add friend modal component
 
-  // Allows users to switch between global and local leaderboards
+  // Allows users to switch between global and friend ranks
   const [activeTab, setActiveTab] = useState("global");
 
+  // Click event handler for switching between ranks
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -281,7 +284,7 @@ const Leaderboard = () => {
           </tbody>
         </table>
       );
-    } else if (activeTab === "local") {
+    } else if (activeTab === "friend") {
       return (
         <table>
           <thead>
@@ -333,11 +336,11 @@ const Leaderboard = () => {
               </button>
               <button
                 className={`${styles.button} ${
-                  activeTab === "local" ? styles.active : ""
+                  activeTab === "friend" ? styles.active : ""
                 }`}
-                onClick={() => handleTabChange("local")}
+                onClick={() => handleTabChange("friend")}
               >
-                Local Leaderboard
+                Friends Leaderboard
               </button>
             </div>
             {renderLeaderboard()}

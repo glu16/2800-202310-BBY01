@@ -46,8 +46,20 @@ td img {
 
 .button.active {
   background-color: #dddcdc;
-  /* color:rgb(92, 208, 216); */
   box-shadow: inset 0px 0px 9px 1px #222222;
+}
+
+.modalBtn {
+  margin-top: 10px;
+  margin-bottom: 16px;
+  background-color: rgb(92, 208, 216);
+  border-radius: rgb(92, 208, 216);
+}
+
+.modalBtn:hover {
+  color: black;
+  background-color: hsl(184, 62%, 73%);
+  border-radius: hsl(184, 62%, 73%);
 }
 
 .cardWrapper {
