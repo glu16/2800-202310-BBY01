@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import SignupDetails from "./SignupDetails";
 
 import styles from "../css/signup.module.css";
 
@@ -15,6 +16,7 @@ function SignUp({ setToken }) {
     email: "",
     password: "",
   });
+  const [showDetails, setShowDetails] = useState(false)
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
@@ -22,11 +24,12 @@ function SignUp({ setToken }) {
     try {
       const url = "http://localhost:5050/api/users";
       const { data: res } = await axios.post(url, data);
-      setToken(res.data);
-      console.log(res.data)
+      // setToken(res.data);
+      // console.log(res.data)
       localStorage.setItem("email", data.email);
       localStorage.setItem("username", data.username);
-      window.location = "/signupdetails";
+      setShowDetails(true);
+      
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error.response.data);
@@ -39,13 +42,18 @@ function SignUp({ setToken }) {
   };
 
   return (
+    
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.signupBody}`}
     >
+      {showDetails ? (<SignupDetails/>) : (
       <div className={`card-body ${styles.signupCard}`}>
         <h1 id={styles.signupHeader}>Sign Up</h1>
+
+      
+
         <form id={styles.signup} onSubmit={handleSubmit}>
-          <label htmlFor="username"></label>
+
           <input
             type="text"
             id="username"
@@ -53,11 +61,12 @@ function SignUp({ setToken }) {
             value={data.username}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Username"
             size="30"
             required
+            autoComplete="off"
           />
-          <label htmlFor="first-name"></label>
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Username</span></label>
+
           <input
             type="text"
             id="first-name"
@@ -65,12 +74,11 @@ function SignUp({ setToken }) {
             value={data.firstName}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="First Name"
             size="30"
             required
           />
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>First Name</span></label>
 
-          <label htmlFor="last-name"></label>
           <input
             type="text"
             id="last-name"
@@ -78,9 +86,9 @@ function SignUp({ setToken }) {
             value={data.lastName}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Last Name"
             required
           />
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Last Name</span></label>
 
           <label htmlFor="email-input"></label>
           <input
@@ -90,9 +98,9 @@ function SignUp({ setToken }) {
             value={data.email}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Email"
             required
           />
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName} ${styles.emailPlaceholder}`}>Email</span></label>
 
           <label htmlFor="password-input"></label>
           <input
@@ -102,10 +110,9 @@ function SignUp({ setToken }) {
             value={data.password}
             onChange={handleChange}
             className={`user-input ${styles.userInput}`}
-            placeholder="Password"
             required
           />
-
+          <label htmlFor="username" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Password</span></label>
           {/* ERROR IS DISPLAYED HERE  */}
           {error && <div className={`${styles.errorMessage}`}>{error}</div>}
 
@@ -113,10 +120,11 @@ function SignUp({ setToken }) {
           <input
             type="submit"
             id={styles.submitBtn}
-            value="Submit"
+            value="Next"
             className="submit-btn"
           />
         </form>
+        
         <p className={styles.loginRedirect}>
           Already have an account?{" "}
           <Link to="/login" className={`${styles.loginLink}`}>
@@ -125,8 +133,10 @@ function SignUp({ setToken }) {
           </Link>
         </p>
       </div>
+      )}
     </div>
   );
+  
 }
 
 export default SignUp;

@@ -81,12 +81,15 @@ const Coach = () => {
   useEffect(
     () => {
       async function getChatLog() {
-        const response = await fetch(`http://localhost:5050/coach/${username}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          `http://localhost:5050/coach/${username}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
         const data3 = await response.json();
         console.log(data3);
         const messages = data3
@@ -130,6 +133,19 @@ const Coach = () => {
   }
   // END OF CODE THAT SENDS THE CHAT LOG TO THE DATABASE
 
+  // useState hook variable for the modal
+  const [showModal, setShowModal] = useState(true);
+
+  // Modal open handler
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  // Modal close handler
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   // THE CODE COMES LARGELY FROM THIS VIDEO
   // https://www.youtube.com/watch?v=qwM23_kF4v4
   async function handleSubmit(event) {
@@ -168,6 +184,65 @@ const Coach = () => {
         <animated.h1 className={styles.coachTitle} style={greetings}>
           Welcome to your AI Coach!
         </animated.h1>
+        {showModal && (
+          <div
+            className={showModal ? `modal fade show` : `modal fade`}
+            id="modal"
+            tabIndex="-1"
+            aria-labelledby="modalLabel"
+            aria-hidden="false"
+            style={{ display: showModal ? "block" : "none" }}
+            role={showModal ? "dialog" : ""}
+            aria-modal={showModal ? "true" : "false"}
+          >
+            <div className="modal-dialog">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5
+                    className={`modal-title ${styles.formLabel}`}
+                    id="modalLabel"
+                  >
+                    Instructions
+                  </h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    onClick={closeModal}
+                  ></button>
+                </div>
+                <div className={`modal-body ${styles.modalBody}`}>
+                  <p>
+                    Welcome to your AI Coach!
+                    <br />
+                    <br />
+                    Our AI Coach is here to assist you with your diet and
+                    fitness goals. To get started, simply enter your prompt or
+                    question in the text input field. For example, you can ask
+                    for meal suggestions, request workout routines, seek
+                    nutrition advice, or inquire about specific exercises.
+                    <br />
+                    <br />
+                    Once you've entered your prompt, hit the 'Enter' key. Our AI
+                    Coach will process your input and provide a helpful
+                    response.
+                  </p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className={`btn btn-primary ${styles.modalBtn}`}
+                    onClick={closeModal}
+                  >
+                    OK
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {chatLog.map((message, index) => (
           <ChatMessage key={index} message={message} />
         ))}

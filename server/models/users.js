@@ -7,18 +7,27 @@ const joi = require("joi");
 
 // THE SCHEMA FOR THE USER COLLECTION
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true, trim: true, unique: true},
+  username: { type: String, required: true, trim: true, unique: true },
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   phoneNumber: { type: Number, trim: true },
+  imageURL:{ type: String},
 
-  email: { type: String, required: true, unique: true},
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true, trim: true, minlength: 4 },
 
   messages: { type: Array },
   workouts: { type: Array },
   diets: { type: Array },
   userStats: { type: Array },
+
+  friends: [
+    {
+      username: { type: String, required: true },
+      points: { type: Number, default: 0 },
+    },
+  ],
+  points: {type: Number, default: 0 },
 
   doneToday: { type: Boolean },
   currentStreak: { type: Number },
@@ -37,8 +46,8 @@ const User = mongoose.model("User", userSchema);
 // JOI VALIDATION
 const validate = (user) => {
   const scheme = joi.object({
-    username: joi.string().min(4).max(50).required(),
-    firstName: joi.string().min(4).required(),
+    username: joi.string().min(3).max(50).required(),
+    firstName: joi.string().min(3).required(),
     lastName: joi.string().min(2).required(),
     email: joi.string().required(),
     password: joi.string().min(6).required(),

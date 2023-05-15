@@ -2,7 +2,7 @@
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: "Varela Round", sans-serif;
+  font-family: 'Quicksand', sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
   background-position: center;
@@ -71,19 +71,60 @@
 .loginLink {
   text-decoration: none;
   color: rgb(69, 182, 148);
+  transition: 0.2s;
 }
+
+.loginLink:hover {
+  color:rgb(144, 213, 192);
+ }
 
 .userInput {
   border: 2px solid #c0c0c0;
   width: 300px;
   justify-content: center;
   border-radius: 10px;
-  margin: 12px;
+  margin: 15px;
 }
 
 .userInput:focus {
   outline: solid rgb(129, 126, 126) 2px;
 }
+
+.inputName{
+  color: gray;
+  position: relative;
+  bottom: 50px;
+  right: 100px;
+  transition: 0.2s;
+  display: inline-block;
+}
+.emailPlaceholder{
+  right: 110px;
+}
+
+.inputLabel{
+  height: 0;
+}
+
+.userInput:focus + .inputLabel .inputName,
+.userInput:valid + .inputLabel .inputName {
+  transform: translateY(-165%);
+  font-size: 15px;
+  right: 110px;
+  color: rgb(92, 208, 216);
+  outline: none;
+}
+
+.userInput:focus + .inputLabel .emailPlaceholder,
+.userInput:valid + .inputLabel .emailPlaceholder {
+  transform: translateY(-165%);
+  font-size: 15px;
+  right: 120px;
+  color: rgb(92, 208, 216);
+  outline: none;
+}
+
+
 
 @media (max-width: 767px) {
   html,

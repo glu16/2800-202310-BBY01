@@ -13,8 +13,6 @@ function SignupDetails() {
     goal: "",
   });
 
-  const [isModified, setIsModified] = useState(false);
-
   const [error, setError] = useState("");
 
   const handleSubmit = async (event) => {
@@ -22,7 +20,7 @@ function SignupDetails() {
   try {
     const url = `http://localhost:5050/signupdetails/${localStorage.getItem("username")}`;
     const { data: res } = await axios.post(url, data);
-    window.location = "/";
+    window.location = "/login";
 
     const userName = localStorage.getItem("email");
     const today = new Date().toISOString().slice(0, 10);
@@ -67,9 +65,7 @@ function SignupDetails() {
   };
 
   return (
-    <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.signupDetailsBody}`}
-    >
+    <>
       <div className={`card-body ${styles.signupCard}`}>
             <h1 id={styles.detailsHeader}>Details</h1>
             <form id={styles.signupDetails} onSubmit={handleSubmit}>
@@ -181,7 +177,7 @@ function SignupDetails() {
               />
             </form>
           </div>
-        </div>
+        </>
   );
 }
 
