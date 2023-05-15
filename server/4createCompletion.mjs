@@ -10,10 +10,10 @@ import { openai } from './0API.mjs'
 async function createCompletion() {
   try {
     const response = await openai.createCompletion({
-      model: 'davinci:ft-personal-2023-05-14-21-14-45',
-      prompt: `How long should you hold a stretch during a cool-down session? &&&&&`,
+      model: '',
+      prompt: `Who has the best app this project term? &&&&&`,
       max_tokens: 200,
-      stop: ['#####']
+      stop: ['#####', '\n', '&&&&&']
     })
     if (response.data) {
       console.log('choices: ', response.data.choices)
