@@ -8,12 +8,13 @@
   margin-top: 10px;
   margin-bottom: 16px;
   background-color: rgb(92, 208, 216);
-  border-radius: rgb(92, 208, 216);
+  border-color: rgb(92, 208, 216);
 }
 
 .editProfileButton:hover {
   color: black;
   background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
 }
 
 .cardContainer {
@@ -68,6 +69,17 @@
 
 .imgProfile {
   margin-top: 10px;
+}
+
+.modalBtn {
+  background-color: rgb(92, 208, 216);
+  border-color: rgb(92, 208, 216);
+}
+
+.modalBtn:hover {
+  color: black;
+  background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
 }
 
 .profileCard {

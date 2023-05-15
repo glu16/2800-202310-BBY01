@@ -126,6 +126,7 @@ td img {
 .modalBtn:hover {
   color: black;
   background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
 }
 
 @media (max-width: 767px) {
