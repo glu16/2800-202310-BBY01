@@ -181,6 +181,7 @@ const Profile = ({ username }) => {
     setShowInfoModal(false);
   };
 
+// Beginning of info modal component
   const InfoModal = () => {
     return (
       <div
@@ -230,6 +231,7 @@ const Profile = ({ username }) => {
       </div>
     );
   };
+  // End of info modal component
 
   // useState hook variables for deleting a friend
   const [selectedUser, setSelectedUser] = useState(null);
@@ -273,7 +275,7 @@ const Profile = ({ username }) => {
     window.location.reload();
   };
 
-  // Start of delete friend modal component
+  // Beginning of delete friend modal component
   const DeleteFriendModal = () => {
     const handleRemoveFriend = async () => {
       try {
