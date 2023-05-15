@@ -8,12 +8,13 @@
   margin-top: 10px;
   margin-bottom: 16px;
   background-color: rgb(92, 208, 216);
-  border-radius: rgb(92, 208, 216);
+  border-color: rgb(92, 208, 216);
 }
 
 .editProfileButton:hover {
   color: black;
   background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
 }
 
 .cardContainer {
@@ -42,6 +43,8 @@
 .friendsHeader {
   color: rgb(92, 208, 216);
   margin-top: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .friendsList {
@@ -53,8 +56,30 @@
   color: black;
 }
 
+.icon {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+.infoLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .imgProfile {
   margin-top: 10px;
+}
+
+.modalBtn {
+  background-color: rgb(92, 208, 216);
+  border-color: rgb(92, 208, 216);
+}
+
+.modalBtn:hover {
+  color: black;
+  background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
 }
 
 .profileCard {
@@ -117,6 +142,12 @@
 
 .profileImage input[type="file"] {
   display: none;
+}
+
+.userNameLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 @media (max-width: 767px) {

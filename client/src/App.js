@@ -11,7 +11,6 @@ import MobileFooter from "./components/MobileFooter";
 import MobileNavbar from "./components/MobileNavbar";
 import Index from "./components/Index";
 import About from "./components/About";
-import Contact from "./components/Contact";
 import SignUp from "./components/SignUp";
 import SignupDetails from "./components/SignupDetails";
 import Login from "./components/Login";
@@ -27,11 +26,13 @@ import Settings from "./components/Settings";
 import useToken from "./components/useToken";
 
 function App() {
+  // useState hook variable to set user token
   const { token, setToken } = useToken();
 
-  /* Mobile View Hook to check if screen is less than or equal to 767px */
+  // useState hook variable for mobile view
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
+  // useEffect hook to check if the screen is in mobile view
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 767);
@@ -43,7 +44,6 @@ function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  /* End of Mobile View Hook */
 
   if (!token) {
     return (
@@ -55,7 +55,6 @@ function App() {
             <Route path="/changepassword" element={<ChangePassword />} />
             <Route path="/signup" element={<SignUp setToken={setToken} />} />
             <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
             <Route path="/" element={<Index />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

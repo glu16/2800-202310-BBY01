@@ -32,7 +32,7 @@ function MobileFooter() {
           </li>
           <li className="nav-item">
             <Link to="/leaderboard" className="nav-link">
-              <span className="material-symbols-outlined"> leaderboard </span>{" "}
+              <span className="material-symbols-outlined"> social_leaderboard </span>{" "}
               Ranks
             </Link>
           </li>

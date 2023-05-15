@@ -39,12 +39,6 @@ function NavbarBeforeLogin() {
                 Us
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/contact" className="nav-link" onClick={handleNavClose}>
-                <span className="material-symbols-outlined"> help </span>
-                Contact Us
-              </Link>
-            </li>
           </ul>
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">

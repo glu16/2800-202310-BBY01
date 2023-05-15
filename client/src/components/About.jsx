@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSpring, animated } from "react-spring";
 
+import "../css/main.css";
 import styles from "../css/about.module.css";
 
 const About = () => {
@@ -24,11 +25,13 @@ const About = () => {
           support you every step of the way, providing you with the tools and
           resources you need to achieve your diet and fitness goals.
           <br />
+          <br />
           With Healthify, you can embark on a transformative experience that
           combines cutting-edge technology with expert guidance. Whether you're
           aiming to lose weight, build muscle, improve endurance, or simply
           adopt healthier habits, our app caters to your unique needs and
           preferences.
+          <br />
           <br />
           Stay motivated and accountable with our user-friendly interface and
           intuitive features. We understand that everyone has different starting
@@ -37,6 +40,20 @@ const About = () => {
           feel overwhelmed or lost on your journey because our app provides
           clear guidance and progress tracking to keep you on the right track.
         </h4>
+        <div className="row">
+          <div className="col-md-3">
+            <img src="" alt="Team Member 1" />
+          </div>
+          <div className="col-md-3">
+            <img src="" alt="Team Member 2" />
+          </div>
+          <div className="col-md-3">
+            <img src="" alt="Team Member 3" />
+          </div>
+          <div className="col-md-3">
+            <img src="" alt="Team Member 4" />
+          </div>
+        </div>
       </div>
     </div>
   );

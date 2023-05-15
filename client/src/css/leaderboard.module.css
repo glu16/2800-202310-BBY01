@@ -46,8 +46,20 @@ td img {
 
 .button.active {
   background-color: #dddcdc;
-  /* color:rgb(92, 208, 216); */
   box-shadow: inset 0px 0px 9px 1px #222222;
+}
+
+.modalBtn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: rgb(92, 208, 216);
+  border-radius: rgb(92, 208, 216);
+}
+
+.modalBtn:hover {
+  color: black;
+  background-color: hsl(184, 62%, 73%);
+  border-radius: hsl(184, 62%, 73%);
 }
 
 .cardWrapper {
@@ -67,6 +79,17 @@ td img {
   color: black;
 }
 
+.icon {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+.infoLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .ranksCard {
   height: 100%;
   width: 100%;
@@ -79,6 +102,8 @@ td img {
   color: rgb(92, 208, 216);
   text-align: center;
   margin-top: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .tabs {
@@ -101,6 +126,7 @@ td img {
 .modalBtn:hover {
   color: black;
   background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
 }
 
 @media (max-width: 767px) {

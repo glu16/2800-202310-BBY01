@@ -5,6 +5,30 @@ import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
 const Profile = ({ username }) => {
+  // Retrieves the logged in user's username
+  useEffect(() => {
+    async function fetchUserName() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const username = response.data.username;
+        console.log("Logged in user's name:", username);
+        localStorage.setItem("username", username);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    fetchUserName();
+  }, []);
+  // End of username retrieval
+
   // Retrieves logged in user's data
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState("");
@@ -15,9 +39,7 @@ const Profile = ({ username }) => {
   async function fetchUserData() {
     try {
       const response = await axios.get(
-        `http://localhost:5050/users/${localStorage.getItem(
-          "username"
-        )}`,
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -41,7 +63,9 @@ const Profile = ({ username }) => {
   }
 
   // useEffect hook to call fetchUserData function
-  useEffect(() => {fetchUserData()}, []);
+  useEffect(() => {
+    fetchUserData();
+  }, []);
   /* End of user data retrieval */
 
   // Allows the user to update their profile
@@ -74,7 +98,7 @@ const Profile = ({ username }) => {
         document.querySelector(".modal-backdrop").remove();
         let body = document.querySelector("body");
         body.classList.remove("modal-open");
-        body.removeAttribute('style');
+        body.removeAttribute("style");
       }, 3000);
     }
     return () => clearTimeout(timer);
@@ -84,15 +108,16 @@ const Profile = ({ username }) => {
     event.preventDefault();
 
     // Regex for validating email format
-    var emailReg = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var emailReg =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
     // Checks to see if username that was input is a minimum of 3 characters
-    if (data["username"].length < 3){
+    if (data["username"].length < 3) {
       setError("Username must be a minimum of 3 characters.");
       return;
-    };
+    }
     // Checks email formatting
-    if (!emailReg.test(data["email"])){
+    if (!emailReg.test(data["email"])) {
       setError("Email must be valid.");
       return;
     }
@@ -105,13 +130,13 @@ const Profile = ({ username }) => {
 
       // Updates localStorage with newly entered username
       localStorage.setItem("username", data.username);
-      console.log(data.age)
+      console.log(data.age);
       setShowModal(true);
       setShowAlert(true);
       fetchUserData();
     } catch (error) {
       console.log(error.response.data);
-      //Error returned from server 
+      //Error returned from server
       setError(error.response.data);
     }
   };
@@ -137,6 +162,184 @@ const Profile = ({ username }) => {
     fetchFriends();
   }, []);
   // End of user's friends retrieval
+
+  // Sorts the list of friends by alphabetical order
+  const sortedFriends = friends.sort((a, b) =>
+    a.username.localeCompare(b.username)
+  );
+
+  // useState hook variable for the info modal
+  const [showInfoModal, setShowInfoModal] = useState(false);
+
+  // Info modal open handler
+  const openInfoModal = () => {
+    setShowInfoModal(true);
+  };
+
+  // Info modal close handler
+  const closeInfoModal = () => {
+    setShowInfoModal(false);
+  };
+
+// Beginning of info modal component
+  const InfoModal = () => {
+    return (
+      <div
+        className={showInfoModal ? `modal fade show` : `modal fade`}
+        id="infoModal"
+        tabIndex="-1"
+        aria-labelledby="infoModalLabel"
+        aria-hidden="false"
+        style={{ display: showInfoModal ? "block" : "none" }}
+        role={showInfoModal ? "dialog" : ""}
+        aria-modal={showInfoModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="infoModalLabel"
+              >
+                Information
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeInfoModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>
+                To remove a friend, click on their username and confirm the
+                removal.
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className={`btn btn-primary ${styles.modalBtn}`}
+                onClick={closeInfoModal}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  // End of info modal component
+
+  // useState hook variables for deleting a friend
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+
+  // Function to delete a friend
+  const deleteFriend = async (friendId) => {
+    try {
+      const username = localStorage.getItem("username");
+      console.log("Friend's ID:", friendId);
+      console.log("Logged in user's ID", username);
+
+      await axios.delete(`http://localhost:5050/profile/${friendId}`, {
+        data: {
+          username: username,
+        },
+      });
+
+      console.log("Friend removed successfully!");
+      closeModal();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Click event handler
+  const handleUserClick = (user) => {
+    setSelectedUser(user);
+    setShowDeleteModal(true);
+  };
+
+  // Delete friend modal close handler
+  const closeModal = () => {
+    setSelectedUser(null);
+    setShowDeleteModal(false);
+  };
+
+  // Alert popup to yield closure for removing a friend
+  const handleClick = () => {
+    window.alert("Friend removed successfully!");
+    window.location.reload();
+  };
+
+  // Beginning of delete friend modal component
+  const DeleteFriendModal = () => {
+    const handleRemoveFriend = async () => {
+      try {
+        const friendId = selectedUser._id;
+        await deleteFriend(friendId);
+        handleClick();
+        closeModal();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    return (
+      <div
+        className={showDeleteModal ? `modal fade show` : `modal fade`}
+        id="deleteFriendModal"
+        tabIndex="-1"
+        aria-labelledby="deleteFriendModalLabel"
+        aria-hidden="false"
+        style={{ display: showDeleteModal ? "block" : "none" }}
+        role={showDeleteModal ? "dialog" : ""}
+        aria-modal={showDeleteModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="deleteFriendModalLabel"
+              >
+                Remove Friend
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>Do you want to remove {selectedUser.username} as a friend?</p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={closeModal}
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className={`btn btn-danger ${styles.modalBtn}`}
+                onClick={handleRemoveFriend}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  // End of delete friend modal component
 
   return (
     <div
@@ -204,27 +407,51 @@ const Profile = ({ username }) => {
         <div className={`${styles.friendsCard}`}>
           <div className={`card-body ${styles.friendsBody}`}>
             <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.friendsHeader}>Friends List</h1>
-              {friends.map((friend, index) => (
+              <h1 className={styles.friendsHeader}>
+                Friends List
+                <a
+                  className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
+                  onClick={openInfoModal}
+                >
+                  info
+                </a>
+              </h1>
+              {sortedFriends.map((friend, index) => (
                 <div className={styles.friendsList} key={index}>
-                  <p>{friend.username}</p>
+                  <a
+                    className={styles.userNameLink}
+                    onClick={() => handleUserClick(friend)}
+                  >
+                    {friend.username}
+                  </a>
                 </div>
               ))}
             </div>
           </div>
+          {/* Render the DeleteFriendModal */}
+          {showDeleteModal && (
+            <DeleteFriendModal
+              selectedUser={selectedUser}
+              closeModal={() => setShowDeleteModal(false)}
+            />
+          )}
+          {/* Render the InfoModal */}
+          {showInfoModal && (
+            <InfoModal closeModal={() => setShowInfoModal(false)} />
+          )}
         </div>
       </div>
 
       {/* Edit Profile Modal */}
       <div
-        className={ showModal ? `modal fade show` : `modal fade`} 
+        className={showModal ? `modal fade show` : `modal fade`}
         id="editModal"
         tabIndex="-1"
         aria-labelledby="editModalLabel"
         aria-hidden="false"
-        style={{display:  showModal ? "block" : "none"}}
-        role={showModal? "dialog": ""}
-        aria-modal={showModal? "true" : "false"}
+        style={{ display: showModal ? "block" : "none" }}
+        role={showModal ? "dialog" : ""}
+        aria-modal={showModal ? "true" : "false"}
       >
         <div className="modal-dialog">
           <div className="modal-content">
@@ -260,7 +487,9 @@ const Profile = ({ username }) => {
                     onChange={handleChange}
                     required
                   />
-                  {error.includes("Username") && <span className={`${styles.errorMessage}`}>{error}</span>}
+                  {error.includes("Username") && (
+                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label
@@ -277,7 +506,9 @@ const Profile = ({ username }) => {
                     value={data.email}
                     onChange={handleChange}
                   />
-                  {error.includes("Email") && <span className={`${styles.errorMessage}`}>{error}</span>}
+                  {error.includes("Email") && (
+                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label

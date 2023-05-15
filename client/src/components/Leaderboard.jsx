@@ -28,9 +28,10 @@ const Leaderboard = () => {
   }, []);
   // End of username retrieval
 
-  // Retrieves users from the database
+  // useState hook variable for all the users
   const [users, setUsers] = useState([]);
 
+  // Retrieves users from the database
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -67,10 +68,89 @@ const Leaderboard = () => {
   }, []);
   // End of user's friends retrieval
 
-  // Displays the friend request modal
+  // useState hook variable for the info modal
+  const [showInfoModal, setShowInfoModal] = useState(false);
+
+  // Info modal open handler
+  const openInfoModal = () => {
+    setShowInfoModal(true);
+  };
+
+  // Info modal close handler
+  const closeInfoModal = () => {
+    setShowInfoModal(false);
+  };
+
+  // Beginning of info modal component
+  const InfoModal = () => {
+    return (
+      <div
+        className={showInfoModal ? `modal fade show` : `modal fade`}
+        id="infoModal"
+        tabIndex="-1"
+        aria-labelledby="infoModalLabel"
+        aria-hidden="false"
+        style={{ display: showInfoModal ? "block" : "none" }}
+        role={showInfoModal ? "dialog" : ""}
+        aria-modal={showInfoModal ? "true" : "false"}
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="infoModalLabel"
+              >
+                Information
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeInfoModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <p>
+                Welcome to the Leaderboard!
+                <br />
+                <br />
+                Here, you can discover where you stand among other users based
+                on your points. Check out the global ranks to see how you
+                compare with users worldwide, or explore the friend ranks to see
+                how you stack up against your friends.
+                <br />
+                <br />
+                Don't forget, you can add a user as a friend by simply clicking
+                on their username.
+                <br />
+                <br />
+                Connect with others, challenge each other, and achieve your
+                goals together!
+              </p>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className={`btn btn-primary ${styles.modalBtn}`}
+                onClick={closeInfoModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  // End of info modal component
+
+  // useState hook variables for adding a friend
   const [selectedUser, setSelectedUser] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
+  // Function to add a friend
   const addFriend = async (friendUsername) => {
     try {
       const username = localStorage.getItem("username");
@@ -95,17 +175,19 @@ const Leaderboard = () => {
     setShowModal(true);
   };
 
-  // Modal close handler
+  // Add friend modal close handler
   const closeModal = () => {
     setSelectedUser(null);
     setShowModal(false);
   };
 
-  // Alert popup to yield closure
+  // Alert popup to yield closure for adding a friend
   const handleClick = () => {
     window.alert("Friend added successfully!");
+    window.location.reload();
   };
 
+  // Beginning of add friend modal component
   const AddFriendModal = () => {
     return (
       <div
@@ -162,11 +244,12 @@ const Leaderboard = () => {
       </div>
     );
   };
-  // End of friend request modal
+  // End of add friend modal component
 
-  // Allows users to switch between global and local leaderboards
+  // Allows users to switch between global and friend ranks
   const [activeTab, setActiveTab] = useState("global");
 
+  // Click event handler for switching between ranks
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -201,7 +284,7 @@ const Leaderboard = () => {
           </tbody>
         </table>
       );
-    } else if (activeTab === "local") {
+    } else if (activeTab === "friend") {
       return (
         <table>
           <thead>
@@ -233,7 +316,15 @@ const Leaderboard = () => {
       >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
-            <h1 className={styles.ranksHeader}>Leaderboard Ranks</h1>
+            <h1 className={styles.ranksHeader}>
+              Leaderboard Ranks{" "}
+              <a
+                className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
+                onClick={openInfoModal}
+              >
+                info
+              </a>
+            </h1>
             <div className={styles.tabs}>
               <button
                 className={`${styles.button} ${
@@ -245,11 +336,11 @@ const Leaderboard = () => {
               </button>
               <button
                 className={`${styles.button} ${
-                  activeTab === "local" ? styles.active : ""
+                  activeTab === "friend" ? styles.active : ""
                 }`}
-                onClick={() => handleTabChange("local")}
+                onClick={() => handleTabChange("friend")}
               >
-                Local Leaderboard
+                Friends Leaderboard
               </button>
             </div>
             {renderLeaderboard()}
@@ -258,6 +349,10 @@ const Leaderboard = () => {
       </div>
       {/* Render the FriendRequestModal */}
       {showModal && <AddFriendModal />}
+      {/* Render the InfoModal */}
+      {showInfoModal && (
+        <InfoModal closeModal={() => setShowInfoModal(false)} />
+      )}
     </div>
   );
 };
