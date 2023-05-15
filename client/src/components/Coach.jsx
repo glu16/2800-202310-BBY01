@@ -3,7 +3,7 @@ import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
 
-// THE CHAT MESSAGE CODE THAT DISPLAYS THE CHAT HISTORY
+// The chat message code that displays the chat history
 const ChatMessage = ({ message }) => {
   if (!message || typeof message.message !== "string") {
     return null;
@@ -46,10 +46,10 @@ const ChatMessage = ({ message }) => {
     </div>
   );
 };
-// END OF CHAT MESSAGE CODE
+// End of chat message code
 
 const Coach = () => {
-  // VISUAL EFFECTS
+  // Visual effects
   const [scrollPos, setScrollPos] = useState(0);
 
   useEffect(() => {
@@ -68,16 +68,13 @@ const Coach = () => {
     from: { opacity: 0 },
     delay: 500,
   });
-  // END OF VISUAL EFFECTS
+  // End of visual effects
   const username = localStorage.getItem("username");
 
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
 
-  /* 
-  THIS CODE GETS THE CHAT LOG FROM THE DATABASE
-  AND DISPLAYS IT
-  */
+  // This code gets the chat log from the database and displays it
   useEffect(
     () => {
       async function getChatLog() {
@@ -99,19 +96,19 @@ const Coach = () => {
               message: message.trim(),
             }));
           })
-          // THE flat() METHOD CONCATENATES THE SUB-ARRAY ELEMENTS
+          // The flat() method concatenates the subarray elements
           .flat();
         setChatLog(messages);
       }
       getChatLog();
     },
-    //[username] STOPS THE LOOP
+    // [username] stops the loop
     [username]
   );
-  // END OF CODE THAT GETS THE CHAT LOG FROM THE DATABASE
+  // End of code that gets the chat log from the database
 
   /* 
-  SENDS THE CHAT LOG TO THE DATABASEIN THE FORM
+  Sends the chat lof to the database in the form
   [
     { user: "me", message: "Some message" },
     { user: "gpt", message: "Some message" },
@@ -131,7 +128,7 @@ const Coach = () => {
       }),
     });
   }
-  // END OF CODE THAT SENDS THE CHAT LOG TO THE DATABASE
+  // End of code that sends the chat log to the database
 
   // useState hook variable for the modal
   const [showModal, setShowModal] = useState(true);
@@ -146,12 +143,12 @@ const Coach = () => {
     setShowModal(false);
   };
 
-  // THE CODE COMES LARGELY FROM THIS VIDEO
+  // The code comes largely from this video
   // https://www.youtube.com/watch?v=qwM23_kF4v4
   async function handleSubmit(event) {
     event.preventDefault();
 
-    //CODE THAT HANDLES USER AND AI INTERACTION
+    // Code that handles user and gpt interaction
     let chatLogNew = [...chatLog, { user: "me", message: `${input}` }];
     setInput("");
     setChatLog(chatLogNew);
@@ -176,7 +173,7 @@ const Coach = () => {
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
     await sendChatLog("gpt", data.message);
   }
-  // END OF CODE THAT HANDLES USER AND AI INTERACTION
+  // End of code that handles user and gpt interaction
 
   return (
     <div className={styles.coach}>
