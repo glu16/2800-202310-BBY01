@@ -67,7 +67,7 @@ function NavbarAfterLogin() {
                 className="nav-link"
                 onClick={handleNavClose}
               >
-                <span className="material-symbols-outlined"> leaderboard </span>{" "}
+                <span className="material-symbols-outlined"> social_leaderboard </span>{" "}
                 Ranks
               </Link>
             </li>
