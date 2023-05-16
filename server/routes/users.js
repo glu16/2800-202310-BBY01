@@ -36,6 +36,7 @@ router.post("/", async (req, res) => {
 
     const newUser = await new User({ ...req.body, password: hashedPassword }).save();
 
+    req.session.user = newUser.username;
     const token = newUser.generateAuthToken();
     res.send({ data: token });
     

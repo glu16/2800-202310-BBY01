@@ -12,6 +12,8 @@ const userRouter = require("./routes/users.js");
 const authRouter = require("./routes/auth.js");
 const passChangeRouter = require("./routes/passChange.js");
 
+const session = require('express-session');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 // THE MODELS
 const { User } = require("./models/users.js");
@@ -30,6 +32,25 @@ const openai = new OpenAIApi(configuration);
 // THE CONNECTION TO DATABASE
 db();
 
+const store = new MongoDBStore({
+  uri: process.env.DB, // Replace with your MongoDB connection URI
+  collection: 'sessions', // Name of the collection to store sessions
+  // Optional: Additional options for the session store
+});
+
+app.use(
+  session({
+    secret: process.env.KEY, // Secret key to sign the session ID cookie
+    resave: false, // Whether to save the session back to the store if it was not modified
+    saveUninitialized: false, // Whether to save uninitialized sessions
+    store: store, // The session store instance
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // Session cookie expiration time (e.g., 1 day)
+    },
+  })
+);
+
+
 // MIDDELWARE
 app.use(cors());
 app.use(express.json());
@@ -38,6 +59,7 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
+
 
 /*  
 GENERIC TEMPLATE FOR GETTING DATA FROM USER
@@ -498,11 +520,11 @@ app.get("/diet/:email", async (req, res) => {
 
 app.get("/userStats", async (req, res) => {
   // THE USER'S USERNAME
-  const userID = req.params.username;
+  const userID = req.session.username;
   try {
     // FIND THE USER BY USERNAME
     // DEFAULT USERNAME IS "ndurano" UNTILL FIX
-    const user = await User.findOne({ username: "ndurano"} );
+    const user = await User.findOne({ username: userID} );
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
