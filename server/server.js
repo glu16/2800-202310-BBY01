@@ -12,7 +12,6 @@ const userRouter = require("./routes/users.js");
 const authRouter = require("./routes/auth.js");
 const passChangeRouter = require("./routes/passChange.js");
 
-
 // THE MODELS
 const { User } = require("./models/users.js");
 const Tips = require("./models/tips.js");
@@ -107,12 +106,19 @@ app.get("/leaderboard/:username", async (req, res) => {
     if (!loggedInUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    // RETRIEVE THE FRIEND OBJECTS
-    const friends = loggedInUser.friends.map((friend) => ({
-      username: friend.username,
-      points: friend.points,
-      _id: friend._id,
-    }));
+    // RETRIEVE THE FRIEND OBJECTS WITH UPDATED USERNAME
+    const friends = await Promise.all(
+      loggedInUser.friends.map(async (friend) => {
+        // FIND THE FRIEND BY ID
+        const friendUser = await User.findById(friend._id);
+        // RETURN THE UPDATED FRIEND OBJECT WITH THE NEW USERNAME
+        return {
+          username: friendUser ? friendUser.username : null,
+          points: friend.points,
+          _id: friend._id,
+        };
+      })
+    );
     // SEND THE USER'S FRIENDS
     res.json(friends);
   } catch (error) {
@@ -306,7 +312,7 @@ app.post("/pfp/:username", async (req, res) => {
   const userID = req.params.username;
   console.log(req.body.image);
   try {
-    if (req.body == ""){
+    if (req.body == "") {
       res.status(404).send("Please try uploading your image again.");
     }
     const user = await User.findOneAndUpdate(
@@ -319,7 +325,7 @@ app.post("/pfp/:username", async (req, res) => {
         },
       },
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true },
+      { new: true }
     );
 
     res.status(200).json({
@@ -327,7 +333,9 @@ app.post("/pfp/:username", async (req, res) => {
       user,
     });
   } catch (err) {
-      res.status(500).json({ error: "Internal server error (Image URL was not saved)" });
+    res
+      .status(500)
+      .json({ error: "Internal server error (Image URL was not saved)" });
   }
 });
 
@@ -495,14 +503,13 @@ app.get("/diet/:email", async (req, res) => {
   }
 });
 
-
 app.get("/userStats", async (req, res) => {
   // THE USER'S USERNAME
   const userID = req.params.username;
   try {
     // FIND THE USER BY USERNAME
     // DEFAULT USERNAME IS "ndurano" UNTILL FIX
-    const user = await User.findOne({ username: "ndurano"} );
+    const user = await User.findOne({ username: "ndurano" });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -513,7 +520,6 @@ app.get("/userStats", async (req, res) => {
       weight: user.userStats[0].weight,
       activityLevel: user.userStats[0].activityLevel,
       goal: user.userStats[0].goal,
-
     });
   } catch (e) {
     console.log(e);
@@ -544,9 +550,6 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
-
-
-
 // RESET SELECTED TIP AND DATE AT MIDNIGHT
 setInterval(() => {
   const currentDate = new Date().toISOString().slice(0, 10);
@@ -568,7 +571,7 @@ app.post("/", async (req, res) => {
     model: "davinci:ft-personal-2023-05-15-05-32-16",
     prompt: `${message}` + " &&&&&",
     max_tokens: 200,
-    stop: ['#####', '&&&&&']
+    stop: ["#####", "&&&&&"],
   });
 
   const parsableJson = response.data.choices[0].text;
