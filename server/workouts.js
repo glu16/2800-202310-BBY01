@@ -3,6 +3,9 @@
 // get api key from .env file
 require('dotenv').config();
 
+
+
+
 // import openAIAPI
 // import { Configuration, OpenAIApi } from "openai"
 const { Configuration, OpenAIApi } = require('openai');
@@ -28,10 +31,8 @@ const stopProgress = () => {
     process.stdout.cursorTo(0);
 };
 
-const username = localStorage.getItem("username");
-
 async function getUserStats() {
-  var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+  var response = await fetch(`http://localhost:5050/userStats`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

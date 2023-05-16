@@ -12,6 +12,7 @@ const userRouter = require("./routes/users.js");
 const authRouter = require("./routes/auth.js");
 const passChangeRouter = require("./routes/passChange.js");
 
+
 // THE MODELS
 const { User } = require("./models/users.js");
 const Tips = require("./models/tips.js");
@@ -495,15 +496,12 @@ app.get("/diet/:email", async (req, res) => {
 });
 
 
-if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require('node-localstorage').LocalStorage;
-  localStorage = new LocalStorage('./scratch');
-}
-app.get("/userStats/:username", async (req, res) => {
+app.get("/userStats", async (req, res) => {
   // THE USER'S USERNAME
-  const userID = localStorage.getItem("username");
+  const userID = req.params.username;
   try {
     // FIND THE USER BY USERNAME
+    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
     const user = await User.findOne({ username: "ndurano"} );
     if (!user) {
       return res.status(404).json({ message: "User not found" });

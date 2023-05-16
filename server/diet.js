@@ -1,9 +1,7 @@
 require("dotenv").config();
 
-if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require("node-localstorage").LocalStorage;
-  localStorage = new LocalStorage("./scratch");
-}
+
+
 
 // This page is bascially the same as workout.js, but it is for diet plans instead of workout plans.
 
@@ -29,13 +27,11 @@ const stopProgress = () => {
   process.stdout.cursorTo(0);
 };
 
-/* 
-You normally cant get localStoreage to the backend but we can with node-localstorage
-*/
-const email = localStorage.getItem("email");
+
+
 
 async function getUserStats() {
-  var response = await fetch(`http://localhost:5050/userStats/${email}`, {
+  var response = await fetch(`http://localhost:5050/userStats`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
