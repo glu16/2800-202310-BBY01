@@ -297,7 +297,7 @@ const Leaderboard = () => {
     // Plays the YouTube video
     const initializePlayer = () => {
       const player = new window.YT.Player(playerRef.current, {
-        videoId: "hNi37RG7lJc",
+        videoId: "dQw4w9WgXcQ",
         playerVars: {
           autoplay: 0,
         },
@@ -338,13 +338,6 @@ const Leaderboard = () => {
               <div ref={playerRef}></div>
             </div>
             <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={closeSurpriseModal}
-              >
-                Cancel
-              </button>
               <button
                 type="button"
                 className={`btn btn-primary ${styles.modalBtn}`}
