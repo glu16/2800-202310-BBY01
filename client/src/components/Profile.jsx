@@ -416,7 +416,7 @@ const Profile = ({ username }) => {
               </div>
               <div className={`mt-3 ${styles.profileInfo}`}>
                 <div className={`${styles.profileItem} email`}>
-                  <h5 className={styles.profileHeader}>Name</h5>
+                  <h5 className={styles.profileHeader}>Username</h5>
                   <p>
                     <span id="name-goes-here">{userID}</span>
                   </p>
