@@ -494,6 +494,35 @@ app.get("/diet/:email", async (req, res) => {
   }
 });
 
+
+if (typeof localStorage === "undefined" || localStorage === null) {
+  var LocalStorage = require('node-localstorage').LocalStorage;
+  localStorage = new LocalStorage('./scratch');
+}
+app.get("/userStats/:username", async (req, res) => {
+  // THE USER'S USERNAME
+  const userID = localStorage.getItem("username");
+  try {
+    // FIND THE USER BY USERNAME
+    const user = await User.findOne({ username: "ndurano"} );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.send({
+      sex: user.userStats[0].sex,
+      age: user.userStats[0].age,
+      height: user.userStats[0].height,
+      weight: user.userStats[0].weight,
+      activityLevel: user.userStats[0].activityLevel,
+      goal: user.userStats[0].goal,
+
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
 let selectedTip = null;
@@ -517,6 +546,9 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
+
+
+
 // RESET SELECTED TIP AND DATE AT MIDNIGHT
 setInterval(() => {
   const currentDate = new Date().toISOString().slice(0, 10);
@@ -538,7 +570,7 @@ app.post("/", async (req, res) => {
     model: "davinci:ft-personal-2023-05-15-05-32-16",
     prompt: `${message}` + " &&&&&",
     max_tokens: 200,
-    stop: ['#####', '&&&&&', `\n`]
+    stop: ['#####', '&&&&&']
   });
 
   const parsableJson = response.data.choices[0].text;
