@@ -140,6 +140,10 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     }
     // FIND THE LOGGED IN USER
     const loggedInUser = await User.findOne({ username });
+    // CHECK IF THE LOGGED IN USER IS TRYING TO ADD THEMSELVES AS A FRIEND
+    if (friendUsername === username) {
+      return res.status(400).json({ error: "Cannot add yourself as a friend." });
+    }
     // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
     if (!loggedInUser.friends.some((f) => f.username === friend.username)) {
       loggedInUser.friends.push({

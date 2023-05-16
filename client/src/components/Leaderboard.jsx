@@ -157,12 +157,19 @@ const Leaderboard = () => {
       console.log("Specified user's name:", friendUsername);
       console.log("Logged in user's name:", username);
 
-      await axios.post(`http://localhost:5050/leaderboard/${friendUsername}`, {
-        username: username,
-        friendUsername: friendUsername,
-      });
-
-      console.log("Friend added successfully!");
+      if (friendUsername === username) {
+        window.alert("Cannot add yourself as a friend.");
+        return;
+      } else {
+        window.alert("Friend added successfully!");
+        await axios.post(
+          `http://localhost:5050/leaderboard/${friendUsername}`,
+          {
+            username: username,
+            friendUsername: friendUsername,
+          }
+        );
+      }
       closeModal();
     } catch (error) {
       console.error(error);
@@ -183,7 +190,6 @@ const Leaderboard = () => {
 
   // Alert popup to yield closure for adding a friend
   const handleClick = () => {
-    window.alert("Friend added successfully!");
     window.location.reload();
   };
 
