@@ -69,55 +69,53 @@ function SignupDetails() {
       <div className={`card-body ${styles.signupCard}`}>
             <h1 id={styles.detailsHeader}>Details</h1>
             <form id={styles.signupDetails} onSubmit={handleSubmit}>
-              <div className={styles.radioInput}>
-                <label htmlFor="sex">Male</label>
+              <div className={`${styles.radioInput}`}>
+                <label htmlFor="male">Male</label>
                 <input
                   type="radio"
                   id="male"
                   name="sex"
-                  className={`user-input ${styles.userInput}`}
+                  className={`user-input form-check-input ${styles.userInput}`}
                   value="Male"
                   onChange={handleChange}
                   required
                 />
-                <label htmlFor="sex">Female</label>
+                <label htmlFor="female">Female</label>
                 <input
                   type="radio"
                   id="female"
                   name="sex"
-                  className={`user-input ${styles.userInput}`}
+                  className={`user-input form-check-input ${styles.userInput}`}
                   value="Female"
                   onChange={handleChange}
                   required
                 />
               </div>
 
-              <label htmlFor="age"></label>
               <input
                 type="number"
                 id="age"
                 name="age"
                 className={`user-input ${styles.userInput}`}
-                placeholder="Age"
                 min="0"
                 max="99"
                 value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
+               <label htmlFor="age" className={`${styles.inputLabel}`}><span className={`${styles.inputName} ${styles.agePlaceholder}`}>Age</span></label>
 
-              <label htmlFor="height"></label>
               <input
                 type="number"
                 step="any"
                 id="heightInput"
                 name="height"
                 className={`user-input ${styles.userInput}`}
-                placeholder="Height (m)"
                 value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
+              <label htmlFor="heightInput" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Height (m) </span></label>
 
               <label htmlFor="weight"></label>
               <input
@@ -126,11 +124,12 @@ function SignupDetails() {
                 id="weightInput"
                 name="weight"
                 className={`user-input ${styles.userInput}`}
-                placeholder="Weight (kg)"
                 value={0 ? data.weight: null}
                 onChange={handleChange}
                 required
               />
+              <label htmlFor="weightInput" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Weight (kg)</span></label>
+
               <label htmlFor="activityLevel"></label>
               <select
               defaultValue={"Activity Level"}
