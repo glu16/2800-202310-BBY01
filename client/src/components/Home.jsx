@@ -1,23 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
-import { ProgressBar } from "react-step-progress-bar";
+import React, {useState, useEffect} from "react";
+import {useSpring, animated} from "react-spring";
+import {ProgressBar} from "react-step-progress-bar";
 import axios from "axios";
-import { Reorder } from "framer-motion";
+import {Reorder} from "framer-motion";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
-const initialItems=["Deadlifts 4 sets of 8 reps", "Barbell rows: 3 sets of 10 reps", "Pull-ups: 3 sets of 10 reps"];
+const initialItems = [
+  "Deadlifts 4 sets of 8 reps",
+  "Barbell rows: 3 sets of 10 reps",
+  "Pull-ups: 3 sets of 10 reps",
+];
 
 const Home = () => {
-
   const [items, setItems] = useState(initialItems);
-
 
   /* Text animation */
   const greetings = useSpring({
     opacity: 1,
-    from: { opacity: 0 },
+    from: {opacity: 0},
     delay: 500,
   });
   /* End of text animation */
@@ -29,9 +31,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
-            "username"
-          )}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -108,7 +108,7 @@ const Home = () => {
 
   /* Renders Home.jsx component */
   return (
-    <div className={styles.cardWrapper}>
+    <div className={`row justify-content- ${styles.cardWrapper}`}>
       <div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
       >
@@ -129,10 +129,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
-      >
-        <div className={styles.progressCard}>
+      <div className={`col-md mx-md-3 h-100 ${styles.progressCard}`}>
+        <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
             <ProgressBar
@@ -149,10 +147,8 @@ const Home = () => {
         </div>
       </div>
 
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
-      >
-        <div className={styles.progressCard}>
+      <div className={`col-md mx-md-3 h-100 ${styles.progressCard}`}>
+        <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
           <div className={styles.progressBarContainer}>
             <ProgressBar
@@ -168,17 +164,20 @@ const Home = () => {
           </button>
         </div>
       </div>
-    <div
+      <div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}
       >
-    <Reorder.Group onReorder={setItems} values={items}>
-      {items.map((item) => (
-        <Reorder.Item key={item} value={item} >
-        {item}
-        </Reorder.Item>
-      ))}
-    </Reorder.Group>
-    </div>
+        <div className={styles.progressInnerCard}>
+          <Reorder.Group onReorder={setItems} values={items}>
+            {items.map((item) => (
+              <Reorder.Item key={item} value={item}>
+                {item}
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
+          </div>
+       
+      </div>
     </div>
   );
   /* End of Home.jsx component render */
