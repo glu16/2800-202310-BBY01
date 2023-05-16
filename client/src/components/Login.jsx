@@ -23,40 +23,6 @@ function Login({ setToken }) {
       localStorage.setItem("email", res.data.userEmail)
       localStorage.setItem("username", data.username);
       window.location = "/";
-
-      const userName = localStorage.getItem("email");
-      const today = new Date().toISOString().slice(0, 10);
-      const workoutKey = "workout_" + today;
-      const workout = {};
-  
-      // GENERATES AND STORES WORKOUT PLAN
-      const data2 = { [workoutKey]: workout };
-      const workoutRequest = fetch(`http://localhost:5050/fitness/${localStorage.getItem("username")}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data2),
-      });
-  
-      const mealKey = "meal_" + today;
-      const diet = {};
-  
-      // GENERATES AND STORES DIET PLAN
-      const data3 = { [mealKey]: diet };
-      const dietRequest = fetch(`http://localhost:5050/diet/${localStorage.getItem("email")}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data3),
-      });
-  
-      //ChatGPT was used to generate the code that allows for concurrent API calls
-      const [workoutResponse, dietResponse] = await Promise.all([workoutRequest, dietRequest]);
-      const updatedUser = await workoutResponse.json();
-      const updatedUser2 = await dietResponse.json();
-  
-      console.log("New workout " + JSON.stringify(updatedUser.workouts) + " added to " + userName);
-      console.log("New workout " + JSON.stringify(updatedUser2.diets) + " added to " + userName);
-
-
     } catch (error) {
       //ERROR IS CAUGHT HERE
       console.log(error.response.data);

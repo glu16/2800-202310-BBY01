@@ -61,6 +61,33 @@ app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
 
 
+app.get("/userStats", async (req, res) => {
+  // THE USER'S USERNAME
+  const userID = req.session.username;
+  try {
+    // FIND THE USER BY USERNAME
+    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
+    const user = await User.findOne({ username: userID} );
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.send({
+      sex: user.userStats[0].sex,
+      age: user.userStats[0].age,
+      height: user.userStats[0].height,
+      weight: user.userStats[0].weight,
+      activityLevel: user.userStats[0].activityLevel,
+      goal: user.userStats[0].goal,
+
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+
 /*  
 GENERIC TEMPLATE FOR GETTING DATA FROM USER
 COPY THIS CODE DON'T OVERWRITE IT
@@ -122,6 +149,7 @@ app.get("/leaderboard/users", async (req, res) => {
 // GETS ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
 app.get("/leaderboard/:username", async (req, res) => {
   try {
+    console.log(req.session.username);
     const { username } = req.params;
     // FIND THE USER BY USERNAME
     const loggedInUser = await User.findOne({ username });
@@ -517,31 +545,6 @@ app.get("/diet/:email", async (req, res) => {
   }
 });
 
-
-app.get("/userStats", async (req, res) => {
-  // THE USER'S USERNAME
-  const userID = req.session.username;
-  try {
-    // FIND THE USER BY USERNAME
-    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
-    const user = await User.findOne({ username: userID} );
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.send({
-      sex: user.userStats[0].sex,
-      age: user.userStats[0].age,
-      height: user.userStats[0].height,
-      weight: user.userStats[0].weight,
-      activityLevel: user.userStats[0].activityLevel,
-      goal: user.userStats[0].goal,
-
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ message: "Server error" });
-  }
-});
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED

@@ -37,6 +37,7 @@ router.post("/", async (req, res) => {
       return res.status(400).send("Invalid email or password");
     }
     req.session.username = user.username; // Store user data in session
+    console.log(req.session.username);
     const userEmail = user.email;
     const token = user.generateAuthToken();
     res.send({ data: {token: token, userEmail: userEmail} });
