@@ -1,11 +1,11 @@
 require("dotenv").config();
 
 if (typeof localStorage === "undefined" || localStorage === null) {
-  var LocalStorage = require('node-localstorage').LocalStorage;
-  localStorage = new LocalStorage('./scratch');
+  var LocalStorage = require("node-localstorage").LocalStorage;
+  localStorage = new LocalStorage("./scratch");
 }
 
-//This page is bascially the same as workout.js, but it is for diet plans instead of workout plans.
+// This page is bascially the same as workout.js, but it is for diet plans instead of workout plans.
 
 const { Configuration, OpenAIApi } = require("openai");
 const openai = new OpenAIApi(
@@ -29,10 +29,13 @@ const stopProgress = () => {
   process.stdout.cursorTo(0);
 };
 
-const username = localStorage.getItem("username");
+/* 
+You normally cant get localStoreage to the backend but we can with node-localstorage
+*/
+const email = localStorage.getItem("email");
 
 async function getUserStats() {
-  var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+  var response = await fetch(`http://localhost:5050/userStats/${email}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -42,42 +45,46 @@ async function getUserStats() {
   return data;
 }
 
+// This wrapper function, "generate(callback)", is needed to use the data within the .then() menthod.
 function generate(callback) {
-getUserStats().then((data) => {
-  console.log(data);
+  getUserStats().then((data) => {
+    console.log(data);
 
-  var sex = data.sex;
-  var age = data.age;
-  var height = data.height;
-  var weight = data.weight;
-  var activityLevel = data.activityLevel;
-  var goal = data.goal;
+    var sex = data.sex;
+    var age = data.age;
+    var height = data.height;
+    var weight = data.weight;
+    var activityLevel = data.activityLevel;
+    var goal = data.goal;
 
-  var foodRestrictions = [];
-var foodPreferences = [];
+    var foodRestrictions = [];
+    var foodPreferences = [];
 
-if (foodRestrictions.length == 0) {
-    foodRestrictions = ["none"];
-}
-if (foodPreferences.length == 0) {
-    foodPreferences = ["none"];
-}
+    if (foodRestrictions.length == 0) {
+      foodRestrictions = ["none"];
+    }
+    if (foodPreferences.length == 0) {
+      foodPreferences = ["none"];
+    }
 
-  let inputPrompt = `I am a ${age} ${sex} and I am ${height} m tall and weigh ${weight} kilograms. My activity level is ${activityLevel} and my goal is to ${goal}. My restrictions are ${foodRestrictions.join(", ")} and my preferences are ${foodPreferences.join(", ")}. `
+    let inputPrompt = `I am a ${age} ${sex} and I am ${height} m tall and weigh ${weight} kilograms. My activity level is ${activityLevel} and my goal is to ${goal}. My restrictions are ${foodRestrictions.join(
+      ", "
+    )} and my preferences are ${foodPreferences.join(", ")}. `;
 
-  inputPrompt += "Give me a 7-day diet plan. ";
-  inputPrompt += "Give me at least five meal options for each day. ";
-  inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
-  inputPrompt += "Format each meal option like this example sentance: Meal 1: Broccoli and chicken fajitas (Protein: 25g, Carbs: 20g, Fat: 8g) Calories: 270";
-  
-  console.log(inputPrompt);
+    inputPrompt += "Give me a 7-day diet plan. ";
+    inputPrompt += "Give me at least five meal options for each day. ";
+    inputPrompt +=
+      "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
+    inputPrompt +=
+      "Format each meal option like this example sentance: Meal 1: Broccoli and chicken fajitas (Protein: 25g, Carbs: 20g, Fat: 8g) Calories: 270";
 
-  runAI(inputPrompt).then((result) => {
-    const newDietPlan = result;
-    callback(newDietPlan);
+    console.log(inputPrompt);
+
+    runAI(inputPrompt).then((result) => {
+      const newDietPlan = result;
+      callback(newDietPlan);
+    });
   });
-
-});
 }
 const runAI = async (input) => {
   console.log("Generating diet plan...");
@@ -126,7 +133,7 @@ const runAI = async (input) => {
 
         var nutritionalInfo;
         try {
-            // chatGPT source for regex:
+          // chatGPT source for regex:
           nutritionalInfo = (day[j].match(/\((.*?)\)/) || [])[1];
           if (nutritionalInfo == null) {
             throw new Error("nutritionalInfo is null.");
@@ -198,7 +205,6 @@ const runAI = async (input) => {
   console.log("...diet plan generated.");
   return JSON.stringify(dietPlan);
 };
-
 
 module.exports = {
   generate: generate,

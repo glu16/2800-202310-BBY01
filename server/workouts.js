@@ -28,53 +28,59 @@ const stopProgress = () => {
     process.stdout.cursorTo(0);
 };
 
+const username = localStorage.getItem("username");
 
-/* 
-(SOME GET METHOD THAT GETS THE USERS PREFERENCES FOR THE FITNESS PLAN)
-var sex;
-var age;
-var height;
-var weight;
-var activityLevel;
-var goal;
-
-var workoutRestrictions = [];
-var workoutPreferences = [];
-
-if workoutRestrictions.length == 0 {
-    workoutRestrictions = ["none"];
+async function getUserStats() {
+  var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  var data = await response.json();
+  return data;
 }
-if workoutPreferences.length == 0 {
-    workoutPreferences = ["none"];
+function generate(callback) {
+  getUserStats().then((data) => {
+    console.log(data);
+
+    var sex = data.sex;
+    var age = data.age;
+    var height = data.height;
+    var weight = data.weight;
+    var activityLevel = data.activityLevel;
+    var goal = data.goal;
+
+    var foodRestrictions = [];
+    var foodPreferences = [];
+
+    if (foodRestrictions.length == 0) {
+      foodRestrictions = ["none"];
+    }
+    if (foodPreferences.length == 0) {
+      foodPreferences = ["none"];
+    }
+
+    let inputPrompt = `I am a ${age} ${sex} and I am ${height} m tall and weigh ${weight} kilograms. My activity level is ${activityLevel} and my goal is to ${goal}. My restrictions are ${foodRestrictions.join(
+      ", "
+    )} and my preferences are ${foodPreferences.join(", ")}. `;
+
+    inputPrompt += "Give me a 7-day workout routine. ";
+
+    inputPrompt += "Give me at least five exercises for each day. "
+    inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
+    inputPrompt += "Give an estimated number of calories burned. "
+    inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. "
+    inputPrompt += "Format each exercise with the following structure: exercise name, number of sets and reps, estimated time to complete, and calories burned. "
+    console.log(inputPrompt);
+
+    runAI(inputPrompt).then((result) => {
+      const newDietPlan = result;
+      callback(newDietPlan);
+    });
+  });
 }
 
-var inputPromt = `I am a ${age} ${sex} and I am ${height} cm tall and weigh ${weight} kilograms.
-My activity level is ${activityLevel} and my goal is to ${goal}.
-My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
-
-
-REST OF THE PROMPT ABOUT FITNESS....
-*/
-
-
-// define input strings
-const muscles = ['back', 'chest']; // replace with the user's personsalized list
-const level = "intermediate"; // beginner, intermediate, expert
-var inputPrompt = "Give me a " + level + " level, 7-day workout routine with a focus on the following muscle groups:" + muscles.join(', ') + ". ";
-
-const environment = "indoor" // indoor, outdoor, either
-inputPrompt += "I only want " + environment + " activities. ";
-
-// const equipment = ['bike','gym'];
-// inputPrompt += "\n In terms of equipment I am limited to " + equipment.join(', ');
-
-inputPrompt += "Give me at least five exercises for each day. "
-inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
-inputPrompt += "Give an estimated number of calories burned. "
-inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. "
-inputPrompt += "Format each exercise with the following structure: exercise name, number of sets and reps, estimated time to complete, and calories burned. "
-
-// console.log("Prompt: " + inputPrompt);
 
 // run the AI
 const runAI = async (input) => {
@@ -237,12 +243,7 @@ const runAI = async (input) => {
     return(JSON.stringify(workoutPlan));
 }
 
-function generate(callback) {
-    runAI(inputPrompt).then((result) => {
-        const newWorkout = result;
-        callback(newWorkout);
-      });
-}
+
 
 module.exports = {
     generate: generate
