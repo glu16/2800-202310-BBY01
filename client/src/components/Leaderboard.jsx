@@ -51,20 +51,22 @@ const Leaderboard = () => {
   const [friends, setFriends] = useState([]);
 
   // Retrieves the logged in user's friends from the database
+  const fetchFriends = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/leaderboard/${localStorage.getItem(
+          "username"
+        )}`
+      );
+      console.log(response.data);
+      setFriends(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // useEffect hook to fetchFriends
   useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/leaderboard/${localStorage.getItem(
-            "username"
-          )}`
-        );
-        console.log(response.data);
-        setFriends(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchFriends();
   }, []);
   // End of user's friends retrieval
@@ -173,6 +175,8 @@ const Leaderboard = () => {
           }
         );
       }
+      console.log("done!")
+      fetchFriends();
       closeModal();
     } catch (error) {
       console.error(error);
@@ -193,11 +197,6 @@ const Leaderboard = () => {
   const closeModal = () => {
     setSelectedUser(null);
     setShowModal(false);
-  };
-
-  // Alert popup to yield closure for adding a friend
-  const handleClick = () => {
-    window.location.reload();
   };
 
   // Beginning of add friend modal component
@@ -246,7 +245,7 @@ const Leaderboard = () => {
                 className={`btn btn-primary ${styles.modalBtn}`}
                 onClick={() => {
                   addFriend(selectedUser.username);
-                  handleClick();
+
                 }}
               >
                 Submit
@@ -273,7 +272,7 @@ const Leaderboard = () => {
   // Easter Egg surprise modal close handler
   const closeSurpriseModal = () => {
     setShowSurpriseModal(false);
-    window.location.reload();
+    // window.location.reload();
   };
 
   // Beginning of Easter Egg modal
