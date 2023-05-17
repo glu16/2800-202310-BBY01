@@ -25,56 +25,54 @@ const stopProgress = () => {
 };
 
 
-/* 
-(SOME GET METHOD THAT GETS THE USERS PREFERENCES FOR THE DIET PLAN)
-var sex;
-var age;
-var height;
-var weight;
-var activityLevel;
-var goal;
+function createPrompt(sex, age, height, weight, activityLevel, goal) {
 
-var foodRestrictions = [];
-var foodPreferences = [];
+  // if foodRestrictions.length == 0 {
+  //     foodRestrictions = ["none"];
+  // }
+  // if foodPreferences.length == 0 {
+  //     foodPreferences = ["none"];
+  // }
 
-if foodRestrictions.length == 0 {
-    foodRestrictions = ["none"];
+  var inputPrompt = `I am a ${age} ${sex} and I am ${height} m tall and weigh ${weight} kilograms.
+My activity level is ${activityLevel} and my goal is to ${goal}. `
+  // inputPrompt+= `My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
+  inputPrompt += "Give me a 7-day diet plan. "
+  inputPrompt += "Give me at least five meal options for each day. ";
+  inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
+  inputPrompt += "Format each meal option like this example sentance: Meal 1: Broccoli and chicken fajitas (Protein: 25g, Carbs: 20g, Fat: 8g) Calories: 270";
+
+  console.log("Prompt: \n" + inputPrompt);
+
+  return inputPrompt;
 }
-if foodPreferences.length == 0 {
-    foodPreferences = ["none"];
-}
-
-var inputPromt = `I am a ${age} ${sex} and I am ${height} cm tall and weigh ${weight} kilograms.
-My activity level is ${activityLevel} and my goal is to ${goal}.
-My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
 
 
-REST OF THE PROMPT ABOUT DIET....
-*/
-const foods = ["chicken", "broccoli"];
-const level = "intermediate";
-var inputPrompt =
-  "Give me a " +
-  level +
-  " level, 7-day diet plan with a focus on the following foods:" +
-  foods.join(", ") +
-  ". ";
-const environment = "home-cooked";
-inputPrompt += "I only want " + environment + " meals. ";
-inputPrompt += "Give me at least five meal options for each day. ";
-inputPrompt +=
-  "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
-inputPrompt +=
-  "Format each meal option like this example sentance: Meal 1: Broccoli and chicken fajitas (Protein: 25g, Carbs: 20g, Fat: 8g) Calories: 270";
-
-const runAI = async (input) => {
+async function runAI(sex, age, height, weight, activityLevel, goal) {
+  // start loading animation
   console.log("Generating diet plan...");
   startProgress();
+
+  // GET INPUTPROMPT
+  var input = await createPrompt(sex, age, height, weight, activityLevel, goal);
+
+  // RUN OPEN AI ON PROMPT
+  //default max tokens = 4096
   const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: input }],
-  });
+    messages: [{ role: "user", content: input }]
+  })
+
+  // stop loading animation
   stopProgress();
+
+  // RETURN PARSED AI RESPONSE
+  return (parseAI(res));
+}
+
+
+
+function parseAI(res) {
   var fullResponse;
   try {
     fullResponse = res.data.choices[0].message.content;
@@ -114,7 +112,7 @@ const runAI = async (input) => {
 
         var nutritionalInfo;
         try {
-            // chatGPT source for regex:
+          // chatGPT source for regex:
           nutritionalInfo = (day[j].match(/\((.*?)\)/) || [])[1];
           if (nutritionalInfo == null) {
             throw new Error("nutritionalInfo is null.");
@@ -186,10 +184,10 @@ const runAI = async (input) => {
   console.log("...diet plan generated.");
   return JSON.stringify(dietPlan);
 };
-function generate(callback) {
-  runAI(inputPrompt).then((result) => {
-    const newWorkout = result;
-    callback(newWorkout);
+function generate(sex, age, height, weight, activityLevel, goal, callback) {
+  runAI(sex, age, height, weight, activityLevel, goal).then((result) => {
+    const newDiet = result;
+    callback(newDiet);
   });
 }
 module.exports = {

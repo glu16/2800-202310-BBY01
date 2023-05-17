@@ -472,17 +472,37 @@ app.get("/fitness/:username", async (req, res) => {
   }
 });
 
-// TO GENERATE AND STORE A USER'S DIET PLAN
-app.put("/diet/:email", async (req, res) => {
-  const userID = req.params.email;
-  // const newWorkout = req.body;
 
-  // CALL AND EXECUTE diet.js
-  const Diet = require("./diet.js");
+// to generate and store a user's workout plan
+app.put("/diet/:username", async (req, res) => {
+  const userID = req.params.username;
+
+  var userStats;
+  var firstName;
+  try {
+    const user = await User.findOne({ username: userID });
+    userStats = user.userStats[0];
+    console.log(userStats);
+    firstName = user.firstName;
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    return; // Stop execution after sending the response
+  }
+
+
+  var sex = userStats.sex;
+  var age = userStats.age;
+  var height = userStats.height;
+  var weight = userStats.weight;
+  var activityLevel = userStats.activityLevel;
+  var goal = userStats.goal;
+  // call and execute workouts.js
+  const Diet = require("./diet");
 
   // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
-    Diet.generate((newDiet) => {
+    Diet.generate(sex,age,height,weight,activityLevel,goal,(newDiet) => {
       updateDiet(newDiet, callback);
     });
   }
@@ -490,8 +510,8 @@ app.put("/diet/:email", async (req, res) => {
   async function updateDiet(newDiet, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        { email: userID },
-        { $push: { diets: { $each: [JSON.parse(newDiet)], $position: 0 } } }
+        {username: userID},
+        {$push: {diets: {$each: [JSON.parse(newDiet)], $position: 0}}}
       );
       res.status(200).json({
         message: `New diet added to ${userID}.`,
@@ -508,9 +528,9 @@ app.put("/diet/:email", async (req, res) => {
   generateDiet();
 });
 
-// SEND DIET PLAN TO CLIENT
-app.get("/diet/:email", async (req, res) => {
-  const userID = req.params.email;
+// send workout plan to client
+app.get("/diet/:username", async (req, res) => {
+  const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
     // if workouts empty ie.new user

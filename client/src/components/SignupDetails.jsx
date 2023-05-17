@@ -40,7 +40,7 @@ function SignupDetails() {
 
     // GENERATES AND STORES DIET PLAN
     const data3 = { [mealKey]: diet };
-    const dietRequest = fetch(`http://localhost:5050/diet/${localStorage.getItem("email")}`, {
+    const dietRequest = fetch(`http://localhost:5050/diet/${localStorage.getItem("username")}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data3),
