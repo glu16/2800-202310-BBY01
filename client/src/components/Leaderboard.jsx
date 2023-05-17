@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 import styles from "../css/leaderboard.module.css";
@@ -47,23 +47,26 @@ const Leaderboard = () => {
   }, []);
   // End of users retrieval
 
-  // Retrieves the logged in user's friends from the database
+  // useState hook variables to display the friends
   const [friends, setFriends] = useState([]);
 
+  // Retrieves the logged in user's friends from the database
+  const fetchFriends = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/leaderboard/${localStorage.getItem(
+          "username"
+        )}`
+      );
+      console.log(response.data);
+      setFriends(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // useEffect hook to fetchFriends
   useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/leaderboard/${localStorage.getItem(
-            "username"
-          )}`
-        );
-        console.log(response.data);
-        setFriends(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchFriends();
   }, []);
   // End of user's friends retrieval
@@ -148,6 +151,8 @@ const Leaderboard = () => {
 
   // useState hook variables for adding a friend
   const [selectedUser, setSelectedUser] = useState(null);
+
+  // useState hook variables for the add friend modal
   const [showModal, setShowModal] = useState(false);
 
   // Function to add a friend
@@ -157,12 +162,21 @@ const Leaderboard = () => {
       console.log("Specified user's name:", friendUsername);
       console.log("Logged in user's name:", username);
 
-      await axios.post(`http://localhost:5050/leaderboard/${friendUsername}`, {
-        username: username,
-        friendUsername: friendUsername,
-      });
-
-      console.log("Friend added successfully!");
+      if (friendUsername === username) {
+        window.alert("Cannot add yourself as a friend.");
+        return;
+      } else {
+        window.alert("Friend added successfully!");
+        await axios.post(
+          `http://localhost:5050/leaderboard/${friendUsername}`,
+          {
+            username: username,
+            friendUsername: friendUsername,
+          }
+        );
+      }
+      console.log("done!")
+      fetchFriends();
       closeModal();
     } catch (error) {
       console.error(error);
@@ -171,20 +185,18 @@ const Leaderboard = () => {
 
   // Click event handler
   const handleUserClick = (user) => {
-    setSelectedUser(user);
-    setShowModal(true);
+    if (user.username === "surprise") {
+      handleSurpriseUsernameClick();
+    } else {
+      setSelectedUser(user);
+      setShowModal(true);
+    }
   };
 
   // Add friend modal close handler
   const closeModal = () => {
     setSelectedUser(null);
     setShowModal(false);
-  };
-
-  // Alert popup to yield closure for adding a friend
-  const handleClick = () => {
-    window.alert("Friend added successfully!");
-    window.location.reload();
   };
 
   // Beginning of add friend modal component
@@ -233,7 +245,7 @@ const Leaderboard = () => {
                 className={`btn btn-primary ${styles.modalBtn}`}
                 onClick={() => {
                   addFriend(selectedUser.username);
-                  handleClick();
+
                 }}
               >
                 Submit
@@ -246,6 +258,100 @@ const Leaderboard = () => {
   };
   // End of add friend modal component
 
+  // useState hook variables for the Easter Egg surprise modal
+  const [showSurpriseModal, setShowSurpriseModal] = useState(false);
+
+  // useRef hook variable to hold the YouTube player reference
+  const playerRef = useRef(null);
+
+  // Click event handler for the Easter Egg surprise
+  const handleSurpriseUsernameClick = () => {
+    setShowSurpriseModal(true);
+  };
+
+  // Easter Egg surprise modal close handler
+  const closeSurpriseModal = () => {
+    setShowSurpriseModal(false);
+    // window.location.reload();
+  };
+
+  // Beginning of Easter Egg modal
+  const EasterEggModal = () => {
+    // Creates a YouTube video API
+    useEffect(() => {
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName("script")[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // Initialize the YouTube player when the API is ready
+      window.onYouTubeIframeAPIReady = initializePlayer;
+
+      return () => {
+        delete window.onYouTubeIframeAPIReady;
+      };
+    }, []);
+    // End of YouTube video API
+
+    // Plays the YouTube video
+    const initializePlayer = () => {
+      const player = new window.YT.Player(playerRef.current, {
+        videoId: "dQw4w9WgXcQ",
+        playerVars: {
+          autoplay: 1,
+        },
+      });
+      playerRef.current = player;
+    };
+    // End of YouTube video play
+
+    return (
+      <div
+        className={showSurpriseModal ? "modal fade show" : "modal fade"}
+        id="surpriseModal"
+        tabIndex="-1"
+        aria-labelledby="surpriseModalLabel"
+        aria-hidden="false"
+        style={{ display: showSurpriseModal ? "block" : "none" }}
+        role={showSurpriseModal ? "dialog" : ""}
+        aria-modal={showSurpriseModal ? "true" : "false"}
+      >
+        <div className="modal-dialog" style={{ maxWidth: "1000px" }}>
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5
+                className={`modal-title ${styles.formLabel}`}
+                id="surpriseModalLabel"
+              >
+                Surprise!
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                onClick={closeSurpriseModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <div ref={playerRef}></div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className={`btn btn-primary ${styles.modalBtn}`}
+                onClick={closeSurpriseModal}
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+  // End of Easter Egg modal
+
   // Allows users to switch between global and friend ranks
   const [activeTab, setActiveTab] = useState("global");
 
@@ -254,6 +360,7 @@ const Leaderboard = () => {
     setActiveTab(tab);
   };
 
+  // Beginning of global to friend leaderboard switch
   const renderLeaderboard = () => {
     if (activeTab === "global") {
       return (
@@ -307,7 +414,7 @@ const Leaderboard = () => {
       );
     }
   };
-  // End of global to local leaderboard switch
+  // End of global to friend leaderboard switch
 
   return (
     <div className={styles.cardWrapper}>
@@ -352,6 +459,12 @@ const Leaderboard = () => {
       {/* Render the InfoModal */}
       {showInfoModal && (
         <InfoModal closeModal={() => setShowInfoModal(false)} />
+      )}
+      {/* Render the EasterEggModal */}
+      {showSurpriseModal && (
+        <EasterEggModal
+          closeSurpriseModal={() => setShowSurpriseModal(false)}
+        />
       )}
     </div>
   );

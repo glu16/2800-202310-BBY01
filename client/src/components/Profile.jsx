@@ -34,8 +34,8 @@ const Profile = ({ username }) => {
   const [error, setError] = useState("");
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
-  const[image, setImage] = useState();
-  const[pfp, setPfp] = useState();
+  const [image, setImage] = useState();
+  const [pfp, setPfp] = useState();
 
   // Function to fetch user data
   async function fetchUserData() {
@@ -92,33 +92,50 @@ const Profile = ({ username }) => {
     setError("");
   };
 
-  const handleImageChange = async ({ currentTarget: input}) => {
+  useEffect(() => {
+    if (image) {
+      handleImageUpload();
+    }
+  }, [image]);
+
+  const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
+    console.log(input.files[0]);
+  };
+
+  const handleImageUpload = async () => {
     try {
       let imageURL = "";
+      console.log(image);
       if (image) {
-        console.log(image)
+        console.log("Inside image upload");
+        console.log(image);
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "healthify-app");
-        console.log(formData)
+        console.log(formData);
         const dataRes = await axios.post(
           "https://api.cloudinary.com/v1_1/dqhi5isl1/image/upload",
           formData
         );
         imageURL = dataRes.data.url;
-        console.log("******" + imageURL)
-      }
+        console.log("******" + imageURL);
 
-      const submitPost = {
-        image: imageURL,
-      };
-      await axios.post(`http://localhost:5050/pfp/${localStorage.getItem("username")}`, submitPost);
+        const submitPost = {
+          image: imageURL,
+        };
+        await axios.post(
+          `http://localhost:5050/pfp/${localStorage.getItem("username")}`,
+          submitPost
+        );
+      } else {
+        console.log("Error with image upload");
+      }
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
   useEffect(() => {
     let timer;
@@ -139,16 +156,21 @@ const Profile = ({ username }) => {
     event.preventDefault();
 
     // Regex for validating email format
-    var emailReg =
+    var emailRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+    var phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
     // Checks to see if username that was input is a minimum of 3 characters
     if (data["username"].length < 3) {
       setError("Username must be a minimum of 3 characters.");
       return;
     }
+    if (!phoneRegex.test(data["phoneNumber"])){
+      setError("Phone number must follow the format (000) 000-0000");
+      return;
+    }
     // Checks email formatting
-    if (!emailReg.test(data["email"])) {
+    if (!emailRegex.test(data["email"])) {
       setError("Email must be valid.");
       return;
     }
@@ -176,28 +198,31 @@ const Profile = ({ username }) => {
   // Retrieves the logged in user's friends from the database
   const [friends, setFriends] = useState([]);
 
+  const fetchFriends = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/leaderboard/${localStorage.getItem(
+          "username"
+        )}`
+      );
+      console.log(response.data);
+      setFriends(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // useEffect hook for calling fetchFriends
   useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/leaderboard/${localStorage.getItem(
-            "username"
-          )}`
-        );
-        console.log(response.data);
-        setFriends(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchFriends();
   }, []);
   // End of user's friends retrieval
 
   // Sorts the list of friends by alphabetical order
-  const sortedFriends = friends.sort((a, b) =>
-    a.username.localeCompare(b.username)
-  );
+  const sortedFriends = friends.sort((a, b) => {
+    const usernameA = a.username || "";
+    const usernameB = b.username || "";
+    return usernameA.localeCompare(usernameB);
+  });
 
   // useState hook variable for the info modal
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -212,7 +237,7 @@ const Profile = ({ username }) => {
     setShowInfoModal(false);
   };
 
-// Beginning of info modal component
+  // Beginning of info modal component
   const InfoModal = () => {
     return (
       <div
@@ -300,20 +325,19 @@ const Profile = ({ username }) => {
     setShowDeleteModal(false);
   };
 
-  // Alert popup to yield closure for removing a friend
-  const handleClick = () => {
-    window.alert("Friend removed successfully!");
-    window.location.reload();
-  };
+  
 
   // Beginning of delete friend modal component
   const DeleteFriendModal = () => {
     const handleRemoveFriend = async () => {
+      window.alert("Friend removed successfully!");
       try {
         const friendId = selectedUser._id;
         await deleteFriend(friendId);
-        handleClick();
+        // Alert popup to yield closure for removing a friend
+        
         closeModal();
+        fetchFriends();
       } catch (error) {
         console.error(error);
       }
@@ -383,18 +407,23 @@ const Profile = ({ username }) => {
               <div className={`${styles.profileImage} profile-image`}>
                 <img
                   className={`rounded-circle`}
-                  src={pfp? pfp : profile}
+                  src={pfp ? pfp : profile}
                   alt="Profile Image"
                   id="profile-picture"
                 />
                 <label htmlFor="img-upload">
                   <i className="fa fa-camera"></i>
                 </label>
-                <input type="file" id="img-upload" accept="image/*" onChange={handleImageChange}/>
+                <input
+                  type="file"
+                  id="img-upload"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
               </div>
               <div className={`mt-3 ${styles.profileInfo}`}>
                 <div className={`${styles.profileItem} email`}>
-                  <h5 className={styles.profileHeader}>Name</h5>
+                  <h5 className={styles.profileHeader}>Username</h5>
                   <p>
                     <span id="name-goes-here">{userID}</span>
                   </p>
@@ -457,6 +486,9 @@ const Profile = ({ username }) => {
                   </a>
                 </div>
               ))}
+              <br />
+              <h1 className={styles.friendsHeader}>Mini Challenges</h1>
+              
             </div>
           </div>
           {/* Render the DeleteFriendModal */}
@@ -516,7 +548,6 @@ const Profile = ({ username }) => {
                     name="username"
                     value={data.username}
                     onChange={handleChange}
-                    required
                   />
                   {error.includes("Username") && (
                     <span className={`${styles.errorMessage}`}>{error}</span>
@@ -556,6 +587,9 @@ const Profile = ({ username }) => {
                     value={data.phoneNumber}
                     onChange={handleChange}
                   />
+                  {error.includes("Phone") && (
+                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label

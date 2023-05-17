@@ -26,8 +26,12 @@ ul {
 }
 
 .coachTitle {
-  color: white;
-  margin-bottom: 20px;
+  color: rgb(92, 208, 216);
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .chatLogContainer {
@@ -49,6 +53,17 @@ ul {
 
 .formLabel {
   color: black;
+}
+
+.icon {
+  margin-top: 4px;
+  margin-left: 10px;
+}
+
+.infoLink {
+  color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .modalBody {
