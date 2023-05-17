@@ -45,27 +45,24 @@ const Home = () => {
         then iterates over each key to create the exerciseDetailsArray */
         const exerciseDetailsArray = Object.keys(exercisesForToday).map((key) => {
           const exercise = exercisesForToday[key];
-
-          // New object with name, setsAndReps, and calories properties are returned
-          return {
-            name: exercise.name,
-            setsAndReps: exercise.setsAndReps,
-            calories: exercise.calories,
-          };
+          const detailsString = `Exercise: ${exercise.name}, Sets and Reps: ${exercise.setsAndReps}, Calories: ${exercise.calories}`;
+          return detailsString;
         });
-      console.log(exerciseDetailsArray);        
+        
+        setExercises(exerciseDetailsArray);     
 
       }
     } catch (error) {
       console.log(error);
     }
   }
-
+  
   useEffect(() => {
     fetchExercises();
+    console.log(exercises)
   }, []);
 
-  const [items, setItems] = useState(initialItems);
+
 
   /* Text animation */
   const greetings = useSpring({
@@ -215,10 +212,10 @@ const Home = () => {
       <div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}>
         <div className={styles.progressInnerCard}>
-          <Reorder.Group onReorder={setItems} values={items}>
-            {items.map((item) => (
-              <Reorder.Item key={item} value={item}>
-                {item}
+          <Reorder.Group onReorder={setItems} values={exercises}>
+            {exercises.map((exercise) => (
+              <Reorder.Item key={exercise} value={exercise}>
+                {exercise}
               </Reorder.Item>
             ))}
           </Reorder.Group>
