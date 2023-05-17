@@ -313,6 +313,45 @@ const CompleteExercisesButton = () => {
 };
 
 
+// GET AND DISPLAY STREAK AND STATS
+const Streak = () => {
+  const [currentStreak, setCurrentStreak] = useState(null);
+  const [longestStreak, setLongestStreak] = useState(null);
+  // FUNCTION GETS USER STREAK STATS FROM DATABASE
+  async function getStreak() {
+    try {
+      const response = await fetch(`http://localhost:5050/streak/${username}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.json();
+      setCurrentStreak(data.currentStreak);
+      setLongestStreak(data.longestStreak);
+    } catch (error) {
+      // Handle any errors that occur during the fetch
+      console.error('Error fetching streak:', error);
+    }
+  }
+  useEffect(() => {
+    getStreak();
+  }, []); // Empty dependency array ensures the effect runs only once, similar to componentDidMount
+
+  // Render loading state if streak data is not yet available
+  if (currentStreak === null || longestStreak === null) {
+    return <div>Loading streak...</div>;
+  }
+
+  return (
+    <div id="streakContainer">
+      <h2>Streak & Stats</h2>
+      <p>Current Streak: {currentStreak}</p>
+      <p>Longest Streak: {longestStreak}</p>
+    </div>
+  );
+};
+
+
+
 // PAGE RENDER COMPONENT
 const Fitness = () => {
   
@@ -529,6 +568,11 @@ const Fitness = () => {
               </p>
             </form>
           </div>
+          
+
+          <Streak />
+
+
 
             <Workout workout={workout} handleOpenModal={handleOpenModal} />
           {showModal && (

@@ -557,6 +557,21 @@ app.get("/fitness/:username", async (req, res) => {
   }
 });
 
+// send userStreak to client
+app.get("/streak/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send({
+      currentStreak: user.currentStreak,
+      longestStreak: user.longestStreak
+     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send user streak." });
+  }
+});
+
 
 // to generate and store a user's workout plan
 app.put("/diet/:username", async (req, res) => {

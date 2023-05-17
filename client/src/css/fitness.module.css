@@ -46,10 +46,17 @@
   border-radius: 10px;
 }
 
+#streakContainer {
+  border: 2px solid red ;
+  border-radius: 10px;
+}
+
 .modalImage {
   height: 500px;
   width: 500px;
 }
+
+
 
 @media (max-width: 767px) {
   html,
@@ -71,3 +78,4 @@
     margin-top: 80px;
   }
 }
+
