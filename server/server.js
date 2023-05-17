@@ -28,7 +28,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // FOR TIME-BASED AUTO METHODS
-const cron = require('node-cron');
+const cron = require("node-cron");
 
 // THE CONNECTION TO DATABASE
 db();
@@ -73,7 +73,7 @@ app.get("/users/:username", async (req, res) => {
     // FIND THE USER BY USERNAME
     const user = await User.findOne({ username: userID });
     if (!user) {
-      return res.status(404).json({ message: "User not found"});
+      return res.status(404).json({ message: "User not found" });
     }
     res.send({
       username: user.username,
@@ -82,7 +82,7 @@ app.get("/users/:username", async (req, res) => {
       phoneNumber: user.phoneNumber,
       userStats: user.userStats,
       imageURL: user.imageURL,
-      userStats: user.userStats 
+      userStats: user.userStats,
     });
   } catch (e) {
     console.log(e);
@@ -429,10 +429,8 @@ app.get("/coach/:username", async (req, res) => {
 //   }
 // });
 
-
 // GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
-  
   // store user's username
   const userID = req.params.username;
 
@@ -448,44 +446,56 @@ app.put("/fitness/:username", async (req, res) => {
     firstName = user.firstName;
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't get userStats." });
     return; // Stop execution after sending the response
   }
 
-          // SAITAMA EASTER EGG
-          const today = new Date();
-          const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-          const formattedDate = today.toLocaleDateString('en-US', options);
-          var saitamaWorkout = {};
-          saitamaWorkout[formattedDate] = {
-            "Exercise 1": {"name": "PUSH-UPS", "setsAndReps": "100", "calories": 100},
-            "Exercise 2": {"name": "SIT-UPS", "setsAndReps": "100", "calories": 100},
-            "Exercise 3": {"name": "SQUATS", "setsAndReps": "100", "calories": 100},
-            "Exercise 4": {"name": "10K RUN", "setsAndReps": "10 km", "calories": 900}
-          };
-          if (firstName.toLowerCase() === "saitama") {
-            console.log(saitamaWorkout);
-            try {
-              const user = await User.findOneAndUpdate(
-                { username: userID },
-                {
-                  $push: {
-                    workouts: { $each: [JSON.parse(JSON.stringify(saitamaWorkout))], $position: 0 },
-                  },
-                }
-              );
-              res.status(200).json({
-                message: `SAITAMA'S WORKOUT ADDED.`,
-                user,
-              });
-              return; // Stop execution after sending the response
-            } catch (err) {
-              console.error(err);
-              res.status(500).json({ error: "Internal server error. Couldn't add SAITAMA workout plan." });
-              return; // Stop execution after sending the response
-            }
-          }
-          // END OF SAITAMA EASTER EGG
+  // SAITAMA EASTER EGG
+  const today = new Date();
+  const options = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+  const formattedDate = today.toLocaleDateString("en-US", options);
+  var saitamaWorkout = {};
+  saitamaWorkout[formattedDate] = {
+    "Exercise 1": { name: "PUSH-UPS", setsAndReps: "100", calories: 100 },
+    "Exercise 2": { name: "SIT-UPS", setsAndReps: "100", calories: 100 },
+    "Exercise 3": { name: "SQUATS", setsAndReps: "100", calories: 100 },
+    "Exercise 4": { name: "10K RUN", setsAndReps: "10 km", calories: 900 },
+  };
+  if (firstName.toLowerCase() === "saitama") {
+    console.log(saitamaWorkout);
+    try {
+      const user = await User.findOneAndUpdate(
+        { username: userID },
+        {
+          $push: {
+            workouts: {
+              $each: [JSON.parse(JSON.stringify(saitamaWorkout))],
+              $position: 0,
+            },
+          },
+        }
+      );
+      res.status(200).json({
+        message: `SAITAMA'S WORKOUT ADDED.`,
+        user,
+      });
+      return; // Stop execution after sending the response
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        error: "Internal server error. Couldn't add SAITAMA workout plan.",
+      });
+      return; // Stop execution after sending the response
+    }
+  }
+  // END OF SAITAMA EASTER EGG
 
   // variables to hold userStats
   var sex = userStats.sex;
@@ -508,9 +518,19 @@ app.put("/fitness/:username", async (req, res) => {
 
   // generates workout plan in workout.js
   function generateWorkout(callback) {
-    workouts.generate(sex, age, height, weight, activityLevel, goal, muscleGroups, level, (newWorkout) => {
-      updateWorkouts(newWorkout, callback);
-    });
+    workouts.generate(
+      sex,
+      age,
+      height,
+      weight,
+      activityLevel,
+      goal,
+      muscleGroups,
+      level,
+      (newWorkout) => {
+        updateWorkouts(newWorkout, callback);
+      }
+    );
   }
   // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
@@ -529,7 +549,9 @@ app.put("/fitness/:username", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error. Couldn't add workout plan." });
+      res
+        .status(500)
+        .json({ error: "Internal server error. Couldn't add workout plan." });
     }
     if (callback) {
       callback();
@@ -552,7 +574,9 @@ app.get("/fitness/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send workout plan." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send workout plan." });
   }
 });
 
@@ -563,14 +587,15 @@ app.get("/streak/:username", async (req, res) => {
     const user = await User.findOne({ username: userID });
     res.send({
       currentStreak: user.currentStreak,
-      longestStreak: user.longestStreak
-     });
+      longestStreak: user.longestStreak,
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send user streak." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send user streak." });
   }
 });
-
 
 // to generate and store a user's workout plan
 app.put("/diet/:username", async (req, res) => {
@@ -585,10 +610,11 @@ app.put("/diet/:username", async (req, res) => {
     firstName = user.firstName;
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't get userStats." });
     return; // Stop execution after sending the response
   }
-
 
   var sex = userStats.sex;
   var age = userStats.age;
@@ -601,7 +627,7 @@ app.put("/diet/:username", async (req, res) => {
 
   // generates workout plan in workout.js
   function generateDiet(callback) {
-    Diet.generate(sex,age,height,weight,activityLevel,goal,(newDiet) => {
+    Diet.generate(sex, age, height, weight, activityLevel, goal, (newDiet) => {
       updateDiet(newDiet, callback);
     });
   }
@@ -609,8 +635,8 @@ app.put("/diet/:username", async (req, res) => {
   async function updateDiet(newDiet, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        {username: userID},
-        {$push: {diets: {$each: [JSON.parse(newDiet)], $position: 0}}}
+        { username: userID },
+        { $push: { diets: { $each: [JSON.parse(newDiet)], $position: 0 } } }
       );
       res.status(200).json({
         message: `New diet added to ${userID}.`,
@@ -618,7 +644,7 @@ app.put("/diet/:username", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({error: "Internal server error"});
+      res.status(500).json({ error: "Internal server error" });
     }
     if (callback) {
       callback();
@@ -631,7 +657,7 @@ app.put("/diet/:username", async (req, res) => {
 app.get("/diet/:username", async (req, res) => {
   const userID = req.params.username;
   try {
-    const user = await User.findOne({username: userID});
+    const user = await User.findOne({ username: userID });
     // if workouts empty ie.new user
     if (user.diets.length == 0) {
       res.send("empty");
@@ -641,7 +667,7 @@ app.get("/diet/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -740,16 +766,24 @@ app.get("/home/challenges", async (req, res) => {
 });
 
 // UPDATES AND SAVES CHALLENGE INTO USER'S COLLECTION
-app.post("/home/challenges/:username", (req, res) => {
+app.post("/home/challenges/:username", async (req, res) => {
   try {
-    const { challengeId } = req.body;
-    const user = findLoggedInUser(req);
-    // PUSH THE CHALLENGE ID INTO THE COLLECTION
-    user.challenges.push(challengeId);
-
-    // SAVE THE UPDATED USER OBJECT
+    const { challengeId, challenge, points } = req.body;
+    const username = req.params.username;
+    // FIND USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF USER IS NOT FOUND
+    if (!user) {
+      throw new Error("User not found");
+    }
+    // CREATE THE ARRAY FOR THE USER IF IT DOES NOT EXIST
+    if (!user.challenges) {
+      user.challenges = [];
+    }
+    // ADD THE CHALLENGE TO THE USER'S COLLECTION
+    user.challenges.push({ challengeId, challenge, points });
+    // SAVE THE CHANGES
     user.save();
-
     // SEND THE RESPONSE
     res.status(200).send("Challenge added successfully");
   } catch (error) {
@@ -774,7 +808,6 @@ app.post("/", async (req, res) => {
 
   const parsableJson = response.data.choices[0].text;
 
-
   console.log(parsableJson);
   let messageOutTest = parsableJson;
 
@@ -784,7 +817,6 @@ app.post("/", async (req, res) => {
   });
 });
 
-
 // FOR STREAK TRACKER
 app.post("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
@@ -793,11 +825,11 @@ app.post("/fitness/:username", async (req, res) => {
     const user = await User.findOneAndUpdate(
       // find user by username
       { username: userID },
-      { 
+      {
         // increment currentStreak FIELD BY 1
-        $inc: { currentStreak: 1 }, 
+        $inc: { currentStreak: 1 },
         // set doneToday TO true
-        $set: { doneToday: true }
+        $set: { doneToday: true },
       },
       // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
       { new: true }
@@ -822,40 +854,37 @@ app.post("/fitness/:username", async (req, res) => {
   }
 });
 
-
 // Daily at 11:58 pm every day go through all users and if their doneToday is false then set their currentStreak to 0
-cron.schedule('58 23 * * *', async () => {
+cron.schedule("58 23 * * *", async () => {
   try {
     // Find all users
     const users = await User.find();
-    
+
     // Iterate over each user
     for (const user of users) {
       if (user.doneToday == false) {
         // If doneToday is false, set currentStreak to 0
         user.currentStreak = 0;
-      } 
+      }
       // Save the updated user
       await user.save();
     }
     console.log("Users' currentStreaks updated.");
   } catch (err) {
-    console.error('Error updating currentStreaks: ', err);
+    console.error("Error updating currentStreaks: ", err);
   }
 });
 // Daily at 12:01 AM every day go through all users and reset their doneToday to false
-cron.schedule('1 0 * * *', async () => {
+cron.schedule("1 0 * * *", async () => {
   try {
     // Find all users and update their `doneToday` field to false
     const users = await User.updateMany({}, { $set: { doneToday: false } });
-    console.log('Resetting doneToday field for all users.');
+    console.log("Resetting doneToday field for all users.");
     console.log(`${users.nModified} users updated successfully.`);
   } catch (err) {
-    console.error('An error occurred while resetting doneToday field: ', err);
+    console.error("An error occurred while resetting doneToday field: ", err);
   }
 });
-
-
 
 // server hosting
 const localPort = 5050;

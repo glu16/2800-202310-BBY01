@@ -8,6 +8,30 @@ import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
+  // Retrieves the logged in user's username
+  useEffect(() => {
+    async function fetchUserName() {
+      try {
+        const response = await axios.get(
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        );
+        const username = response.data.username;
+        console.log("Logged in user's name:", username);
+        // localStorage.setItem("username", username);
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+
+    fetchUserName();
+  }, []);
+  // End of username retrieval
+
   // Formatting for date, to be used in toLocaleDateString function
   const dateOptions = {
     weekday: "long",
@@ -148,27 +172,63 @@ const Home = () => {
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
 
-  // Function to add challenges
-  useEffect(() => {
-    const addChallenge = async () => {
-      try {
-        const response = await axios.post(
-          "http://localhost:5050/home/:username"
-        );
-        addChallenge(response.data);
-        console.log(addChallenge);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  }, []);
+  // useState hook variables to apply the points
+  const [userPoints, setUserPoints] = useState(0);
 
-  // useState hook variables to render the button accordingly
-  const [isComplete, setIsComplete] = useState(false);
+  // Function to add challenges
+  const addChallenge = async (challengeId, challenge, points) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
+          "username"
+        )}`,
+        { challengeId, challenge, points }
+      );
+      console.log("Response:", response.data);
+      console.log("Challenge added:", challenge);
+
+      setUserChallenges((prevUserChallenges) => [
+        ...prevUserChallenges,
+        challengeId,
+      ]);
+    } catch (error) {
+      console.error("Error occurred while adding challenge:", error);
+    }
+  };
 
   // Click event handler for adding a challenge
-  const handleAddChallenge = (challenge) => {
-    setIsComplete(true);
+  const handleAddChallenge = async (challengeId, points) => {
+    const challenge = challenges.find(
+      (challenge) => challenge._id === challengeId
+    );
+
+    if (!challenge) {
+      console.error("Challenge not found");
+      return;
+    }
+
+    const {
+      _id,
+      challenge: challengeString,
+      points: challengePoints,
+    } = challenge;
+
+    setChallenges((prevChallenges) => {
+      const updatedChallenges = prevChallenges.map((challenge) =>
+        challenge._id === challengeId
+          ? { ...challenge, isComplete: true }
+          : challenge
+      );
+      return updatedChallenges;
+    });
+
+    setUserPoints((prevPoints) => prevPoints + points);
+
+    try {
+      await addChallenge(_id, challengeString, challengePoints);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // Retrieves user's completion status from MongoDB
@@ -235,12 +295,20 @@ const Home = () => {
               <div key={challenge._id}>
                 <h5 className="card-title">Challenge: {challenge.challenge}</h5>
                 <h5 className="card-text">Points: {challenge.points}</h5>
-                <button
-                  className={`btn btn-primary ${styles.challengeBtn}`}
-                  onClick={() => handleAddChallenge(challenge)}
-                >
-                  {isComplete ? "Complete" : "Add Challenge"}
-                </button>
+                {userChallenges.includes(challenge._id) ? (
+                  <button className={`btn btn-success ${styles.challengeBtn}`}>
+                    Done!
+                  </button>
+                ) : (
+                  <button
+                    className={`btn btn-primary ${styles.challengeBtn}`}
+                    onClick={() =>
+                      handleAddChallenge(challenge._id, challenge.points)
+                    }
+                  >
+                    Add Challenge
+                  </button>
+                )}
               </div>
             ))
           ) : (
@@ -248,6 +316,7 @@ const Home = () => {
           )}
         </div>
       </div>
+
       <animated.div
         className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
         style={greetings}
@@ -268,7 +337,6 @@ const Home = () => {
           </button>
         </div>
       </animated.div>
-
       <animated.div
         className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
         style={greetings}
