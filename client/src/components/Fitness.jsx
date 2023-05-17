@@ -552,24 +552,35 @@ const Fitness = () => {
               <input type="hidden" name="username" value={username}></input>
 
               {/* SEND INTENSITY FOR WORKOUT GENERATION */}
-              <p>Select desired intensity level for workout</p>
+              
               <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
               <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
               <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
               <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
               <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
               <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
+              <p>Select desired intensity level for workout</p>
               <br />
 
               {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
-              <p>Select muscle groups you want to focus on</p>
+              
               <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
               <label className="btn btn-outline-primary" htmlFor="arms">Arms</label>
               <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
               <label className="btn btn-outline-primary" htmlFor="legs">Legs</label>
               <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
               <label className="btn btn-outline-primary" htmlFor="chest">Chest</label>
-
+              <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
+              <label className="btn btn-outline-primary" htmlFor="back">Back</label>
+              <input type="checkbox" name="back" className="btn-check" id="back"></input>
+              <label className="btn btn-outline-primary" htmlFor="shoulders">Shoulders</label>
+              <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
+              <label className="btn btn-outline-primary" htmlFor="core">Core</label>
+              <input type="checkbox" name="core" className="btn-check" id="core"></input>
+              <label className="btn btn-outline-primary" htmlFor="glutes">Glutes</label>
+              <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
+              <p>Select muscle groups you want to focus on</p>
+              
               <br />
 
               {/* button displays different text if clicked or not clicked */}
