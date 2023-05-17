@@ -166,7 +166,7 @@ const Profile = ({ username }) => {
       return;
     }
     if (!phoneRegex.test(data["phoneNumber"])){
-      setError("Phone number must be follow the format (000) 000-0000");
+      setError("Phone number must follow the format (000) 000-0000");
       return;
     }
     // Checks email formatting
