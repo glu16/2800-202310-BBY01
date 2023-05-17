@@ -112,8 +112,20 @@ app.get("/leaderboard/:username", async (req, res) => {
         const friendUser = await User.findById(friend._id);
         // SKIP DELETED USERS
         if (!friendUser) {
-          return null;
+          // RETRIEVE THE DELETED USER WITH THE OLD USERNAME
+          const deletedUser = await User.findOne({ username: friend.username });
+          if (!deletedUser) {
+            return null;
+          }
+
+          // RETURN THE NEW USER INFORMATION WITH THE OLD USERNAME
+          return {
+            username: friend.username,
+            points: deletedUser.points,
+            _id: deletedUser._id,
+          };
         }
+
         // RETURN THE EXISTING USERS
         return {
           username: friendUser.username,
@@ -122,7 +134,7 @@ app.get("/leaderboard/:username", async (req, res) => {
         };
       })
     );
-
+    // CHECK TO SEE IF THE FRIEND'S USERNAME IS NULL
     const validFriends = friends.filter((friend) => friend !== null);
     // SEND THE REQUEST RESPONSE
     res.json(validFriends);
