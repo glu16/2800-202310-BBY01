@@ -20,17 +20,18 @@
 .cardContainer {
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-items: center;
+  align-items: stretch;
 }
 
 .friendsCard {
   flex: 1;
-  height: 100%;
   width: 100%;
   max-width: 500px;
-  margin: 160px 0px 80px 50px;
+  margin-top: 160px;
+  margin-right: 80px;
   border-radius: 10px;
   display: flex;
   text-align: center;
@@ -89,10 +90,10 @@
 
 .profileCard {
   flex: 1;
-  height: 100%;
   width: 100%;
   max-width: 500px;
-  margin: 160px 50px 80px 0px;
+  margin-top: 160px;
+  margin-left: 80px;
   border-radius: 10px;
   display: flex;
   text-align: center;
