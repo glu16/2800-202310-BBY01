@@ -438,7 +438,7 @@ app.put("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
 
   // store variables sent from fitness.jsx
-  const { workoutKey, workout, muscleGroups, level } = req.body;
+  var { workoutKey, workout, muscleGroups, level } = req.body;
 
   // store user's stats to send to workouts.js
   var userStats;

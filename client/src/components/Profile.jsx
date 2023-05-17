@@ -19,7 +19,7 @@ const Profile = ({ username }) => {
         );
         const username = response.data.username;
         console.log("Logged in user's name:", username);
-        localStorage.setItem("username", username);
+        // localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
       }
