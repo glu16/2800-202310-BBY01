@@ -44,7 +44,7 @@ const Home = () => {
         const exerciseDetailsArray = Object.keys(exercisesForToday).map(
           (key) => {
             const exercise = exercisesForToday[key];
-            const detailsString = `Exercise: ${exercise.name},
+            const detailsString = `${exercise.name},
              Sets and Reps: ${exercise.setsAndReps},
              Calories: ${exercise.calories}`;
             return detailsString;
@@ -177,7 +177,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className={`col-md mx-md-3 h-100 ${styles.progressCard}`}>
+      <animated.div className={`col-md mx-md-3 h-100 ${styles.progressCard}`} style={greetings}>
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
@@ -192,9 +192,9 @@ const Home = () => {
             Update Progress
           </button>
         </div>
-      </div>
+      </animated.div>
 
-      <div className={`col-md mx-md-3 h-100 ${styles.progressCard}`}>
+      <animated.div className={`col-md mx-md-3 h-100 ${styles.progressCard}`} style={greetings}>
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
           <div className={styles.progressBarContainer}>
@@ -209,10 +209,10 @@ const Home = () => {
             Update Progress
           </button>
         </div>
-      </div>
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}>
-        <div className={styles.progressInnerCard}>
+      </animated.div>
+      <animated.div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`} style={greetings}>
+        <animated.div className={styles.progressInnerCard} style={greetings}>
           <Reorder.Group onReorder={setItems} values={items}>
             <p className={styles.exerciseDate}>Exercises for {date}</p>
             {items.map((item) => (
@@ -221,8 +221,8 @@ const Home = () => {
               </Reorder.Item>
             ))}
           </Reorder.Group>
-        </div>
-      </div>
+        </animated.div>
+      </animated.div>
     </div>
   );
   /* End of Home.jsx component render */
