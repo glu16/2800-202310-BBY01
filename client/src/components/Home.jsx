@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useSpring, animated} from "react-spring";
 import {ProgressBar} from "react-step-progress-bar";
 import axios from "axios";
-import {Reorder} from "framer-motion";
+import {addScaleCorrector, Reorder} from "framer-motion";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
@@ -14,6 +14,37 @@ const initialItems = [
 ];
 
 const Home = () => {
+  const [exercises, setExercises] = useState();
+  const dateOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const today = new Date();
+  const date = today.toLocaleDateString("en-CA", dateOptions);
+
+  async function fetchExercises() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/fitness/${localStorage.getItem("username")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      var data = await response.json();
+      if (data == "empty") {
+        setExercises("empty");
+      } else {
+        setExercises(data[date]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const [items, setItems] = useState(initialItems);
 
   /* Text animation */
@@ -175,8 +206,7 @@ const Home = () => {
               </Reorder.Item>
             ))}
           </Reorder.Group>
-          </div>
-       
+        </div>
       </div>
     </div>
   );
