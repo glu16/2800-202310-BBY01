@@ -8,9 +8,9 @@ const { Configuration, OpenAIApi } = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
-const userRouter = require("./routes/users.js");
-const authRouter = require("./routes/auth.js");
-const passChangeRouter = require("./routes/passChange.js");
+const userRouter = require("./routes/users");
+const authRouter = require("./routes/auth");
+const passChangeRouter = require("./routes/passChange");
 
 // THE MODELS
 const { User } = require("./models/users.js");
@@ -26,6 +26,9 @@ const configuration = new Configuration({
   apiKey: process.env.AI,
 });
 const openai = new OpenAIApi(configuration);
+
+// FOR TIME-BASED AUTO METHODS
+const cron = require('node-cron');
 
 // THE CONNECTION TO DATABASE
 db();
@@ -70,7 +73,7 @@ app.get("/users/:username", async (req, res) => {
     // FIND THE USER BY USERNAME
     const user = await User.findOne({ username: userID });
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found"});
     }
     res.send({
       username: user.username,
@@ -79,6 +82,7 @@ app.get("/users/:username", async (req, res) => {
       phoneNumber: user.phoneNumber,
       userStats: user.userStats,
       imageURL: user.imageURL,
+      userStats: user.userStats 
     });
   } catch (e) {
     console.log(e);
@@ -448,22 +452,103 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
-// TO GENERATE AND STORE A USER'S WORKOUT PLAN
+// GET USERSTATS TO FEED INTO WORKOUT PLAN GENERATION
+// app.get("/userStats/:username", async (req, res) => {
+//   const userID = req.params.username;
+//   try {
+//     const user = await User.findOne({ username: userID });
+//     let obj = user.userStats[0];
+
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+//   }
+// });
+
+
+// GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
+  
+  // store user's username
   const userID = req.params.username;
-  // console.log(userID);
-  // const newWorkout = req.body;
 
-  // CALL AND EXECUTE workouts.js
-  const workouts = require("./workouts.js");
+  // store variables sent from fitness.jsx
+  var { workoutKey, workout, muscleGroups, level } = req.body;
 
-  // GENERATES WORKOUT PLAN IN workout.js
+  // store user's stats to send to workouts.js
+  var userStats;
+  var firstName;
+  try {
+    const user = await User.findOne({ username: userID });
+    userStats = user.userStats[0];
+    firstName = user.firstName;
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    return; // Stop execution after sending the response
+  }
+
+          // SAITAMA EASTER EGG
+          const today = new Date();
+          const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+          const formattedDate = today.toLocaleDateString('en-US', options);
+          var saitamaWorkout = {};
+          saitamaWorkout[formattedDate] = {
+            "Exercise 1": {"name": "PUSH-UPS", "setsAndReps": "100", "calories": 100},
+            "Exercise 2": {"name": "SIT-UPS", "setsAndReps": "100", "calories": 100},
+            "Exercise 3": {"name": "SQUATS", "setsAndReps": "100", "calories": 100},
+            "Exercise 4": {"name": "10K RUN", "setsAndReps": "10 km", "calories": 900}
+          };
+          if (firstName.toLowerCase() === "saitama") {
+            console.log(saitamaWorkout);
+            try {
+              const user = await User.findOneAndUpdate(
+                { username: userID },
+                {
+                  $push: {
+                    workouts: { $each: [JSON.parse(JSON.stringify(saitamaWorkout))], $position: 0 },
+                  },
+                }
+              );
+              res.status(200).json({
+                message: `SAITAMA'S WORKOUT ADDED.`,
+                user,
+              });
+              return; // Stop execution after sending the response
+            } catch (err) {
+              console.error(err);
+              res.status(500).json({ error: "Internal server error. Couldn't add SAITAMA workout plan." });
+              return; // Stop execution after sending the response
+            }
+          }
+          // END OF SAITAMA EASTER EGG
+
+  // variables to hold userStats
+  var sex = userStats.sex;
+  var age = userStats.age;
+  var height = userStats.height;
+  var weight = userStats.weight;
+  var activityLevel = userStats.activityLevel;
+  var goal = userStats.goal;
+
+  // variables to hold fitness.jsx form variables
+  if (!muscleGroups || muscleGroups.length == 0) {
+    muscleGroups = ["all"];
+  }
+  if (!level || level.length == 0) {
+    level = "intermediate";
+  }
+
+  // import workouts.js
+  const workouts = require("./workouts");
+
+  // generates workout plan in workout.js
   function generateWorkout(callback) {
-    workouts.generate((newWorkout) => {
+    workouts.generate(sex, age, height, weight, activityLevel, goal, muscleGroups, level, (newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
-  // WRITES WORKOUT PLAN INTO THE DATABASE
+  // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
@@ -474,14 +559,13 @@ app.put("/fitness/:username", async (req, res) => {
           },
         }
       );
-      console.log("pushed into ");
       res.status(200).json({
         message: `New workout added to ${userID}.`,
         user,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ error: "Internal server error. Couldn't add workout plan." });
     }
     if (callback) {
       callback();
@@ -490,21 +574,36 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
-// SEND WORKOUT PLAN TO CLIENT
+// send workout plan to client
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    // IF WORKOUTS IS EMPTY (ex. NEW USER)
+    // if workouts empty ie.new user
     if (user.workouts.length == 0) {
       res.send("empty");
-      // SENDS FIRST WORKOUT IN WORKOUTS
+      // sends first workout in workouts
     } else {
       res.send(user.workouts[0]);
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error. Couldn't send workout plan." });
+  }
+});
+
+// send userStreak to client
+app.get("/streak/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send({
+      currentStreak: user.currentStreak,
+      longestStreak: user.longestStreak
+     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send user streak." });
   }
 });
 
@@ -544,7 +643,7 @@ app.put("/diet/:username", async (req, res) => {
       updateDiet(newDiet, callback);
     });
   }
-  // WRITES DIET PLAN INTO THE DATABASE
+  // writes workoutplan into database
   async function updateDiet(newDiet, callback) {
     try {
       const user = await User.findOneAndUpdate(
@@ -557,7 +656,7 @@ app.put("/diet/:username", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({error: "Internal server error"});
     }
     if (callback) {
       callback();
@@ -570,7 +669,7 @@ app.put("/diet/:username", async (req, res) => {
 app.get("/diet/:username", async (req, res) => {
   const userID = req.params.username;
   try {
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     // if workouts empty ie.new user
     if (user.diets.length == 0) {
       res.send("empty");
@@ -580,10 +679,33 @@ app.get("/diet/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
+app.get("/userStats", async (req, res) => {
+  // THE USER'S USERNAME
+  const userID = req.params.username;
+  try {
+    // FIND THE USER BY USERNAME
+    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
+    const user = await User.findOne({ username: "ndurano" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.send({
+      sex: user.userStats[0].sex,
+      age: user.userStats[0].age,
+      height: user.userStats[0].height,
+      weight: user.userStats[0].weight,
+      activityLevel: user.userStats[0].activityLevel,
+      goal: user.userStats[0].goal,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
@@ -618,52 +740,58 @@ setInterval(() => {
   }
 }, 1000 * 60 * 60 * 24);
 
-// GETS 3 RANDOM MINI CHALLENGES FROM THE DATABASE THAT CHANGES AT MIDNIGHT
+const challengesCache = {
+  data: [],
+  lastUpdated: null,
+};
+
+// GETS 3 RANDOM CHALLENGES FROM THE DATABASE
 app.get("/home/challenges", async (req, res) => {
   try {
+    // CHECK IF CHALLENGES NEED TO BE UPDATED
     const currentDate = new Date();
-    const midnight = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate() + 1,
-      0,
-      0,
-      0
-    );
-    const timeUntilMidnight = midnight.getTime() - currentDate.getTime();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
 
-    // WAIT UNTIL MIDNIGHT TO REFRESH THE CHALLENGES
-    await new Promise((resolve) => setTimeout(resolve, timeUntilMidnight));
+    if (
+      challengesCache.lastUpdated === null ||
+      currentHour === 0 ||
+      (currentHour === 23 && currentMinute >= 55)
+    ) {
+      // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
+      const challenges = await Challenges.aggregate([
+        { $sample: { size: 3 } },
+        { $project: { _id: 1, challenge: 1, points: 1 } },
+      ]);
 
-    // GET TOTAL COUNT OF CHALLENGES
-    const count = await Challenges.countDocuments();
-    console.log("Total challenges count:", count);
-
-    // GENERATE 3 RANDOM NUMBERS
-    const randomNumbers = [];
-    while (randomNumbers.length < 3) {
-      const randomNumber = Math.floor(Math.random() * count);
-      if (!randomNumbers.includes(randomNumber)) {
-        randomNumbers.push(randomNumber);
-      }
+      // UPDATE THE CHALLENGES CACHE
+      challengesCache.data = challenges;
+      challengesCache.lastUpdated = currentDate;
     }
 
-    // RETRIEVE CHALLENGES USING THE RANDOM NUMBERS
-    const challenges = await Challenges.find()
-      .limit(3)
-      .skip(randomNumbers[0])
-      .toArray();
-
-    // EXTRACT THE PROPERTIES
-    const challengeData = challenges.map((challenge) => ({
-      stringValue: challenge.String,
-      intValue: challenge.int,
-    }));
-
-    // SEND THE CHALLENGE DATA
-    res.json(challengeData);
+    // SEND THE RESPONSE
+    res.json(challengesCache.data);
   } catch (error) {
-    console.error(error);
+    console.error("Error occurred during aggregation:", error);
+    res.status(500).send("An error occurred");
+  }
+});
+
+// UPDATES AND SAVES CHALLENGE INTO USER'S COLLECTION
+app.post("/home/challenges/:username", (req, res) => {
+  try {
+    const { challengeId } = req.body;
+    const user = findLoggedInUser(req);
+    // PUSH THE CHALLENGE ID INTO THE COLLECTION
+    user.challenges.push(challengeId);
+
+    // SAVE THE UPDATED USER OBJECT
+    user.save();
+
+    // SEND THE RESPONSE
+    res.status(200).send("Challenge added successfully");
+  } catch (error) {
+    console.error("Error occurred while adding challenge:", error);
     res.status(500).send("An error occurred");
   }
 });
@@ -684,6 +812,7 @@ app.post("/", async (req, res) => {
 
   const parsableJson = response.data.choices[0].text;
 
+
   console.log(parsableJson);
   let messageOutTest = parsableJson;
 
@@ -693,13 +822,86 @@ app.post("/", async (req, res) => {
   });
 });
 
-// SERVER HOSTING
+
+// FOR STREAK TRACKER
+app.post("/fitness/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body);
+  try {
+    const user = await User.findOneAndUpdate(
+      // find user by username
+      { username: userID },
+      { 
+        // increment currentStreak FIELD BY 1
+        $inc: { currentStreak: 1 }, 
+        // set doneToday TO true
+        $set: { doneToday: true }
+      },
+      // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    // Compare currentStreak with longestStreak and update longestStreak if necessary
+    if (user.currentStreak > user.longestStreak) {
+      user.longestStreak = user.currentStreak;
+      await user.save();
+      console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
+    }
+    console.log(`Successfully updated ${userID}'s currentStreak and doneToday`);
+    res.status(200).json({
+      message: `${userID} currentStreak incremented successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+
+// Daily at 11:58 pm every day go through all users and if their doneToday is false then set their currentStreak to 0
+cron.schedule('58 23 * * *', async () => {
+  try {
+    // Find all users
+    const users = await User.find();
+    
+    // Iterate over each user
+    for (const user of users) {
+      if (user.doneToday == false) {
+        // If doneToday is false, set currentStreak to 0
+        user.currentStreak = 0;
+      } 
+      // Save the updated user
+      await user.save();
+    }
+    console.log("Users' currentStreaks updated.");
+  } catch (err) {
+    console.error('Error updating currentStreaks: ', err);
+  }
+});
+// Daily at 12:01 AM every day go through all users and reset their doneToday to false
+cron.schedule('1 0 * * *', async () => {
+  try {
+    // Find all users and update their `doneToday` field to false
+    const users = await User.updateMany({}, { $set: { doneToday: false } });
+    console.log('Resetting doneToday field for all users.');
+    console.log(`${users.nModified} users updated successfully.`);
+  } catch (err) {
+    console.error('An error occurred while resetting doneToday field: ', err);
+  }
+});
+
+
+
+// server hosting
 const localPort = 5050;
 const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
-// SEND SERVER PORT INTO TO THE CLIENT
+// send server port info to client
 app.get("/api/port", (req, res) => {
   res.json({ port });
 });

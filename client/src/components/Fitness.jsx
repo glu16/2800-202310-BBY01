@@ -13,7 +13,7 @@ const port = "5050";
 // used to identify user for database modification
 const username = localStorage.getItem("username");
 
-// FUNCTION CALLED TO GCONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
+// FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
   var response = await fetch(`http://localhost:5050/fitness/${username}`, {
@@ -29,6 +29,16 @@ async function getWorkout() {
     return data;
   }
 }
+
+// FUNCTION GETS USERSTATS FIELD FROM DATABASE
+// async function getUserStats() {
+//   var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   var data = await response.json();
+//   console.log(data);
+// }
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
@@ -254,7 +264,7 @@ function Workout({ handleOpenModal }) {
   // return for Workout()
   return (
     <div>
-      <h2>{username}'s Workout</h2>
+      <h2>{username}'s 7-Day Workout</h2>
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>
         Previous Day
       </button>
@@ -303,6 +313,45 @@ const CompleteExercisesButton = () => {
 };
 
 
+// GET AND DISPLAY STREAK AND STATS
+const Streak = () => {
+  const [currentStreak, setCurrentStreak] = useState(null);
+  const [longestStreak, setLongestStreak] = useState(null);
+  // FUNCTION GETS USER STREAK STATS FROM DATABASE
+  async function getStreak() {
+    try {
+      const response = await fetch(`http://localhost:5050/streak/${username}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      });
+      const data = await response.json();
+      setCurrentStreak(data.currentStreak);
+      setLongestStreak(data.longestStreak);
+    } catch (error) {
+      // Handle any errors that occur during the fetch
+      console.error('Error fetching streak:', error);
+    }
+  }
+  useEffect(() => {
+    getStreak();
+  }, []); // Empty dependency array ensures the effect runs only once, similar to componentDidMount
+
+  // Render loading state if streak data is not yet available
+  if (currentStreak === null || longestStreak === null) {
+    return <div>Loading streak...</div>;
+  }
+
+  return (
+    <div id="streakContainer">
+      <h2>Streak & Stats</h2>
+      <p>Current Streak: {currentStreak}</p>
+      <p>Longest Streak: {longestStreak}</p>
+    </div>
+  );
+};
+
+
+
 // PAGE RENDER COMPONENT
 const Fitness = () => {
   
@@ -312,6 +361,15 @@ const Fitness = () => {
   // function to update user in database with workout plan
   async function addWorkoutToUser(event) {
     event.preventDefault();
+
+    // store form variables
+    var muscleGroups = Array.from(event.target.elements)
+    .filter((element) => element.type === 'checkbox' && element.checked)
+    .map((element) => element.name);
+    if (muscleGroups.length == 0) {
+      muscleGroups = ["all"];
+    }
+    var level = event.target.intensity.value;
 
     // ignore form submission if already submitting
     if (isFormSubmitting) {
@@ -325,7 +383,15 @@ const Fitness = () => {
     // workout to write into user database, will generate with server side call to workouts.js
     const workout = {};
 
-    const data = { [workoutKey]: workout };
+    // data we are sending to server.js via app.put
+    const data = {
+      workoutKey,
+      workout,
+      muscleGroups,
+      level,
+    };
+
+    // call server.js app.put method
     const response = await fetch(
       `http://localhost:${port}/fitness/${username}`,
       {
@@ -336,10 +402,9 @@ const Fitness = () => {
     );
     const updatedUser = await response.json();
     console.log(
-      "New workout " +
-        JSON.stringify(updatedUser.workouts) +
-        " added to " +
-        username
+      "New workout " 
+        + JSON.stringify(updatedUser.workouts) 
+        + ` added to ${username}  `
     );
     // re-enable button after finishing code
     setFormSubmitting(false);
@@ -374,9 +439,9 @@ const Fitness = () => {
   };
 
 
-
   // For completeAllExercises button
   const [numberOfExercises, setNumberOfExercises] = useState(99);
+  const [completeAllExercisesClicked, setCompleteAllExercisesClicked] = useState(false);
   useEffect(() => {
     const storedValue = localStorage.getItem('numberOfExercises');
       setNumberOfExercises(Number(storedValue));
@@ -384,9 +449,44 @@ const Fitness = () => {
   useEffect(() => {
     localStorage.setItem('numberOfExercises', numberOfExercises);
   }, [numberOfExercises]);
-  const completeAllExercises = () => {
-    console.log("All exercises complete!");
+
+  // COMPLETE ALL EXERCISES BUTTON SHOULD CALL TWO SERVER METHODS
+  const completeAllExercises = async () => {
+    console.log("All exercises complete! Top");
+
+    // disable the button after it is clicked
+    setCompleteAllExercisesClicked(true);
+
+    // incriment the user field: streak
+    try {
+      const response = await fetch(`http://localhost:${port}/fitness/${username}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username, // Replace with the actual username
+        }),
+      });
+
+      if (response.ok) {
+        // Field update successful
+        console.log('Field updated successfully!');
+      } else {
+        // Field update failed
+        console.log('Field update failed!');
+      }
+    } catch (error) {
+      console.log('Error updating field:', error);
+    }
+
+
+    // set user field: doneToday to true
+
+
+    console.log("All exercises complete! Bottom");
   };
+
   // Pseudo-event listener for when numberOfExercises is modified
   const prevNumberOfExercisesRef = useRef(localStorage.getItem('numberOfExercises'));
   useEffect(() => {
@@ -412,9 +512,38 @@ const Fitness = () => {
     >
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
+          
+          {/* <form id="getUserStats" onSubmit={getUserStats}>
+            <input type="hidden" name="username" value={username}></input>
+            <button type="submit">Test Get User Stats</button>
+          </form> */}
+
           <div>
             <form id="addWorkout" onSubmit={addWorkoutToUser}>
+              {/* SEND USERNAME FOR DATABASE SEARCH */}
               <input type="hidden" name="username" value={username}></input>
+
+              {/* SEND INTENSITY FOR WORKOUT GENERATION */}
+              <p>Select desired intensity level for workout</p>
+              <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
+              <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
+              <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
+              <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
+              <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
+              <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
+              <br />
+
+              {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
+              <p>Select muscle groups you want to focus on</p>
+              <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
+              <label className="btn btn-outline-primary" htmlFor="arms">Arms</label>
+              <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
+              <label className="btn btn-outline-primary" htmlFor="legs">Legs</label>
+              <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
+              <label className="btn btn-outline-primary" htmlFor="chest">Chest</label>
+
+              <br />
+
               {/* button displays different text if clicked or not clicked */}
               <button
                 type="submit"
@@ -424,13 +553,8 @@ const Fitness = () => {
                 {isFormSubmitting ? (
                   <div>
                     <p>Generating...</p>
-                    <div
-                      id="processing"
-                      className="spinner-border"
-                      role="status"
-                    >
-                      <span className="sr-only">Loading...</span>
-                    </div>
+                    {/* Bootstrap loadinng circle */}
+                    <div id="processing" className="spinner-border" role="status"><span className="sr-only">Loading...</span></div>
                   </div>
                 ) : (
                   "Create new workout plan"
@@ -439,9 +563,16 @@ const Fitness = () => {
 
               <p>
                 <small>Generating takes 30-60 seconds</small>
+                <br />
+                <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small>
               </p>
             </form>
           </div>
+          
+
+          <Streak />
+
+
 
             <Workout workout={workout} handleOpenModal={handleOpenModal} />
           {showModal && (
@@ -452,7 +583,7 @@ const Fitness = () => {
           )}
           <button id="completeAll" 
             onClick={completeAllExercises} 
-            disabled={numberOfExercises !== 0}
+            disabled={numberOfExercises !== 0 || completeAllExercisesClicked}
             >Mark ALL exercises complete!
           </button>
           

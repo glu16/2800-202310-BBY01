@@ -130,7 +130,7 @@ const Home = () => {
   // useState hook variables for the challenges
   const [challenges, setChallenges] = useState([]);
 
-  // Retrieves the challenges from MongoDB
+  // Function to retrieve challenges from MongoDB
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
@@ -142,10 +142,34 @@ const Home = () => {
         console.error(error);
       }
     };
-
     fetchChallenges();
   }, []);
-  // End of challenges retrieval
+
+  // useState hook variables to add challenges
+  const [userChallenges, setUserChallenges] = useState([]);
+
+  // Function to add challenges
+  useEffect(() => {
+    const addChallenge = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:5050/home/:username"
+        );
+        addChallenge(response.data);
+        console.log(addChallenge);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }, []);
+
+  // useState hook variables to render the button accordingly
+  const [isComplete, setIsComplete] = useState(false);
+
+  // Click event handler for adding a challenge
+  const handleAddChallenge = (challenge) => {
+    setIsComplete(true);
+  };
 
   // Retrieves user's completion status from MongoDB
   const fetchCompletionStatus = async () => {
@@ -162,14 +186,18 @@ const Home = () => {
   }, []);
   // End of completion status retrieval
 
-  // Increments the progress bar based on completion
+  // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
-  const [fitnessProgress, setFitnessProgress] = useState(0);
 
+  // Click event handler to increment the diet progress
   const handleDietProgressChange = (newProgress) => {
     setDietProgress(newProgress);
   };
 
+  // useState hook variables for the fitness progress
+  const [fitnessProgress, setFitnessProgress] = useState(0);
+
+  // Click event handler to increment the fitness progress
   const handleFitnessProgressChange = (newProgress) => {
     setFitnessProgress(newProgress);
   };
@@ -191,9 +219,6 @@ const Home = () => {
             <animated.h4 className={styles.homeHeader} style={greetings}>
               {tip}
             </animated.h4>
-            <animated.h4 className={styles.homeHeader} style={greetings}>
-              Track your diet and fitness progresses below.
-            </animated.h4>
           </div>
         </div>
       </div>
@@ -201,11 +226,21 @@ const Home = () => {
         className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
       >
         <div className="card-body">
+          <animated.h1 className={styles.challengeHeader} style={greetings}>
+            Today's Mini Challenges
+          </animated.h1>
+          {console.log("Challenges:", challenges)}
           {challenges.length > 0 ? (
             challenges.map((challenge) => (
               <div key={challenge._id}>
-                <h5 className="card-title">{challenge.challenge}</h5>
-                <p className="card-text">{challenge.points}</p>
+                <h5 className="card-title">Challenge: {challenge.challenge}</h5>
+                <h5 className="card-text">Points: {challenge.points}</h5>
+                <button
+                  className={`btn btn-primary ${styles.challengeBtn}`}
+                  onClick={() => handleAddChallenge(challenge)}
+                >
+                  {isComplete ? "Complete" : "Add Challenge"}
+                </button>
               </div>
             ))
           ) : (
