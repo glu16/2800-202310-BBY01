@@ -620,6 +620,25 @@ app.get("/home/challenges", async (req, res) => {
   }
 });
 
+// UPDATES AND SAVES CHALLENGE INTO USER'S COLLECTION
+app.post("/home/challenges/:username", (req, res) => {
+  try {
+    const { challengeId } = req.body;
+    const user = findLoggedInUser(req);
+    // PUSH THE CHALLENGE ID INTO THE COLLECTION
+    user.challenges.push(challengeId);
+
+    // SAVE THE UPDATED USER OBJECT
+    user.save();
+
+    // SEND THE RESPONSE
+    res.status(200).send("Challenge added successfully");
+  } catch (error) {
+    console.error("Error occurred while adding challenge:", error);
+    res.status(500).send("An error occurred");
+  }
+});
+
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
   const { message } = req.body;

@@ -130,7 +130,7 @@ const Home = () => {
   // useState hook variables for the challenges
   const [challenges, setChallenges] = useState([]);
 
-  // Retrieves the challenges from MongoDB
+  // Function to retrieve challenges from MongoDB
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
@@ -142,27 +142,33 @@ const Home = () => {
         console.error(error);
       }
     };
-
     fetchChallenges();
   }, []);
-  // End of challenges retrieval
 
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
 
   // Function to add challenges
-  const addChallenge = async () => {
-    try {
-      const response = await axios.post("http://localhost:5050/home/:username");
-      addChallenge(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  useEffect(() => {
+    const addChallenge = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:5050/home/:username"
+        );
+        addChallenge(response.data);
+        console.log(addChallenge);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+  }, []);
 
-  // Click event handler for adding a friend 
+  // useState hook variables to render the button accordingly
+  const [isComplete, setIsComplete] = useState(false);
+
+  // Click event handler for adding a challenge
   const handleAddChallenge = (challenge) => {
-    setUserChallenges((prevChallenges) => [...prevChallenges, challenge]);
+    setIsComplete(true);
   };
 
   // Retrieves user's completion status from MongoDB
@@ -229,7 +235,7 @@ const Home = () => {
                   className={`btn btn-primary ${styles.challengeBtn}`}
                   onClick={() => handleAddChallenge(challenge)}
                 >
-                  Add Challenge
+                  {isComplete ? "Complete" : "Add Challenge"}
                 </button>
               </div>
             ))
