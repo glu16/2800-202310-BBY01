@@ -4,14 +4,12 @@
 require('dotenv').config();
 
 // import openAIAPI
-// import { Configuration, OpenAIApi } from "openai"
 const { Configuration, OpenAIApi } = require('openai');
 
 // create "instance" of the ai model to use with API key
 const openai = new OpenAIApi( new Configuration({
     apiKey: process.env.API_KEY
 }))
-
 
 // create progress wheel animation, code src: chatgpt
 const PWD = ['|', '/', '-', '\\'];
@@ -29,76 +27,87 @@ const stopProgress = () => {
 };
 
 
-/* 
-(SOME GET METHOD THAT GETS THE USERS PREFERENCES FOR THE FITNESS PLAN)
-var sex;
-var age;
-var height;
-var weight;
-var activityLevel;
-var goal;
+// CREATE PROMPT FOR OPENAI TO HANDLE
+function createPrompt() {
 
-var workoutRestrictions = [];
-var workoutPreferences = [];
+    // userStats from database
+    // var age;
+    // var sex;
+    // var height;
+    // var weight;
+    // var activityLevel;
+    // var goal;
+    // var workoutRestrictions = [];
+    // var workoutPreferences = [];
 
-if workoutRestrictions.length == 0 {
-    workoutRestrictions = ["none"];
+
+    // user input from fitness.jsx 
+    var muscles = ['back', 'chest']; 
+    var level = "intermediate"; 
+    var environment = "indoor" // indoor, outdoor, either
+    // var equipment = ['bike','gym'];
+
+
+    // ADD USER DETAILS TO PROMPT
+    var inputPrompt = "";
+    // inputPrompt += `I am a ${age} ${sex} ${height} centimetres tall and weigh ${weight} kilograms. `
+    // inputPrompt += `I am ${activityLevel}. My goal is to ${goal}. `
+    inputPrompt += `Give me a ${level} level, 7-day workout routine with a focus on the following muscle groups: ` 
+        + muscles.join(', ') + ". ";
+    inputPrompt += "I only want " + environment + " activities. ";
+    // inputPrompt += "\n In terms of equipment I am limited to " + equipment.join(', ');
+
+    // ADD FORMATTING CONSTRAINTS TO PROMPT
+    inputPrompt += "Give me at least five exercises for each day. "
+    inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
+    inputPrompt += "Give an estimated number of calories burned. "
+    inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. "
+    inputPrompt += "Format each exercise with the following structure: exercise name, number of sets and reps, estimated time to complete, and calories burned. "
+
+
+    console.log("Prompt: \n" + inputPrompt);
+
+    // RUNAI WITH PROMPT
+    // runAI(inputPrompt);
+
+    // RETURN inputPrompt
+    return inputPrompt;
 }
-if workoutPreferences.length == 0 {
-    workoutPreferences = ["none"];
-}
 
-var inputPromt = `I am a ${age} ${sex} and I am ${height} cm tall and weigh ${weight} kilograms.
-My activity level is ${activityLevel} and my goal is to ${goal}.
-My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
-
-
-REST OF THE PROMPT ABOUT FITNESS....
-*/
-
-
-// define input strings
-const muscles = ['back', 'chest']; // replace with the user's personsalized list
-const level = "intermediate"; // beginner, intermediate, expert
-var inputPrompt = "Give me a " + level + " level, 7-day workout routine with a focus on the following muscle groups:" + muscles.join(', ') + ". ";
-
-const environment = "indoor" // indoor, outdoor, either
-inputPrompt += "I only want " + environment + " activities. ";
-
-// const equipment = ['bike','gym'];
-// inputPrompt += "\n In terms of equipment I am limited to " + equipment.join(', ');
-
-inputPrompt += "Give me at least five exercises for each day. "
-inputPrompt += "Give an estimated time required for each activity and a sum for all the activities each day. "
-inputPrompt += "Give an estimated number of calories burned. "
-inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. "
-inputPrompt += "Format each exercise with the following structure: exercise name, number of sets and reps, estimated time to complete, and calories burned. "
-
-// console.log("Prompt: " + inputPrompt);
-
-// run the AI
-const runAI = async (input) => {
+// RUN THE AI
+async function runAI() {
     
-    // loading animation
+    // start loading animation
     console.log("Generating workout plan...");
     startProgress();  
 
+    // GET INPUTPROMPT
+    var input = await createPrompt();
+
+    // RUN OPEN AI ON PROMPT
     //default max tokens = 4096
     const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",  
     messages: [{ role: "user", content: input}]  
     })
 
-    // loading animation
+    // stop loading animation
     stopProgress();  
 
-    // store AI response
+    // RETURN PARSED AI RESPONSE
+    return (parseAI(res));
+}
+
+// PARSE THE AI RESPONSE INTO A JSON OBJECT TO STORE IN USER DATABASE
+function parseAI(res) {
+
+    // fullResponse will store the string version of the AI response
     var fullResponse;
     try {
         fullResponse = res.data.choices[0].message.content;
         // console.log("fullResponse: " + fullResponse);
       } catch (error) {
-        console.error("Error generating fullResponse:", error);
+        console.error("Error recieving fullResponse:", error);
       }
 
     //an array of paragraphs, '\n\n' is too inconsistent
@@ -109,7 +118,7 @@ const runAI = async (input) => {
       } catch (error) {
         console.error("Error splitting fullResponse into paragraphs:", error);
       }
-
+    
     // parse and save output as a JSON file
     var workoutPlan = {};
     try {
@@ -232,18 +241,28 @@ const runAI = async (input) => {
         console.error("Error parsing paragraphs into workout plan:", error);
     }
 
-    console.log(workoutPlan);
+    // console.log(workoutPlan);
     console.log("...workout plan generated.");
+
+    // RETURN WORKOUT PLAN TO SERVER
     return(JSON.stringify(workoutPlan));
 }
 
+// 'main' function that is called from promises from server.js 
 function generate(callback) {
-    runAI(inputPrompt).then((result) => {
+    runAI().then((result) => {
         const newWorkout = result;
         callback(newWorkout);
       });
 }
-
+// export function
 module.exports = {
     generate: generate
   };
+  
+  
+  
+  
+  
+  
+  

@@ -13,7 +13,7 @@ const port = "5050";
 // used to identify user for database modification
 const username = localStorage.getItem("username");
 
-// FUNCTION CALLED TO GCONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
+// FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
   var response = await fetch(`http://localhost:5050/fitness/${username}`, {
@@ -28,6 +28,16 @@ async function getWorkout() {
     workout = data;
     return data;
   }
+}
+
+// FUNCTION GETS USERSTATS FIELD FROM DATABASE
+async function getUserStats() {
+  var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  var data = await response.json();
+  console.log(data);
 }
 
 
@@ -447,6 +457,12 @@ const Fitness = () => {
     >
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
+          
+          <form id="getUserStats" onSubmit={getUserStats}>
+            <input type="hidden" name="username" value={username}></input>
+            <button type="submit">Test Get User Stats</button>
+          </form>
+
           <div>
             <form id="addWorkout" onSubmit={addWorkoutToUser}>
               <input type="hidden" name="username" value={username}></input>

@@ -220,13 +220,43 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
-// to generate and store a user's workout plan
-app.put("/fitness/:username", async (req, res) => {
+// GET USERSTATS TO FEED INTO WORKOUT PLAN GENERATION
+app.get("/userStats/:username", async (req, res) => {
   const userID = req.params.username;
-  // console.log(userID);
-  // const newWorkout = req.body;
+  try {
+    const user = await User.findOne({ username: userID });
+    let obj = user.userStats[0];
+    console.log(obj.sex);
+        
 
-  // call and execute workouts.js
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+  }
+});
+
+
+// GENERATE AND STORE WORKOUT PLAN FOR USER
+app.put("/fitness/:username", async (req, res) => {
+  // store user's username
+  const userID = req.params.username;
+
+  // store user's stats to send to workouts.js
+  var userStats;
+  try {
+    const user = await User.findOne({ username: userID });
+    userStats = user.userStats[0];
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+  }
+  var sex = userStats.sex;
+  var age = userStats.age;
+  var height = userStats.height;
+  var activityLevel = userStats.activityLevel;
+  var goal = userStats.goal;
+
+  // import workouts.js
   const workouts = require("./workouts");
 
   // generates workout plan in workout.js
@@ -246,14 +276,13 @@ app.put("/fitness/:username", async (req, res) => {
           },
         }
       );
-      console.log("pushed into ");
       res.status(200).json({
         message: `New workout added to ${userID}.`,
         user,
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({ error: "Internal server error. Couldn't add workout plan." });
     }
     if (callback) {
       callback();
@@ -276,7 +305,7 @@ app.get("/fitness/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Internal server error. Couldn't send workout plan." });
   }
 });
 
