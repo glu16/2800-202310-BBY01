@@ -76,10 +76,12 @@ app.get("/users/:username", async (req, res) => {
       return res.status(404).json({ message: "User not found"});
     }
     res.send({
+      username: user.username,
       firstName: user.firstName,
       email: user.email,
       phoneNumber: user.phoneNumber,
-
+      userStats: user.userStats,
+      imageURL: user.imageURL,
       userStats: user.userStats 
     });
   } catch (e) {
