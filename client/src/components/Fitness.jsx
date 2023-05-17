@@ -31,14 +31,14 @@ async function getWorkout() {
 }
 
 // FUNCTION GETS USERSTATS FIELD FROM DATABASE
-async function getUserStats() {
-  var response = await fetch(`http://localhost:5050/userStats/${username}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  var data = await response.json();
-  console.log(data);
-}
+// async function getUserStats() {
+//   var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   var data = await response.json();
+//   console.log(data);
+// }
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
@@ -323,6 +323,15 @@ const Fitness = () => {
   async function addWorkoutToUser(event) {
     event.preventDefault();
 
+    // store form variables
+    var muscleGroups = Array.from(event.target.elements)
+    .filter((element) => element.type === 'checkbox' && element.checked)
+    .map((element) => element.name);
+    if (muscleGroups.length == 0) {
+      muscleGroups = ["all"];
+    }
+    var level = event.target.intensity.value;
+
     // ignore form submission if already submitting
     if (isFormSubmitting) {
       return;
@@ -335,7 +344,15 @@ const Fitness = () => {
     // workout to write into user database, will generate with server side call to workouts.js
     const workout = {};
 
-    const data = { [workoutKey]: workout };
+    // data we are sending to server.js via app.put
+    const data = {
+      workoutKey,
+      workout,
+      muscleGroups,
+      level,
+    };
+
+    // call server.js app.put method
     const response = await fetch(
       `http://localhost:${port}/fitness/${username}`,
       {
@@ -346,10 +363,9 @@ const Fitness = () => {
     );
     const updatedUser = await response.json();
     console.log(
-      "New workout " +
-        JSON.stringify(updatedUser.workouts) +
-        " added to " +
-        username
+      "New workout " 
+        + JSON.stringify(updatedUser.workouts) 
+        + ` added to ${username}  `
     );
     // re-enable button after finishing code
     setFormSubmitting(false);
@@ -458,14 +474,37 @@ const Fitness = () => {
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           
-          <form id="getUserStats" onSubmit={getUserStats}>
+          {/* <form id="getUserStats" onSubmit={getUserStats}>
             <input type="hidden" name="username" value={username}></input>
             <button type="submit">Test Get User Stats</button>
-          </form>
+          </form> */}
 
           <div>
             <form id="addWorkout" onSubmit={addWorkoutToUser}>
+              {/* SEND USERNAME FOR DATABASE SEARCH */}
               <input type="hidden" name="username" value={username}></input>
+
+              {/* SEND INTENSITY FOR WORKOUT GENERATION */}
+              <p>Select desired intensity level for workout</p>
+              <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check" checked></input>
+              <label for="beginnerOption" className="btn btn-outline-primary">Beginner</label>
+              <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" checked></input>
+              <label for="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
+              <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
+              <label for="expertOption" className="btn btn-outline-primary">Expert</label>
+              <br />
+
+              {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
+              <p>Select muscle groups you want to focus on</p>
+              <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
+              <label className="btn btn-outline-primary" for="arms">Arms</label>
+              <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
+              <label className="btn btn-outline-primary" for="legs">Legs</label>
+              <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
+              <label className="btn btn-outline-primary" for="chest">Chest</label>
+
+              <br />
+
               {/* button displays different text if clicked or not clicked */}
               <button
                 type="submit"
@@ -475,13 +514,8 @@ const Fitness = () => {
                 {isFormSubmitting ? (
                   <div>
                     <p>Generating...</p>
-                    <div
-                      id="processing"
-                      className="spinner-border"
-                      role="status"
-                    >
-                      <span className="sr-only">Loading...</span>
-                    </div>
+                    {/* Bootstrap loadinng circle */}
+                    <div id="processing" className="spinner-border" role="status"><span className="sr-only">Loading...</span></div>
                   </div>
                 ) : (
                   "Create new workout plan"
@@ -490,6 +524,8 @@ const Fitness = () => {
 
               <p>
                 <small>Generating takes 30-60 seconds</small>
+                <br />
+                <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small>
               </p>
             </form>
           </div>

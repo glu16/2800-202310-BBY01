@@ -221,26 +221,27 @@ app.get("/coach/:username", async (req, res) => {
 });
 
 // GET USERSTATS TO FEED INTO WORKOUT PLAN GENERATION
-app.get("/userStats/:username", async (req, res) => {
-  const userID = req.params.username;
-  try {
-    const user = await User.findOne({ username: userID });
-    let obj = user.userStats[0];
-    console.log(obj.sex);
-        
+// app.get("/userStats/:username", async (req, res) => {
+//   const userID = req.params.username;
+//   try {
+//     const user = await User.findOne({ username: userID });
+//     let obj = user.userStats[0];
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
-  }
-});
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+//   }
+// });
 
 
 // GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
-
+  
   // store user's username
   const userID = req.params.username;
+
+  // store variables sent from fitness.jsx
+  const { workoutKey, workout, muscleGroups, level } = req.body;
 
   // store user's stats to send to workouts.js
   var userStats;
@@ -255,41 +256,42 @@ app.put("/fitness/:username", async (req, res) => {
     return; // Stop execution after sending the response
   }
 
-  // SAITAMA EASTER EGG
-  const today = new Date();
-  const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-  const formattedDate = today.toLocaleDateString('en-US', options);
-  var saitamaWorkout = {};
-  saitamaWorkout[formattedDate] = {
-    "Exercise 1": {"name": "PUSH-UPS", "setsAndReps": "100", "calories": 100},
-    "Exercise 2": {"name": "SIT-UPS", "setsAndReps": "100", "calories": 100},
-    "Exercise 3": {"name": "SQUATS", "setsAndReps": "100", "calories": 100},
-    "Exercise 4": {"name": "10K RUN", "setsAndReps": "10 km", "calories": 900}
-  };
-  if (firstName.toLowerCase() === "saitama") {
-    console.log(saitamaWorkout);
-    try {
-      const user = await User.findOneAndUpdate(
-        { username: userID },
-        {
-          $push: {
-            workouts: { $each: [JSON.parse(JSON.stringify(saitamaWorkout))], $position: 0 },
-          },
-        }
-      );
-      res.status(200).json({
-        message: `SAITAMA'S WORKOUT ADDED.`,
-        user,
-      });
-      return; // Stop execution after sending the response
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Internal server error. Couldn't add SAITAMA workout plan." });
-      return; // Stop execution after sending the response
-    }
-  }
-  // END OF SAITAMA EASTER EGG
+          // SAITAMA EASTER EGG
+          const today = new Date();
+          const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+          const formattedDate = today.toLocaleDateString('en-US', options);
+          var saitamaWorkout = {};
+          saitamaWorkout[formattedDate] = {
+            "Exercise 1": {"name": "PUSH-UPS", "setsAndReps": "100", "calories": 100},
+            "Exercise 2": {"name": "SIT-UPS", "setsAndReps": "100", "calories": 100},
+            "Exercise 3": {"name": "SQUATS", "setsAndReps": "100", "calories": 100},
+            "Exercise 4": {"name": "10K RUN", "setsAndReps": "10 km", "calories": 900}
+          };
+          if (firstName.toLowerCase() === "saitama") {
+            console.log(saitamaWorkout);
+            try {
+              const user = await User.findOneAndUpdate(
+                { username: userID },
+                {
+                  $push: {
+                    workouts: { $each: [JSON.parse(JSON.stringify(saitamaWorkout))], $position: 0 },
+                  },
+                }
+              );
+              res.status(200).json({
+                message: `SAITAMA'S WORKOUT ADDED.`,
+                user,
+              });
+              return; // Stop execution after sending the response
+            } catch (err) {
+              console.error(err);
+              res.status(500).json({ error: "Internal server error. Couldn't add SAITAMA workout plan." });
+              return; // Stop execution after sending the response
+            }
+          }
+          // END OF SAITAMA EASTER EGG
 
+  // variables to hold userStats
   var sex = userStats.sex;
   var age = userStats.age;
   var height = userStats.height;
@@ -297,12 +299,20 @@ app.put("/fitness/:username", async (req, res) => {
   var activityLevel = userStats.activityLevel;
   var goal = userStats.goal;
 
+  // variables to hold fitness.jsx form variables
+  if (!muscleGroups || muscleGroups.length == 0) {
+    muscleGroups = ["all"];
+  }
+  if (!level || level.length == 0) {
+    level = "intermediate";
+  }
+
   // import workouts.js
   const workouts = require("./workouts");
 
   // generates workout plan in workout.js
   function generateWorkout(callback) {
-    workouts.generate(sex, age, height, weight, activityLevel, goal, (newWorkout) => {
+    workouts.generate(sex, age, height, weight, activityLevel, goal, muscleGroups, level, (newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
