@@ -332,6 +332,8 @@ const Streak = () => {
   const [currentStreak, setCurrentStreak] = useState(null);
   const [longestStreak, setLongestStreak] = useState(null);
   const [doneToday, setDoneToday] = useState(null);
+  const [daysDone, setDaysDone] = useState(null);
+  const [daysMissed, setDaysMissed] = useState(null);
   // FUNCTION GETS USER STREAK STATS FROM DATABASE
   async function getStreak() {
     try {
@@ -343,6 +345,8 @@ const Streak = () => {
       setCurrentStreak(data.currentStreak);
       setLongestStreak(data.longestStreak);
       setDoneToday(data.doneToday);
+      setDaysDone(data.daysDone);
+      setDaysMissed(data.daysMissed);
     } catch (error) {
       // Handle any errors that occur during the fetch
       console.error('Error fetching streak:', error);
@@ -374,6 +378,8 @@ const Streak = () => {
       </p>
       <p>Current Streak: {currentStreak}</p>
       <p>Longest Streak: {longestStreak}</p>
+      <p>Number of days completed workout: {daysDone}</p>
+      <p>Number of days missed workout: {daysMissed}</p>
     </div>
   );
 };
@@ -580,7 +586,7 @@ const Fitness = () => {
               <label className="btn btn-outline-primary" htmlFor="glutes">Glutes</label>
               <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
               <p>Select muscle groups you want to focus on</p>
-              
+
               <br />
 
               {/* button displays different text if clicked or not clicked */}

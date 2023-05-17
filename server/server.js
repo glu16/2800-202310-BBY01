@@ -276,6 +276,8 @@ app.post("/signupdetails/:username", async (req, res) => {
           doneToday: false,
           currentStreak: 0,
           longestStreak: 0,
+          daysDone: 0,
+          daysMissed: 0,
         },
       },
 
@@ -563,7 +565,9 @@ app.get("/streak/:username", async (req, res) => {
     res.send({
       currentStreak: user.currentStreak,
       longestStreak: user.longestStreak,
-      doneToday: user.doneToday
+      doneToday: user.doneToday,
+      daysDone: user.daysDone,
+      daysMissed: user.daysMissed,
      });
   } catch (err) {
     console.error(err);
@@ -571,18 +575,18 @@ app.get("/streak/:username", async (req, res) => {
   }
 });
 // send doneToday to client
-app.get("/doneToday/:username", async (req, res) => {
-  const userID = req.params.username;
-  try {
-    const user = await User.findOne({ username: userID });
-    res.send(
-      user.doneToday
-     );
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
-  }
-});
+// app.get("/doneToday/:username", async (req, res) => {
+//   const userID = req.params.username;
+//   try {
+//     const user = await User.findOne({ username: userID });
+//     res.send(
+//       user.doneToday
+//      );
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+//   }
+// });
 
 
 // to generate and store a user's workout plan
@@ -809,6 +813,8 @@ app.post("/fitness/:username", async (req, res) => {
       { 
         // increment currentStreak FIELD BY 1
         $inc: { currentStreak: 1 }, 
+        // increment daysDone FIELD BY 1
+        $inc: { daysDone: 1 }, 
         // set doneToday TO true
         $set: { doneToday: true }
       },
@@ -824,9 +830,9 @@ app.post("/fitness/:username", async (req, res) => {
       await user.save();
       console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
     }
-    console.log(`Successfully updated ${userID}'s currentStreak and doneToday`);
+    console.log(`Successfully updated ${userID}'s currentStreak, daysDone, and doneToday`);
     res.status(200).json({
-      message: `${userID} currentStreak incremented successfully`,
+      message: `${userID} streak stats updated successfully`,
       user,
     });
   } catch (err) {
@@ -847,6 +853,8 @@ cron.schedule('58 23 * * *', async () => {
       if (user.doneToday == false) {
         // If doneToday is false, set currentStreak to 0
         user.currentStreak = 0;
+        // If doneToday is false, increment daysMissed
+        user.daysMissed = user.daysMissed + 1;
       } 
       // Save the updated user
       await user.save();

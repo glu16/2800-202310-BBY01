@@ -29,9 +29,11 @@ const userSchema = new mongoose.Schema({
   ],
   points: {type: Number, default: 0 },
 
-  doneToday: { type: Boolean },
-  currentStreak: { type: Number },
-  longestStreak: { type: Number },
+  doneToday: { type: Boolean, default: false },
+  currentStreak: { type: Number, default: 0 },
+  longestStreak: { type: Number, default: 0 },
+  daysDone: { type: Number, default: 0 },
+  daysMissed: { type: Number, default: 0 },
 });
 
 // GENERATES A TOKEN FOR THE USER
