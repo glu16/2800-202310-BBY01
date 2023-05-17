@@ -30,6 +30,20 @@ async function getWorkout() {
   }
 }
 
+// CHECK IF EXERCISE FOR TODAY ALREADY DONE
+// var doneToday;
+// async function getDoneToday() {
+//   var response = await fetch(`http://localhost:5050/doneToday/${username}`, {
+//     method: "GET",
+//     headers: { "Content-Type": "application/json" },
+//   });
+//   var data = await response.json();
+//   doneToday = data;
+//   console.log(doneToday);
+// }
+// getDoneToday();
+
+
 // FUNCTION GETS USERSTATS FIELD FROM DATABASE
 // async function getUserStats() {
 //   var response = await fetch(`http://localhost:5050/userStats/${username}`, {
@@ -317,6 +331,7 @@ const CompleteExercisesButton = () => {
 const Streak = () => {
   const [currentStreak, setCurrentStreak] = useState(null);
   const [longestStreak, setLongestStreak] = useState(null);
+  const [doneToday, setDoneToday] = useState(null);
   // FUNCTION GETS USER STREAK STATS FROM DATABASE
   async function getStreak() {
     try {
@@ -327,6 +342,7 @@ const Streak = () => {
       const data = await response.json();
       setCurrentStreak(data.currentStreak);
       setLongestStreak(data.longestStreak);
+      setDoneToday(data.doneToday);
     } catch (error) {
       // Handle any errors that occur during the fetch
       console.error('Error fetching streak:', error);
@@ -341,9 +357,21 @@ const Streak = () => {
     return <div>Loading streak...</div>;
   }
 
+  // set which symbol via url to display if today's workout is done or not
+  var doneTodaySymbol;
+  if (doneToday) {
+    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png'
+  } else {
+    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/04/logo-excel-rouge.png'
+  }
+
   return (
     <div id="streakContainer">
       <h2>Streak & Stats</h2>
+      <p>Today Done: &nbsp;
+          <img src={doneTodaySymbol}
+            style={{width:'50px', height:'50px'}}></img>
+      </p>
       <p>Current Streak: {currentStreak}</p>
       <p>Longest Streak: {longestStreak}</p>
     </div>
@@ -583,7 +611,7 @@ const Fitness = () => {
           )}
           <button id="completeAll" 
             onClick={completeAllExercises} 
-            disabled={numberOfExercises !== 0 || completeAllExercisesClicked}
+            disabled={numberOfExercises !== 0 || completeAllExercisesClicked && !doneToday}
             >Mark ALL exercises complete!
           </button>
           

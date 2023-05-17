@@ -555,7 +555,6 @@ app.get("/fitness/:username", async (req, res) => {
     res.status(500).json({ error: "Internal server error. Couldn't send workout plan." });
   }
 });
-
 // send userStreak to client
 app.get("/streak/:username", async (req, res) => {
   const userID = req.params.username;
@@ -563,11 +562,25 @@ app.get("/streak/:username", async (req, res) => {
     const user = await User.findOne({ username: userID });
     res.send({
       currentStreak: user.currentStreak,
-      longestStreak: user.longestStreak
+      longestStreak: user.longestStreak,
+      doneToday: user.doneToday
      });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error. Couldn't send user streak." });
+  }
+});
+// send doneToday to client
+app.get("/doneToday/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send(
+      user.doneToday
+     );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
 
