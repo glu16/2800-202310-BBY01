@@ -8,7 +8,8 @@ import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
-  // Formatting for date
+
+  // Formatting for date, to be used in toLocaleDateString function
   const dateOptions = {
     weekday: "long",
     year: "numeric",
@@ -213,6 +214,7 @@ const Home = () => {
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}>
         <div className={styles.progressInnerCard}>
           <Reorder.Group onReorder={setItems} values={items}>
+            <p className={styles.exerciseDate}>Exercises for {date}</p>
             {items.map((item) => (
               <Reorder.Item key={item} value={item}>
                 {item}
