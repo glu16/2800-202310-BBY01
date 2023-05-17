@@ -20,14 +20,14 @@
 .cardContainer {
   height: 100%;
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-items: center;
-  align-items: stretch;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .friendsCard {
   flex: 1;
+  min-height: 721px;
   width: 100%;
   max-width: 500px;
   margin-top: 160px;
@@ -41,6 +41,16 @@
   background-color: #2b2b2b;
 }
 
+.friendsInnerCard {
+  flex: 1;
+  width: 90%;
+  max-height: 300px;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: #474747;
+  overflow: auto;
+  position: relative;
+}
 .errorMessage {
   color: red;
   font-size: 9pt;
@@ -48,14 +58,27 @@
 
 .friendsHeader {
   color: rgb(92, 208, 216);
+  background-color: #474747;
+  width: 100%;
+  align-items: stretch;
+  position: sticky;
+  top: 0;
+}
+
+.friendsHeader > h1 {
+  color: rgb(92, 208, 216);
+  min-height: 48px;
+  margin: 5px 0;
+  padding-top: 2px;
+}
+
+.friends {
+  color: white;
   margin-top: 10px;
-  display: flex;
-  align-items: center;
 }
 
 .friendsList {
-  color: white;
-  margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .formLabel {
@@ -63,7 +86,7 @@
 }
 
 .icon {
-  margin-top: 4px;
+  /* margin-top: 4px; */
   margin-left: 10px;
 }
 
@@ -71,7 +94,16 @@
   color: rgb(92, 208, 216);
   cursor: pointer;
   text-decoration: none;
+  display: inline !important;
 }
+
+.infoLink:hover {
+  color: hsl(184, 62%, 73%);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline !important;
+}
+
 
 .imgProfile {
   margin-top: 10px;
@@ -101,6 +133,14 @@
   justify-content: center;
   align-items: center;
   background-color: #2b2b2b;
+}
+
+.profileInnerCard {
+  flex: 1;
+  width: 90%;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: #474747;
 }
 
 .profileHeader {
@@ -153,9 +193,14 @@
 }
 
 .userNameLink {
-  color: rgb(92, 208, 216);
+  color: white;
   cursor: pointer;
   text-decoration: none;
+  transition: 0.1s;
+}
+
+.userNameLink:hover {
+  color:rgb(92, 208, 216);
 }
 
 @media (max-width: 767px) {
@@ -173,4 +218,5 @@
   .friendsCard {
     margin: 20px 0;
   }
+  
 }
