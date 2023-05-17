@@ -28,7 +28,7 @@ const stopProgress = () => {
 
 
 // CREATE PROMPT FOR OPENAI TO HANDLE
-function createPrompt(sex1, age1, height1, weight1, activityLevel1, goal1) {
+function createPrompt(sex1, age1, height1, weight1, activityLevel1, goal1, muscleGroups1, level1) {
 
     // userStats from database
     var age = age1;
@@ -42,15 +42,15 @@ function createPrompt(sex1, age1, height1, weight1, activityLevel1, goal1) {
 
 
     // user input from fitness.jsx 
-    var muscles = ['back', 'chest']; 
-    var level = "intermediate"; 
+    var muscles = muscleGroups1;
+    var level = level1;
     var environment = "indoor" // indoor, outdoor, either
     // var equipment = ['bike','gym'];
 
 
     // ADD USER DETAILS TO PROMPT
     var inputPrompt = "";
-    inputPrompt += `I am a ${age} ${sex} ${height} centimetres tall and weigh ${weight} kilograms. `
+    inputPrompt += `I am a ${age} ${sex} ${height} metres tall and weigh ${weight} kilograms. `
     inputPrompt += `I am ${activityLevel}. My goal is to ${goal}. `
     inputPrompt += `Give me a ${level} level, 7-day workout routine with a focus on the following muscle groups: ` 
         + muscles.join(', ') + ". ";
@@ -75,14 +75,14 @@ function createPrompt(sex1, age1, height1, weight1, activityLevel1, goal1) {
 }
 
 // RUN THE AI
-async function runAI(sex, age, height, weight, activityLevel, goal) {
+async function runAI(sex, age, height, weight, activityLevel, goal, muscleGroups, level) {
     
     // start loading animation
     console.log("Generating workout plan...");
     startProgress();  
 
     // GET INPUTPROMPT
-    var input = await createPrompt(sex, age, height, weight, activityLevel, goal);
+    var input = await createPrompt(sex, age, height, weight, activityLevel, goal,  muscleGroups, level);
 
     // RUN OPEN AI ON PROMPT
     //default max tokens = 4096
@@ -250,8 +250,8 @@ function parseAI(res) {
 }
 
 // 'main' function that is called from promises from server.js 
-function generate(sex, age, height, weight, activityLevel, goal, callback) {
-    runAI(sex, age, height, weight, activityLevel, goal).then((result) => {
+function generate(sex, age, height, weight, activityLevel, goal, muscleGroups, level, callback) {
+    runAI(sex, age, height, weight, activityLevel, goal, muscleGroups, level).then((result) => {
         const newWorkout = result;
         callback(newWorkout);
       });
