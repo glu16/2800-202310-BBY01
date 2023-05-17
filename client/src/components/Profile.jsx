@@ -34,8 +34,8 @@ const Profile = ({ username }) => {
   const [error, setError] = useState("");
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
-  const[image, setImage] = useState();
-  const[pfp, setPfp] = useState();
+  const [image, setImage] = useState();
+  const [pfp, setPfp] = useState();
 
   // Function to fetch user data
   async function fetchUserData() {
@@ -222,7 +222,7 @@ const Profile = ({ username }) => {
     const usernameA = a.username || "";
     const usernameB = b.username || "";
     return usernameA.localeCompare(usernameB);
-  });  
+  });
 
   // useState hook variable for the info modal
   const [showInfoModal, setShowInfoModal] = useState(false);
@@ -237,7 +237,7 @@ const Profile = ({ username }) => {
     setShowInfoModal(false);
   };
 
-// Beginning of info modal component
+  // Beginning of info modal component
   const InfoModal = () => {
     return (
       <div
@@ -407,14 +407,19 @@ const Profile = ({ username }) => {
               <div className={`${styles.profileImage} profile-image`}>
                 <img
                   className={`rounded-circle`}
-                  src={pfp? pfp : profile}
+                  src={pfp ? pfp : profile}
                   alt="Profile Image"
                   id="profile-picture"
                 />
                 <label htmlFor="img-upload">
                   <i className="fa fa-camera"></i>
                 </label>
-                <input type="file" id="img-upload" accept="image/*" onChange={handleImageChange}/>
+                <input
+                  type="file"
+                  id="img-upload"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
               </div>
               <div className={`mt-3 ${styles.profileInfo}`}>
                 <div className={`${styles.profileItem} email`}>
@@ -481,6 +486,9 @@ const Profile = ({ username }) => {
                   </a>
                 </div>
               ))}
+              <br />
+              <h1 className={styles.friendsHeader}>Mini Challenges</h1>
+              
             </div>
           </div>
           {/* Render the DeleteFriendModal */}
@@ -544,7 +552,6 @@ const Profile = ({ username }) => {
                   {error.includes("Username") && (
                     <span className={`${styles.errorMessage}`}>{error}</span>
                   )}
-
                 </div>
                 <div className="mb-3">
                   <label
@@ -564,7 +571,6 @@ const Profile = ({ username }) => {
                   {error.includes("Email") && (
                     <span className={`${styles.errorMessage}`}>{error}</span>
                   )}
-
                 </div>
                 <div className="mb-3">
                   <label
@@ -584,7 +590,6 @@ const Profile = ({ username }) => {
                   {error.includes("Phone") && (
                     <span className={`${styles.errorMessage}`}>{error}</span>
                   )}
-
                 </div>
                 <div className="mb-3">
                   <label
