@@ -186,14 +186,18 @@ const Home = () => {
   }, []);
   // End of completion status retrieval
 
-  // Increments the progress bar based on completion
+  // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
-  const [fitnessProgress, setFitnessProgress] = useState(0);
 
+  // Click event handler to increment the diet progress
   const handleDietProgressChange = (newProgress) => {
     setDietProgress(newProgress);
   };
 
+  // useState hook variables for the fitness progress
+  const [fitnessProgress, setFitnessProgress] = useState(0);
+
+  // Click event handler to increment the fitness progress
   const handleFitnessProgressChange = (newProgress) => {
     setFitnessProgress(newProgress);
   };
