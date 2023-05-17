@@ -100,27 +100,31 @@ app.get("/leaderboard/users", async (req, res) => {
 app.get("/leaderboard/:username", async (req, res) => {
   try {
     const { username } = req.params;
-    // FIND THE USER BY USERNAME
     const loggedInUser = await User.findOne({ username });
-    // THROW ERROR IF NOT LOGGED IN
+    // CHECK IF THE USER IS LOGGED IN
     if (!loggedInUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    // RETRIEVE THE FRIEND OBJECTS WITH UPDATED USERNAME
+    // CHECK IF THE USER IS LOGGED IN
     const friends = await Promise.all(
       loggedInUser.friends.map(async (friend) => {
-        // FIND THE FRIEND BY ID
         const friendUser = await User.findById(friend._id);
-        // RETURN THE UPDATED FRIEND OBJECT WITH THE NEW USERNAME
+        // SKIP DELETED USERS
+        if (!friendUser) {
+          return null;
+        }
+        // RETURN THE EXISTING USERS
         return {
-          username: friendUser ? friendUser.username : null,
+          username: friendUser.username,
           points: friend.points,
           _id: friend._id,
         };
       })
     );
-    // SEND THE USER'S FRIENDS
-    res.json(friends);
+
+    const validFriends = friends.filter((friend) => friend !== null);
+    // SEND THE REQUEST RESPONSE
+    res.json(validFriends);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Server error" });
@@ -142,7 +146,9 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     const loggedInUser = await User.findOne({ username });
     // CHECK IF THE LOGGED IN USER IS TRYING TO ADD THEMSELVES AS A FRIEND
     if (friendUsername === username) {
-      return res.status(400).json({ error: "Cannot add yourself as a friend." });
+      return res
+        .status(400)
+        .json({ error: "Cannot add yourself as a friend." });
     }
     // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
     if (!loggedInUser.friends.some((f) => f.username === friend.username)) {

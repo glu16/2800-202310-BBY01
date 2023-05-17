@@ -217,9 +217,11 @@ const Profile = ({ username }) => {
   // End of user's friends retrieval
 
   // Sorts the list of friends by alphabetical order
-  const sortedFriends = friends.sort((a, b) =>
-    a.username.localeCompare(b.username)
-  );
+  const sortedFriends = friends.sort((a, b) => {
+    const usernameA = a.username || "";
+    const usernameB = b.username || "";
+    return usernameA.localeCompare(usernameB);
+  });  
 
   // useState hook variable for the info modal
   const [showInfoModal, setShowInfoModal] = useState(false);
