@@ -198,12 +198,15 @@ const Home = () => {
         className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
       >
         <div className="card-body">
+          <animated.h1 className={styles.challengeHeader} style={greetings}>
+            Today's Mini Challenges
+          </animated.h1>
           {console.log("Challenges:", challenges)}
           {challenges.length > 0 ? (
             challenges.map((challenge) => (
               <div key={challenge._id}>
-                <h5 className="card-title">{challenge.challenge}</h5>
-                <p className="card-text">{challenge.points}</p>
+                <h5 className="card-title">Challenge: {challenge.challenge}</h5>
+                <h5 className="card-text">Points: {challenge.points}</h5>
               </div>
             ))
           ) : (

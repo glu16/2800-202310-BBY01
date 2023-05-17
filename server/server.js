@@ -583,17 +583,37 @@ setInterval(() => {
   }
 }, 1000 * 60 * 60 * 24);
 
+const challengesCache = {
+  data: [],
+  lastUpdated: null,
+};
+
 // GETS 3 RANDOM CHALLENGES FROM THE DATABASE
 app.get("/home/challenges", async (req, res) => {
   try {
-    // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
-    const challenges = await Challenges.aggregate([
-      { $sample: { size: 3 } },
-      { $project: { _id: 1, challenge: 1, points: 1 } },
-    ]);
+    // CHECK IF CHALLENGES NEED TO BE UPDATED
+    const currentDate = new Date();
+    const currentHour = currentDate.getHours();
+    const currentMinute = currentDate.getMinutes();
+
+    if (
+      challengesCache.lastUpdated === null ||
+      currentHour === 0 ||
+      (currentHour === 23 && currentMinute >= 55)
+    ) {
+      // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
+      const challenges = await Challenges.aggregate([
+        { $sample: { size: 3 } },
+        { $project: { _id: 1, challenge: 1, points: 1 } },
+      ]);
+
+      // UPDATE THE CHALLENGES CACHE
+      challengesCache.data = challenges;
+      challengesCache.lastUpdated = currentDate;
+    }
 
     // SEND THE RESPONSE
-    res.json(challenges);
+    res.json(challengesCache.data);
   } catch (error) {
     console.error("Error occurred during aggregation:", error);
     res.status(500).send("An error occurred");
