@@ -299,7 +299,7 @@ const Leaderboard = () => {
       const player = new window.YT.Player(playerRef.current, {
         videoId: "dQw4w9WgXcQ",
         playerVars: {
-          autoplay: 0,
+          autoplay: 1,
         },
       });
       playerRef.current = player;
