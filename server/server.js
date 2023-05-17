@@ -238,18 +238,58 @@ app.get("/userStats/:username", async (req, res) => {
 
 // GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
+
   // store user's username
   const userID = req.params.username;
 
   // store user's stats to send to workouts.js
   var userStats;
+  var firstName;
   try {
     const user = await User.findOne({ username: userID });
     userStats = user.userStats[0];
+    firstName = user.firstName;
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    return; // Stop execution after sending the response
   }
+
+  // SAITAMA EASTER EGG
+  const today = new Date();
+  const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+  const formattedDate = today.toLocaleDateString('en-US', options);
+  var saitamaWorkout = {};
+  saitamaWorkout[formattedDate] = {
+    "Exercise 1": {"name": "PUSH-UPS", "setsAndReps": "100", "calories": 100},
+    "Exercise 2": {"name": "SIT-UPS", "setsAndReps": "100", "calories": 100},
+    "Exercise 3": {"name": "SQUATS", "setsAndReps": "100", "calories": 100},
+    "Exercise 4": {"name": "10K RUN", "setsAndReps": "10 km", "calories": 900}
+  };
+  if (firstName.toLowerCase() === "saitama") {
+    console.log(saitamaWorkout);
+    try {
+      const user = await User.findOneAndUpdate(
+        { username: userID },
+        {
+          $push: {
+            workouts: { $each: [JSON.parse(JSON.stringify(saitamaWorkout))], $position: 0 },
+          },
+        }
+      );
+      res.status(200).json({
+        message: `SAITAMA'S WORKOUT ADDED.`,
+        user,
+      });
+      return; // Stop execution after sending the response
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Internal server error. Couldn't add SAITAMA workout plan." });
+      return; // Stop execution after sending the response
+    }
+  }
+  // END OF SAITAMA EASTER EGG
+
   var sex = userStats.sex;
   var age = userStats.age;
   var height = userStats.height;
