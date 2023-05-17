@@ -2,17 +2,68 @@ import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { ProgressBar } from "react-step-progress-bar";
 import axios from "axios";
-import { Reorder } from "framer-motion";
+import { addScaleCorrector, Reorder } from "framer-motion";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
-const initialItems=["Deadlifts 4 sets of 8 reps", "Barbell rows: 3 sets of 10 reps", "Pull-ups: 3 sets of 10 reps"];
-
 const Home = () => {
 
-  const [items, setItems] = useState(initialItems);
+  // Formatting for date, to be used in toLocaleDateString function
+  const dateOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
 
+  // Instantiate an object with today's date
+  const today = new Date();
+  const date = today.toLocaleDateString("en-CA", dateOptions);
+
+  // Fetches exercises from database
+  async function fetchExercises() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/fitness/${localStorage.getItem("username")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response == "empty") {
+        setItems(["empty"]);
+      } else {
+        // Assigns the object containing today's exercise to the variable
+        const exercisesForToday = response.data[date];
+        console.log(exercisesForToday);
+
+        /* Gets array containing keys of the object. The map() function
+        then iterates over each key to create the exerciseDetailsArray */
+        const exerciseDetailsArray = Object.keys(exercisesForToday).map(
+          (key) => {
+            const exercise = exercisesForToday[key];
+            const detailsString = `Exercise: ${exercise.name},
+             Sets and Reps: ${exercise.setsAndReps},
+             Calories: ${exercise.calories}`;
+            return detailsString;
+          }
+        );
+        // set items variable to contain the exercise array after retrieving it
+        setItems(exerciseDetailsArray);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // useEffect hook to call fetchExercises function
+  useEffect(() => {
+    fetchExercises();
+  }, []);
+  const [items, setItems] = useState(["rest day"]);
+  /* End of exercise retrieval */
 
   /* Text animation */
   const greetings = useSpring({
@@ -29,9 +80,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem(
-            "username"
-          )}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -108,10 +157,9 @@ const Home = () => {
 
   /* Renders Home.jsx component */
   return (
-    <div className={styles.cardWrapper}>
+    <div className={`row justify-content- ${styles.cardWrapper}`}>
       <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
-      >
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
@@ -129,10 +177,8 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
-      >
-        <div className={styles.progressCard}>
+      <div className={`col-md mx-md-3 h-100 ${styles.progressCard}`}>
+        <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
             <ProgressBar
@@ -142,17 +188,14 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleDietProgressChange(25)}
-          >
+            onClick={() => handleDietProgressChange(25)}>
             Update Progress
           </button>
         </div>
       </div>
 
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard}`}
-      >
-        <div className={styles.progressCard}>
+      <div className={`col-md mx-md-3 h-100 ${styles.progressCard}`}>
+        <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
           <div className={styles.progressBarContainer}>
             <ProgressBar
@@ -162,23 +205,24 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleFitnessProgressChange(25)}
-          >
+            onClick={() => handleFitnessProgressChange(25)}>
             Update Progress
           </button>
         </div>
       </div>
-    <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}
-      >
-    <Reorder.Group onReorder={setItems} values={items}>
-      {items.map((item) => (
-        <Reorder.Item key={item} value={item} >
-        {item}
-        </Reorder.Item>
-      ))}
-    </Reorder.Group>
-    </div>
+      <div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}>
+        <div className={styles.progressInnerCard}>
+          <Reorder.Group onReorder={setItems} values={items}>
+            <p className={styles.exerciseDate}>Exercises for {date}</p>
+            {items.map((item) => (
+              <Reorder.Item key={item} value={item}>
+                {item}
+              </Reorder.Item>
+            ))}
+          </Reorder.Group>
+        </div>
+      </div>
     </div>
   );
   /* End of Home.jsx component render */
