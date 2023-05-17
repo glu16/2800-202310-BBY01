@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
-const Profile = ({ username }) => {
+const Profile = ({username}) => {
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -84,9 +84,9 @@ const Profile = ({ username }) => {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleChange = ({ currentTarget: input }) => {
+  const handleChange = ({currentTarget: input}) => {
     // Input is saved into the data array
-    setData({ ...data, [input.name]: input.value });
+    setData({...data, [input.name]: input.value});
 
     // Clears error message on change
     setError("");
@@ -98,7 +98,7 @@ const Profile = ({ username }) => {
     }
   }, [image]);
 
-  const handleImageChange = ({ currentTarget: input }) => {
+  const handleImageChange = ({currentTarget: input}) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
     console.log(input.files[0]);
@@ -165,7 +165,7 @@ const Profile = ({ username }) => {
       setError("Username must be a minimum of 3 characters.");
       return;
     }
-    if (!phoneRegex.test(data["phoneNumber"])){
+    if (!phoneRegex.test(data["phoneNumber"])) {
       setError("Phone number must follow the format (000) 000-0000");
       return;
     }
@@ -179,7 +179,7 @@ const Profile = ({ username }) => {
       const url = `http://localhost:5050/profile/${localStorage.getItem(
         "username"
       )}`;
-      const { data: res } = await axios.post(url, data);
+      const {data: res} = await axios.post(url, data);
 
       // Updates localStorage with newly entered username
       localStorage.setItem("username", data.username);
@@ -201,9 +201,7 @@ const Profile = ({ username }) => {
   const fetchFriends = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5050/leaderboard/${localStorage.getItem(
-          "username"
-        )}`
+        `http://localhost:5050/leaderboard/${localStorage.getItem("username")}`
       );
       console.log(response.data);
       setFriends(response.data);
@@ -246,7 +244,7 @@ const Profile = ({ username }) => {
         tabIndex="-1"
         aria-labelledby="infoModalLabel"
         aria-hidden="false"
-        style={{ display: showInfoModal ? "block" : "none" }}
+        style={{display: showInfoModal ? "block" : "none"}}
         role={showInfoModal ? "dialog" : ""}
         aria-modal={showInfoModal ? "true" : "false"}
       >
@@ -325,8 +323,6 @@ const Profile = ({ username }) => {
     setShowDeleteModal(false);
   };
 
-  
-
   // Beginning of delete friend modal component
   const DeleteFriendModal = () => {
     const handleRemoveFriend = async () => {
@@ -335,7 +331,7 @@ const Profile = ({ username }) => {
         const friendId = selectedUser._id;
         await deleteFriend(friendId);
         // Alert popup to yield closure for removing a friend
-        
+
         closeModal();
         fetchFriends();
       } catch (error) {
@@ -349,7 +345,7 @@ const Profile = ({ username }) => {
         tabIndex="-1"
         aria-labelledby="deleteFriendModalLabel"
         aria-hidden="false"
-        style={{ display: showDeleteModal ? "block" : "none" }}
+        style={{display: showDeleteModal ? "block" : "none"}}
         role={showDeleteModal ? "dialog" : ""}
         aria-modal={showDeleteModal ? "true" : "false"}
       >
@@ -402,7 +398,7 @@ const Profile = ({ username }) => {
     >
       <div className={styles.cardContainer}>
         <div className={`${styles.profileCard}`}>
-          <div className={`card-body ${styles.cardBody}`}>
+          <div className={`card-body ${styles.profileInnerCard}`}>
             <div className="d-flex flex-column align-items-center text-center">
               <div className={`${styles.profileImage} profile-image`}>
                 <img
@@ -465,9 +461,9 @@ const Profile = ({ username }) => {
           </div>
         </div>
         <div className={`${styles.friendsCard}`}>
-          <div className={`card-body ${styles.friendsBody}`}>
-            <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.friendsHeader}>
+          <div className={`${styles.friendsInnerCard}`}>
+            <div className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`} >
+              <div className={styles.friendsHeader}><h1>
                 Friends List
                 <a
                   className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
@@ -476,8 +472,9 @@ const Profile = ({ username }) => {
                   info
                 </a>
               </h1>
+              </div>
               {sortedFriends.map((friend, index) => (
-                <div className={styles.friendsList} key={index}>
+                <div className={styles.friends} key={index}>
                   <a
                     className={styles.userNameLink}
                     onClick={() => handleUserClick(friend)}
@@ -486,9 +483,15 @@ const Profile = ({ username }) => {
                   </a>
                 </div>
               ))}
-              <br />
+            </div>
+          </div>
+
+          <div className={`card-body ${styles.friendsInnerCard}`}>
+            <div className="d-flex flex-column align-items-center text-center">
               <h1 className={styles.friendsHeader}>Mini Challenges</h1>
-              
+              <div>Challenge #1</div>
+              <div>Challenge #2</div>
+              <div>Challenge #3</div>
             </div>
           </div>
           {/* Render the DeleteFriendModal */}
@@ -512,7 +515,7 @@ const Profile = ({ username }) => {
         tabIndex="-1"
         aria-labelledby="editModalLabel"
         aria-hidden="false"
-        style={{ display: showModal ? "block" : "none" }}
+        style={{display: showModal ? "block" : "none"}}
         role={showModal ? "dialog" : ""}
         aria-modal={showModal ? "true" : "false"}
       >
