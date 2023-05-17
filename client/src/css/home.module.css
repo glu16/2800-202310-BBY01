@@ -2,11 +2,11 @@
   height: 100%;
   border-radius: 10px;
   max-width: 1000px;
-  display: flex;
-  text-align: center;
+  /* display: flex; */
+  /* text-align: center;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: center; */
+  /* align-items: center; */
   margin: auto;
   margin-top: 160px;
 }
@@ -16,7 +16,7 @@
   width: 100%;
   border-radius: 10px;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   background-color: #2b2b2b;
 }
 
@@ -32,19 +32,26 @@
 .progressHeader {
   text-align: center;
   color: rgb(92, 208, 216);
-  margin-top: 20px;
 }
 
 .progressCard {
-  width: 100%;
   border-radius: 10px;
   text-align: center;
   background-color: #2b2b2b;
   margin-bottom: 30px;
 }
 
+.progressInnerCard {
+  border-radius: 10px;
+  text-align: center;
+  background-color: hsl(0, 0%, 30%);
+  padding: 20px 0;
+  margin: 20px 6px;
+
+}
+
 .progressBarContainer{
-  margin: 0 100px;
+  margin: 0 75px;
 }
 
 .progressBtn {
@@ -64,10 +71,14 @@
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
+.draggableList{
+  padding: 30px 0;
+}
+
 .draggableList li{
   border-radius: 10px;
-  margin-bottom: 10px;
-  width: 100%;
+  margin: 30px 70px;
+  /* width: 100%; */
   padding: 15px 18px;
   position: relative;
   background: white;
@@ -84,7 +95,7 @@
   html,
   body {
     height: auto;
-    margin-bottom: 80px;
+    margin-bottom: 200px;
   }
   
   .cardWrapper {
