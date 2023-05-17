@@ -28,15 +28,15 @@ const stopProgress = () => {
 
 
 // CREATE PROMPT FOR OPENAI TO HANDLE
-function createPrompt() {
+function createPrompt(sex1, age1, height1, weight1, activityLevel1, goal1) {
 
     // userStats from database
-    // var age;
-    // var sex;
-    // var height;
-    // var weight;
-    // var activityLevel;
-    // var goal;
+    var age = age1;
+    var sex = sex1;
+    var height = height1;
+    var weight = weight1;
+    var activityLevel = activityLevel1;
+    var goal = goal1;
     // var workoutRestrictions = [];
     // var workoutPreferences = [];
 
@@ -50,8 +50,8 @@ function createPrompt() {
 
     // ADD USER DETAILS TO PROMPT
     var inputPrompt = "";
-    // inputPrompt += `I am a ${age} ${sex} ${height} centimetres tall and weigh ${weight} kilograms. `
-    // inputPrompt += `I am ${activityLevel}. My goal is to ${goal}. `
+    inputPrompt += `I am a ${age} ${sex} ${height} centimetres tall and weigh ${weight} kilograms. `
+    inputPrompt += `I am ${activityLevel}. My goal is to ${goal}. `
     inputPrompt += `Give me a ${level} level, 7-day workout routine with a focus on the following muscle groups: ` 
         + muscles.join(', ') + ". ";
     inputPrompt += "I only want " + environment + " activities. ";
@@ -75,14 +75,14 @@ function createPrompt() {
 }
 
 // RUN THE AI
-async function runAI() {
+async function runAI(sex, age, height, weight, activityLevel, goal) {
     
     // start loading animation
     console.log("Generating workout plan...");
     startProgress();  
 
     // GET INPUTPROMPT
-    var input = await createPrompt();
+    var input = await createPrompt(sex, age, height, weight, activityLevel, goal);
 
     // RUN OPEN AI ON PROMPT
     //default max tokens = 4096
@@ -105,7 +105,7 @@ function parseAI(res) {
     var fullResponse;
     try {
         fullResponse = res.data.choices[0].message.content;
-        // console.log("fullResponse: " + fullResponse);
+        console.log("fullResponse: " + fullResponse);
       } catch (error) {
         console.error("Error recieving fullResponse:", error);
       }
@@ -124,6 +124,7 @@ function parseAI(res) {
     try {
         for (let i = 1; i < paragraphs.length; i++) {  
             var day = paragraphs[i].split('\n'); //an array of sentences in this paragraph
+            console.log("day: " + day);
             var exercises = {};
             var jAdjusted = 0; // tracks j minus the ones skipped
             for (let j = 1; j < day.length; j++) {  //starting j=1 because 1st line is unwanted
@@ -241,7 +242,7 @@ function parseAI(res) {
         console.error("Error parsing paragraphs into workout plan:", error);
     }
 
-    // console.log(workoutPlan);
+    // console.log("workoutPlan: "); console.log(workoutPlan);
     console.log("...workout plan generated.");
 
     // RETURN WORKOUT PLAN TO SERVER
@@ -249,8 +250,8 @@ function parseAI(res) {
 }
 
 // 'main' function that is called from promises from server.js 
-function generate(callback) {
-    runAI().then((result) => {
+function generate(sex, age, height, weight, activityLevel, goal, callback) {
+    runAI(sex, age, height, weight, activityLevel, goal).then((result) => {
         const newWorkout = result;
         callback(newWorkout);
       });

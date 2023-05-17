@@ -253,6 +253,7 @@ app.put("/fitness/:username", async (req, res) => {
   var sex = userStats.sex;
   var age = userStats.age;
   var height = userStats.height;
+  var weight = userStats.weight;
   var activityLevel = userStats.activityLevel;
   var goal = userStats.goal;
 
@@ -261,7 +262,7 @@ app.put("/fitness/:username", async (req, res) => {
 
   // generates workout plan in workout.js
   function generateWorkout(callback) {
-    workouts.generate((newWorkout) => {
+    workouts.generate(sex, age, height, weight, activityLevel, goal, (newWorkout) => {
       updateWorkouts(newWorkout, callback);
     });
   }
