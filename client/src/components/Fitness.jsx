@@ -264,7 +264,7 @@ function Workout({ handleOpenModal }) {
   // return for Workout()
   return (
     <div>
-      <h2>{username}'s Workout</h2>
+      <h2>{username}'s 7-Day Workout</h2>
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>
         Previous Day
       </button>
