@@ -34,7 +34,7 @@ function createPrompt(sex, age, height, weight, activityLevel, goal) {
   //     foodPreferences = ["none"];
   // }
 
-  var inputPrompt = `I am a ${age} ${sex} and I am ${height} m tall and weigh ${weight} kilograms.
+  var inputPrompt = `I am a ${age} year old ${sex} and I am ${height} m tall and weigh ${weight} kilograms.
 My activity level is ${activityLevel} and my goal is to ${goal}. `
   // inputPrompt+= `My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
   inputPrompt += "Give me a 7-day diet plan. "
