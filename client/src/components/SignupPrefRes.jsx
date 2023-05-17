@@ -16,7 +16,7 @@ function SignupPrefRes() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = `http://localhost:5050/signupdetails/${localStorage.getItem(
+      const url = `http://localhost:5050/signupPrefRes/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
