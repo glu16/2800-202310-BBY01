@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
-import {useSpring, animated} from "react-spring";
-import {ProgressBar} from "react-step-progress-bar";
+import React, { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
+import { ProgressBar } from "react-step-progress-bar";
 import axios from "axios";
-import {addScaleCorrector, Reorder} from "framer-motion";
+import { addScaleCorrector, Reorder } from "framer-motion";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
@@ -34,23 +34,43 @@ const Home = () => {
           },
         }
       );
-      var data = await response.json();
-      if (data == "empty") {
+      if (response == "empty") {
         setExercises("empty");
       } else {
-        setExercises(data[date]);
+        // Assigns the object containing today's exercise to the variable 
+        const exercisesForToday = response.data[date];
+        console.log(exercisesForToday)
+
+        /* Gets array containing keys of the object. The map() function
+        then iterates over each key to create the exerciseDetailsArray */
+        const exerciseDetailsArray = Object.keys(exercisesForToday).map((key) => {
+          const exercise = exercisesForToday[key];
+
+          // New object with name, setsAndReps, and calories properties are returned
+          return {
+            name: exercise.name,
+            setsAndReps: exercise.setsAndReps,
+            calories: exercise.calories,
+          };
+        });
+      console.log(exerciseDetailsArray);        
+
       }
     } catch (error) {
       console.log(error);
     }
   }
 
+  useEffect(() => {
+    fetchExercises();
+  }, []);
+
   const [items, setItems] = useState(initialItems);
 
   /* Text animation */
   const greetings = useSpring({
     opacity: 1,
-    from: {opacity: 0},
+    from: { opacity: 0 },
     delay: 500,
   });
   /* End of text animation */
@@ -141,8 +161,7 @@ const Home = () => {
   return (
     <div className={`row justify-content- ${styles.cardWrapper}`}>
       <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
-      >
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
@@ -171,8 +190,7 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleDietProgressChange(25)}
-          >
+            onClick={() => handleDietProgressChange(25)}>
             Update Progress
           </button>
         </div>
@@ -189,15 +207,13 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleFitnessProgressChange(25)}
-          >
+            onClick={() => handleFitnessProgressChange(25)}>
             Update Progress
           </button>
         </div>
       </div>
       <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}
-      >
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}>
         <div className={styles.progressInnerCard}>
           <Reorder.Group onReorder={setItems} values={items}>
             {items.map((item) => (
