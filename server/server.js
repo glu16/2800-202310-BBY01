@@ -526,29 +526,6 @@ app.get("/diet/:email", async (req, res) => {
   }
 });
 
-app.get("/userStats", async (req, res) => {
-  // THE USER'S USERNAME
-  const userID = req.params.username;
-  try {
-    // FIND THE USER BY USERNAME
-    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
-    const user = await User.findOne({ username: "ndurano" });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.send({
-      sex: user.userStats[0].sex,
-      age: user.userStats[0].age,
-      height: user.userStats[0].height,
-      weight: user.userStats[0].weight,
-      activityLevel: user.userStats[0].activityLevel,
-      goal: user.userStats[0].goal,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ message: "Server error" });
-  }
-});
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
