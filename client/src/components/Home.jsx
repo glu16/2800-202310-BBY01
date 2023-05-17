@@ -8,7 +8,6 @@ import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
 
 const Home = () => {
-
   // Formatting for date, to be used in toLocaleDateString function
   const dateOptions = {
     weekday: "long",
@@ -63,19 +62,19 @@ const Home = () => {
     fetchExercises();
   }, []);
   const [items, setItems] = useState(["rest day"]);
-  /* End of exercise retrieval */
+  // End of fetchExercises function
 
-  /* Text animation */
+  // Text animation
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 500,
   });
-  /* End of text animation */
 
+  // useState hook variables for the username
   const [userName, setUserName] = useState("");
 
-  /* Retrieves logged in user's name */
+  // Retrieves logged in user's name
   useEffect(() => {
     async function fetchUserName() {
       try {
@@ -97,11 +96,12 @@ const Home = () => {
 
     fetchUserName();
   }, []);
-  /* End of user name retrieval */
+  // End of user name retrieval
 
-  /* Retrieves and displays a random diet or fitness tip from MongoDB */
+  // useState hook variables for the tips
   const [tip, setTip] = useState("");
 
+  // Retrieves and displays a random diet or fitness tip from MongoDB
   useEffect(() => {
     async function fetchTip() {
       try {
@@ -125,9 +125,29 @@ const Home = () => {
 
     fetchTip();
   }, []);
-  /* End of tip retrieval */
+  // End of tip retrieval
 
-  /* Retrieves user's completion status from MongoDB */
+  // useState hook variables for the challenges
+  const [challenges, setChallenges] = useState([]);
+
+  // Retrieves the challenges from MongoDB
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5050/home/challenges"
+        );
+        setChallenges(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchChallenges();
+  }, []);
+  // End of challenges retrieval
+
+  // Retrieves user's completion status from MongoDB
   const fetchCompletionStatus = async () => {
     try {
       const response = await fetch("MongoDB status here");
@@ -140,9 +160,9 @@ const Home = () => {
   useEffect(() => {
     fetchCompletionStatus();
   }, []);
-  /* End of completion status retrieval */
+  // End of completion status retrieval
 
-  /* Increments the progress bar based on completion */
+  // Increments the progress bar based on completion
   const [dietProgress, setDietProgress] = useState(0);
   const [fitnessProgress, setFitnessProgress] = useState(0);
 
@@ -153,13 +173,13 @@ const Home = () => {
   const handleFitnessProgressChange = (newProgress) => {
     setFitnessProgress(newProgress);
   };
-  /* End of progress bar increment */
 
-  /* Renders Home.jsx component */
+  // Renders Home.jsx component
   return (
     <div className={`row justify-content- ${styles.cardWrapper}`}>
       <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}>
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
+      >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
@@ -177,7 +197,26 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <animated.div className={`col-md mx-md-3 h-100 ${styles.progressCard}`} style={greetings}>
+      <div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
+      >
+        <div className="card-body">
+          {challenges.length > 0 ? (
+            challenges.map((challenge) => (
+              <div key={challenge._id}>
+                <h5 className="card-title">{challenge.challenge}</h5>
+                <p className="card-text">{challenge.points}</p>
+              </div>
+            ))
+          ) : (
+            <p>No challenges available.</p>
+          )}
+        </div>
+      </div>
+      <animated.div
+        className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
+        style={greetings}
+      >
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
@@ -188,13 +227,17 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleDietProgressChange(25)}>
+            onClick={() => handleDietProgressChange(25)}
+          >
             Update Progress
           </button>
         </div>
       </animated.div>
 
-      <animated.div className={`col-md mx-md-3 h-100 ${styles.progressCard}`} style={greetings}>
+      <animated.div
+        className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
+        style={greetings}
+      >
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
           <div className={styles.progressBarContainer}>
@@ -205,13 +248,16 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleFitnessProgressChange(25)}>
+            onClick={() => handleFitnessProgressChange(25)}
+          >
             Update Progress
           </button>
         </div>
       </animated.div>
       <animated.div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`} style={greetings}>
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}
+        style={greetings}
+      >
         <animated.div className={styles.progressInnerCard} style={greetings}>
           <Reorder.Group onReorder={setItems} values={items}>
             <p className={styles.exerciseDate}>Exercises for {date}</p>
@@ -225,7 +271,7 @@ const Home = () => {
       </animated.div>
     </div>
   );
-  /* End of Home.jsx component render */
+  // End of Home.jsx component render
 };
 
 export default Home;

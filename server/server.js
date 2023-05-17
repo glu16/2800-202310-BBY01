@@ -15,6 +15,7 @@ const passChangeRouter = require("./routes/passChange.js");
 // THE MODELS
 const { User } = require("./models/users.js");
 const Tips = require("./models/tips.js");
+const Challenges = require("./models/challenges.js");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -569,6 +570,56 @@ setInterval(() => {
     selectedDate = null;
   }
 }, 1000 * 60 * 60 * 24);
+
+// GETS 3 RANDOM MINI CHALLENGES FROM THE DATABASE THAT CHANGES AT MIDNIGHT
+app.get("/home/challenges", async (req, res) => {
+  try {
+    const currentDate = new Date();
+    const midnight = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      currentDate.getDate() + 1,
+      0,
+      0,
+      0
+    );
+    const timeUntilMidnight = midnight.getTime() - currentDate.getTime();
+
+    // WAIT UNTIL MIDNIGHT TO REFRESH THE CHALLENGES
+    await new Promise((resolve) => setTimeout(resolve, timeUntilMidnight));
+
+    // GET TOTAL COUNT OF CHALLENGES
+    const count = await Challenges.countDocuments();
+    console.log("Total challenges count:", count);
+
+    // GENERATE 3 RANDOM NUMBERS
+    const randomNumbers = [];
+    while (randomNumbers.length < 3) {
+      const randomNumber = Math.floor(Math.random() * count);
+      if (!randomNumbers.includes(randomNumber)) {
+        randomNumbers.push(randomNumber);
+      }
+    }
+
+    // RETRIEVE CHALLENGES USING THE RANDOM NUMBERS
+    const challenges = await Challenges.find()
+      .limit(3)
+      .skip(randomNumbers[0])
+      .toArray();
+
+    // EXTRACT THE PROPERTIES
+    const challengeData = challenges.map((challenge) => ({
+      stringValue: challenge.String,
+      intValue: challenge.int,
+    }));
+
+    // SEND THE CHALLENGE DATA
+    res.json(challengeData);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred");
+  }
+});
 
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
