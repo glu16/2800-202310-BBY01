@@ -330,12 +330,14 @@ const Profile = ({ username }) => {
   // Beginning of delete friend modal component
   const DeleteFriendModal = () => {
     const handleRemoveFriend = async () => {
+      window.alert("Friend removed successfully!");
       try {
         const friendId = selectedUser._id;
         await deleteFriend(friendId);
         // Alert popup to yield closure for removing a friend
-        window.alert("Friend removed successfully!");
+        
         closeModal();
+        fetchFriends();
       } catch (error) {
         console.error(error);
       }
