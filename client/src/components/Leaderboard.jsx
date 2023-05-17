@@ -175,7 +175,7 @@ const Leaderboard = () => {
           }
         );
       }
-      console.log("done!")
+      console.log("Done!")
       fetchFriends();
       closeModal();
     } catch (error) {

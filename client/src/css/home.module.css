@@ -26,6 +26,25 @@
   color: rgb(92, 208, 216);
 }
 
+.challengeBtn {
+  margin-top: 4px;
+  margin-bottom: 10px;
+  background-color: hsl(184, 61%, 40%);
+  border: none;
+}
+
+.challengesBtn:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
+}
+
+.challengeBtn:active,
+.challengeBtn:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
 .homeCard {
   height: 100%;
   width: 100%;
@@ -44,6 +63,7 @@
 .username {
   color: rgb(92, 208, 216);
 }
+
 .progressHeader {
   text-align: center;
   color: rgb(92, 208, 216);
@@ -62,10 +82,9 @@
   background-color: hsl(0, 0%, 30%);
   padding: 20px 0;
   margin: 20px 6px;
-
 }
 
-.progressBarContainer{
+.progressBarContainer {
   margin: 0 75px;
 }
 
@@ -81,21 +100,21 @@
   outline: none;
 }
 
-.progressBtn:active, .progressBtn:focus  {
+.progressBtn:active,
+.progressBtn:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
-
-.exerciseDate{
+.exerciseDate {
   font-size: 19pt;
   color: rgb(92, 208, 216);
 }
-.draggableList{
+.draggableList {
   padding: 30px 0;
 }
 
-.draggableList li{
+.draggableList li {
   border-radius: 10px;
   margin: 30px 70px;
   /* width: 100%; */
@@ -110,14 +129,13 @@
   cursor: grab;
 }
 
-
 @media (max-width: 767px) {
   html,
   body {
     height: auto;
     margin-bottom: 200px;
   }
-  
+
   .cardWrapper {
     height: 100%;
     border-radius: 10px;

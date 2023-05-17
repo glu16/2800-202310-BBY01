@@ -147,6 +147,24 @@ const Home = () => {
   }, []);
   // End of challenges retrieval
 
+  // useState hook variables to add challenges
+  const [userChallenges, setUserChallenges] = useState([]);
+
+  // Function to add challenges
+  const addChallenge = async () => {
+    try {
+      const response = await axios.post("http://localhost:5050/home/:username");
+      addChallenge(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Click event handler for adding a friend 
+  const handleAddChallenge = (challenge) => {
+    setUserChallenges((prevChallenges) => [...prevChallenges, challenge]);
+  };
+
   // Retrieves user's completion status from MongoDB
   const fetchCompletionStatus = async () => {
     try {
@@ -207,6 +225,12 @@ const Home = () => {
               <div key={challenge._id}>
                 <h5 className="card-title">Challenge: {challenge.challenge}</h5>
                 <h5 className="card-text">Points: {challenge.points}</h5>
+                <button
+                  className={`btn btn-primary ${styles.challengeBtn}`}
+                  onClick={() => handleAddChallenge(challenge)}
+                >
+                  Add Challenge
+                </button>
               </div>
             ))
           ) : (
