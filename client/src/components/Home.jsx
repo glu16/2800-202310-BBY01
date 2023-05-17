@@ -191,9 +191,6 @@ const Home = () => {
             <animated.h4 className={styles.homeHeader} style={greetings}>
               {tip}
             </animated.h4>
-            <animated.h4 className={styles.homeHeader} style={greetings}>
-              Track your diet and fitness progresses below.
-            </animated.h4>
           </div>
         </div>
       </div>
@@ -201,6 +198,7 @@ const Home = () => {
         className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
       >
         <div className="card-body">
+          {console.log("Challenges:", challenges)}
           {challenges.length > 0 ? (
             challenges.map((challenge) => (
               <div key={challenge._id}>

@@ -526,6 +526,29 @@ app.get("/diet/:email", async (req, res) => {
   }
 });
 
+app.get("/userStats", async (req, res) => {
+  // THE USER'S USERNAME
+  const userID = req.params.username;
+  try {
+    // FIND THE USER BY USERNAME
+    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
+    const user = await User.findOne({ username: "ndurano" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.send({
+      sex: user.userStats[0].sex,
+      age: user.userStats[0].age,
+      height: user.userStats[0].height,
+      weight: user.userStats[0].weight,
+      activityLevel: user.userStats[0].activityLevel,
+      goal: user.userStats[0].goal,
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
@@ -560,52 +583,19 @@ setInterval(() => {
   }
 }, 1000 * 60 * 60 * 24);
 
-// GETS 3 RANDOM MINI CHALLENGES FROM THE DATABASE THAT CHANGES AT MIDNIGHT
+// GETS 3 RANDOM CHALLENGES FROM THE DATABASE
 app.get("/home/challenges", async (req, res) => {
   try {
-    const currentDate = new Date();
-    const midnight = new Date(
-      currentDate.getFullYear(),
-      currentDate.getMonth(),
-      currentDate.getDate() + 1,
-      0,
-      0,
-      0
-    );
-    const timeUntilMidnight = midnight.getTime() - currentDate.getTime();
+    // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
+    const challenges = await Challenges.aggregate([
+      { $sample: { size: 3 } },
+      { $project: { _id: 1, challenge: 1, points: 1 } },
+    ]);
 
-    // WAIT UNTIL MIDNIGHT TO REFRESH THE CHALLENGES
-    await new Promise((resolve) => setTimeout(resolve, timeUntilMidnight));
-
-    // GET TOTAL COUNT OF CHALLENGES
-    const count = await Challenges.countDocuments();
-    console.log("Total challenges count:", count);
-
-    // GENERATE 3 RANDOM NUMBERS
-    const randomNumbers = [];
-    while (randomNumbers.length < 3) {
-      const randomNumber = Math.floor(Math.random() * count);
-      if (!randomNumbers.includes(randomNumber)) {
-        randomNumbers.push(randomNumber);
-      }
-    }
-
-    // RETRIEVE CHALLENGES USING THE RANDOM NUMBERS
-    const challenges = await Challenges.find()
-      .limit(3)
-      .skip(randomNumbers[0])
-      .toArray();
-
-    // EXTRACT THE PROPERTIES
-    const challengeData = challenges.map((challenge) => ({
-      stringValue: challenge.String,
-      intValue: challenge.int,
-    }));
-
-    // SEND THE CHALLENGE DATA
-    res.json(challengeData);
+    // SEND THE RESPONSE
+    res.json(challenges);
   } catch (error) {
-    console.error(error);
+    console.error("Error occurred during aggregation:", error);
     res.status(500).send("An error occurred");
   }
 });
