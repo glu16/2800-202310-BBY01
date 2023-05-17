@@ -21,7 +21,7 @@
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
 }
 
@@ -44,7 +44,7 @@
 .friendsInnerCard {
   flex: 1;
   width: 90%;
-  max-height: 300px;
+  max-height: 400px;
   margin: 20px;
   border-radius: 10px;
   background-color: #474747;
@@ -75,10 +75,13 @@
 .friends {
   color: white;
   margin-top: 10px;
+  width: 90%;
+  background-color:gray;
+  border-radius: 10px;
 }
 
 .friendsList {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .formLabel {
@@ -103,7 +106,6 @@
   text-decoration: none;
   display: inline !important;
 }
-
 
 .imgProfile {
   margin-top: 10px;
@@ -200,7 +202,7 @@
 }
 
 .userNameLink:hover {
-  color:rgb(92, 208, 216);
+  color: rgb(92, 208, 216);
 }
 
 @media (max-width: 767px) {
@@ -218,5 +220,4 @@
   .friendsCard {
     margin: 20px 0;
   }
-  
 }
