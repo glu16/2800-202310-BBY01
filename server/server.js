@@ -743,7 +743,7 @@ app.get("/home/challenges", async (req, res) => {
 
     if (
       challengesCache.lastUpdated === null ||
-      currentHour === 0 ||
+      (currentHour === 0 && currentMinute < 5) ||
       (currentHour === 23 && currentMinute >= 55)
     ) {
       // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
