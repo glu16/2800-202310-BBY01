@@ -198,20 +198,21 @@ const Profile = ({ username }) => {
   // Retrieves the logged in user's friends from the database
   const [friends, setFriends] = useState([]);
 
+  const fetchFriends = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/leaderboard/${localStorage.getItem(
+          "username"
+        )}`
+      );
+      console.log(response.data);
+      setFriends(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  // useEffect hook for calling fetchFriends
   useEffect(() => {
-    const fetchFriends = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/leaderboard/${localStorage.getItem(
-            "username"
-          )}`
-        );
-        console.log(response.data);
-        setFriends(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchFriends();
   }, []);
   // End of user's friends retrieval
@@ -324,11 +325,7 @@ const Profile = ({ username }) => {
     setShowDeleteModal(false);
   };
 
-  // Alert popup to yield closure for removing a friend
-  const handleClick = () => {
-    window.alert("Friend removed successfully!");
-    window.location.reload();
-  };
+  
 
   // Beginning of delete friend modal component
   const DeleteFriendModal = () => {
@@ -336,7 +333,8 @@ const Profile = ({ username }) => {
       try {
         const friendId = selectedUser._id;
         await deleteFriend(friendId);
-        handleClick();
+        // Alert popup to yield closure for removing a friend
+        window.alert("Friend removed successfully!");
         closeModal();
       } catch (error) {
         console.error(error);
