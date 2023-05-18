@@ -148,6 +148,28 @@ app.get("/leaderboard/:username", async (req, res) => {
   }
 });
 
+// RETRIEVES USER'S NOTIFICATION SETTINGS FROM DATABASE
+app.get("/settings/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+
+    if (!user) {
+      res.status(404).send("User not found");
+    }
+    const settings = user.notificationSettings[0];
+    res.send({
+      dietReminders: settings.dietReminders,
+      fitnessReminders: settings.fitnessReminders,
+      leaderboardReminders: settings.leaderboardReminders,
+      challengeReminders: settings.challengeReminders,
+    });
+
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // UPDATES AND SAVES THE LOGGED IN USER'S NAME INTO THE SPECIFIED USER'S COLLECTION
 app.post("/leaderboard/:friendUsername", async (req, res) => {
   const { friendUsername } = req.params;
@@ -364,6 +386,7 @@ app.post("/pfp/:username", async (req, res) => {
   }
 });
 
+// UPDATES USER NOTIFICATION SETTINGS IN DATABASE
 app.post("/settings/:username", async (req, res) => {
   const userID = req.params.username;
   console.log(req.body.challengeReminders);
