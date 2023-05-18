@@ -812,6 +812,12 @@ app.get("/userStats", async (req, res) => {
   }
 });
 
+
+// VARIABLES TO CHECK IF THE CURRENT DATE IS
+// THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
+let selectedTip = null;
+let selectedDate = null;
+
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
@@ -829,6 +835,17 @@ app.get("/home/tips", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+// RESET SELECTED TIP AND DATE AT MIDNIGHT
+setInterval(() => {
+  const currentDate = new Date().toISOString().slice(0, 10);
+
+  if (selectedDate !== currentDate) {
+    selectedTip = null;
+    selectedDate = null;
+  }
+}, 1000 * 60 * 60 * 24);
+
 
 const challengesCache = {
   data: [],
