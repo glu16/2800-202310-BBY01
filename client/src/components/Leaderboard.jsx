@@ -54,9 +54,7 @@ const Leaderboard = () => {
   const fetchFriends = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5050/leaderboard/${localStorage.getItem(
-          "username"
-        )}`
+        `http://localhost:5050/leaderboard/${localStorage.getItem("username")}`
       );
       console.log(response.data);
       setFriends(response.data);
@@ -175,7 +173,7 @@ const Leaderboard = () => {
           }
         );
       }
-      console.log("Done!")
+      console.log("Done!");
       fetchFriends();
       closeModal();
     } catch (error) {
@@ -185,7 +183,7 @@ const Leaderboard = () => {
 
   // Click event handler
   const handleUserClick = (user) => {
-    if (user.username === "surprise") {
+    if (user.username === "Rick") {
       handleSurpriseUsernameClick();
     } else {
       setSelectedUser(user);
@@ -245,7 +243,6 @@ const Leaderboard = () => {
                 className={`btn btn-primary ${styles.modalBtn}`}
                 onClick={() => {
                   addFriend(selectedUser.username);
-
                 }}
               >
                 Submit
@@ -263,6 +260,7 @@ const Leaderboard = () => {
 
   // useRef hook variable to hold the YouTube player reference
   const playerRef = useRef(null);
+  const videoId = "dQw4w9WgXcQ";
 
   // Click event handler for the Easter Egg surprise
   const handleSurpriseUsernameClick = () => {
@@ -277,6 +275,7 @@ const Leaderboard = () => {
 
   // Beginning of Easter Egg modal
   const EasterEggModal = () => {
+    let player;
     // Creates a YouTube video API
     useEffect(() => {
       const tag = document.createElement("script");
@@ -284,8 +283,14 @@ const Leaderboard = () => {
       const firstScriptTag = document.getElementsByTagName("script")[0];
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-      // Initialize the YouTube player when the API is ready
-      window.onYouTubeIframeAPIReady = initializePlayer;
+      // Create and initialize the YouTube player when the API is ready
+      window.onYouTubeIframeAPIReady = () => {
+        player = new window.YT.Player(playerRef.current, {
+          height: "100%",
+          width: "100%",
+          videoId: videoId,
+        });
+      };
 
       return () => {
         delete window.onYouTubeIframeAPIReady;
