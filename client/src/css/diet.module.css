@@ -1,14 +1,5 @@
-.dietContainer {
-  height: 100%;
-  max-width: 1000px;
-  border-radius: 10px;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  margin-top: 160px;
+.fitnessContainer {
+  padding: 30px;
 }
 
 .container-fluid {
@@ -16,57 +7,107 @@
   background-color: inherit;
 }
 
-.mealCard {
-  margin: 20px 0px;
-  border-radius: 10px;
-  padding: 0px;
-  background-color: #2b2b2b;
-  color: white;
-}
-
-.dietCard {
-  width: 1300px;
-  margin-top: 160px;
-  margin-bottom: 50px;
+.exerciseCard {
+  width: 100%;
   border-radius: 10px;
   background-color: #2b2b2b;
   color: white;
+
+  top: 10rem;
 }
 
-.dietCardBody {
-  padding: 0 50px;
+button,
+.button {
+  background-color: hsl(183.87deg 60.78% 40%);
+  color: white;
+  border: none;
+  margin: 5px;
+}
+
+button:hover,
+.button:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
+  color: white;
+}
+
+button:active,
+button:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+}
+.loading p {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 10px;
 }
 
 .title {
   text-align: center;
   margin-top: 20px;
   font-weight: bold;
-  color: white;
+  color: black;
+}
+.date {
+  position: absolute;
+  top: -25px;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  margin: 10px 0;
+}
+.day {
+  margin-top: 30px;
+  border-radius: 10px;
+  display: flex;
+  position: relative;
+}
+
+.day div {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.modalImage {
+  height: 500px;
+  width: 500px;
 }
 
 @media (max-width: 767px) {
   html,
   body {
-    height: auto;
-    margin-bottom: 80px;
+    height: 100%;
   }
 
-  .dietCard {
-    width: 1300px;
-    margin-bottom: 50px;
-    border-radius: 10px;
+  .exerciseCard {
+    top: 1rem;
   }
-  
-  .dietContainer {
-    height: 100%;
-    max-width: 1000px;
-    border-radius: 10px;
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    margin-top: 80px;
+
+  .day,
+  .day > strong,
+  .day div {
+    display: block;
+  }
+
+  .day div {
+    padding: 10px;
+  }
+  .day {
+    margin-top: 40px;
+
+  }
+
+  .date {
+    top: -35px;
+
   }
 }
