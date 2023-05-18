@@ -286,7 +286,8 @@ const Leaderboard = () => {
       // Create and initialize the YouTube player when the API is ready
       window.onYouTubeIframeAPIReady = () => {
         player = new window.YT.Player(playerRef.current, {
-          height: "100%",
+          height: "500px",
+          width: "800px",
           width: "100%",
           videoId: videoId,
         });
