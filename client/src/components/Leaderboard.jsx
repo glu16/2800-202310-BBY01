@@ -328,7 +328,7 @@ const Leaderboard = () => {
                 className={`modal-title ${styles.formLabel}`}
                 id="surpriseModalLabel"
               >
-                Surprise!
+                You Just Got Rick Rolled!
               </h5>
               <button
                 type="button"
