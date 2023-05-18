@@ -220,6 +220,16 @@ const Home = () => {
       points: challengePoints,
     } = challenge;
 
+    // Add the challenge to the user's "completedChallenges" array
+    try {
+      await addChallenge(_id, challengeString, challengePoints);
+      alert("Challenge added successfully!");
+      window.location.reload();
+    } catch (error) {
+      console.error(error);
+      return;
+    }
+
     // Adds the challenge's points to the user's points
     setUserPoints((prevPoints) => prevPoints + points);
 
@@ -227,13 +237,6 @@ const Home = () => {
     setUserChallenges((prevUserChallenges) =>
       prevUserChallenges.filter((id) => id !== challengeId)
     );
-
-    // Add the challenge to the user's "completedChallenges" array
-    try {
-      await addChallenge(_id, challengeString, challengePoints);
-    } catch (error) {
-      console.error(error);
-    }
   };
 
   useEffect(() => {
@@ -256,21 +259,14 @@ const Home = () => {
     localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
   }
 
-  // Function to fetch challenges from the server
-  const fetchChallenges = async () => {
-    try {
-      const response = await axios.get("http://localhost:5050/home/challenges");
-      const challengesData = response.data;
-      // Process the challengesData as needed and update the challenges state
-      setChallenges(challengesData);
-    } catch (error) {
-      console.error("Error occurred while fetching challenges:", error);
-    }
-  };
-
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
+      console.log(
+        "handleCompleteChallenge called with challengeId:",
+        challengeId
+      );
+      console.log("Points:", points);
       // Remove the challenge from the user's "challenges" array in state
       setUserChallenges((prevUserChallenges) =>
         prevUserChallenges.filter((id) => id !== challengeId)
@@ -283,11 +279,8 @@ const Home = () => {
       await axios.delete(
         `http://localhost:5050/home/challenges/${localStorage.getItem(
           "username"
-        )}/${challengeId}`
+        )}`
       );
-
-      // Fetch a new set of challenges to populate the spot
-      await fetchChallenges();
 
       console.log("Challenge completed and points added");
     } catch (error) {
@@ -297,6 +290,8 @@ const Home = () => {
 
   // Click event handler for completing a challenge
   const handleDoneClick = (challengeId, points) => {
+    console.log("handleDoneClick called with challengeId:", challengeId);
+    console.log("Points:", points);
     handleCompleteChallenge(challengeId, points);
   };
 
@@ -341,7 +336,7 @@ const Home = () => {
       >
         <div className="card-body">
           <animated.h1 className={styles.challengeHeader} style={greetings}>
-            Today's Mini Challenges
+            Weekly Challenges
           </animated.h1>
           {console.log("Challenges:", challenges)}
           {challenges.length > 0 ? (
