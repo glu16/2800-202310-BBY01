@@ -31,17 +31,17 @@ async function getWorkout() {
 }
 
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
-// var doneToday;
-// async function getDoneToday() {
-//   var response = await fetch(`http://localhost:5050/doneToday/${username}`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   });
-//   var data = await response.json();
-//   doneToday = data;
-//   console.log(doneToday);
-// }
-// getDoneToday();
+var doneToday;
+async function getDoneToday() {
+  var response = await fetch(`http://localhost:5050/doneToday/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  var data = await response.json();
+  doneToday = data;
+  console.log(doneToday);
+}
+getDoneToday();
 
 
 // FUNCTION GETS USERSTATS FIELD FROM DATABASE

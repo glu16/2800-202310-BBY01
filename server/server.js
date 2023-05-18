@@ -609,18 +609,18 @@ app.get("/streak/:username", async (req, res) => {
   }
 });
 // send doneToday to client
-// app.get("/doneToday/:username", async (req, res) => {
-//   const userID = req.params.username;
-//   try {
-//     const user = await User.findOne({ username: userID });
-//     res.send(
-//       user.doneToday
-//      );
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
-//   }
-// });
+app.get("/doneToday/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send(
+      user.doneToday
+     );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+  }
+});
 
 
 // to generate and store a user's workout plan
