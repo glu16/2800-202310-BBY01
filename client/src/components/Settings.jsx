@@ -13,7 +13,8 @@ const Settings = () => {
 
   const saveNotificationSettings = async () => {
     try {
-      await axios.post("/api/notification-settings", notificationSettings);
+      const username = localStorage.getItem("username");
+      await axios.post(`http://localhost:5050/settings/${username}`, notificationSettings);
     } catch (error) {
       console.log(error);
     }
@@ -27,7 +28,7 @@ const Settings = () => {
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <div className={styles.settings}>
-              <h1>Notification Preferences</h1>
+              <h1 className={styles.settingsHeader}>Notification Preferences</h1>
               <div className="form-check form-switch">
                 <label htmlFor="diet-reminders" className="form-switch-label">
                   Diet Progress Reminders
