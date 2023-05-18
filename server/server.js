@@ -712,6 +712,20 @@ app.get("/doneToday/:username", async (req, res) => {
       .json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
+// send first name and last name to client
+app.get("/getName/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send({
+      firstName : user.firstName,
+      lastName : user.lastName
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+  }
+});
 
 // to generate and store a user's workout plan
 app.put("/diet/:username", async (req, res) => {

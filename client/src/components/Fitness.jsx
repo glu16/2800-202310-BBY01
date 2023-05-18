@@ -30,6 +30,21 @@ async function getWorkout() {
   }
 }
 
+// FUNCTION TO GET USER'S NAME FOR EASTER EGG
+var firstName;
+var lastName;
+async function getName() {
+  var response = await fetch(`http://localhost:${port}/getName/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  var data = await response.json();
+  firstName = data.firstName;
+  lastName = data.lastName;
+  // return [firstName, lastName];
+}
+getName();
+
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
@@ -179,6 +194,7 @@ function Workout({ handleOpenModal }) {
     
       // for the sublevel exercise object inside day object
       function renderExercise(exerciseObj) {
+
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
             <div key={index} className={styles.anExercise}>
@@ -212,9 +228,20 @@ function Workout({ handleOpenModal }) {
 
       // for the sublevel exercise object inside day object
       function renderExerciseToday(exerciseObj) {
+
+        // EASTER EGG Stuff
+        const isSaitama = firstName.toLowerCase() == "saitama";
+        
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
-            <div key={index} className={styles.anExercise}>
+            // EASTER EGG STUFF
+            <div
+            key={index}
+            className={`${styles.anExercise} ${isSaitama ? styles.saitamaStyle : ""}`}
+            style={isSaitama ? { backgroundImage: "url('https://staticg.sportskeeda.com/editor/2022/04/8e856-16505616347217-1920.jpg')", opacity: 1, backgroundSize: "100% 100%" } : null}
+          >
+            {/* original before Easter egg */}
+            {/* <div key={index} className={styles.anExercise}> */}
             <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
@@ -377,16 +404,19 @@ const Streak = () => {
   }
 
   return (
-    <div id="streakContainer">
-      <h2>Streak & Stats</h2>
-      <p>Today Done: &nbsp;
+    <div id="streakContainer" style={{ border: '2px solid red'}}>
+      <h2>{username}'s Workout Stats</h2>
+      <p>Done Today's Workout? &nbsp;
           <img src={doneTodaySymbol}
             style={{width:'50px', height:'50px'}}></img>
       </p>
-      <p>Current Streak: {currentStreak}</p>
-      <p>Longest Streak: {longestStreak}</p>
-      <p>Number of days completed workout: {daysDone}</p>
-      <p>Number of days missed workout: {daysMissed}</p>
+      Current streak: {currentStreak} 
+      <br />
+      Longest streak: {longestStreak} 
+      <br />
+      Days completed: {daysDone}
+      <br />
+      Days missed: {daysMissed}
     </div>
   );
 };
@@ -550,103 +580,95 @@ const Fitness = () => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
     >
-      <div className={`card ${styles.exerciseCard}`}>
-        <div className={`card-body ${styles.fitnessCardBody}`}>
+      {/* <form id="getUserStats" onSubmit={getUserStats}>
+        <input type="hidden" name="username" value={username}></input>
+        <button type="submit">Test Get User Stats</button>
+      </form> */}
+      
+      {/* <form id="updateStreaks" onSubmit={updateStreaks}>
+        <button type="submit">Test Cron Job</button>
+      </form> */}
+
+
+      <Streak />
+
+
+      <div id="workoutForm" style={{ border: '2px solid blue' }}>
+        <form id="addWorkout" onSubmit={addWorkoutToUser}>
+          {/* SEND USERNAME FOR DATABASE SEARCH */}
+          <input type="hidden" name="username" value={username}></input>
+
+          {/* SEND INTENSITY FOR WORKOUT GENERATION */}
           
+          <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
+          <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
+          <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
+          <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
+          <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
+          <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
+          <p>Select desired intensity level for workout</p>
+          <br />
+
+          {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
           
-          {/* <form id="getUserStats" onSubmit={getUserStats}>
-            <input type="hidden" name="username" value={username}></input>
-            <button type="submit">Test Get User Stats</button>
-          </form> */}
-          
-          {/* <form id="updateStreaks" onSubmit={updateStreaks}>
-            <button type="submit">Test Cron Job</button>
-          </form> */}
+          <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
+          <label className="btn btn-outline-primary" htmlFor="arms">Arms</label>
+          <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
+          <label className="btn btn-outline-primary" htmlFor="legs">Legs</label>
+          <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
+          <label className="btn btn-outline-primary" htmlFor="chest">Chest</label>
+          <input type="checkbox" name="back" className="btn-check" id="back"></input>
+          <label className="btn btn-outline-primary" htmlFor="back">Back</label>
+          <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
+          <label className="btn btn-outline-primary" htmlFor="shoulders">Shoulders</label>
+          <input type="checkbox" name="core" className="btn-check" id="core"></input>
+          <label className="btn btn-outline-primary" htmlFor="core">Core</label>
+          <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
+          <label className="btn btn-outline-primary" htmlFor="glutes">Glutes</label>
+          <p>Select muscle groups you want to focus on</p>
 
+          <br />
 
-          <div>
-            <form id="addWorkout" onSubmit={addWorkoutToUser}>
-              {/* SEND USERNAME FOR DATABASE SEARCH */}
-              <input type="hidden" name="username" value={username}></input>
-
-              {/* SEND INTENSITY FOR WORKOUT GENERATION */}
-              
-              <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
-              <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
-              <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
-              <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
-              <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
-              <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
-              <p>Select desired intensity level for workout</p>
-              <br />
-
-              {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
-              
-              <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
-              <label className="btn btn-outline-primary" htmlFor="arms">Arms</label>
-              <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
-              <label className="btn btn-outline-primary" htmlFor="legs">Legs</label>
-              <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
-              <label className="btn btn-outline-primary" htmlFor="chest">Chest</label>
-              <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
-              <label className="btn btn-outline-primary" htmlFor="back">Back</label>
-              <input type="checkbox" name="back" className="btn-check" id="back"></input>
-              <label className="btn btn-outline-primary" htmlFor="shoulders">Shoulders</label>
-              <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
-              <label className="btn btn-outline-primary" htmlFor="core">Core</label>
-              <input type="checkbox" name="core" className="btn-check" id="core"></input>
-              <label className="btn btn-outline-primary" htmlFor="glutes">Glutes</label>
-              <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
-              <p>Select muscle groups you want to focus on</p>
-
-              <br />
-
-              {/* button displays different text if clicked or not clicked */}
-              <button
-                type="submit"
-                className="btn btn-success"
-                disabled={isFormSubmitting}
-              >
-                {isFormSubmitting ? (
-                  <div>
-                    <p>Generating...</p>
-                    {/* Bootstrap loadinng circle */}
-                    <div id="processing" className="spinner-border" role="status"><span className="sr-only">Loading...</span></div>
-                  </div>
-                ) : (
-                  "Create new workout plan"
-                )}
-              </button>
-
-              <p>
-                <small>Generating takes 30-60 seconds</small>
-                <br />
-                <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small>
-              </p>
-            </form>
-          </div>
-          
-
-          <Streak />
-
-
-
-            <Workout workout={workout} handleOpenModal={handleOpenModal} />
-          {showModal && (
-            <ExerciseModal
-              isOpen={showModal}
-              onRequestClose={handleCloseModal}
-             />
-          )}
-          <button id="completeAll" 
-            onClick={completeAllExercises} 
-            disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
-            >Mark ALL exercises complete!
+          {/* button displays different text if clicked or not clicked */}
+          <button
+            type="submit"
+            className="btn btn-success"
+            disabled={isFormSubmitting}
+          >
+            {isFormSubmitting ? (
+              <div>
+                <p>Generating...</p>
+                {/* Bootstrap loadinng circle */}
+                <div id="processing" className="spinner-border" role="status"><span className="sr-only">Loading...</span></div>
+              </div>
+            ) : (
+              "Create new workout plan"
+            )}
           </button>
-          
 
-        </div>
+          <p>
+            <small>Generating takes 30-60 seconds</small>
+            <br />
+            <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small>
+          </p>
+        </form>
       </div>
+      
+
+
+        <Workout workout={workout} handleOpenModal={handleOpenModal} />
+      {showModal && (
+        <ExerciseModal
+          isOpen={showModal}
+          onRequestClose={handleCloseModal}
+          />
+      )}
+      <button id="completeAll" 
+        onClick={completeAllExercises} 
+        disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
+        >Mark ALL exercises complete!
+      </button>
+      
     </div>
   );
 };
