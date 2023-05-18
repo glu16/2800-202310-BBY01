@@ -158,7 +158,6 @@ function Diet() {
 
   return (
     <div>
-      <h2>Your Diet Plan</h2>
       <button onClick={handleDecrementDays} disabled={dayOfMealPlan == 0} className={`btn  ${styles.button}`}>Previous Day</button>{" "}
       {/* Add the decrement button */}
       <button onClick={handleIncrementDays} disabled={dayOfMealPlan >= 6} className={`btn  ${styles.button}`}>Next Day</button>{" "}
@@ -249,6 +248,9 @@ const DietPlan = () => {
 
           <div>
             <form id="addWorkout" onSubmit={addDietToUser}>
+              <h2>
+                Your Diet Plan
+              </h2>
               <input type="hidden" name="userEmail" value={username}></input>
               <button
                 type="submit"
@@ -257,7 +259,7 @@ const DietPlan = () => {
                 onClick={handleClick}
               >
                 {isFormSubmitting ? (
-                  <div>
+                  <div className={styles.loading}>
                     <p>Generating...</p>
                     <div
                       id="processing"
@@ -268,7 +270,7 @@ const DietPlan = () => {
                     </div>
                   </div>
                 ) : (
-                  "Create diet plan"
+                  "Generate Diet Plan"
                 )}
               </button>
               <p>
