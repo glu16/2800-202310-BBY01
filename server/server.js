@@ -622,7 +622,7 @@ app.get("/streak/:username", async (req, res) => {
     const user = await User.findOne({ username: userID });
     res.send({
       currentStreak: user.currentStreak,
-      longestStreak: user.longestStreak,,
+      longestStreak: user.longestStreak,
       doneToday: user.doneToday,
       daysDone: user.daysDone,
       daysMissed: user.daysMissed,
