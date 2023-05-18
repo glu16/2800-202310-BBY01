@@ -16,7 +16,6 @@
   border-color: #2b2b2b;
 }
 
-
 .indexBtn:hover {
   background-color: #95a4a9;
   border: #2b2b2b;
@@ -25,6 +24,7 @@
 .indexCard {
   width: 100%;
   margin-top: 100px;
+  margin-left: 30px;
 }
 
 .indexImage {
@@ -79,25 +79,24 @@ h4 + div {
   }
 
   .imageContainer {
-
-    right: -12px;
+    right: 0;
     bottom: 0;
-
-    display: none;
-    position: relative;
+    padding: 0;
+    opacity: 50%;
   }
 
+  .indexBody h1 {
+    text-align: center;
+  }
 
-  
-.indexBody h1 {
-  text-align: center;
-}
+  .indexBody h4 {
+    text-align: center;
+  }
+  h4 + div {
+    text-align: center;
+  }
 
-.indexBody h4 {
-  text-align: center;
-}
-h4 + div {
-  text-align: center;
-}
-
+  .indexCard {
+    margin-left: 0px;
+  }
 }
