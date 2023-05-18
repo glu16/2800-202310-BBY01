@@ -100,7 +100,7 @@ function Diet() {
                 {Object.entries(dietObj[dietKey]).map(
                   ([detailKey, detailValue]) => {
                     // don't display detailKey if it is name or setsAndReps
-                    if (detailKey == "name" || detailKey == "nutritionalInfo") {
+                    if (detailKey == "Name" || detailKey == "Nutritional Info") {
                       return (
                         <div key={detailKey} className={styles.aKey}>
                           {detailValue}
@@ -270,7 +270,7 @@ const DietPlan = () => {
                     </div>
                   </div>
                 ) : (
-                  "Generate Diet Plan"
+                  "Generate New Diet Plan"
                 )}
               </button>
               <p>

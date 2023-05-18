@@ -1,4 +1,4 @@
-.fitnessContainer{
+.fitnessContainer {
   padding: 30px;
 }
 
@@ -16,14 +16,16 @@
   top: 10rem;
 }
 
-button, .button{
+button,
+.button {
   background-color: hsl(183.87deg 60.78% 40%);
   color: white;
   border: none;
   margin: 5px;
 }
 
-button:hover,.button:hover {
+button:hover,
+.button:hover {
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
@@ -41,9 +43,9 @@ button:focus {
   align-items: center;
 }
 .loading p {
-margin-top: 0;
-margin-bottom: 0;
-margin-right: 10px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 10px;
 }
 
 .title {
@@ -52,14 +54,13 @@ margin-right: 10px;
   font-weight: bold;
   color: black;
 }
-.date{
+.date {
   position: absolute;
   top: -25px;
   left: 0;
   width: 100%;
   z-index: 1;
   margin: 10px 0;
-
 }
 .day {
   margin-top: 30px;
@@ -68,24 +69,18 @@ margin-right: 10px;
   position: relative;
 }
 
-
-.day div{
-width: 100%;
-padding: 20px;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-
-
-
+.day div {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .modalImage {
   height: 500px;
   width: 500px;
 }
-
-
 
 @media (max-width: 767px) {
   html,
@@ -94,16 +89,25 @@ justify-content: space-between;
   }
 
   .exerciseCard {
-  
-    top:1rem;
+    top: 1rem;
   }
-  
-  
 
-  .day, .day > strong, .day div{
+  .day,
+  .day > strong,
+  .day div {
     display: block;
-  
   }
 
-}
+  .day div {
+    padding: 10px;
+  }
+  .day {
+    margin-top: 40px;
 
+  }
+
+  .date {
+    top: -35px;
+
+  }
+}
