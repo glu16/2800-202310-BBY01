@@ -30,7 +30,7 @@
 }
 
 .dietBtn:active,
-.dietBtnbutton:focus {
+.dietBtn:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
