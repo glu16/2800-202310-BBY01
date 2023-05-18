@@ -98,7 +98,7 @@ const Home = () => {
   // useState hook variables for the username
   const [userName, setUserName] = useState("");
 
-  // Retrieves logged in user's name
+  // useEffect hook to retrieve logged in user's name
   useEffect(() => {
     async function fetchUserName() {
       try {
@@ -125,7 +125,7 @@ const Home = () => {
   // useState hook variables for the tips
   const [tip, setTip] = useState("");
 
-  // Retrieves and displays a random diet or fitness tip from MongoDB
+  // useEffect hook that retrieves and displays a random diet or fitness tip from MongoDB
   useEffect(() => {
     async function fetchTip() {
       try {
@@ -231,13 +231,14 @@ const Home = () => {
     }
   };
 
+  // useEffect hook to get logged in user's challenge's from localstorage
   useEffect(() => {
-    // Get user challenges from local storage on component mount
+    // Get user challenges from localstorage on component mount
     const challenges = getUserChallengesFromStorage();
     setUserChallenges(challenges);
   }, []);
 
-  // Function to get user challenges from local storage
+  // Function to get user challenges from localstorage
   function getUserChallengesFromStorage() {
     const userChallengesString = localStorage.getItem("userChallenges");
     if (userChallengesString) {
@@ -246,7 +247,7 @@ const Home = () => {
     return [];
   }
 
-  // Function to set user challenges in local storage
+  // Function to set user challenges in localstorage
   function setUserChallengesInStorage(userChallenges) {
     localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
   }
@@ -283,22 +284,58 @@ const Home = () => {
 
       console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
+      window.location.reload();
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);
     }
   };
+
+  // useState hook variables for the disabled buttons
+  const [disabledButtons, setDisabledButtons] = useState([]);
 
   // Click event handler for completing a challenge
   const handleDoneClick = (challengeId, points) => {
     console.log("handleDoneClick called with challengeId:", challengeId);
     console.log("Points:", points);
     // Disable the Done button for the completed challenge
-    const doneButton = document.getElementById(`doneButton_${challengeId}`);
-    if (doneButton) {
-      doneButton.disabled = true;
-    }
+    setDisabledButtons((prevDisabledButtons) => [
+      ...prevDisabledButtons,
+      challengeId,
+    ]);
     handleCompleteChallenge(challengeId, points);
   };
+
+  // Keeps the doneButton disabled if the challengeId is in localstorage
+  React.useEffect(() => {
+    const storedDisabledButtons = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith("doneButtonDisabled_")) {
+        const challengeId = key.replace("doneButtonDisabled_", "");
+        storedDisabledButtons.push(challengeId);
+      }
+    }
+    setDisabledButtons(storedDisabledButtons);
+  }, []);
+
+  // Keeps the doneButton disabled if the challengeId is in localstorage
+  window.addEventListener("load", () => {
+    // Iterate through the stored disabled states in localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.startsWith("doneButtonDisabled_")) {
+        const challengeId = key.replace("doneButtonDisabled_", "");
+        const doneButton = document.getElementById(`doneButton_${challengeId}`);
+        if (doneButton) {
+          // Retrieve the disabled state as a string from localStorage
+          const isDisabledString = localStorage.getItem(key);
+          // Convert the disabled state to a boolean value
+          const isDisabled = isDisabledString === "true";
+          doneButton.disabled = isDisabled;
+        }
+      }
+    }
+  });
 
   // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
