@@ -575,18 +575,18 @@ app.get("/streak/:username", async (req, res) => {
   }
 });
 // send doneToday to client
-// app.get("/doneToday/:username", async (req, res) => {
-//   const userID = req.params.username;
-//   try {
-//     const user = await User.findOne({ username: userID });
-//     res.send(
-//       user.doneToday
-//      );
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
-//   }
-// });
+app.get("/doneToday/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send(
+      user.doneToday
+     );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+  }
+});
 
 
 // to generate and store a user's workout plan
@@ -811,10 +811,8 @@ app.post("/fitness/:username", async (req, res) => {
       // find user by username
       { username: userID },
       { 
-        // increment currentStreak FIELD BY 1
-        $inc: { currentStreak: 1 }, 
-        // increment daysDone FIELD BY 1
-        $inc: { daysDone: 1 }, 
+        // increment currentStreak and daysDone FIELD BY 1
+        $inc: { currentStreak: 1, daysDone: 1 }, 
         // set doneToday TO true
         $set: { doneToday: true }
       },
@@ -842,43 +840,43 @@ app.post("/fitness/:username", async (req, res) => {
 });
 
 
-// Daily at 11:58 pm every day go through all users and if their doneToday is false then set their currentStreak to 0
-cron.schedule('58 23 * * *', async () => {
+// Daily at 12:01AM update streaks for all users <- TARGET THIS METHOD WITH CRON-JOB EXTERNALLY ONCE HOSTED
+app.post("/updateStreaks", async (req, res) => {
+  
+  // handle whether user completed or did not complete their workout today
   try {
-    // Find all users
+    // Find all users and iterate through them
     const users = await User.find();
-    
-    // Iterate over each user
     for (const user of users) {
-      if (user.doneToday == false) {
-        // If doneToday is false, set currentStreak to 0
+      if (user.doneToday) {
+        // If the user completed a workout today, increment daysDone
+        user.daysDone++;
+      } else {
+        // If the user did not complete a workout today, update currentStreak and daysMissed
         user.currentStreak = 0;
-        // If doneToday is false, increment daysMissed
-        user.daysMissed = user.daysMissed + 1;
-      } 
-      // Save the updated user
-      await user.save();
+        user.daysMissed++;
+      }
+    // Save the updated user
+    await user.save();
+    // console.log(`${user.username} streak updated.`);
     }
-    console.log("Users' currentStreaks updated.");
-  } catch (err) {
-    console.error('Error updating currentStreaks: ', err);
-  }
-});
-// Daily at 12:01 AM every day go through all users and reset their doneToday to false
-cron.schedule('1 0 * * *', async () => {
+    console.log("All streaks updated successfully.");
+  } catch (err) {console.error('Failed to update streaks: ', err);}
+
+  // finally reset all user's doneToday to false
   try {
-    // Find all users and update their `doneToday` field to false
-    const users = await User.updateMany({}, { $set: { doneToday: false } });
-    console.log('Resetting doneToday field for all users.');
-    console.log(`${users.nModified} users updated successfully.`);
-  } catch (err) {
-    console.error('An error occurred while resetting doneToday field: ', err);
+    await User.updateMany({}, { 
+      doneToday: false 
+    });
+    console.log("All doneToday reset to false successfully.")
+  } catch (error) {
+    console.log("Failed to reset donetToday:" + error);
   }
 });
 
 
 
-// server hosting
+// SERVER HOSTING
 const localPort = 5050;
 const port = process.env.PORT || localPort;
 app.listen(port, () => {

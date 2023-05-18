@@ -16,7 +16,7 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:5050/fitness/${username}`, {
+  var response = await fetch(`http://localhost:${port}/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -31,28 +31,35 @@ async function getWorkout() {
 }
 
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
-// var doneToday;
-// async function getDoneToday() {
-//   var response = await fetch(`http://localhost:5050/doneToday/${username}`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   });
-//   var data = await response.json();
-//   doneToday = data;
-//   console.log(doneToday);
-// }
-// getDoneToday();
+var doneToday = false;
+async function getDoneToday() {
+  var response = await fetch(`http://localhost:${port}/doneToday/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  var data = await response.json();
+  doneToday = data;
+}
+getDoneToday();
 
 
 // FUNCTION GETS USERSTATS FIELD FROM DATABASE
 // async function getUserStats() {
-//   var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+//   var response = await fetch(`http://localhost:${port}/userStats/${username}`, {
 //     method: "GET",
 //     headers: { "Content-Type": "application/json" },
 //   });
 //   var data = await response.json();
 //   console.log(data);
 // }
+
+// TEMPORARY TEST FUNCTION FOR CRON-JOB UPDATE USER STREAKS AT MIDNIGHT
+function updateStreaks() {
+  console.log("button working");
+  fetch(`http://localhost:${port}/updateStreaks/`, {
+    method: "POST",
+  })
+}
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
@@ -337,7 +344,7 @@ const Streak = () => {
   // FUNCTION GETS USER STREAK STATS FROM DATABASE
   async function getStreak() {
     try {
-      const response = await fetch(`http://localhost:5050/streak/${username}`, {
+      const response = await fetch(`http://localhost:${port}/streak/${username}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -486,7 +493,7 @@ const Fitness = () => {
 
   // COMPLETE ALL EXERCISES BUTTON SHOULD CALL TWO SERVER METHODS
   const completeAllExercises = async () => {
-    console.log("All exercises complete! Top");
+    // console.log("All exercises complete! Top");
 
     // disable the button after it is clicked
     setCompleteAllExercisesClicked(true);
@@ -514,11 +521,10 @@ const Fitness = () => {
       console.log('Error updating field:', error);
     }
 
+    // reload page to rerender everything
+    window.location.reload();
 
-    // set user field: doneToday to true
-
-
-    console.log("All exercises complete! Bottom");
+    // console.log("All exercises complete! Bottom");
   };
 
   // Pseudo-event listener for when numberOfExercises is modified
@@ -547,10 +553,16 @@ const Fitness = () => {
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           
+          
           {/* <form id="getUserStats" onSubmit={getUserStats}>
             <input type="hidden" name="username" value={username}></input>
             <button type="submit">Test Get User Stats</button>
           </form> */}
+          
+          {/* <form id="updateStreaks" onSubmit={updateStreaks}>
+            <button type="submit">Test Cron Job</button>
+          </form> */}
+
 
           <div>
             <form id="addWorkout" onSubmit={addWorkoutToUser}>
@@ -628,7 +640,7 @@ const Fitness = () => {
           )}
           <button id="completeAll" 
             onClick={completeAllExercises} 
-            disabled={numberOfExercises !== 0 || completeAllExercisesClicked && !doneToday}
+            disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
             >Mark ALL exercises complete!
           </button>
           
