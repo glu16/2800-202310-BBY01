@@ -136,7 +136,7 @@ ul {
   }
 
   .coachTitle {
-    color: white;
+    color: rgb(92, 208, 216);
     margin-bottom: 24px;
   }
 
@@ -148,12 +148,24 @@ ul {
     overflow-y: auto;
     color: white;
     width: auto;
+    margin-left: 75px;
   }
 
   .chatMessageContainer {
     display: flex;
     align-items: center;
     margin-top: 16px;
+  }
+
+  .icon {
+    margin-top: 4px;
+    margin-right: 60px;
+  }
+  
+  .infoLink {
+    color: rgb(92, 208, 216);
+    cursor: pointer;
+    text-decoration: none;
   }
 
   .textInputContainer {
