@@ -229,14 +229,6 @@ const Home = () => {
       console.error(error);
       return;
     }
-
-    // Adds the challenge's points to the user's points
-    setUserPoints((prevPoints) => prevPoints + points);
-
-    // Remove the challenge from the user's "challenges" array
-    setUserChallenges((prevUserChallenges) =>
-      prevUserChallenges.filter((id) => id !== challengeId)
-    );
   };
 
   useEffect(() => {
@@ -267,20 +259,30 @@ const Home = () => {
         challengeId
       );
       console.log("Points:", points);
-      // Remove the challenge from the user's "challenges" array in state
+      // Remove the challenge from the user's "challenges" array
       setUserChallenges((prevUserChallenges) =>
         prevUserChallenges.filter((id) => id !== challengeId)
       );
 
-      // Add the challenge's points to the user's points in state
+      // Add the challenge's points to the user's points
       setUserPoints((prevPoints) => prevPoints + points);
 
       // Remove the challenge from the user's "challenges" array in the database
       await axios.delete(
-        `http://localhost:5050/home/challenges/${localStorage.getItem("username")}/${challengeId}`
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
+          "username"
+        )}/${challengeId}`
       );
 
-      console.log("Challenge completed and points added");
+      // Remove the challenge from localStorage
+      const storedChallenges = getUserChallengesFromStorage();
+      const updatedChallenges = storedChallenges.filter(
+        (id) => id !== challengeId
+      );
+      localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
+
+      console.log("Challenge completed and points added!");
+      window.alert("Challenge completed and points added!");
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);
     }
@@ -290,6 +292,11 @@ const Home = () => {
   const handleDoneClick = (challengeId, points) => {
     console.log("handleDoneClick called with challengeId:", challengeId);
     console.log("Points:", points);
+    // Disable the Done button for the completed challenge
+    const doneButton = document.getElementById(`doneButton_${challengeId}`);
+    if (doneButton) {
+      doneButton.disabled = true;
+    }
     handleCompleteChallenge(challengeId, points);
   };
 
@@ -344,6 +351,7 @@ const Home = () => {
                 <h5 className="card-text">Points: {challenge.points}</h5>
                 {userChallenges.includes(challenge._id) ? (
                   <button
+                    id={`doneButton_${challenge._id}`}
                     className={`btn btn-success ${styles.challengeBtn}`}
                     onClick={() =>
                       handleDoneClick(challenge._id, challenge.points)
