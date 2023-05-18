@@ -24,6 +24,7 @@ import Calendar from "./components/Calendar";
 import Profile from "./components/Profile";
 import Settings from "./components/Settings";
 import useToken from "./components/useToken";
+import PrefRes from "./components/SignupPrefRes"
 
 function App() {
   // useState hook variable to set user token
@@ -57,6 +58,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/" element={<Index />} />
             <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="/signupPrefReset" element={<PrefRes />} />
           </Routes>
         </Router>
       </>
