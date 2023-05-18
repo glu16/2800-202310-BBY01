@@ -4,7 +4,7 @@ TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=qwM23_kF4v4
 */
 
-const { Configuration, OpenAIApi } = require("openai");
+const {Configuration, OpenAIApi} = require("openai");
 const express = require("express");
 const app = express();
 const db = require("./database.js");
@@ -13,7 +13,7 @@ const authRouter = require("./routes/auth");
 const passChangeRouter = require("./routes/passChange");
 
 // THE MODELS
-const { User } = require("./models/users.js");
+const {User} = require("./models/users.js");
 const Tips = require("./models/tips.js");
 const Challenges = require("./models/challenges.js");
 
@@ -28,7 +28,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // FOR TIME-BASED AUTO METHODS
-const cron = require('node-cron');
+const cron = require("node-cron");
 
 // THE CONNECTION TO DATABASE
 db();
@@ -53,7 +53,7 @@ app.get("/getFromUser/:email", async (req, res) => {
 
   try {
     // FINDS THE USER BY EMAIL
-    const user = await User.findOne({ email: userID });
+    const user = await User.findOne({email: userID});
     if (!user) {
       return res.status(400).send("Email not registered" + userID);
     }
@@ -71,9 +71,9 @@ app.get("/users/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     // FIND THE USER BY USERNAME
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     if (!user) {
-      return res.status(404).json({ message: "User not found"});
+      return res.status(404).json({message: "User not found"});
     }
     res.send({
       username: user.username,
@@ -82,33 +82,33 @@ app.get("/users/:username", async (req, res) => {
       phoneNumber: user.phoneNumber,
       userStats: user.userStats,
       imageURL: user.imageURL,
-      userStats: user.userStats 
+      userStats: user.userStats,
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({message: "Server error"});
   }
 });
 
 // GETS ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { username: 1, points: 1, _id: 1 });
+    const users = await User.find({}, {username: 1, points: 1, _id: 1});
     res.send(users);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({message: "Server error"});
   }
 });
 
 // GETS ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
 app.get("/leaderboard/:username", async (req, res) => {
   try {
-    const { username } = req.params;
-    const loggedInUser = await User.findOne({ username });
+    const {username} = req.params;
+    const loggedInUser = await User.findOne({username});
     // CHECK IF THE USER IS LOGGED IN
     if (!loggedInUser) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({message: "User not found"});
     }
     // CHECK IF THE USER IS LOGGED IN
     const friends = await Promise.all(
@@ -117,7 +117,7 @@ app.get("/leaderboard/:username", async (req, res) => {
         // SKIP DELETED USERS
         if (!friendUser) {
           // RETRIEVE THE DELETED USER WITH THE OLD USERNAME
-          const deletedUser = await User.findOne({ username: friend.username });
+          const deletedUser = await User.findOne({username: friend.username});
           if (!deletedUser) {
             return null;
           }
@@ -144,28 +144,26 @@ app.get("/leaderboard/:username", async (req, res) => {
     res.json(validFriends);
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({message: "Server error"});
   }
 });
 
 // UPDATES AND SAVES THE LOGGED IN USER'S NAME INTO THE SPECIFIED USER'S COLLECTION
 app.post("/leaderboard/:friendUsername", async (req, res) => {
-  const { friendUsername } = req.params;
-  const { username } = req.body;
+  const {friendUsername} = req.params;
+  const {username} = req.body;
   try {
     // FIND THE FRIEND BY USERNAME
-    const friend = await User.findOne({ username: friendUsername });
+    const friend = await User.findOne({username: friendUsername});
     // THROW ERROR IF SELECTED USER CANNOT BE FOUND
     if (!friend) {
-      return res.status(404).json({ error: "Friend not found" });
+      return res.status(404).json({error: "Friend not found"});
     }
     // FIND THE LOGGED IN USER
-    const loggedInUser = await User.findOne({ username });
+    const loggedInUser = await User.findOne({username});
     // CHECK IF THE LOGGED IN USER IS TRYING TO ADD THEMSELVES AS A FRIEND
     if (friendUsername === username) {
-      return res
-        .status(400)
-        .json({ error: "Cannot add yourself as a friend." });
+      return res.status(400).json({error: "Cannot add yourself as a friend."});
     }
     // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
     if (!loggedInUser.friends.some((f) => f.username === friend.username)) {
@@ -193,30 +191,30 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
 // DELETES THE SPECIFIED USER FROM THE FRIENDS ARRAY FOR BOTH
 app.delete("/profile/:friendId", async (req, res) => {
-  const { friendId } = req.params;
-  const { username } = req.body;
+  const {friendId} = req.params;
+  const {username} = req.body;
   try {
     console.log("Received DELETE request");
     console.log("Friend ID:", friendId);
     console.log("Username:", username);
     // FIND THE LOGGED IN USER BY USERNAME
-    const loggedInUser = await User.findOne({ username });
+    const loggedInUser = await User.findOne({username});
     // THROWS ERROR IF NOT LOGGED IN
     if (!loggedInUser) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({error: "User not found"});
     }
     // FIND THE FRIEND IN THE LOGGED IN USER'S FRIEND LIST
     const friendIndex = loggedInUser.friends.findIndex(
       (friend) => friend._id.toString() === friendId
     );
     if (friendIndex === -1) {
-      return res.status(404).json({ error: "Friend not found" });
+      return res.status(404).json({error: "Friend not found"});
     }
     // REMOVE THE FRIEND FROM THE USER'S FRIEND LIST
     loggedInUser.friends.splice(friendIndex, 1);
@@ -229,7 +227,7 @@ app.delete("/profile/:friendId", async (req, res) => {
       (friend) => friend._id.toString() === loggedInUser._id.toString()
     );
     if (loggedInUserIndex === -1) {
-      return res.status(404).json({ error: "Friend not found" });
+      return res.status(404).json({error: "Friend not found"});
     }
     // REMOVE THE LOGGED IN USER FROM THE FRIEND'S FRIEND LIST
     friend.friends.splice(loggedInUserIndex, 1);
@@ -242,7 +240,7 @@ app.delete("/profile/:friendId", async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
@@ -261,7 +259,7 @@ app.post("/signupdetails/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      { username: userID },
+      {username: userID},
       // SET THE USER STATS
       {
         $set: {
@@ -281,7 +279,7 @@ app.post("/signupdetails/:username", async (req, res) => {
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      { new: true, upsert: true }
+      {new: true, upsert: true}
     );
 
     res.status(200).json({
@@ -290,7 +288,7 @@ app.post("/signupdetails/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
@@ -301,7 +299,7 @@ app.post("/profile/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      { username: userID },
+      {username: userID},
       // SETS THE USER'S PROFILE INFORMATION
       {
         $set: {
@@ -315,7 +313,7 @@ app.post("/profile/:username", async (req, res) => {
       },
 
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true }
+      {new: true}
     );
 
     res.status(200).json({
@@ -329,7 +327,7 @@ app.post("/profile/:username", async (req, res) => {
     } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
       res.status(500).send("Email is already taken");
     } else {
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({error: "Internal server error"});
     }
   }
 });
@@ -344,7 +342,7 @@ app.post("/pfp/:username", async (req, res) => {
     }
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      { username: userID },
+      {username: userID},
       // SETS THE USER'S IMAGE DOWNLOAD LINK
       {
         $set: {
@@ -352,7 +350,7 @@ app.post("/pfp/:username", async (req, res) => {
         },
       },
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true }
+      {new: true}
     );
 
     res.status(200).json({
@@ -362,7 +360,37 @@ app.post("/pfp/:username", async (req, res) => {
   } catch (err) {
     res
       .status(500)
-      .json({ error: "Internal server error (Image URL was not saved)" });
+      .json({error: "Internal server error (Image URL was not saved)"});
+  }
+});
+
+app.post("/settings/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body);
+  try {
+    if (!req.body) {
+      res.status(404).send("No settings received.");
+    }
+    const user = User.findOneAndUpdate(
+      {username: userID},
+      {
+        $set: {
+          notificationSettings: {
+            dietReminders: req.body.dietReminders,
+            fitnessReminders: req.body.dietReminders,
+            leaderboardReminders: req.body.leaderboardReminders,
+            challengerReminders: req.body.challengerReminders,
+          },
+        },
+      },
+      {new: true, upsert: true}
+    );
+    console.log(`settings updated`);
+    res.status(200).send("Notification settings successfully updated");
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error (Notification settings were not saved",
+    });
   }
 });
 
@@ -376,12 +404,12 @@ app.put("/users/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // FIND BY EMAIL
-      { username: userID },
+      {username: userID},
       // SET THE MESSAGES TO THE UPDATED MESSAGES
-      { $push: { messages: updatedUserData } },
+      {$push: {messages: updatedUserData}},
       // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
       // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
-      { new: true, upsert: true }
+      {new: true, upsert: true}
     );
 
     res.status(200).json({
@@ -390,7 +418,7 @@ app.put("/users/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
@@ -401,7 +429,7 @@ app.get("/coach/:username", async (req, res) => {
 
   try {
     // FINDS THE USER BY USERNAME
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     if (!user) {
       return res.status(400).send("Username not registered: " + userID);
     }
@@ -429,63 +457,73 @@ app.get("/coach/:username", async (req, res) => {
 //   }
 // });
 
-
 // GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
-  
   // store user's username
   const userID = req.params.username;
 
   // store variables sent from fitness.jsx
-  var { workoutKey, workout, muscleGroups, level } = req.body;
+  var {workoutKey, workout, muscleGroups, level} = req.body;
 
   // store user's stats to send to workouts.js
   var userStats;
   var firstName;
   try {
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     userStats = user.userStats[0];
     firstName = user.firstName;
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    res
+      .status(500)
+      .json({error: "Internal server error. Couldn't get userStats."});
     return; // Stop execution after sending the response
   }
 
-          // SAITAMA EASTER EGG
-          const today = new Date();
-          const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-          const formattedDate = today.toLocaleDateString('en-US', options);
-          var saitamaWorkout = {};
-          saitamaWorkout[formattedDate] = {
-            "Exercise 1": {"name": "PUSH-UPS", "setsAndReps": "100", "calories": 100},
-            "Exercise 2": {"name": "SIT-UPS", "setsAndReps": "100", "calories": 100},
-            "Exercise 3": {"name": "SQUATS", "setsAndReps": "100", "calories": 100},
-            "Exercise 4": {"name": "10K RUN", "setsAndReps": "10 km", "calories": 900}
-          };
-          if (firstName.toLowerCase() === "saitama") {
-            console.log(saitamaWorkout);
-            try {
-              const user = await User.findOneAndUpdate(
-                { username: userID },
-                {
-                  $push: {
-                    workouts: { $each: [JSON.parse(JSON.stringify(saitamaWorkout))], $position: 0 },
-                  },
-                }
-              );
-              res.status(200).json({
-                message: `SAITAMA'S WORKOUT ADDED.`,
-                user,
-              });
-              return; // Stop execution after sending the response
-            } catch (err) {
-              console.error(err);
-              res.status(500).json({ error: "Internal server error. Couldn't add SAITAMA workout plan." });
-              return; // Stop execution after sending the response
-            }
-          }
-          // END OF SAITAMA EASTER EGG
+  // SAITAMA EASTER EGG
+  const today = new Date();
+  const options = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+  const formattedDate = today.toLocaleDateString("en-US", options);
+  var saitamaWorkout = {};
+  saitamaWorkout[formattedDate] = {
+    "Exercise 1": {name: "PUSH-UPS", setsAndReps: "100", calories: 100},
+    "Exercise 2": {name: "SIT-UPS", setsAndReps: "100", calories: 100},
+    "Exercise 3": {name: "SQUATS", setsAndReps: "100", calories: 100},
+    "Exercise 4": {name: "10K RUN", setsAndReps: "10 km", calories: 900},
+  };
+  if (firstName.toLowerCase() === "saitama") {
+    console.log(saitamaWorkout);
+    try {
+      const user = await User.findOneAndUpdate(
+        {username: userID},
+        {
+          $push: {
+            workouts: {
+              $each: [JSON.parse(JSON.stringify(saitamaWorkout))],
+              $position: 0,
+            },
+          },
+        }
+      );
+      res.status(200).json({
+        message: `SAITAMA'S WORKOUT ADDED.`,
+        user,
+      });
+      return; // Stop execution after sending the response
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        error: "Internal server error. Couldn't add SAITAMA workout plan.",
+      });
+      return; // Stop execution after sending the response
+    }
+  }
+  // END OF SAITAMA EASTER EGG
 
   // variables to hold userStats
   var sex = userStats.sex;
@@ -508,18 +546,28 @@ app.put("/fitness/:username", async (req, res) => {
 
   // generates workout plan in workout.js
   function generateWorkout(callback) {
-    workouts.generate(sex, age, height, weight, activityLevel, goal, muscleGroups, level, (newWorkout) => {
-      updateWorkouts(newWorkout, callback);
-    });
+    workouts.generate(
+      sex,
+      age,
+      height,
+      weight,
+      activityLevel,
+      goal,
+      muscleGroups,
+      level,
+      (newWorkout) => {
+        updateWorkouts(newWorkout, callback);
+      }
+    );
   }
   // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        { username: userID },
+        {username: userID},
         {
           $push: {
-            workouts: { $each: [JSON.parse(newWorkout)], $position: 0 },
+            workouts: {$each: [JSON.parse(newWorkout)], $position: 0},
           },
         }
       );
@@ -529,7 +577,9 @@ app.put("/fitness/:username", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error. Couldn't add workout plan." });
+      res
+        .status(500)
+        .json({error: "Internal server error. Couldn't add workout plan."});
     }
     if (callback) {
       callback();
@@ -542,7 +592,7 @@ app.put("/fitness/:username", async (req, res) => {
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     // if workouts empty ie.new user
     if (user.workouts.length == 0) {
       res.send("empty");
@@ -552,7 +602,9 @@ app.get("/fitness/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send workout plan." });
+    res
+      .status(500)
+      .json({error: "Internal server error. Couldn't send workout plan."});
   }
 });
 
@@ -560,17 +612,18 @@ app.get("/fitness/:username", async (req, res) => {
 app.get("/streak/:username", async (req, res) => {
   const userID = req.params.username;
   try {
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     res.send({
       currentStreak: user.currentStreak,
-      longestStreak: user.longestStreak
-     });
+      longestStreak: user.longestStreak,
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send user streak." });
+    res
+      .status(500)
+      .json({error: "Internal server error. Couldn't send user streak."});
   }
 });
-
 
 // to generate and store a user's workout plan
 app.put("/diet/:username", async (req, res) => {
@@ -579,16 +632,17 @@ app.put("/diet/:username", async (req, res) => {
   var userStats;
   var firstName;
   try {
-    const user = await User.findOne({ username: userID });
+    const user = await User.findOne({username: userID});
     userStats = user.userStats[0];
     console.log(userStats);
     firstName = user.firstName;
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    res
+      .status(500)
+      .json({error: "Internal server error. Couldn't get userStats."});
     return; // Stop execution after sending the response
   }
-
 
   var sex = userStats.sex;
   var age = userStats.age;
@@ -601,7 +655,7 @@ app.put("/diet/:username", async (req, res) => {
 
   // generates workout plan in workout.js
   function generateDiet(callback) {
-    Diet.generate(sex,age,height,weight,activityLevel,goal,(newDiet) => {
+    Diet.generate(sex, age, height, weight, activityLevel, goal, (newDiet) => {
       updateDiet(newDiet, callback);
     });
   }
@@ -651,9 +705,9 @@ app.get("/userStats", async (req, res) => {
   try {
     // FIND THE USER BY USERNAME
     // DEFAULT USERNAME IS "ndurano" UNTILL FIX
-    const user = await User.findOne({ username: "ndurano" });
+    const user = await User.findOne({username: "ndurano"});
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({message: "User not found"});
     }
     res.send({
       sex: user.userStats[0].sex,
@@ -665,7 +719,7 @@ app.get("/userStats", async (req, res) => {
     });
   } catch (e) {
     console.log(e);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({message: "Server error"});
   }
 });
 
@@ -680,7 +734,7 @@ app.get("/home/tips", async (req, res) => {
     const currentDate = new Date().toISOString().slice(0, 10);
 
     if (!selectedTip || selectedDate !== currentDate) {
-      const tips = await Tips.aggregate([{ $sample: { size: 1 } }]);
+      const tips = await Tips.aggregate([{$sample: {size: 1}}]);
       selectedTip = tips[0];
       selectedDate = currentDate;
     }
@@ -688,7 +742,7 @@ app.get("/home/tips", async (req, res) => {
     res.status(200).json(selectedTip);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
@@ -722,8 +776,8 @@ app.get("/home/challenges", async (req, res) => {
     ) {
       // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
       const challenges = await Challenges.aggregate([
-        { $sample: { size: 3 } },
-        { $project: { _id: 1, challenge: 1, points: 1 } },
+        {$sample: {size: 3}},
+        {$project: {_id: 1, challenge: 1, points: 1}},
       ]);
 
       // UPDATE THE CHALLENGES CACHE
@@ -742,7 +796,7 @@ app.get("/home/challenges", async (req, res) => {
 // UPDATES AND SAVES CHALLENGE INTO USER'S COLLECTION
 app.post("/home/challenges/:username", (req, res) => {
   try {
-    const { challengeId } = req.body;
+    const {challengeId} = req.body;
     const user = findLoggedInUser(req);
     // PUSH THE CHALLENGE ID INTO THE COLLECTION
     user.challenges.push(challengeId);
@@ -760,7 +814,7 @@ app.post("/home/challenges/:username", (req, res) => {
 
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
-  const { message } = req.body;
+  const {message} = req.body;
   console.log(message);
 
   // THE RESPONSE FROM OPENAI
@@ -774,7 +828,6 @@ app.post("/", async (req, res) => {
 
   const parsableJson = response.data.choices[0].text;
 
-
   console.log(parsableJson);
   let messageOutTest = parsableJson;
 
@@ -784,7 +837,6 @@ app.post("/", async (req, res) => {
   });
 });
 
-
 // FOR STREAK TRACKER
 app.post("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
@@ -792,18 +844,18 @@ app.post("/fitness/:username", async (req, res) => {
   try {
     const user = await User.findOneAndUpdate(
       // find user by username
-      { username: userID },
-      { 
+      {username: userID},
+      {
         // increment currentStreak FIELD BY 1
-        $inc: { currentStreak: 1 }, 
+        $inc: {currentStreak: 1},
         // set doneToday TO true
-        $set: { doneToday: true }
+        $set: {doneToday: true},
       },
       // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
-      { new: true }
+      {new: true}
     );
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.status(404).json({error: "User not found"});
     }
     // Compare currentStreak with longestStreak and update longestStreak if necessary
     if (user.currentStreak > user.longestStreak) {
@@ -818,44 +870,41 @@ app.post("/fitness/:username", async (req, res) => {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({error: "Internal server error"});
   }
 });
 
-
 // Daily at 11:58 pm every day go through all users and if their doneToday is false then set their currentStreak to 0
-cron.schedule('58 23 * * *', async () => {
+cron.schedule("58 23 * * *", async () => {
   try {
     // Find all users
     const users = await User.find();
-    
+
     // Iterate over each user
     for (const user of users) {
       if (user.doneToday == false) {
         // If doneToday is false, set currentStreak to 0
         user.currentStreak = 0;
-      } 
+      }
       // Save the updated user
       await user.save();
     }
     console.log("Users' currentStreaks updated.");
   } catch (err) {
-    console.error('Error updating currentStreaks: ', err);
+    console.error("Error updating currentStreaks: ", err);
   }
 });
 // Daily at 12:01 AM every day go through all users and reset their doneToday to false
-cron.schedule('1 0 * * *', async () => {
+cron.schedule("1 0 * * *", async () => {
   try {
     // Find all users and update their `doneToday` field to false
-    const users = await User.updateMany({}, { $set: { doneToday: false } });
-    console.log('Resetting doneToday field for all users.');
+    const users = await User.updateMany({}, {$set: {doneToday: false}});
+    console.log("Resetting doneToday field for all users.");
     console.log(`${users.nModified} users updated successfully.`);
   } catch (err) {
-    console.error('An error occurred while resetting doneToday field: ', err);
+    console.error("An error occurred while resetting doneToday field: ", err);
   }
 });
-
-
 
 // server hosting
 const localPort = 5050;
@@ -865,5 +914,5 @@ app.listen(port, () => {
 });
 // send server port info to client
 app.get("/api/port", (req, res) => {
-  res.json({ port });
+  res.json({port});
 });

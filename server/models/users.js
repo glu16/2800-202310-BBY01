@@ -20,6 +20,7 @@ const userSchema = new mongoose.Schema({
   workouts: { type: Array },
   diets: { type: Array },
   userStats: { type: Array },
+  notificationSettings: { type: Array },
 
   friends: [
     {
