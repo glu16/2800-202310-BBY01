@@ -295,7 +295,43 @@ app.post("/signupdetails/:username", async (req, res) => {
           },
           doneToday: false,
           currentStreak: 0,
-          longestStreak: 0,
+          longesstStreak: 0,
+        },
+      },
+
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/signupPrefRes/:username", async (req, res) => {
+  const userID = req.params.username;
+  const foodPref = req.body.foodPreferencs;
+  const foodRes = req.body.foodRestrictions;
+  const workoutPref = req.body.workoutPreferences;
+  const workoutRes = req.body.workoutRestrictions;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      { username: userID },
+      // SET THE USER STATS
+      {
+        $set: {
+            "userStats.0.foodPref": foodPref,
+            "userStats.0.foodRes": foodRes,
+            "workoutPref.0.workoutPref": workoutPref,
+            "workoutRes.0.workoutRes": workoutRes
         },
       },
 
@@ -630,7 +666,6 @@ app.get("/fitness/:username", async (req, res) => {
       .json({ error: "Internal server error. Couldn't send workout plan." });
   }
 });
-
 // send userStreak to client
 app.get("/streak/:username", async (req, res) => {
   const userID = req.params.username;
@@ -639,12 +674,41 @@ app.get("/streak/:username", async (req, res) => {
     res.send({
       currentStreak: user.currentStreak,
       longestStreak: user.longestStreak,
+      doneToday: user.doneToday,
+      daysDone: user.daysDone,
+      daysMissed: user.daysMissed,
     });
   } catch (err) {
     console.error(err);
     res
       .status(500)
       .json({ error: "Internal server error. Couldn't send user streak." });
+  }
+});
+// send doneToday to client
+app.get("/doneToday/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send(
+      user.doneToday
+     );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+  }
+});
+// send doneToday to client
+app.get("/doneToday/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send(
+      user.doneToday
+     );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
 
@@ -673,12 +737,14 @@ app.put("/diet/:username", async (req, res) => {
   var weight = userStats.weight;
   var activityLevel = userStats.activityLevel;
   var goal = userStats.goal;
+  var foodPref = userStats.foodPref;
+  var foodRes = userStats.foodRes;
   // call and execute workouts.js
   const Diet = require("./diet");
-
-  // generates workout plan in workout.js
+ 
+  // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
-    Diet.generate(sex, age, height, weight, activityLevel, goal, (newDiet) => {
+    Diet.generate(sex, age, height, weight, activityLevel, goal,foodPref, foodRes, (newDiet) => {
       updateDiet(newDiet, callback);
     });
   }
@@ -746,11 +812,6 @@ app.get("/userStats", async (req, res) => {
   }
 });
 
-// VARIABLES TO CHECK IF THE CURRENT DATE IS
-// THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
-let selectedTip = null;
-let selectedDate = null;
-
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
@@ -769,33 +830,32 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
-// RESET SELECTED TIP AND DATE AT MIDNIGHT
-setInterval(() => {
-  const currentDate = new Date().toISOString().slice(0, 10);
-
-  if (selectedDate !== currentDate) {
-    selectedTip = null;
-    selectedDate = null;
-  }
-}, 1000 * 60 * 60 * 24);
-
 const challengesCache = {
   data: [],
   lastUpdated: null,
 };
 
-// GETS 3 RANDOM CHALLENGES FROM THE DATABASE
-app.get("/home/challenges", async (req, res) => {
+// GETS 3 RANDOM CHALLENGES FOR THE LOGGED-IN USER
+app.get("/home/challenges/:username", async (req, res) => {
   try {
+    const username = req.params.username;
+    // FIND USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF USER IS NOT FOUND
+    if (!user) {
+      throw new Error("User not found");
+    }
     // CHECK IF CHALLENGES NEED TO BE UPDATED
     const currentDate = new Date();
+    const currentDayOfWeek = currentDate.getDay();
     const currentHour = currentDate.getHours();
     const currentMinute = currentDate.getMinutes();
 
     if (
       challengesCache.lastUpdated === null ||
-      currentHour === 0 ||
-      (currentHour === 23 && currentMinute >= 55)
+      (currentDayOfWeek === 0 && currentHour === 0 && currentMinute < 5) ||
+      (currentDayOfWeek === 6 && currentHour === 23 && currentMinute >= 55) ||
+      isCacheExpired(challengesCache.lastUpdated)
     ) {
       // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
       const challenges = await Challenges.aggregate([
@@ -816,22 +876,84 @@ app.get("/home/challenges", async (req, res) => {
   }
 });
 
+// HELPER FUNCTION TO CHECK IF THE CACHE IS EXPIRED (SUNDAY AT MIDNIGHT)
+function isCacheExpired(lastUpdated) {
+  const expirationDate = new Date(lastUpdated);
+  expirationDate.setHours(23, 59, 59, 999);
+  const currentDateTime = new Date();
+  return currentDateTime > expirationDate;
+}
+
 // UPDATES AND SAVES CHALLENGE INTO USER'S COLLECTION
-app.post("/home/challenges/:username", (req, res) => {
+app.post("/home/challenges/:username", async (req, res) => {
   try {
-    const { challengeId } = req.body;
-    const user = findLoggedInUser(req);
-    // PUSH THE CHALLENGE ID INTO THE COLLECTION
-    user.challenges.push(challengeId);
-
-    // SAVE THE UPDATED USER OBJECT
-    user.save();
-
+    const { challengeId, challenge, points } = req.body;
+    const username = req.params.username;
+    // FIND USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF USER IS NOT FOUND
+    if (!user) {
+      throw new Error("User not found");
+    }
+    // CREATE THE ARRAY FOR THE USER IF IT DOES NOT EXIST
+    if (!user.challenges) {
+      user.challenges = [];
+    }
+    // CHECK IF THE CHALLENGE ALREADY EXISTS IN THE USER'S COLLECTION
+    const existingChallenge = user.challenges.find(
+      (ch) => ch.challengeId === challengeId
+    );
+    if (existingChallenge) {
+      throw new Error("Challenge already added");
+    }
+    // ADD THE CHALLENGE TO THE USER'S COLLECTION
+    user.challenges.push({ challengeId, challenge, points });
+    // SAVE THE CHANGES
+    await user.save();
     // SEND THE RESPONSE
     res.status(200).send("Challenge added successfully");
   } catch (error) {
     console.error("Error occurred while adding challenge:", error);
     res.status(500).send("An error occurred");
+  }
+});
+
+// REMOVES THE COMPLETED CHALLENGE FROM THE USER'S COLLECTION
+app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
+  try {
+    const username = req.params.username;
+    const challengeId = req.params.challengeId;
+console.log("Challenge from params: " + challengeId)
+    // FIND THE USER IN THE DATABASE
+    const user = await User.findOne({ username: username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // FIND THE INDEX OF THE CHALLENGE IN THE USER'S CHALLENGES ARRAY
+    const challengeIndex = user.challenges.findIndex(
+      (challenge, index) => {
+        console.log(index);
+        console.log("Challenge ID: " + challenge.challengeId);
+        console.log("_Id: " + challenge._id);
+        console.log(" ");
+        return challenge.challengeId.toString() == challengeId;
+      });
+
+    if (challengeIndex === -1) {
+      return res.status(404).json({ message: "Challenge not found" });
+    }
+
+    // REMOVE THE CHALLENGE FROM THE USER'S CHALLENGES ARRAY
+    user.challenges.splice(challengeIndex, 1);
+
+    // SAVE THE UPDATE
+    await user.save();
+
+    return res.status(200).json({ message: "Challenge removed successfully" });
+  } catch (error) {
+    console.error("Error occurred while removing challenge:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -869,8 +991,8 @@ app.post("/fitness/:username", async (req, res) => {
       // find user by username
       { username: userID },
       {
-        // increment currentStreak FIELD BY 1
-        $inc: { currentStreak: 1 },
+        // increment currentStreak and daysDone FIELD BY 1
+        $inc: { currentStreak: 1, daysDone: 1 },
         // set doneToday TO true
         $set: { doneToday: true },
       },
@@ -886,9 +1008,9 @@ app.post("/fitness/:username", async (req, res) => {
       await user.save();
       console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
     }
-    console.log(`Successfully updated ${userID}'s currentStreak and doneToday`);
+    console.log(`Successfully updated ${userID}'s currentStreak, daysDone, and doneToday`);
     res.status(200).json({
-      message: `${userID} currentStreak incremented successfully`,
+      message: `${userID} streak stats updated successfully`,
       user,
     });
   } catch (err) {
@@ -897,39 +1019,44 @@ app.post("/fitness/:username", async (req, res) => {
   }
 });
 
-// Daily at 11:58 pm every day go through all users and if their doneToday is false then set their currentStreak to 0
-cron.schedule("58 23 * * *", async () => {
+
+// Daily at 12:01AM update streaks for all users <- TARGET THIS METHOD WITH CRON-JOB EXTERNALLY ONCE HOSTED
+app.post("/updateStreaks", async (req, res) => {
+  
+  // handle whether user completed or did not complete their workout today
   try {
-    // Find all users
+    // Find all users and iterate through them
     const users = await User.find();
-
-    // Iterate over each user
     for (const user of users) {
-      if (user.doneToday == false) {
-        // If doneToday is false, set currentStreak to 0
+      if (user.doneToday) {
+        // If the user completed a workout today, increment daysDone
+        user.daysDone++;
+      } else {
+        // If the user did not complete a workout today, update currentStreak and daysMissed
         user.currentStreak = 0;
+        user.daysMissed++;
       }
-      // Save the updated user
-      await user.save();
+    // Save the updated user
+    await user.save();
+    // console.log(`${user.username} streak updated.`);
     }
-    console.log("Users' currentStreaks updated.");
-  } catch (err) {
-    console.error("Error updating currentStreaks: ", err);
-  }
-});
-// Daily at 12:01 AM every day go through all users and reset their doneToday to false
-cron.schedule("1 0 * * *", async () => {
+    console.log("All streaks updated successfully.");
+  } catch (err) {console.error('Failed to update streaks: ', err);}
+
+  // finally reset all user's doneToday to false
   try {
-    // Find all users and update their `doneToday` field to false
-    const users = await User.updateMany({}, { $set: { doneToday: false } });
-    console.log("Resetting doneToday field for all users.");
-    console.log(`${users.nModified} users updated successfully.`);
-  } catch (err) {
-    console.error("An error occurred while resetting doneToday field: ", err);
+    await User.updateMany({}, { 
+      doneToday: false 
+    });
+    console.log("All doneToday reset to false successfully.")
+  } catch (error) {
+    console.log("Failed to reset donetToday:" + error);
   }
 });
 
-// server hosting
+
+
+// SERVER HOSTING
 const localPort = 5050;
 const port = process.env.PORT || localPort;
 app.listen(port, () => {

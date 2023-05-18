@@ -16,7 +16,7 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:5050/fitness/${username}`, {
+  var response = await fetch(`http://localhost:${port}/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -30,15 +30,36 @@ async function getWorkout() {
   }
 }
 
+// CHECK IF EXERCISE FOR TODAY ALREADY DONE
+var doneToday = false;
+async function getDoneToday() {
+  var response = await fetch(`http://localhost:${port}/doneToday/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  var data = await response.json();
+  doneToday = data;
+}
+getDoneToday();
+
+
 // FUNCTION GETS USERSTATS FIELD FROM DATABASE
 // async function getUserStats() {
-//   var response = await fetch(`http://localhost:5050/userStats/${username}`, {
+//   var response = await fetch(`http://localhost:${port}/userStats/${username}`, {
 //     method: "GET",
 //     headers: { "Content-Type": "application/json" },
 //   });
 //   var data = await response.json();
 //   console.log(data);
 // }
+
+// TEMPORARY TEST FUNCTION FOR CRON-JOB UPDATE USER STREAKS AT MIDNIGHT
+function updateStreaks() {
+  console.log("button working");
+  fetch(`http://localhost:${port}/updateStreaks/`, {
+    method: "POST",
+  })
+}
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
@@ -317,16 +338,22 @@ const CompleteExercisesButton = () => {
 const Streak = () => {
   const [currentStreak, setCurrentStreak] = useState(null);
   const [longestStreak, setLongestStreak] = useState(null);
+  const [doneToday, setDoneToday] = useState(null);
+  const [daysDone, setDaysDone] = useState(null);
+  const [daysMissed, setDaysMissed] = useState(null);
   // FUNCTION GETS USER STREAK STATS FROM DATABASE
   async function getStreak() {
     try {
-      const response = await fetch(`http://localhost:5050/streak/${username}`, {
+      const response = await fetch(`http://localhost:${port}/streak/${username}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
       const data = await response.json();
       setCurrentStreak(data.currentStreak);
       setLongestStreak(data.longestStreak);
+      setDoneToday(data.doneToday);
+      setDaysDone(data.daysDone);
+      setDaysMissed(data.daysMissed);
     } catch (error) {
       // Handle any errors that occur during the fetch
       console.error('Error fetching streak:', error);
@@ -341,11 +368,25 @@ const Streak = () => {
     return <div>Loading streak...</div>;
   }
 
+  // set which symbol via url to display if today's workout is done or not
+  var doneTodaySymbol;
+  if (doneToday) {
+    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png'
+  } else {
+    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/04/logo-excel-rouge.png'
+  }
+
   return (
     <div id="streakContainer">
       <h2>Streak & Stats</h2>
+      <p>Today Done: &nbsp;
+          <img src={doneTodaySymbol}
+            style={{width:'50px', height:'50px'}}></img>
+      </p>
       <p>Current Streak: {currentStreak}</p>
       <p>Longest Streak: {longestStreak}</p>
+      <p>Number of days completed workout: {daysDone}</p>
+      <p>Number of days missed workout: {daysMissed}</p>
     </div>
   );
 };
@@ -452,7 +493,7 @@ const Fitness = () => {
 
   // COMPLETE ALL EXERCISES BUTTON SHOULD CALL TWO SERVER METHODS
   const completeAllExercises = async () => {
-    console.log("All exercises complete! Top");
+    // console.log("All exercises complete! Top");
 
     // disable the button after it is clicked
     setCompleteAllExercisesClicked(true);
@@ -480,11 +521,10 @@ const Fitness = () => {
       console.log('Error updating field:', error);
     }
 
+    // reload page to rerender everything
+    window.location.reload();
 
-    // set user field: doneToday to true
-
-
-    console.log("All exercises complete! Bottom");
+    // console.log("All exercises complete! Bottom");
   };
 
   // Pseudo-event listener for when numberOfExercises is modified
@@ -513,10 +553,16 @@ const Fitness = () => {
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           
+          
           {/* <form id="getUserStats" onSubmit={getUserStats}>
             <input type="hidden" name="username" value={username}></input>
             <button type="submit">Test Get User Stats</button>
           </form> */}
+          
+          {/* <form id="updateStreaks" onSubmit={updateStreaks}>
+            <button type="submit">Test Cron Job</button>
+          </form> */}
+
 
           <div>
             <form id="addWorkout" onSubmit={addWorkoutToUser}>
@@ -524,23 +570,34 @@ const Fitness = () => {
               <input type="hidden" name="username" value={username}></input>
 
               {/* SEND INTENSITY FOR WORKOUT GENERATION */}
-              <p>Select desired intensity level for workout</p>
+              
               <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
               <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
               <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
               <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
               <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
               <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
+              <p>Select desired intensity level for workout</p>
               <br />
 
               {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
-              <p>Select muscle groups you want to focus on</p>
+              
               <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
               <label className="btn btn-outline-primary" htmlFor="arms">Arms</label>
               <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
               <label className="btn btn-outline-primary" htmlFor="legs">Legs</label>
               <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
               <label className="btn btn-outline-primary" htmlFor="chest">Chest</label>
+              <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
+              <label className="btn btn-outline-primary" htmlFor="back">Back</label>
+              <input type="checkbox" name="back" className="btn-check" id="back"></input>
+              <label className="btn btn-outline-primary" htmlFor="shoulders">Shoulders</label>
+              <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
+              <label className="btn btn-outline-primary" htmlFor="core">Core</label>
+              <input type="checkbox" name="core" className="btn-check" id="core"></input>
+              <label className="btn btn-outline-primary" htmlFor="glutes">Glutes</label>
+              <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
+              <p>Select muscle groups you want to focus on</p>
 
               <br />
 
@@ -583,7 +640,7 @@ const Fitness = () => {
           )}
           <button id="completeAll" 
             onClick={completeAllExercises} 
-            disabled={numberOfExercises !== 0 || completeAllExercisesClicked}
+            disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
             >Mark ALL exercises complete!
           </button>
           
