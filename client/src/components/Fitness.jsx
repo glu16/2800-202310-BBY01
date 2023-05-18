@@ -30,6 +30,21 @@ async function getWorkout() {
   }
 }
 
+// FUNCTION TO GET USER'S NAME FOR EASTER EGG
+var firstName;
+var lastName;
+async function getName() {
+  var response = await fetch(`http://localhost:${port}/getName/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  var data = await response.json();
+  firstName = data.firstName;
+  lastName = data.lastName;
+  // return [firstName, lastName];
+}
+getName();
+
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
@@ -179,6 +194,7 @@ function Workout({ handleOpenModal }) {
     
       // for the sublevel exercise object inside day object
       function renderExercise(exerciseObj) {
+
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
             <div key={index} className={styles.anExercise}>
@@ -212,9 +228,20 @@ function Workout({ handleOpenModal }) {
 
       // for the sublevel exercise object inside day object
       function renderExerciseToday(exerciseObj) {
+
+        // EASTER EGG Stuff
+        const isSaitama = firstName.toLowerCase() == "saitama";
+        
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
-            <div key={index} className={styles.anExercise}>
+            // EASTER EGG STUFF
+            <div
+            key={index}
+            className={`${styles.anExercise} ${isSaitama ? styles.saitamaStyle : ""}`}
+            style={isSaitama ? { backgroundImage: "url('https://staticg.sportskeeda.com/editor/2022/04/8e856-16505616347217-1920.jpg')", opacity: 1, backgroundSize: "100% 100%" } : null}
+          >
+            {/* original before Easter egg */}
+            {/* <div key={index} className={styles.anExercise}> */}
             <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
@@ -377,7 +404,7 @@ const Streak = () => {
   }
 
   return (
-    <div id="streakContainer">
+    <div id="streakContainer" style={{ border: '2px solid red'}}>
       <h2>Streak & Stats</h2>
       <p>Today Done: &nbsp;
           <img src={doneTodaySymbol}
@@ -564,7 +591,7 @@ const Fitness = () => {
           </form> */}
 
 
-          <div>
+          <div id="workoutForm" style={{ border: '2px solid blue' }}>
             <form id="addWorkout" onSubmit={addWorkoutToUser}>
               {/* SEND USERNAME FOR DATABASE SEARCH */}
               <input type="hidden" name="username" value={username}></input>
