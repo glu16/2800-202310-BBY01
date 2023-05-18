@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   firstName: { type: String, required: true, trim: true },
   lastName: { type: String, required: true, trim: true },
   phoneNumber: { type: String, trim: true },
-  imageURL:{ type: String},
+  imageURL: { type: String },
 
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true, trim: true, minlength: 4 },
@@ -27,7 +27,15 @@ const userSchema = new mongoose.Schema({
       points: { type: Number, default: 0 },
     },
   ],
-  points: {type: Number, default: 0 },
+  points: { type: Number, default: 0 },
+
+  challenges: [
+    {
+      challengeId: { type: mongoose.Schema.Types.ObjectId, required: true },
+      challenge: { type: String, required: true },
+      points: { type: Number, required: true },
+    },
+  ],
 
   doneToday: { type: Boolean, default: false },
   currentStreak: { type: Number, default: 0 },

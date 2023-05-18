@@ -28,7 +28,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 // FOR TIME-BASED AUTO METHODS
-const cron = require('node-cron');
+const cron = require("node-cron");
 
 // THE CONNECTION TO DATABASE
 db();
@@ -73,7 +73,7 @@ app.get("/users/:username", async (req, res) => {
     // FIND THE USER BY USERNAME
     const user = await User.findOne({ username: userID });
     if (!user) {
-      return res.status(404).json({ message: "User not found"});
+      return res.status(404).json({ message: "User not found" });
     }
     res.send({
       username: user.username,
@@ -82,7 +82,7 @@ app.get("/users/:username", async (req, res) => {
       phoneNumber: user.phoneNumber,
       userStats: user.userStats,
       imageURL: user.imageURL,
-      userStats: user.userStats 
+      userStats: user.userStats,
     });
   } catch (e) {
     console.log(e);
@@ -465,10 +465,8 @@ app.get("/coach/:username", async (req, res) => {
 //   }
 // });
 
-
 // GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
-  
   // store user's username
   const userID = req.params.username;
 
@@ -484,44 +482,56 @@ app.put("/fitness/:username", async (req, res) => {
     firstName = user.firstName;
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't get userStats." });
     return; // Stop execution after sending the response
   }
 
-          // SAITAMA EASTER EGG
-          const today = new Date();
-          const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-          const formattedDate = today.toLocaleDateString('en-US', options);
-          var saitamaWorkout = {};
-          saitamaWorkout[formattedDate] = {
-            "Exercise 1": {"name": "PUSH-UPS", "setsAndReps": "100", "calories": 100},
-            "Exercise 2": {"name": "SIT-UPS", "setsAndReps": "100", "calories": 100},
-            "Exercise 3": {"name": "SQUATS", "setsAndReps": "100", "calories": 100},
-            "Exercise 4": {"name": "10K RUN", "setsAndReps": "10 km", "calories": 900}
-          };
-          if (firstName.toLowerCase() === "saitama") {
-            console.log(saitamaWorkout);
-            try {
-              const user = await User.findOneAndUpdate(
-                { username: userID },
-                {
-                  $push: {
-                    workouts: { $each: [JSON.parse(JSON.stringify(saitamaWorkout))], $position: 0 },
-                  },
-                }
-              );
-              res.status(200).json({
-                message: `SAITAMA'S WORKOUT ADDED.`,
-                user,
-              });
-              return; // Stop execution after sending the response
-            } catch (err) {
-              console.error(err);
-              res.status(500).json({ error: "Internal server error. Couldn't add SAITAMA workout plan." });
-              return; // Stop execution after sending the response
-            }
-          }
-          // END OF SAITAMA EASTER EGG
+  // SAITAMA EASTER EGG
+  const today = new Date();
+  const options = {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  };
+  const formattedDate = today.toLocaleDateString("en-US", options);
+  var saitamaWorkout = {};
+  saitamaWorkout[formattedDate] = {
+    "Exercise 1": { name: "PUSH-UPS", setsAndReps: "100", calories: 100 },
+    "Exercise 2": { name: "SIT-UPS", setsAndReps: "100", calories: 100 },
+    "Exercise 3": { name: "SQUATS", setsAndReps: "100", calories: 100 },
+    "Exercise 4": { name: "10K RUN", setsAndReps: "10 km", calories: 900 },
+  };
+  if (firstName.toLowerCase() === "saitama") {
+    console.log(saitamaWorkout);
+    try {
+      const user = await User.findOneAndUpdate(
+        { username: userID },
+        {
+          $push: {
+            workouts: {
+              $each: [JSON.parse(JSON.stringify(saitamaWorkout))],
+              $position: 0,
+            },
+          },
+        }
+      );
+      res.status(200).json({
+        message: `SAITAMA'S WORKOUT ADDED.`,
+        user,
+      });
+      return; // Stop execution after sending the response
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({
+        error: "Internal server error. Couldn't add SAITAMA workout plan.",
+      });
+      return; // Stop execution after sending the response
+    }
+  }
+  // END OF SAITAMA EASTER EGG
 
   // variables to hold userStats
   var sex = userStats.sex;
@@ -544,9 +554,19 @@ app.put("/fitness/:username", async (req, res) => {
 
   // generates workout plan in workout.js
   function generateWorkout(callback) {
-    workouts.generate(sex, age, height, weight, activityLevel, goal, muscleGroups, level, (newWorkout) => {
-      updateWorkouts(newWorkout, callback);
-    });
+    workouts.generate(
+      sex,
+      age,
+      height,
+      weight,
+      activityLevel,
+      goal,
+      muscleGroups,
+      level,
+      (newWorkout) => {
+        updateWorkouts(newWorkout, callback);
+      }
+    );
   }
   // writes workoutplan into database
   async function updateWorkouts(newWorkout, callback) {
@@ -565,7 +585,9 @@ app.put("/fitness/:username", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({ error: "Internal server error. Couldn't add workout plan." });
+      res
+        .status(500)
+        .json({ error: "Internal server error. Couldn't add workout plan." });
     }
     if (callback) {
       callback();
@@ -588,7 +610,9 @@ app.get("/fitness/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send workout plan." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send workout plan." });
   }
 });
 // send userStreak to client
@@ -598,14 +622,29 @@ app.get("/streak/:username", async (req, res) => {
     const user = await User.findOne({ username: userID });
     res.send({
       currentStreak: user.currentStreak,
-      longestStreak: user.longestStreak,
+      longestStreak: user.longestStreak,,
       doneToday: user.doneToday,
       daysDone: user.daysDone,
       daysMissed: user.daysMissed,
-     });
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send user streak." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send user streak." });
+  }
+});
+// send doneToday to client
+app.get("/doneToday/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    res.send(
+      user.doneToday
+     );
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
 // send doneToday to client
@@ -622,7 +661,6 @@ app.get("/doneToday/:username", async (req, res) => {
   }
 });
 
-
 // to generate and store a user's workout plan
 app.put("/diet/:username", async (req, res) => {
   const userID = req.params.username;
@@ -636,10 +674,11 @@ app.put("/diet/:username", async (req, res) => {
     firstName = user.firstName;
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't get userStats." });
     return; // Stop execution after sending the response
   }
-
 
   var sex = userStats.sex;
   var age = userStats.age;
@@ -654,7 +693,7 @@ app.put("/diet/:username", async (req, res) => {
  
   // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
-    Diet.generate(sex,age,height,weight,activityLevel,goal,foodPref, foodRes,(newDiet) => {
+    Diet.generate(sex, age, height, weight, activityLevel, goal,foodPref, foodRes, (newDiet) => {
       updateDiet(newDiet, callback);
     });
   }
@@ -662,8 +701,8 @@ app.put("/diet/:username", async (req, res) => {
   async function updateDiet(newDiet, callback) {
     try {
       const user = await User.findOneAndUpdate(
-        {username: userID},
-        {$push: {diets: {$each: [JSON.parse(newDiet)], $position: 0}}}
+        { username: userID },
+        { $push: { diets: { $each: [JSON.parse(newDiet)], $position: 0 } } }
       );
       res.status(200).json({
         message: `New diet added to ${userID}.`,
@@ -671,7 +710,7 @@ app.put("/diet/:username", async (req, res) => {
       });
     } catch (err) {
       console.error(err);
-      res.status(500).json({error: "Internal server error"});
+      res.status(500).json({ error: "Internal server error" });
     }
     if (callback) {
       callback();
@@ -684,7 +723,7 @@ app.put("/diet/:username", async (req, res) => {
 app.get("/diet/:username", async (req, res) => {
   const userID = req.params.username;
   try {
-    const user = await User.findOne({username: userID});
+    const user = await User.findOne({ username: userID });
     // if workouts empty ie.new user
     if (user.diets.length == 0) {
       res.send("empty");
@@ -694,7 +733,7 @@ app.get("/diet/:username", async (req, res) => {
     }
   } catch (err) {
     console.error(err);
-    res.status(500).json({error: "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -722,11 +761,6 @@ app.get("/userStats", async (req, res) => {
   }
 });
 
-// VARIABLES TO CHECK IF THE CURRENT DATE IS
-// THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
-let selectedTip = null;
-let selectedDate = null;
-
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
@@ -745,33 +779,32 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
-// RESET SELECTED TIP AND DATE AT MIDNIGHT
-setInterval(() => {
-  const currentDate = new Date().toISOString().slice(0, 10);
-
-  if (selectedDate !== currentDate) {
-    selectedTip = null;
-    selectedDate = null;
-  }
-}, 1000 * 60 * 60 * 24);
-
 const challengesCache = {
   data: [],
   lastUpdated: null,
 };
 
-// GETS 3 RANDOM CHALLENGES FROM THE DATABASE
-app.get("/home/challenges", async (req, res) => {
+// GETS 3 RANDOM CHALLENGES FOR THE LOGGED-IN USER
+app.get("/home/challenges/:username", async (req, res) => {
   try {
+    const username = req.params.username;
+    // FIND USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF USER IS NOT FOUND
+    if (!user) {
+      throw new Error("User not found");
+    }
     // CHECK IF CHALLENGES NEED TO BE UPDATED
     const currentDate = new Date();
+    const currentDayOfWeek = currentDate.getDay();
     const currentHour = currentDate.getHours();
     const currentMinute = currentDate.getMinutes();
 
     if (
       challengesCache.lastUpdated === null ||
-      currentHour === 0 ||
-      (currentHour === 23 && currentMinute >= 55)
+      (currentDayOfWeek === 0 && currentHour === 0 && currentMinute < 5) ||
+      (currentDayOfWeek === 6 && currentHour === 23 && currentMinute >= 55) ||
+      isCacheExpired(challengesCache.lastUpdated)
     ) {
       // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
       const challenges = await Challenges.aggregate([
@@ -792,22 +825,84 @@ app.get("/home/challenges", async (req, res) => {
   }
 });
 
+// HELPER FUNCTION TO CHECK IF THE CACHE IS EXPIRED (SUNDAY AT MIDNIGHT)
+function isCacheExpired(lastUpdated) {
+  const expirationDate = new Date(lastUpdated);
+  expirationDate.setHours(23, 59, 59, 999);
+  const currentDateTime = new Date();
+  return currentDateTime > expirationDate;
+}
+
 // UPDATES AND SAVES CHALLENGE INTO USER'S COLLECTION
-app.post("/home/challenges/:username", (req, res) => {
+app.post("/home/challenges/:username", async (req, res) => {
   try {
-    const { challengeId } = req.body;
-    const user = findLoggedInUser(req);
-    // PUSH THE CHALLENGE ID INTO THE COLLECTION
-    user.challenges.push(challengeId);
-
-    // SAVE THE UPDATED USER OBJECT
-    user.save();
-
+    const { challengeId, challenge, points } = req.body;
+    const username = req.params.username;
+    // FIND USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF USER IS NOT FOUND
+    if (!user) {
+      throw new Error("User not found");
+    }
+    // CREATE THE ARRAY FOR THE USER IF IT DOES NOT EXIST
+    if (!user.challenges) {
+      user.challenges = [];
+    }
+    // CHECK IF THE CHALLENGE ALREADY EXISTS IN THE USER'S COLLECTION
+    const existingChallenge = user.challenges.find(
+      (ch) => ch.challengeId === challengeId
+    );
+    if (existingChallenge) {
+      throw new Error("Challenge already added");
+    }
+    // ADD THE CHALLENGE TO THE USER'S COLLECTION
+    user.challenges.push({ challengeId, challenge, points });
+    // SAVE THE CHANGES
+    await user.save();
     // SEND THE RESPONSE
     res.status(200).send("Challenge added successfully");
   } catch (error) {
     console.error("Error occurred while adding challenge:", error);
     res.status(500).send("An error occurred");
+  }
+});
+
+// REMOVES THE COMPLETED CHALLENGE FROM THE USER'S COLLECTION
+app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
+  try {
+    const username = req.params.username;
+    const challengeId = req.params.challengeId;
+console.log("Challenge from params: " + challengeId)
+    // FIND THE USER IN THE DATABASE
+    const user = await User.findOne({ username: username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // FIND THE INDEX OF THE CHALLENGE IN THE USER'S CHALLENGES ARRAY
+    const challengeIndex = user.challenges.findIndex(
+      (challenge, index) => {
+        console.log(index);
+        console.log("Challenge ID: " + challenge.challengeId);
+        console.log("_Id: " + challenge._id);
+        console.log(" ");
+        return challenge.challengeId.toString() == challengeId;
+      });
+
+    if (challengeIndex === -1) {
+      return res.status(404).json({ message: "Challenge not found" });
+    }
+
+    // REMOVE THE CHALLENGE FROM THE USER'S CHALLENGES ARRAY
+    user.challenges.splice(challengeIndex, 1);
+
+    // SAVE THE UPDATE
+    await user.save();
+
+    return res.status(200).json({ message: "Challenge removed successfully" });
+  } catch (error) {
+    console.error("Error occurred while removing challenge:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -827,7 +922,6 @@ app.post("/", async (req, res) => {
 
   const parsableJson = response.data.choices[0].text;
 
-
   console.log(parsableJson);
   let messageOutTest = parsableJson;
 
@@ -837,7 +931,6 @@ app.post("/", async (req, res) => {
   });
 });
 
-
 // FOR STREAK TRACKER
 app.post("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
@@ -846,11 +939,11 @@ app.post("/fitness/:username", async (req, res) => {
     const user = await User.findOneAndUpdate(
       // find user by username
       { username: userID },
-      { 
+      {
         // increment currentStreak and daysDone FIELD BY 1
-        $inc: { currentStreak: 1, daysDone: 1 }, 
+        $inc: { currentStreak: 1, daysDone: 1 },
         // set doneToday TO true
-        $set: { doneToday: true }
+        $set: { doneToday: true },
       },
       // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
       { new: true }
