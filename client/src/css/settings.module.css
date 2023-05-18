@@ -1,6 +1,32 @@
+.remindersInput {
+  margin-right: 28px;
+}
+
 .settingsBtn {
-  margin-top: 12px;
+  margin-top: 40px;
   margin-bottom: 12px;
+  background-color: rgb(92, 208, 216);
+  border: none;
+  transition: 0.1s;
+}
+
+.settingsBtn:hover {
+  background-color: hsl(184, 62%, 67%);
+}
+
+.settingsBtn:focus {
+  background-color: hsl(184, 62%, 77%);
+  border: none;
+  box-shadow: 0 0 3px 2px rgb(92, 208, 216);
+  transition: 0.1s;
+}
+
+.settingsBtn:active {
+  box-shadow: 0 0 2px 4px hsl(184, 61%, 40%) !important;
+}
+
+.settingsBtn:disabled {
+  background-color: hsl(184, 62%, 77%);
 }
 
 .settingsCard {
@@ -21,18 +47,37 @@
 }
 
 .settings h1 {
-  margin-bottom: 24px;
+  margin-bottom: 40px;
 }
 
 .settings input {
-  margin-left: 16px;
+  margin-left: 0px;
+  border: none;
+}
+
+.settings input:checked {
+  background-color: rgb(92, 208, 216);
+}
+
+.settings input:focus {
+  border: none;
+  box-shadow: 0 0 4px 4px hsl(184, 61%, 40%);
+  color: green;
 }
 
 .settings label {
   font-size: 1.15rem;
-  font-weight: bold;
   margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.settingsHeader {
+  color: rgb(92, 208, 216);
+}
+
+.toggleDiv {
+  text-align: left;
+  /* margin-left: 10px; */
 }
