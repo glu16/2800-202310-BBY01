@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import styles from "../css/fitness.module.css";
+import styles from "../css/diet.module.css";
 
 // This is literally the same as Fitness.jsx but with different variable names
 // Might need an update
@@ -24,7 +24,7 @@ async function getDiet() {
 }
 
 
-// display user's workout, can't be async
+// display user's diet, can't be async
 function Diet() {
   const [diet, setDiet] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -78,7 +78,7 @@ function Diet() {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <strong>{key}</strong>
+                      <strong className={styles.date}>{key}</strong >
                       {renderDiet(obj[key])}
                     </div>
                   );
@@ -159,9 +159,9 @@ function Diet() {
   return (
     <div>
       <h2>Your Diet Plan</h2>
-      <button onClick={handleDecrementDays} disabled={dayOfMealPlan == 0}>Previous Day</button>{" "}
+      <button onClick={handleDecrementDays} disabled={dayOfMealPlan == 0} className={`btn  ${styles.button}`}>Previous Day</button>{" "}
       {/* Add the decrement button */}
-      <button onClick={handleIncrementDays} disabled={dayOfMealPlan >= 6}>Next Day</button>{" "}
+      <button onClick={handleIncrementDays} disabled={dayOfMealPlan >= 6} className={`btn  ${styles.button}`}>Next Day</button>{" "}
       {/* Add the increment button */}
       <div className="d-flex align-items-center text-center justify-content-center row">
         {diet}
@@ -242,7 +242,7 @@ const DietPlan = () => {
 
   return (
     <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
+      className={`${styles.fitnessContainer}`}
     >
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
@@ -252,7 +252,7 @@ const DietPlan = () => {
               <input type="hidden" name="userEmail" value={username}></input>
               <button
                 type="submit"
-                className="btn btn-success"
+                className={`btn  ${styles.button}`}
                 disabled={isFormSubmitting}
                 onClick={handleClick}
               >
