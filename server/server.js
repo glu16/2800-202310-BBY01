@@ -275,9 +275,43 @@ app.post("/signupdetails/:username", async (req, res) => {
           },
           doneToday: false,
           currentStreak: 0,
-          longestStreak: 0,
-          daysDone: 0,
-          daysMissed: 0,
+          longesstStreak: 0,
+        },
+      },
+
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      // UPSERT: CREATES THE OBJECT IF IT DOESN'T EXIST OR UPDATES IT IF IT DOES.
+      { new: true, upsert: true }
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.post("/signupPrefRes/:username", async (req, res) => {
+  const userID = req.params.username;
+  const foodPref = req.body.foodPreferencs;
+  const foodRes = req.body.foodRestrictions;
+  const workoutPref = req.body.workoutPreferences;
+  const workoutRes = req.body.workoutRestrictions;
+
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      { username: userID },
+      // SET THE USER STATS
+      {
+        $set: {
+            "userStats.0.foodPref": foodPref,
+            "userStats.0.foodRes": foodRes,
+            "workoutPref.0.workoutPref": workoutPref,
+            "workoutRes.0.workoutRes": workoutRes
         },
       },
 
@@ -613,12 +647,14 @@ app.put("/diet/:username", async (req, res) => {
   var weight = userStats.weight;
   var activityLevel = userStats.activityLevel;
   var goal = userStats.goal;
+  var foodPref = userStats.foodPref;
+  var foodRes = userStats.foodRes;
   // call and execute workouts.js
   const Diet = require("./diet");
-
-  // generates workout plan in workout.js
+ 
+  // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
-    Diet.generate(sex,age,height,weight,activityLevel,goal,(newDiet) => {
+    Diet.generate(sex,age,height,weight,activityLevel,goal,foodPref, foodRes,(newDiet) => {
       updateDiet(newDiet, callback);
     });
   }

@@ -25,7 +25,7 @@ const stopProgress = () => {
 };
 
 
-function createPrompt(sex, age, height, weight, activityLevel, goal) {
+function createPrompt(sex, age, height, weight, activityLevel, goal,foodPref, foodRes) {
 
   // if foodRestrictions.length == 0 {
   //     foodRestrictions = ["none"];
@@ -36,7 +36,7 @@ function createPrompt(sex, age, height, weight, activityLevel, goal) {
 
   var inputPrompt = `I am a ${age} year old ${sex} and I am ${height} m tall and weigh ${weight} kilograms.
 My activity level is ${activityLevel} and my goal is to ${goal}. `
-  // inputPrompt+= `My restrictions are ${restrictions.join(", ")} and my preferences are ${preferences.join(", ")}.`
+   inputPrompt+= `My restrictions are ${foodRes} and my preferences are ${foodPref}.`
   inputPrompt += "Give me a 7-day diet plan. "
   inputPrompt += "Give me at least five meal options for each day. ";
   inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
@@ -48,13 +48,13 @@ My activity level is ${activityLevel} and my goal is to ${goal}. `
 }
 
 
-async function runAI(sex, age, height, weight, activityLevel, goal) {
+async function runAI(sex, age, height, weight, activityLevel, goal, foodPref, foodRes) {
   // start loading animation
   console.log("Generating diet plan...");
   startProgress();
 
   // GET INPUTPROMPT
-  var input = await createPrompt(sex, age, height, weight, activityLevel, goal);
+  var input = await createPrompt(sex, age, height, weight, activityLevel, goal, foodPref, foodRes);
 
   // RUN OPEN AI ON PROMPT
   //default max tokens = 4096
@@ -184,8 +184,8 @@ function parseAI(res) {
   console.log("...diet plan generated.");
   return JSON.stringify(dietPlan);
 };
-function generate(sex, age, height, weight, activityLevel, goal, callback) {
-  runAI(sex, age, height, weight, activityLevel, goal).then((result) => {
+function generate(sex, age, height, weight, activityLevel, goal,foodPref,foodRes, callback) {
+  runAI(sex, age, height, weight, activityLevel, goal,foodPref,foodRes).then((result) => {
     const newDiet = result;
     callback(newDiet);
   });
