@@ -504,28 +504,15 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
-// GET USERSTATS TO FEED INTO WORKOUT PLAN GENERATION
-// app.get("/userStats/:username", async (req, res) => {
-//   const userID = req.params.username;
-//   try {
-//     const user = await User.findOne({ username: userID });
-//     let obj = user.userStats[0];
-
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ error: "Internal server error. Couldn't get userStats." });
-//   }
-// });
-
 // GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
-  // store user's username
+  // STORE USER'S USERNAME
   const userID = req.params.username;
 
-  // store variables sent from fitness.jsx
+  // STORE VARIABLES SENT FROM FITNESS.JSX
   var { workoutKey, workout, muscleGroups, level } = req.body;
 
-  // store user's stats to send to workouts.js
+  // STORE USER'S STATS TO SEND TO WORKOUTS.JS
   var userStats;
   var firstName;
   try {
@@ -537,7 +524,8 @@ app.put("/fitness/:username", async (req, res) => {
     res
       .status(500)
       .json({ error: "Internal server error. Couldn't get userStats." });
-    return; // Stop execution after sending the response
+    // STOP EXECUTION AFTER SENDING THE RESPONSE
+    return;
   }
 
   // SAITAMA EASTER EGG
@@ -574,18 +562,20 @@ app.put("/fitness/:username", async (req, res) => {
         message: `SAITAMA'S WORKOUT ADDED.`,
         user,
       });
-      return; // Stop execution after sending the response
+      // STOP EXECUTION AFTER SENDING THE RESPONSE
+      return;
     } catch (err) {
       console.error(err);
       res.status(500).json({
         error: "Internal server error. Couldn't add SAITAMA workout plan.",
       });
-      return; // Stop execution after sending the response
+      // STOP EXECUTION AFTER SENDING THE RESPONSE
+      return;
     }
   }
   // END OF SAITAMA EASTER EGG
 
-  // variables to hold userStats
+  // VARIABLES TO HOLD USER STATS
   var sex = userStats.sex;
   var age = userStats.age;
   var height = userStats.height;
@@ -593,7 +583,7 @@ app.put("/fitness/:username", async (req, res) => {
   var activityLevel = userStats.activityLevel;
   var goal = userStats.goal;
 
-  // variables to hold fitness.jsx form variables
+  // VARIABLES TO HOLD FITNESS.JSX FORM VARIABLES
   if (!muscleGroups || muscleGroups.length == 0) {
     muscleGroups = ["all"];
   }
@@ -601,10 +591,10 @@ app.put("/fitness/:username", async (req, res) => {
     level = "intermediate";
   }
 
-  // import workouts.js
+  // IMPORT WORKOUTS.JS
   const workouts = require("./workouts");
 
-  // generates workout plan in workout.js
+  // GENERATES WORKOUT PLAN IN WORKOUTS.JS
   function generateWorkout(callback) {
     workouts.generate(
       sex,
@@ -620,7 +610,7 @@ app.put("/fitness/:username", async (req, res) => {
       }
     );
   }
-  // writes workoutplan into database
+  // WRITES WORKOUT PLAN INTO DATABASE
   async function updateWorkouts(newWorkout, callback) {
     try {
       const user = await User.findOneAndUpdate(
@@ -648,7 +638,7 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
-// send workout plan to client
+// SENDS THE WORKOUT PLAN TO CLIENT
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -667,7 +657,8 @@ app.get("/fitness/:username", async (req, res) => {
       .json({ error: "Internal server error. Couldn't send workout plan." });
   }
 });
-// send userStreak to client
+
+// GETS THE USER'S WORKOUT COMPLETION STREAK
 app.get("/streak/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -686,7 +677,8 @@ app.get("/streak/:username", async (req, res) => {
       .json({ error: "Internal server error. Couldn't send user streak." });
   }
 });
-// send doneToday to client
+
+// GETS THE USER'S COMPLETED WORKOUTS
 app.get("/doneToday/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -699,20 +691,8 @@ app.get("/doneToday/:username", async (req, res) => {
       .json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
-// send doneToday to client
-app.get("/doneToday/:username", async (req, res) => {
-  const userID = req.params.username;
-  try {
-    const user = await User.findOne({ username: userID });
-    res.send(user.doneToday);
-  } catch (err) {
-    console.error(err);
-    res
-      .status(500)
-      .json({ error: "Internal server error. Couldn't send doneToday." });
-  }
-});
-// send first name and last name to client
+
+// GETS THE USER'S FIRST NAME AND LAST NAME
 app.get("/getName/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -729,7 +709,7 @@ app.get("/getName/:username", async (req, res) => {
   }
 });
 
-// to generate and store a user's workout plan
+// GENERATES AND STORES A USER'S WORKOUT PLAN
 app.put("/diet/:username", async (req, res) => {
   const userID = req.params.username;
 
@@ -745,7 +725,8 @@ app.put("/diet/:username", async (req, res) => {
     res
       .status(500)
       .json({ error: "Internal server error. Couldn't get userStats." });
-    return; // Stop execution after sending the response
+    // STOP EXECUTION AFTER SENDING THE RESPONSE
+    return;
   }
 
   var sex = userStats.sex;
@@ -756,7 +737,7 @@ app.put("/diet/:username", async (req, res) => {
   var goal = userStats.goal;
   var foodPref = userStats.foodPref;
   var foodRes = userStats.foodRes;
-  // call and execute workouts.js
+  // CALL AND EXECUTE WORKOUTS.JS
   const Diet = require("./diet");
 
   // GENERATES DIET PLAN IN diet.js
@@ -775,7 +756,7 @@ app.put("/diet/:username", async (req, res) => {
       }
     );
   }
-  // writes workoutplan into database
+  // WRITES WORKOUT PLAN INTO DATABASE
   async function updateDiet(newDiet, callback) {
     try {
       const user = await User.findOneAndUpdate(
@@ -797,7 +778,7 @@ app.put("/diet/:username", async (req, res) => {
   generateDiet();
 });
 
-// send workout plan to client
+// GETS USER'S WORKOUT PLAN
 app.get("/diet/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -815,6 +796,7 @@ app.get("/diet/:username", async (req, res) => {
   }
 });
 
+// GETS THE USER'S USER STATS
 app.get("/userStats", async (req, res) => {
   // THE USER'S USERNAME
   const userID = req.params.username;
@@ -844,7 +826,7 @@ app.get("/userStats", async (req, res) => {
 let selectedTip = null;
 let selectedDate = null;
 
-// GET TIPS FROM COLLECTION IN DATABASE
+// GETS TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
     const currentDate = new Date().toISOString().slice(0, 10);
