@@ -40,10 +40,10 @@ const Settings = () => {
       // Sets retrieved settings as initial values for attributes of notifcationSettings
       setNotificationSettings((settings) => ({
         ...settings,
-        dietReminders: response.data.dietReminders,
-        fitnessReminders: response.data.fitnessReminders,
-        leaderboardReminders: response.data.leaderboardReminders,
-        challengeReminders: response.data.challengeReminders,
+        dietReminders: response.data.dietReminders || false,
+        fitnessReminders: response.data.fitnessReminders || false,
+        leaderboardReminders: response.data.leaderboardReminders || false,
+        challengeReminders: response.data.challengeReminders || false,
       }));
     } catch (error) {
       console.log(error);
@@ -65,11 +65,11 @@ const Settings = () => {
               <h1 className={styles.settingsHeader}>
                 Notification Preferences
               </h1>
-              <div className="form-check form-switch">
+              <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label htmlFor="diet-reminders" className="form-switch-label">
                   Diet Progress Reminders
                   <input
-                    className="form-check-input"
+                    className={`form-check-input ${styles.remindersInput}`}
                     type="checkbox"
                     role="switch"
                     id="diet-reminders"
@@ -84,16 +84,16 @@ const Settings = () => {
                 </label>
               </div>
               <br />
-              <div className="form-check form-switch">
+              <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label
                   htmlFor="fitness-reminders"
                   className="form-switch-label">
                   Fitness Progress Reminders
                   <input
-                    className="form-check-input"
+                    className={`form-check-input ${styles.remindersInput}`}
                     type="checkbox"
                     role="switch"
-                    id="diet-reminders"
+                    id="fitness-reminders"
                     checked={notificationSettings.fitnessReminders}
                     onChange={(event) =>
                       setNotificationSettings({
@@ -105,16 +105,16 @@ const Settings = () => {
                 </label>
               </div>
               <br />
-              <div className="form-check form-switch">
+              <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label
                   htmlFor="leaderboard-reminders"
                   className="form-switch-label">
                   Leaderboard Reminders
                   <input
-                    className="form-check-input"
+                    className={`form-check-input ${styles.remindersInput}`}
                     type="checkbox"
                     role="switch"
-                    id="diet-reminders"
+                    id="leaderboard-reminders"
                     checked={notificationSettings.leaderboardReminders}
                     onChange={(event) =>
                       setNotificationSettings({
@@ -126,16 +126,16 @@ const Settings = () => {
                 </label>
               </div>
               <br />
-              <div className="form-check form-switch">
+              <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label
                   htmlFor="challenge-reminders"
                   className="form-switch-label">
                   Mini Challenge Reminders
                   <input
-                    className="form-check-input"
+                    className={`form-check-input ${styles.remindersInput}`}
                     type="checkbox"
                     role="switch"
-                    id="diet-reminders"
+                    id="challenge-reminders"
                     checked={notificationSettings.challengeReminders}
                     onChange={(event) =>
                       setNotificationSettings({
