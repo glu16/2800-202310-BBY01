@@ -164,7 +164,6 @@ app.get("/settings/:username", async (req, res) => {
       leaderboardReminders: settings.leaderboardReminders,
       challengeReminders: settings.challengeReminders,
     });
-
   } catch (error) {
     console.log(error);
   }
@@ -185,7 +184,9 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
     const loggedInUser = await User.findOne({ username });
     // CHECK IF THE LOGGED IN USER IS TRYING TO ADD THEMSELVES AS A FRIEND
     if (friendUsername === username) {
-      return res.status(400).json({ error: "Cannot add yourself as a friend." });
+      return res
+        .status(400)
+        .json({ error: "Cannot add yourself as a friend." });
     }
     // CHECK IF THE FRIEND OBJECT ALREADY EXISTS IN THE LOGGED IN USER'S ARRAY
     if (!loggedInUser.friends.some((f) => f.username === friend.username)) {
@@ -328,10 +329,10 @@ app.post("/signupPrefRes/:username", async (req, res) => {
       // SET THE USER STATS
       {
         $set: {
-            "userStats.0.foodPref": foodPref,
-            "userStats.0.foodRes": foodRes,
-            "workoutPref.0.workoutPref": workoutPref,
-            "workoutRes.0.workoutRes": workoutRes
+          "userStats.0.foodPref": foodPref,
+          "userStats.0.foodRes": foodRes,
+          "workoutPref.0.workoutPref": workoutPref,
+          "workoutRes.0.workoutRes": workoutRes,
         },
       },
 
@@ -690,12 +691,12 @@ app.get("/doneToday/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    res.send(
-      user.doneToday
-     );
+    res.send(user.doneToday);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
 // send doneToday to client
@@ -703,12 +704,12 @@ app.get("/doneToday/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    res.send(
-      user.doneToday
-     );
+    res.send(user.doneToday);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
 
@@ -741,12 +742,22 @@ app.put("/diet/:username", async (req, res) => {
   var foodRes = userStats.foodRes;
   // call and execute workouts.js
   const Diet = require("./diet");
- 
+
   // GENERATES DIET PLAN IN diet.js
   function generateDiet(callback) {
-    Diet.generate(sex, age, height, weight, activityLevel, goal,foodPref, foodRes, (newDiet) => {
-      updateDiet(newDiet, callback);
-    });
+    Diet.generate(
+      sex,
+      age,
+      height,
+      weight,
+      activityLevel,
+      goal,
+      foodPref,
+      foodRes,
+      (newDiet) => {
+        updateDiet(newDiet, callback);
+      }
+    );
   }
   // writes workoutplan into database
   async function updateDiet(newDiet, callback) {
@@ -923,7 +934,7 @@ app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
   try {
     const username = req.params.username;
     const challengeId = req.params.challengeId;
-console.log("Challenge from params: " + challengeId)
+    console.log("Challenge from params: " + challengeId);
     // FIND THE USER IN THE DATABASE
     const user = await User.findOne({ username: username });
     if (!user) {
@@ -931,14 +942,13 @@ console.log("Challenge from params: " + challengeId)
     }
 
     // FIND THE INDEX OF THE CHALLENGE IN THE USER'S CHALLENGES ARRAY
-    const challengeIndex = user.challenges.findIndex(
-      (challenge, index) => {
-        console.log(index);
-        console.log("Challenge ID: " + challenge.challengeId);
-        console.log("_Id: " + challenge._id);
-        console.log(" ");
-        return challenge.challengeId.toString() == challengeId;
-      });
+    const challengeIndex = user.challenges.findIndex((challenge, index) => {
+      console.log(index);
+      console.log("Challenge ID: " + challenge.challengeId);
+      console.log("_Id: " + challenge._id);
+      console.log(" ");
+      return challenge.challengeId.toString() == challengeId;
+    });
 
     if (challengeIndex === -1) {
       return res.status(404).json({ message: "Challenge not found" });
@@ -956,6 +966,10 @@ console.log("Challenge from params: " + challengeId)
     return res.status(500).json({ message: "Internal server error" });
   }
 });
+
+app.put("/home/challenges/:username", async (req, res) => {
+  
+})
 
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
@@ -1008,7 +1022,9 @@ app.post("/fitness/:username", async (req, res) => {
       await user.save();
       console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
     }
-    console.log(`Successfully updated ${userID}'s currentStreak, daysDone, and doneToday`);
+    console.log(
+      `Successfully updated ${userID}'s currentStreak, daysDone, and doneToday`
+    );
     res.status(200).json({
       message: `${userID} streak stats updated successfully`,
       user,
@@ -1019,10 +1035,8 @@ app.post("/fitness/:username", async (req, res) => {
   }
 });
 
-
 // Daily at 12:01AM update streaks for all users <- TARGET THIS METHOD WITH CRON-JOB EXTERNALLY ONCE HOSTED
 app.post("/updateStreaks", async (req, res) => {
-  
   // handle whether user completed or did not complete their workout today
   try {
     // Find all users and iterate through them
@@ -1036,25 +1050,28 @@ app.post("/updateStreaks", async (req, res) => {
         user.currentStreak = 0;
         user.daysMissed++;
       }
-    // Save the updated user
-    await user.save();
-    // console.log(`${user.username} streak updated.`);
+      // Save the updated user
+      await user.save();
+      // console.log(`${user.username} streak updated.`);
     }
     console.log("All streaks updated successfully.");
-  } catch (err) {console.error('Failed to update streaks: ', err);}
+  } catch (err) {
+    console.error("Failed to update streaks: ", err);
+  }
 
   // finally reset all user's doneToday to false
   try {
-    await User.updateMany({}, { 
-      doneToday: false 
-    });
-    console.log("All doneToday reset to false successfully.")
+    await User.updateMany(
+      {},
+      {
+        doneToday: false,
+      }
+    );
+    console.log("All doneToday reset to false successfully.");
   } catch (error) {
     console.log("Failed to reset donetToday:" + error);
   }
 });
-
-
 
 // SERVER HOSTING
 const localPort = 5050;

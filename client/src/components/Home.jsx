@@ -247,7 +247,7 @@ const Home = () => {
     return [];
   }
 
-  // Function to set user challenges in localstorage
+  // Function to set user challenges in local git rstorage
   function setUserChallengesInStorage(userChallenges) {
     localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
   }
@@ -266,6 +266,8 @@ const Home = () => {
       );
 
       // Add the challenge's points to the user's points
+      console.log("User's current points balance:", userPoints);
+      console.log("User's new points balance:", points);
       setUserPoints((prevPoints) => prevPoints + points);
 
       // Remove the challenge from the user's "challenges" array in the database
@@ -282,6 +284,14 @@ const Home = () => {
       );
       localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
 
+      // Update the points in the database
+      await axios.put(
+        `http://localhost:5050/home/users/${localStorage.getItem(
+          "username"
+        )}/points`,
+        { points: points }
+      );
+
       console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
       window.location.reload();
@@ -297,6 +307,8 @@ const Home = () => {
   const handleDoneClick = (challengeId, points) => {
     console.log("handleDoneClick called with challengeId:", challengeId);
     console.log("Points:", points);
+    // Store the disabled state in localStorage
+    localStorage.setItem(`doneButtonDisabled_${challengeId}`, "true");
     // Disable the Done button for the completed challenge
     setDisabledButtons((prevDisabledButtons) => [
       ...prevDisabledButtons,
