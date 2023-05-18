@@ -10,6 +10,7 @@ const Settings = () => {
     leaderboardReminders: false,
     challengeReminders: false,
   });
+  const [isSaved, setIsSaved] = useState(false);
 
   const saveNotificationSettings = async () => {
     try {
@@ -21,7 +22,13 @@ const Settings = () => {
     } catch (error) {
       console.log(error);
     }
+    setIsSaved(true);
+    setTimeout(() => {
+      setIsSaved(false);
+    }, 3000);
   };
+
+
   // Retrieve notification settings from database
   const fetchNotificationSettings = async () => {
     try {
@@ -42,11 +49,12 @@ const Settings = () => {
       console.log(error);
     }
   };
+
   // useEffect hook to call fetchNotificationSettings function
   useEffect(() => {
     fetchNotificationSettings();
   }, []);
-  
+
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`}>
@@ -141,8 +149,9 @@ const Settings = () => {
               <button
                 type="button"
                 className={`btn btn-primary ${styles.settingsBtn}`}
-                onClick={saveNotificationSettings}>
-                Save Changes
+                onClick={saveNotificationSettings}
+                disabled={isSaved}>
+                { isSaved ? "Settings saved!" : "Save Changes"}
               </button>
             </div>
           </div>

@@ -21,6 +21,10 @@
   box-shadow: 0 0 2px 4px hsl(184, 61%, 40%) !important;
 }
 
+.settingsBtn:disabled{
+  background-color: hsl(184, 62%, 77%);
+}
+
 .settingsCard {
   width: 800px;
   border-radius: 10px;
