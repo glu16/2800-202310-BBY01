@@ -290,6 +290,9 @@ const Leaderboard = () => {
           width: "800px",
           width: "100%",
           videoId: videoId,
+          playerVars: {
+            autoplay: 1,
+          },
         });
       };
 
@@ -298,18 +301,6 @@ const Leaderboard = () => {
       };
     }, []);
     // End of YouTube video API
-
-    // Plays the YouTube video
-    const initializePlayer = () => {
-      const player = new window.YT.Player(playerRef.current, {
-        videoId: "dQw4w9WgXcQ",
-        playerVars: {
-          autoplay: 1,
-        },
-      });
-      playerRef.current = player;
-    };
-    // End of YouTube video play
 
     return (
       <div
