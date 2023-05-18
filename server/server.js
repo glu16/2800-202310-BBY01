@@ -695,11 +695,6 @@ app.get("/userStats", async (req, res) => {
   }
 });
 
-// VARIABLES TO CHECK IF THE CURRENT DATE IS
-// THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
-let selectedTip = null;
-let selectedDate = null;
-
 // GET TIPS FROM COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
@@ -718,33 +713,32 @@ app.get("/home/tips", async (req, res) => {
   }
 });
 
-// RESET SELECTED TIP AND DATE AT MIDNIGHT
-setInterval(() => {
-  const currentDate = new Date().toISOString().slice(0, 10);
-
-  if (selectedDate !== currentDate) {
-    selectedTip = null;
-    selectedDate = null;
-  }
-}, 1000 * 60 * 60 * 24);
-
 const challengesCache = {
   data: [],
   lastUpdated: null,
 };
 
-// GETS 3 RANDOM CHALLENGES FROM THE DATABASE
-app.get("/home/challenges", async (req, res) => {
+// GETS 3 RANDOM CHALLENGES FOR THE LOGGED-IN USER
+app.get("/home/challenges/:username", async (req, res) => {
   try {
+    const username = req.params.username;
+    // FIND USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF USER IS NOT FOUND
+    if (!user) {
+      throw new Error("User not found");
+    }
     // CHECK IF CHALLENGES NEED TO BE UPDATED
     const currentDate = new Date();
+    const currentDayOfWeek = currentDate.getDay();
     const currentHour = currentDate.getHours();
     const currentMinute = currentDate.getMinutes();
 
     if (
       challengesCache.lastUpdated === null ||
-      (currentHour === 0 && currentMinute < 5) ||
-      (currentHour === 23 && currentMinute >= 55)
+      (currentDayOfWeek === 0 && currentHour === 0 && currentMinute < 5) ||
+      (currentDayOfWeek === 6 && currentHour === 23 && currentMinute >= 55) ||
+      isCacheExpired(challengesCache.lastUpdated)
     ) {
       // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
       const challenges = await Challenges.aggregate([
@@ -765,6 +759,14 @@ app.get("/home/challenges", async (req, res) => {
   }
 });
 
+// HELPER FUNCTION TO CHECK IF THE CACHE IS EXPIRED (SUNDAY AT MIDNIGHT)
+function isCacheExpired(lastUpdated) {
+  const expirationDate = new Date(lastUpdated);
+  expirationDate.setHours(23, 59, 59, 999);
+  const currentDateTime = new Date();
+  return currentDateTime > expirationDate;
+}
+
 // UPDATES AND SAVES CHALLENGE INTO USER'S COLLECTION
 app.post("/home/challenges/:username", async (req, res) => {
   try {
@@ -780,15 +782,56 @@ app.post("/home/challenges/:username", async (req, res) => {
     if (!user.challenges) {
       user.challenges = [];
     }
+    // CHECK IF THE CHALLENGE ALREADY EXISTS IN THE USER'S COLLECTION
+    const existingChallenge = user.challenges.find(
+      (ch) => ch.challengeId === challengeId
+    );
+    if (existingChallenge) {
+      throw new Error("Challenge already added");
+    }
     // ADD THE CHALLENGE TO THE USER'S COLLECTION
     user.challenges.push({ challengeId, challenge, points });
     // SAVE THE CHANGES
-    user.save();
+    await user.save();
     // SEND THE RESPONSE
     res.status(200).send("Challenge added successfully");
   } catch (error) {
     console.error("Error occurred while adding challenge:", error);
     res.status(500).send("An error occurred");
+  }
+});
+
+// REMOVES THE COMPLETED CHALLENGE FROM THE USER'S COLLECTION
+app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
+  try {
+    const { username, challengeId } = req.params;
+
+    // FIND THE USER IN THE DATABASE
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // FIND THE INDEX OF THE CHALLENGE IN THE USER'S CHALLENGES ARRAY
+    const challengeIndex = user.challenges.findIndex(
+      (challenge) => challenge._id === challengeId
+    );
+
+    if (challengeIndex === -1) {
+      return res.status(404).json({ message: "Challenge not found" });
+    }
+
+    // REMOVE THE CHALLENGE FROM THE USER'S CHALLENGES ARRAY
+    user.challenges.splice(challengeIndex, 1);
+
+    // SAVE THE UPDATE
+    await user.save();
+
+    return res.status(200).json({ message: "Challenge removed successfully" });
+  } catch (error) {
+    console.error("Error occurred while removing challenge:", error);
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 

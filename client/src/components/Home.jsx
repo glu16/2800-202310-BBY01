@@ -158,8 +158,9 @@ const Home = () => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
+        const username = localStorage.getItem("username");
         const response = await axios.get(
-          "http://localhost:5050/home/challenges"
+          `http://localhost:5050/home/challenges/${username}`
         );
         setChallenges(response.data);
       } catch (error) {
@@ -191,6 +192,10 @@ const Home = () => {
         ...prevUserChallenges,
         challengeId,
       ]);
+
+      // Store updated user challenges in local storage
+      const updatedChallenges = [...userChallenges, challengeId];
+      setUserChallengesInStorage(updatedChallenges);
     } catch (error) {
       console.error("Error occurred while adding challenge:", error);
     }
@@ -202,28 +207,28 @@ const Home = () => {
       (challenge) => challenge._id === challengeId
     );
 
+    // Checks to see if the challenge is valid
     if (!challenge) {
       console.error("Challenge not found");
       return;
     }
 
+    // Constants for the challenge's fields
     const {
       _id,
       challenge: challengeString,
       points: challengePoints,
     } = challenge;
 
-    setChallenges((prevChallenges) => {
-      const updatedChallenges = prevChallenges.map((challenge) =>
-        challenge._id === challengeId
-          ? { ...challenge, isComplete: true }
-          : challenge
-      );
-      return updatedChallenges;
-    });
-
+    // Adds the challenge's points to the user's points
     setUserPoints((prevPoints) => prevPoints + points);
 
+    // Remove the challenge from the user's "challenges" array
+    setUserChallenges((prevUserChallenges) =>
+      prevUserChallenges.filter((id) => id !== challengeId)
+    );
+
+    // Add the challenge to the user's "completedChallenges" array
     try {
       await addChallenge(_id, challengeString, challengePoints);
     } catch (error) {
@@ -231,20 +236,69 @@ const Home = () => {
     }
   };
 
-  // Retrieves user's completion status from MongoDB
-  const fetchCompletionStatus = async () => {
+  useEffect(() => {
+    // Get user challenges from local storage on component mount
+    const challenges = getUserChallengesFromStorage();
+    setUserChallenges(challenges);
+  }, []);
+
+  // Function to get user challenges from local storage
+  function getUserChallengesFromStorage() {
+    const userChallengesString = localStorage.getItem("userChallenges");
+    if (userChallengesString) {
+      return JSON.parse(userChallengesString);
+    }
+    return [];
+  }
+
+  // Function to set user challenges in local storage
+  function setUserChallengesInStorage(userChallenges) {
+    localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
+  }
+
+  // Function to fetch challenges from the server
+  const fetchChallenges = async () => {
     try {
-      const response = await fetch("MongoDB status here");
-      const data = await response.json();
+      const response = await axios.get("http://localhost:5050/home/challenges");
+      const challengesData = response.data;
+      // Process the challengesData as needed and update the challenges state
+      setChallenges(challengesData);
     } catch (error) {
-      console.log("Failed to retrieve completion status from the server");
+      console.error("Error occurred while fetching challenges:", error);
     }
   };
 
-  useEffect(() => {
-    fetchCompletionStatus();
-  }, []);
-  // End of completion status retrieval
+  // Function to handle completing a challenge
+  const handleCompleteChallenge = async (challengeId, points) => {
+    try {
+      // Remove the challenge from the user's "challenges" array in state
+      setUserChallenges((prevUserChallenges) =>
+        prevUserChallenges.filter((id) => id !== challengeId)
+      );
+
+      // Add the challenge's points to the user's points in state
+      setUserPoints((prevPoints) => prevPoints + points);
+
+      // Remove the challenge from the user's "challenges" array in the database
+      await axios.delete(
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
+          "username"
+        )}/${challengeId}`
+      );
+
+      // Fetch a new set of challenges to populate the spot
+      await fetchChallenges();
+
+      console.log("Challenge completed and points added");
+    } catch (error) {
+      console.error("Error occurred while completing challenge:", error);
+    }
+  };
+
+  // Click event handler for completing a challenge
+  const handleDoneClick = (challengeId, points) => {
+    handleCompleteChallenge(challengeId, points);
+  };
 
   // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
@@ -296,8 +350,13 @@ const Home = () => {
                 <h5 className="card-title">Challenge: {challenge.challenge}</h5>
                 <h5 className="card-text">Points: {challenge.points}</h5>
                 {userChallenges.includes(challenge._id) ? (
-                  <button className={`btn btn-success ${styles.challengeBtn}`}>
-                    Done!
+                  <button
+                    className={`btn btn-success ${styles.challengeBtn}`}
+                    onClick={() =>
+                      handleDoneClick(challenge._id, challenge.points)
+                    }
+                  >
+                    Done
                   </button>
                 ) : (
                   <button
