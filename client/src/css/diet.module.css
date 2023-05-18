@@ -12,28 +12,25 @@
   border-radius: 10px;
   background-color: #2b2b2b;
   color: white;
-
   top: 10rem;
 }
 
-button,
-.button {
+.dietBtn {
   background-color: hsl(183.87deg 60.78% 40%);
   color: white;
   border: none;
   margin: 5px;
 }
 
-button:hover,
-.button:hover {
+.dietBtn:hover {
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
   color: white;
 }
 
-button:active,
-button:focus {
+.dietBtn:active,
+.dietBtnbutton:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
@@ -103,11 +100,9 @@ button:focus {
   }
   .day {
     margin-top: 40px;
-
   }
 
   .date {
     top: -35px;
-
   }
 }
