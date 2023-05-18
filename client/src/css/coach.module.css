@@ -138,6 +138,7 @@ ul {
   .coachTitle {
     color: rgb(92, 208, 216);
     margin-bottom: 24px;
+    margin-left: 75px;
   }
 
   .chatLogContainer {
@@ -148,7 +149,6 @@ ul {
     overflow-y: auto;
     color: white;
     width: auto;
-    margin-left: 75px;
   }
 
   .chatMessageContainer {
