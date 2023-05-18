@@ -9,6 +9,9 @@
   align-items: center;
   margin: auto;
   margin-top: 160px;
+
+  background-color: #2b2b2b;
+  color: white;
 }
 
 .container-fluid {
