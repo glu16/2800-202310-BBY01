@@ -7,8 +7,7 @@
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
-  overflow: auto;
-
+  overflow: hidden;
 }
 
 .indexBtn {
@@ -27,9 +26,18 @@
 }
 
 .indexImage {
-  height: 75%;
-  width: 75%;
-  margin-top: 100px;
+  height: 100%;
+  object-fit: cover;
+}
+.imageContainer {
+  height: 100%;
+  width: 100%;
+
+  z-index: -2;
+
+  right: -200px;
+  bottom: -44px;
+  position: absolute;
 }
 
 .indexTitle {
@@ -39,12 +47,10 @@
 }
 
 .indexBody h1 {
-  color: black;
+  color: rgb(255, 255, 255);
   max-width: 1000px;
-  font-size: 4em;
-  text-align: center;
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
-    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
+  font-size: 4rem;
+  text-align: left;
 }
 
 .indexBody h4 {
@@ -52,6 +58,11 @@
   max-width: 1000px;
   margin-top: 60px;
   font-weight: bold;
+  text-align: left;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+}
+h4 + div {
+  text-align: left;
 }
 
 @media (max-width: 767px) {
@@ -60,10 +71,31 @@
     height: auto;
   }
 
-
   .indexImage {
     height: 100%;
     width: 100%;
   }
+
+  .imageContainer {
+
+    right: -12px;
+    bottom: 0;
+
+    display: none;
+    position: relative;
+  }
+
+
+  
+.indexBody h1 {
+  text-align: center;
 }
 
+.indexBody h4 {
+  text-align: center;
+}
+h4 + div {
+  text-align: center;
+}
+
+}
