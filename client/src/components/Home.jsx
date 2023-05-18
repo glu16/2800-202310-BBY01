@@ -260,15 +260,16 @@ const Home = () => {
         challengeId
       );
       console.log("Points:", points);
-      // Remove the challenge from the user's "challenges" array
-      setUserChallenges((prevUserChallenges) =>
-        prevUserChallenges.filter((id) => id !== challengeId)
-      );
 
       // Add the challenge's points to the user's points
       console.log("User's current points balance:", userPoints);
       console.log("User's new points balance:", points);
       setUserPoints((prevPoints) => prevPoints + points);
+
+      // Remove the challenge from the user's "challenges" array
+      setUserChallenges((prevUserChallenges) =>
+        prevUserChallenges.filter((id) => id !== challengeId)
+      );
 
       // Remove the challenge from the user's "challenges" array in the database
       await axios.delete(
@@ -283,13 +284,6 @@ const Home = () => {
         (id) => id !== challengeId
       );
       localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
-
-      // Update the points in the database
-      await axios.put(
-        `http://localhost:5050/home/users/${localStorage.getItem(
-          "username"
-        )}/${challengeId}`
-      );
 
       console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");

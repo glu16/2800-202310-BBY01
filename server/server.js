@@ -718,12 +718,14 @@ app.get("/getName/:username", async (req, res) => {
   try {
     const user = await User.findOne({ username: userID });
     res.send({
-      firstName : user.firstName,
-      lastName : user.lastName
+      firstName: user.firstName,
+      lastName: user.lastName,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: "Internal server error. Couldn't send doneToday." });
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send doneToday." });
   }
 });
 
@@ -837,7 +839,6 @@ app.get("/userStats", async (req, res) => {
   }
 });
 
-
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
 let selectedTip = null;
@@ -870,7 +871,6 @@ setInterval(() => {
     selectedDate = null;
   }
 }, 1000 * 60 * 60 * 24);
-
 
 const challengesCache = {
   data: [],
@@ -994,44 +994,6 @@ app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
     return res.status(200).json({ message: "Challenge removed successfully" });
   } catch (error) {
     console.error("Error occurred while removing challenge:", error);
-    return res.status(500).json({ message: "Internal server error" });
-  }
-});
-
-// ADDS THE COMPLETED CHALLENGE'S POINTS TO THE USER'S POINTS 
-app.put("/home/challenges/:username/:challengeId", async (req, res) => {
-  try {
-    const username = req.params.username;
-    const challengeId = req.params.challengeId;
-
-    // FIND THE USER IN THE DATABASE
-    const user = await User.findOne({ username: username });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    // FIND THE CHALLENGE IN THE USER'S CHALLENGES ARRAY
-    const challenge = user.challenges.find(
-      (challenge) => challenge.challengeId.toString() === challengeId
-    );
-    if (!challenge) {
-      return res.status(404).json({ message: "Challenge not found" });
-    }
-
-    // ADD THE CHALLENGE'S POINTS TO THE USER'S POINTS
-    user.points += challenge.points;
-
-    // REMOVE THE CHALLENGE FROM THE USER'S CHALLENGES ARRAY
-    user.challenges = user.challenges.filter(
-      (challenge) => challenge.challengeId.toString() !== challengeId
-    );
-
-    // SAVE THE UPDATE
-    await user.save();
-
-    return res.status(200).json({ message: "Points added successfully" });
-  } catch (error) {
-    console.error("Error occurred while adding points:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
 });
