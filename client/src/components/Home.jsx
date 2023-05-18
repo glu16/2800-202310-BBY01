@@ -288,8 +288,7 @@ const Home = () => {
       await axios.put(
         `http://localhost:5050/home/users/${localStorage.getItem(
           "username"
-        )}/points`,
-        { points: points }
+        )}/${challengeId}`
       );
 
       console.log("Challenge completed and points added!");

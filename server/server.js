@@ -984,9 +984,43 @@ app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
   }
 });
 
-app.put("/home/challenges/:username", async (req, res) => {
-  
-})
+// ADDS THE COMPLETED CHALLENGE'S POINTS TO THE USER'S POINTS 
+app.put("/home/challenges/:username/:challengeId", async (req, res) => {
+  try {
+    const username = req.params.username;
+    const challengeId = req.params.challengeId;
+
+    // FIND THE USER IN THE DATABASE
+    const user = await User.findOne({ username: username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // FIND THE CHALLENGE IN THE USER'S CHALLENGES ARRAY
+    const challenge = user.challenges.find(
+      (challenge) => challenge.challengeId.toString() === challengeId
+    );
+    if (!challenge) {
+      return res.status(404).json({ message: "Challenge not found" });
+    }
+
+    // ADD THE CHALLENGE'S POINTS TO THE USER'S POINTS
+    user.points += challenge.points;
+
+    // REMOVE THE CHALLENGE FROM THE USER'S CHALLENGES ARRAY
+    user.challenges = user.challenges.filter(
+      (challenge) => challenge.challengeId.toString() !== challengeId
+    );
+
+    // SAVE THE UPDATE
+    await user.save();
+
+    return res.status(200).json({ message: "Points added successfully" });
+  } catch (error) {
+    console.error("Error occurred while adding points:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 // THE CURRENT AI IN THE COACH TAB
 app.post("/", async (req, res) => {
