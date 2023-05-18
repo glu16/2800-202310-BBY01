@@ -804,19 +804,24 @@ app.post("/home/challenges/:username", async (req, res) => {
 // REMOVES THE COMPLETED CHALLENGE FROM THE USER'S COLLECTION
 app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
   try {
-    const { username, challengeId } = req.params;
-
+    const username = req.params.username;
+    const challengeId = req.params.challengeId;
+console.log("Challenge from params: " + challengeId)
     // FIND THE USER IN THE DATABASE
-    const user = await User.findOne({ username });
-
+    const user = await User.findOne({ username: username });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
     // FIND THE INDEX OF THE CHALLENGE IN THE USER'S CHALLENGES ARRAY
     const challengeIndex = user.challenges.findIndex(
-      (challenge) => challenge._id === challengeId
-    );
+      (challenge, index) => {
+        console.log(index);
+        console.log("Challenge ID: " + challenge.challengeId);
+        console.log("_Id: " + challenge._id);
+        console.log(" ");
+        return challenge.challengeId.toString() == challengeId;
+      });
 
     if (challengeIndex === -1) {
       return res.status(404).json({ message: "Challenge not found" });

@@ -277,9 +277,7 @@ const Home = () => {
 
       // Remove the challenge from the user's "challenges" array in the database
       await axios.delete(
-        `http://localhost:5050/home/challenges/${localStorage.getItem(
-          "username"
-        )}`
+        `http://localhost:5050/home/challenges/${localStorage.getItem("username")}/${challengeId}`
       );
 
       console.log("Challenge completed and points added");
