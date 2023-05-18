@@ -23,15 +23,6 @@ async function getDiet() {
   }
 }
 
-// FUNCTION GETS USERSTATS FIELD FROM DATABASE
-async function getUserStats() {
-  var response = await fetch(`http://localhost:5050/userStats/${username}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
-  var data = await response.json();
-  console.log(data);
-}
 
 // display user's workout, can't be async
 function Diet() {
@@ -255,11 +246,6 @@ const DietPlan = () => {
     >
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
-
-        <form id="getUserStats" onSubmit={getUserStats}>
-            <input type="hidden" name="username" value={username}></input>
-            <button type="submit">Test Get User Stats</button>
-          </form>
 
           <div>
             <form id="addWorkout" onSubmit={addDietToUser}>
