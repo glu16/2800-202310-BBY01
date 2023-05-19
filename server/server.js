@@ -137,18 +137,17 @@ app.get("/leaderboard/:username", async (req, res) => {
     if (!loggedInUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    // CHECK IF THE USER IS LOGGED IN
+
     const friends = await Promise.all(
       loggedInUser.friends.map(async (friend) => {
-        const friendUser = await User.findById(friend._id);
-        // SKIP DELETED USERS
+        const friendUser = await User.findOne({ _id: friend._id });
+        // CHECKS IF FRIEND WAS DELETED
         if (!friendUser) {
-          // RETRIEVE THE DELETED USER WITH THE OLD USERNAME
           const deletedUser = await User.findOne({ username: friend.username });
+          // SKIP DELETED USERS
           if (!deletedUser) {
             return null;
           }
-
           // RETURN THE NEW USER INFORMATION WITH THE OLD USERNAME
           return {
             username: friend.username,
@@ -156,12 +155,13 @@ app.get("/leaderboard/:username", async (req, res) => {
             _id: deletedUser._id,
           };
         }
-
+        // RETRIEVES THE FRIEND'S POINTS
+        const friendPoints = friendUser.points;
         // RETURN THE EXISTING USERS
         return {
           username: friendUser.username,
-          points: friend.points,
-          _id: friend._id,
+          points: friendPoints,
+          _id: friendUser._id,
         };
       })
     );
@@ -356,10 +356,10 @@ app.post("/signupPrefRes/:username", async (req, res) => {
       // SET THE USER STATS
       {
         $set: {
-            "userStats.0.foodPref": foodPref,
-            "userStats.0.foodRes": foodRes,
-            "userStats.0.workoutPref": workoutPref,
-            "userStats.0.workoutRes": workoutRes
+          "userStats.0.foodPref": foodPref,
+          "userStats.0.foodRes": foodRes,
+          "userStats.0.workoutPref": workoutPref,
+          "userStats.0.workoutRes": workoutRes,
         },
       },
 
@@ -1015,7 +1015,6 @@ app.post("/", async (req, res) => {
   // THE RESPONSE FROM OPENAI
   //.createCompletion // BASE MODEL
   const response = await openai.createChatCompletion({
-
     // model: "text-davinci-003", //BASE MODEL
     model: "gpt-3.5-turbo",
     // prompt: `${message}`, //BASE MODEL
