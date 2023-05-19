@@ -25,6 +25,10 @@
   align-items: center;
 }
 
+.challengeBody {
+  color: white;
+}
+
 .friendsCard {
   flex: 1;
   min-height: 742px;

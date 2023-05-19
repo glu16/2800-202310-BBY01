@@ -398,8 +398,11 @@ const Profile = ({ username }) => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        console.log("Logged in user's name:", username);
-        const response = await axios.get(`http://localhost:5050/profile/${username}`);
+        console.log("Logged in user's name:", localStorage.getItem("username"));
+        const response = await axios.get(
+          `http://localhost:5050/profile/${localStorage.getItem("username")}`
+        );
+        console.log(response.data);
         setChallenges(response.data);
       } catch (error) {
         console.error(error);
@@ -407,7 +410,7 @@ const Profile = ({ username }) => {
     };
 
     fetchChallenges();
-  }, [username]);
+  }, [localStorage.getItem("username")]);
   // End of user's challenges retrieval
 
   return (
@@ -512,9 +515,9 @@ const Profile = ({ username }) => {
               <h1 className={styles.friendsHeader}>Active Challenges</h1>
               {challenges.length > 0 ? (
                 challenges.map((challenge) => (
-                  <div key={challenge.challengeId}>
-                    <h3>{challenge.challenge}</h3>
-                    <p>Points: {challenge.points}</p>
+                  <div key={challenge._id}>
+                    <h6 className={styles.challengeBody}>{challenge.challenge}</h6>
+                    <h6 className={styles.challengeBody}>Points: {challenge.points}</h6>
                   </div>
                 ))
               ) : (
