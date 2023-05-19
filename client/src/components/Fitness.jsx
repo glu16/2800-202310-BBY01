@@ -201,6 +201,9 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
 function Workout({ handleOpenModal }) {
   const [workout, setWorkout] = useState(null);
+
+  // passed to modal
+  const [modalExercise, setModalExercise] = useState("");
  
   // use the today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
@@ -319,10 +322,10 @@ function Workout({ handleOpenModal }) {
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
             <div key={index} className={styles.anExercise}>
-            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
               if (detailKey == "name") {
+                setModalExercise(detailValue);
                 return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
               } else if (detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
@@ -360,27 +363,27 @@ function Workout({ handleOpenModal }) {
             key={index}
             className={`${styles.anExercise} ${isSaitama ? styles.saitamaStyle : ""}`}
             style={isSaitama ? { backgroundImage: "url('https://staticg.sportskeeda.com/editor/2022/04/8e856-16505616347217-1920.jpg')", opacity: 1, backgroundSize: "100% 100%" } : null}
-          >
-            {/* original before Easter egg */}
-            {/* <div key={index} className={styles.anExercise}> */}
-            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
-            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+            >
 
-              if (detailKey == "name") {
-                return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
-              } else if (detailKey == "setsAndReps") {
-                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              } else if (detailKey == "calories") {
-                return (
-                  <div key={detailKey} className={styles.aKey}>
-                    Calories: {detailValue}
-                  </div>
-                );
-              // shouldn't be any other option currently
-              } else {
-                return; 
-              }
-            })}
+              {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+
+                if (detailKey == "name") {
+                  setModalExercise(detailValue);
+                  return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
+                } else if (detailKey == "setsAndReps") {
+                  return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+                } else if (detailKey == "calories") {
+                  return (
+                    <div key={detailKey} className={styles.aKey}>
+                      Calories: {detailValue}
+                    </div>
+                  );
+                // shouldn't be any other option currently
+                } else {
+                  return; 
+                }
+              })
+            }
 
             <div className={styles.exerciseButtons}>
               {/* this opens up images for the exercise */}
@@ -633,6 +636,8 @@ const Fitness = () => {
   }
 
   const ExerciseModal = ({ isOpen, onRequestClose }) => {
+    var source = exercise;
+
     return (
       <Modal
         isOpen={isOpen}
