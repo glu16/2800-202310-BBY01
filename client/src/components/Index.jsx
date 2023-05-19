@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 
 import styles from "../css/index.module.css";
-import image from "../img/fitness.png";
+import image from "../img/robot.png";
 
 const Index = () => {
   const fadeIn = useSpring({
@@ -20,11 +20,11 @@ const Index = () => {
             <h1 className={styles.indexTitle}>Healthify</h1>
             <h4 className={styles.indexDescription}>
               Healthify is a comprehensive fitness and dietary app designed to
-              help users achieve their health goals. The app provides
+              help users achieve their health goals. Using the power of AI the app provides
               personalized fitness plans, workout routines, and meal plans based
               on users' unique needs, preferences, and goals.
             </h4>
-            <div className={styles["button-group"]}>
+            <div className={`button-group`}>
               <Link to="/signup">
                 <button
                   className={`btn btn-primary btn-lg ${styles.indexBtn}`}
@@ -43,7 +43,7 @@ const Index = () => {
           </div>
         </div>
       </div>
-      <div className="col-md-6">
+      <div className={`col-md-6 ${styles.imageContainer}`}>
         <animated.img
           style={fadeIn}
           src={image}

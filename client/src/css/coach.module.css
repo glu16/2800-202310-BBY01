@@ -39,7 +39,6 @@ ul {
   padding-bottom: 5rem;
   margin-top: 100px;
   margin-bottom: 50px;
-  overflow-y: auto;
   color: white;
   width: auto;
 }
@@ -96,6 +95,7 @@ ul {
   left: 40px;
   position: relative;
   background-color: gray;
+  max-width: 65vw;
 }
 
 .message:before {
@@ -136,8 +136,9 @@ ul {
   }
 
   .coachTitle {
-    color: white;
+    color: rgb(92, 208, 216);
     margin-bottom: 24px;
+    margin-left: 75px;
   }
 
   .chatLogContainer {
@@ -154,6 +155,17 @@ ul {
     display: flex;
     align-items: center;
     margin-top: 16px;
+  }
+
+  .icon {
+    margin-top: 4px;
+    margin-right: 60px;
+  }
+  
+  .infoLink {
+    color: rgb(92, 208, 216);
+    cursor: pointer;
+    text-decoration: none;
   }
 
   .textInputContainer {

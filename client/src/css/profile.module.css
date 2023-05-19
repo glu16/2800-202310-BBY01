@@ -21,17 +21,18 @@
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 }
 
 .friendsCard {
   flex: 1;
-  min-height: 721px;
+  min-height: 742px;
   width: 100%;
   max-width: 500px;
   margin-top: 160px;
   margin-right: 80px;
+  margin-left: 40px;
   border-radius: 10px;
   display: flex;
   text-align: center;
@@ -125,9 +126,10 @@
 .profileCard {
   flex: 1;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin-top: 160px;
   margin-left: 80px;
+  margin-right: 40px;
   border-radius: 10px;
   display: flex;
   text-align: center;
@@ -147,6 +149,7 @@
 
 .profileHeader {
   color: rgb(92, 208, 216);
+  /* font-size: 17pt; */
 }
 
 .profileItem {
@@ -155,10 +158,29 @@
 
 .profileImage {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 160px;
+  height: 160px;
+  margin-top: 10px;
   margin-bottom: 12px;
   border-radius: 50%;
+  border: 5px solid #868686;
+  transition: 0.2s;
+}
+
+.profileImage:hover {
+ animation: profileBorder 6s infinite;
+ /* transition: 0.2s; */
+}
+
+@keyframes profileBorder {
+  0% {border-color: hsl(184, 61%, 60%); box-shadow: 0 0 0px 0px rgb(92, 208, 216);}
+  14% {border-color: hsl(184, 61%, 70%); box-shadow: 0 0 2px 1px #5cd0d8}
+  28% {border-color: hsl(175, 55%, 80%);box-shadow: 0 0 4px 2px #5cd0d8}
+  42% {border-color: hsl(175, 55%, 90%);box-shadow: 0 0 8px 3px #5cd0d8}
+  56% {border-color: hsl(175, 55%, 80%);box-shadow: 0 0 12px 4px #5cd0d8}
+  70% {border-color: hsl(175, 55%, 70%);box-shadow: 0 0 8px 3px #5cd0d8}
+  84% {border-color: hsl(175, 55%, 60%); box-shadow: 0 0 4px 2px rgb(92, 208, 216);}
+  100% {border-color: hsl(175, 55%, 50%); box-shadow: 0 0 2px 1px rgb(92, 208, 216);}
 }
 
 .profileImage img {
@@ -166,7 +188,7 @@
   width: 150px;
   height: 150px;
   object-fit: cover;
-  margin-top: 10px;
+  
 }
 
 .profileImage label {

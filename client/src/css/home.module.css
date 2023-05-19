@@ -12,13 +12,18 @@
 }
 
 .challengeCard {
-  height: 100%;
-  width: 100%;
-  color: white;
   border-radius: 10px;
   text-align: center;
-  margin-bottom: 30px;
   background-color: #2b2b2b;
+  margin-bottom: 30px;
+}
+
+.challengeInnerCard {
+  border-radius: 10px;
+  text-align: center;
+  background-color: hsl(0, 0%, 30%);
+  padding: 20px 0;
+  margin: 20px 6px;
 }
 
 .challengeHeader {
@@ -33,16 +38,22 @@
   border: none;
 }
 
-.challengesBtn:hover {
+.challengeBtn:hover {
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
+  color: black;
 }
 
 .challengeBtn:active,
 .challengeBtn:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.challengeBtn:disabled {
+  background-color: #95a4a9;
+  color: black;
 }
 
 .homeCard {
@@ -62,6 +73,14 @@
 
 .username {
   color: rgb(92, 208, 216);
+}
+
+.fitness {
+  margin-right: 0 !important;
+}
+
+.diet {
+  margin-left: 0 !important;
 }
 
 .progressHeader {
@@ -98,6 +117,7 @@
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
+  color: black;
 }
 
 .progressBtn:active,
@@ -110,6 +130,7 @@
   font-size: 19pt;
   color: rgb(92, 208, 216);
 }
+
 .draggableList {
   padding: 30px 0;
 }

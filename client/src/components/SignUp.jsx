@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import SignupDetails from "./SignupDetails";
 
 import styles from "../css/signup.module.css";
+import SignupPrefRes from "./SignupPrefRes";
 
 function SignUp({ setToken }) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO

@@ -38,7 +38,8 @@ const Leaderboard = () => {
         const response = await axios.get(
           "http://localhost:5050/leaderboard/users"
         );
-        setUsers(response.data);
+        const sortedUsers = response.data.sort((a, b) => b.points - a.points);
+        setUsers(sortedUsers);
       } catch (error) {
         console.error(error);
       }
@@ -360,6 +361,7 @@ const Leaderboard = () => {
   // Beginning of global to friend leaderboard switch
   const renderLeaderboard = () => {
     if (activeTab === "global") {
+      const sortedUsers = users.sort((a, b) => b.points - a.points);
       return (
         <table>
           <thead>
@@ -370,7 +372,7 @@ const Leaderboard = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {sortedUsers.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
                 <td>
@@ -389,6 +391,7 @@ const Leaderboard = () => {
         </table>
       );
     } else if (activeTab === "friend") {
+      const sortedFriends = friends.sort((a, b) => b.points - a.points);
       return (
         <table>
           <thead>
@@ -399,7 +402,7 @@ const Leaderboard = () => {
             </tr>
           </thead>
           <tbody>
-            {friends.map((friend, index) => (
+            {sortedFriends.map((friend, index) => (
               <tr key={friend._id}>
                 <td>{index + 1}</td>
                 <td>{friend.username}</td>

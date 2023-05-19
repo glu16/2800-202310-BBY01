@@ -7,55 +7,104 @@
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
-  overflow: scroll;
+  overflow: hidden;
 }
 
 .indexBtn {
-  margin: 4px 12px 36px 12px;
+  margin: 4px 12px 36px 0;
   background-color: #2b2b2b;
-  border-color: #2b2b2b;
+  border: 1px solid #2b2b2b;
 }
 
 .indexBtn:hover {
   background-color: #95a4a9;
+  border: 1px solid #2b2b2b;
+}
+
+.indexBtn:active {
+  background-color: hsl(195, 10%, 72%);
+  border: 1px solid #2b2b2b;
+  box-shadow: 0 0 1px 2px #95a4a9;
 }
 
 .indexCard {
   width: 100%;
   margin-top: 100px;
+  margin-left: 30px;
 }
 
 .indexImage {
   height: 100%;
+  object-fit: cover;
+}
+.imageContainer {
+  height: 100%;
   width: 100%;
-  margin-top: 100px;
+  z-index: -2;
+  right: -550px;
+  bottom: -44px;
+  position: absolute;
+  opacity: 75%;
 }
 
 .indexTitle {
+  color: rgb(255, 255, 255);
+  max-width: 800px;
   margin-top: 60px;
   margin-bottom: 60px;
   font-weight: bold;
-}
-
-.indexBody h1 {
-  color: black;
-  max-width: 1000px;
-  font-size: 4em;
+  font-size: 4rem;
   text-align: center;
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
-    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
 }
 
-.indexBody h4 {
+.indexDescription {
   color: white;
-  max-width: 1000px;
+  max-width: 800px;
   margin-top: 60px;
   font-weight: bold;
+  text-align: left;
+  /* text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; */
+}
+
+.indexDescription + div {
+  /* text-align: left; */
+  max-width: 800px;
+}
+
+.signupOrLogin{
+  max-width: 800px;
 }
 
 @media (max-width: 767px) {
   html,
   body {
     height: auto;
+  }
+
+  .indexImage {
+    height: 100%;
+    width: 100%;
+  }
+
+  .imageContainer {
+    right: 0;
+    bottom: 0;
+    padding: 0;
+    opacity: 30%;
+  }
+
+  .indexBody h1 {
+    text-align: center;
+  }
+
+  .indexBody h4 {
+    text-align: center;
+  }
+  h4 + div {
+    text-align: center;
+  }
+
+  .indexCard {
+    margin-left: 0px;
   }
 }

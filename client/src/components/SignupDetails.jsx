@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react"; 
 import axios from "axios";
 import styles from "../css/signupDetails.module.css";
+import SignupPrefRes from "./SignupPrefRes";
 
 function SignupDetails() {
   const [data, setData] = useState({
@@ -12,6 +13,7 @@ function SignupDetails() {
     activityLevel: "",
     goal: "",
   });
+  const [showPreferences, setShowPreferences] = useState(false);
 
   const [error, setError] = useState("");
 
@@ -20,7 +22,7 @@ function SignupDetails() {
   try {
     const url = `http://localhost:5050/signupdetails/${localStorage.getItem("username")}`;
     const { data: res } = await axios.post(url, data);
-    window.location = "/signupPrefReset";
+    setShowPreferences(true);
 
   } catch (error) {
     console.log(error.response.data);
@@ -35,7 +37,7 @@ function SignupDetails() {
 
   return (
     <>
-      <div className={`card-body ${styles.signupCard}`}>
+     {showPreferences ? <SignupPrefRes/> : (<div className={`card-body ${styles.signupCard}`}>
             <h1 id={styles.detailsHeader}>Details</h1>
             <form id={styles.signupDetails} onSubmit={handleSubmit}>
               <div className={`${styles.radioInput}`}>
@@ -141,10 +143,11 @@ function SignupDetails() {
                 type="submit"
                 id={styles.submitBtn}
                 name="submit"
-                value="Sign Up"
+                value="Next"
               />
             </form>
           </div>
+     )}
         </>
   );
 }

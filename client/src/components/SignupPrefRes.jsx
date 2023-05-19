@@ -5,8 +5,8 @@ import styles from "../css/signupPrefRes.module.css";
 
 function SignupPrefRes() {
   const [data, setData] = useState({
-    foodPreferencs: "",
-    foodRestrictions: "",
+    foodPreferences: "",
+    dietaryRestrictions: "",
     workoutPreferences: "",
     workoutRestrictions: "",
   });
@@ -81,41 +81,148 @@ function SignupPrefRes() {
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
+
+  // Adds and removes input.value depending on if it is already in the dietaryRestrictions string
+  const handleCheckbox = ({ currentTarget: input }) => {
+    const dietaryRestrictions = data.dietaryRestrictions;
+    const newInput = input.value;
+    if (dietaryRestrictions.includes(newInput)) {
+      let removedRestriction = dietaryRestrictions.replace(newInput, "");
+      setData({ ...data, dietaryRestrictions: removedRestriction });
+      console.log("Removed " + dietaryRestrictions);
+    } else {
+      setData({
+        ...data,
+        dietaryRestrictions: dietaryRestrictions + " " + input.value,
+      });
+      console.log("Checked ");
+      console.log(dietaryRestrictions);
+    }
+  };
+
   return (
     <>
       <div className={`card-body ${styles.signupCard}`}>
         <form id={styles.signupDetails} onSubmit={handleSubmit}>
-        <h1 id={styles.detailsHeader}>Preferences and Restrictions  </h1>
+          <h1 id={styles.detailsHeader}>Preferences and Restrictions </h1>
 
-          <input
-            type="text"
-            id="foodPreferencs"
-            name="foodPreferencs"
+          <label htmlFor="foodPreferences"></label>
+          <select
+            type="select"
+            id={`${styles.foodPreferences}`}
+            name="foodPreferences"
+            defaultValue={"Food Preferences"}
             className={`user-input ${styles.userInput}`}
             value={0 ? data.weight : null} //Fix this stuff
             onChange={handleChange}
-            required
-          />
-          <label htmlFor="foodPreferencs" className={`${styles.inputLabel}`}>
-            <span className={`${styles.inputFoodName}`}>
-              Food Preferences
-            </span>
-          </label>
-
-          <input
-            type="text"
-            step="any"
-            id="foodRestrictions"
-            name="foodRestrictions"
-            className={`user-input ${styles.userInput}`}
-            value={0 ? data.weight : null}
-            onChange={handleChange}
-            required
-          />
-          <label htmlFor="foodRestrictions" className={`${styles.inputLabel}`}>
-            <span className={`${styles.inputFoodName}`}>Food Restrictions </span>
-          </label>
-
+            required>
+            <option disabled>Food Preferences</option>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Pescatarian">Pescatarian</option>
+            <option value="Mediterranean">Mediterranean</option>
+            <option value="Paleo">Paleo</option>
+            <option value="Keto">Keto</option>
+            <option value="None">None</option>
+          </select>
+          <div className={styles.restrictionsHeader}>Dietary Restrictions</div>
+          <div className={styles.checkboxes}> 
+            <div className={styles.checkboxGroup1}>
+              <input
+                type="checkbox"
+                name="gluten-free"
+                className="btn-check"
+                id="gluten-free"
+                value="gluten,"
+                onChange={handleCheckbox}></input>
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+               htmlFor="gluten-free">
+                Gluten-free
+              </label>
+              <input
+                type="checkbox"
+                name="lactose-intolerant"
+                className="btn-check"
+                id="lactose-intolerant"
+                value="lactose-intolerant,"
+                onChange={handleCheckbox}></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`} 
+                htmlFor="lactose-intolerant">
+                Lactose Intolerant
+              </label>
+              <input
+                type="checkbox"
+                name="kosher"
+                className="btn-check"
+                id="kosher"
+                value="kosher,"
+                onChange={handleCheckbox}></input>
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="kosher">
+                Kosher
+              </label>
+              <input
+                type="checkbox"
+                name="nut-allergy"
+                className="btn-check"
+                id="nut-allergy"
+                value="nuts,"
+                onChange={handleCheckbox}></input>
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="nut-allergy">
+                Nut Allergy
+              </label>
+            </div>
+            <div className={styles.checkboxGroup2}>
+              <input
+                type="checkbox"
+                name="wheat-allergy"
+                className="btn-check"
+                id="wheat-allergy"
+                value="wheat,"
+                onChange={handleCheckbox}></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`} 
+                htmlFor="wheat-allergy">
+                Wheat Allergy
+              </label>
+              <input
+                type="checkbox"
+                name="fish-allergy"
+                className="btn-check"
+                id="fish-allergy"
+                value="fish,"
+                onChange={handleCheckbox}></input>
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="fish-allergy">
+                Fish Allergy
+              </label>
+              <input
+                type="checkbox"
+                name="shellfish-allergy"
+                className="btn-check"
+                id="shellfish-allergy"
+                value="shellfish,"
+                onChange={handleCheckbox}></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`} 
+                htmlFor="shellfish-allergy">
+                Shellfish Allergy
+              </label>
+              <input
+                type="checkbox"
+                name="soy-allergy"
+                className="btn-check"
+                id="soy-allergy"
+                value="soy,"
+                onChange={handleCheckbox}></input>
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="soy-allergy">
+                Soy Allergy
+              </label>
+            </div>
+          </div>
           <label htmlFor="workoutPreferences"></label>
           <input
             type="text"
@@ -128,8 +235,7 @@ function SignupPrefRes() {
           />
           <label
             htmlFor="workoutPreferences"
-            className={`${styles.inputLabel}`}
-          >
+            className={`${styles.inputLabel}`}>
             <span className={`${styles.inputName}`}>Workout Preferences</span>
           </label>
 
@@ -145,8 +251,7 @@ function SignupPrefRes() {
           />
           <label
             htmlFor="workoutRestrictions"
-            className={`${styles.inputLabel}`}
-          >
+            className={`${styles.inputLabel}`}>
             <span className={`${styles.inputName}`}>Workout Restrictions</span>
           </label>
 
@@ -154,7 +259,7 @@ function SignupPrefRes() {
             type="submit"
             id={styles.submitBtn}
             name="submit"
-            value="Finalize"
+            value="Sign up"
           />
         </form>
       </div>

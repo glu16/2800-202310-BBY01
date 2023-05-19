@@ -22,7 +22,6 @@ const Home = () => {
         );
         const username = response.data.username;
         console.log("Logged in user's name:", username);
-        // localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
       }
@@ -92,7 +91,7 @@ const Home = () => {
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
-    delay: 500,
+    delay: 300,
   });
 
   // useState hook variables for the username
@@ -100,7 +99,7 @@ const Home = () => {
 
   // useEffect hook to retrieve logged in user's name
   useEffect(() => {
-    async function fetchUserName() {
+    async function fetchUserData() {
       try {
         const response = await axios.get(
           `http://localhost:5050/users/${localStorage.getItem("username")}`,
@@ -110,15 +109,17 @@ const Home = () => {
             },
           }
         );
-        const firstName = response.data.firstName;
+        const { firstName, points } = response.data;
         console.log(firstName);
+        console.log(points);
         setUserName(firstName);
+        setUserPoints(points);
       } catch (error) {
         console.error(error.message);
       }
     }
 
-    fetchUserName();
+    fetchUserData();
   }, []);
   // End of user name retrieval
 
@@ -169,12 +170,10 @@ const Home = () => {
     };
     fetchChallenges();
   }, []);
+  // End of challenges retrieval
 
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
-
-  // useState hook variables to apply the points
-  const [userPoints, setUserPoints] = useState(0);
 
   // Function to add challenges
   const addChallenge = async (challengeId, challenge, points) => {
@@ -247,26 +246,36 @@ const Home = () => {
     return [];
   }
 
-  // Function to set user challenges in localstorage
+  // Function to set user challenges in local git rstorage
   function setUserChallengesInStorage(userChallenges) {
     localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
   }
 
+  // useState hook variables to apply the points
+  const [userPoints, setUserPoints] = useState(0);
+
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
-      console.log(
-        "handleCompleteChallenge called with challengeId:",
-        challengeId
-      );
+      console.log("handleDoneClick called with challengeId:", challengeId);
       console.log("Points:", points);
+      console.log("User's current points balance:", userPoints);
+
+      // Adds the challenge points to the user's points balanace in the database
+      await axios.put(
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        { points: points, challengeId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );  
+
       // Remove the challenge from the user's "challenges" array
       setUserChallenges((prevUserChallenges) =>
         prevUserChallenges.filter((id) => id !== challengeId)
       );
-
-      // Add the challenge's points to the user's points
-      setUserPoints((prevPoints) => prevPoints + points);
 
       // Remove the challenge from the user's "challenges" array in the database
       await axios.delete(
@@ -290,52 +299,25 @@ const Home = () => {
     }
   };
 
-  // useState hook variables for the disabled buttons
-  const [disabledButtons, setDisabledButtons] = useState([]);
+  // useState hook variables for the completed challenges
+  const [completedChallenges, setCompletedChallenges] = useState([]);
 
   // Click event handler for completing a challenge
   const handleDoneClick = (challengeId, points) => {
-    console.log("handleDoneClick called with challengeId:", challengeId);
-    console.log("Points:", points);
-    // Disable the Done button for the completed challenge
-    setDisabledButtons((prevDisabledButtons) => [
-      ...prevDisabledButtons,
+    // Update the user's points in the database
+    handleCompleteChallenge(challengeId, points);
+
+    // Add the completed challenge to the completedChallenges array
+    setCompletedChallenges((prevCompletedChallenges) => [
+      ...prevCompletedChallenges,
       challengeId,
     ]);
-    handleCompleteChallenge(challengeId, points);
+
+    // Remove the completed challenge from the challenges array
+    setChallenges((prevChallenges) =>
+      prevChallenges.filter((challenge) => challenge._id !== challengeId)
+    );
   };
-
-  // Keeps the doneButton disabled if the challengeId is in localstorage
-  React.useEffect(() => {
-    const storedDisabledButtons = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith("doneButtonDisabled_")) {
-        const challengeId = key.replace("doneButtonDisabled_", "");
-        storedDisabledButtons.push(challengeId);
-      }
-    }
-    setDisabledButtons(storedDisabledButtons);
-  }, []);
-
-  // Keeps the doneButton disabled if the challengeId is in localstorage
-  window.addEventListener("load", () => {
-    // Iterate through the stored disabled states in localStorage
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith("doneButtonDisabled_")) {
-        const challengeId = key.replace("doneButtonDisabled_", "");
-        const doneButton = document.getElementById(`doneButton_${challengeId}`);
-        if (doneButton) {
-          // Retrieve the disabled state as a string from localStorage
-          const isDisabledString = localStorage.getItem(key);
-          // Convert the disabled state to a boolean value
-          const isDisabled = isDisabledString === "true";
-          doneButton.disabled = isDisabled;
-        }
-      }
-    }
-  });
 
   // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
@@ -356,8 +338,9 @@ const Home = () => {
   // Renders Home.jsx component
   return (
     <div className={`row justify-content- ${styles.cardWrapper}`}>
-      <div
+      <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
+        style={greetings}
       >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
@@ -372,50 +355,59 @@ const Home = () => {
             </animated.h4>
           </div>
         </div>
-      </div>
-      <div
+      </animated.div>
+      <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
+        style={greetings}
       >
-        <div className="card-body">
-          <animated.h1 className={styles.challengeHeader} style={greetings}>
-            Weekly Challenges
-          </animated.h1>
-          {console.log("Challenges:", challenges)}
-          {challenges.length > 0 ? (
-            challenges.map((challenge) => (
-              <div key={challenge._id}>
-                <h5 className="card-title">Challenge: {challenge.challenge}</h5>
-                <h5 className="card-text">Points: {challenge.points}</h5>
-                {userChallenges.includes(challenge._id) ? (
-                  <button
-                    id={`doneButton_${challenge._id}`}
-                    className={`btn btn-success ${styles.challengeBtn}`}
-                    onClick={() =>
-                      handleDoneClick(challenge._id, challenge.points)
-                    }
-                  >
-                    Done
-                  </button>
-                ) : (
-                  <button
-                    className={`btn btn-primary ${styles.challengeBtn}`}
-                    onClick={() =>
-                      handleAddChallenge(challenge._id, challenge.points)
-                    }
-                  >
-                    Add Challenge
-                  </button>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>No challenges available.</p>
-          )}
-        </div>
-      </div>
+        <animated.div className="card-body" style={greetings}>
+          <div className={styles.challengeInnerCard}>
+            <h1 className={styles.challengeHeader} style={greetings}>
+              Weekly Challenges
+            </h1>
+            {console.log("Challenges:", challenges)}
+            {challenges.length > 0 ? (
+              challenges
+                .filter(
+                  (challenge) => !completedChallenges.includes(challenge._id)
+                )
+                .map((challenge) => (
+                  <div key={challenge._id}>
+                    <h5 className="card-title">
+                      Challenge: {challenge.challenge}
+                    </h5>
+                    <h5 className="card-text">Points: {challenge.points}</h5>
+                    {userChallenges.includes(challenge._id) ? (
+                      <button
+                        id={`doneButton_${challenge._id}`}
+                        className={`btn btn-success ${styles.challengeBtn}`}
+                        onClick={() =>
+                          handleDoneClick(challenge._id, challenge.points)
+                        }
+                      >
+                        Done
+                      </button>
+                    ) : (
+                      <button
+                        className={`btn btn-primary ${styles.challengeBtn}`}
+                        onClick={() =>
+                          handleAddChallenge(challenge._id, challenge.points)
+                        }
+                      >
+                        Add Challenge
+                      </button>
+                    )}
+                  </div>
+                ))
+            ) : (
+              <p>No challenges available.</p>
+            )}
+          </div>
+        </animated.div>
+      </animated.div>
 
       <animated.div
-        className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
+        className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.diet}`}
         style={greetings}
       >
         <div className={styles.progressInnerCard}>
@@ -435,7 +427,7 @@ const Home = () => {
         </div>
       </animated.div>
       <animated.div
-        className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
+        className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.fitness}`}
         style={greetings}
       >
         <div className={styles.progressInnerCard}>

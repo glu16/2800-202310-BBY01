@@ -23,7 +23,6 @@ async function getDiet() {
   }
 }
 
-
 // display user's diet, can't be async
 function Diet() {
   const [diet, setDiet] = useState(null);
@@ -65,8 +64,7 @@ function Diet() {
             return Object.keys(obj).map((key, index) => {
               // check if key matches date
               if (key == date) {
-
-                setDayOfMealPlan(index)
+                setDayOfMealPlan(index);
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
                   return (
@@ -78,7 +76,7 @@ function Diet() {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <strong className={styles.date}>{key}</strong >
+                      <strong className={styles.date}>{key}</strong>
                       {renderDiet(obj[key])}
                     </div>
                   );
@@ -100,7 +98,10 @@ function Diet() {
                 {Object.entries(dietObj[dietKey]).map(
                   ([detailKey, detailValue]) => {
                     // don't display detailKey if it is name or setsAndReps
-                    if (detailKey == "Name" || detailKey == "Nutritional Info") {
+                    if (
+                      detailKey == "Name" ||
+                      detailKey == "Nutritional Info"
+                    ) {
                       return (
                         <div key={detailKey} className={styles.aKey}>
                           {detailValue}
@@ -158,9 +159,21 @@ function Diet() {
 
   return (
     <div>
-      <button onClick={handleDecrementDays} disabled={dayOfMealPlan == 0} className={`btn  ${styles.button}`}>Previous Day</button>{" "}
+      <button
+        onClick={handleDecrementDays}
+        disabled={dayOfMealPlan == 0}
+        className={`btn btn-primary  ${styles.dietBtn}`}
+      >
+        Previous Day
+      </button>{" "}
       {/* Add the decrement button */}
-      <button onClick={handleIncrementDays} disabled={dayOfMealPlan >= 6} className={`btn  ${styles.button}`}>Next Day</button>{" "}
+      <button
+        onClick={handleIncrementDays}
+        disabled={dayOfMealPlan >= 6}
+        className={`btn btn-primary  ${styles.dietBtn}`}
+      >
+        Next Day
+      </button>{" "}
       {/* Add the increment button */}
       <div className="d-flex align-items-center text-center justify-content-center row">
         {diet}
@@ -240,21 +253,16 @@ const DietPlan = () => {
   };
 
   return (
-    <div
-      className={`${styles.fitnessContainer}`}
-    >
+    <div className={`${styles.fitnessContainer}`}>
       <div className={`card ${styles.exerciseCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
-
           <div>
             <form id="addWorkout" onSubmit={addDietToUser}>
-              <h2>
-                Your Diet Plan
-              </h2>
+              <h2>Your Diet Plan</h2>
               <input type="hidden" name="userEmail" value={username}></input>
               <button
                 type="submit"
-                className={`btn  ${styles.button}`}
+                className={`btn btn-primary  ${styles.dietBtn}`}
                 disabled={isFormSubmitting}
                 onClick={handleClick}
               >
