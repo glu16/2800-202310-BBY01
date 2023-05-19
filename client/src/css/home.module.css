@@ -56,6 +56,13 @@
   color: black;
 }
 
+.pointsBalance {
+  text-align: left;
+  margin-top: 24px;
+  margin-left: 20px;
+  color: rgb(92, 208, 216);
+}
+
 .homeCard {
   height: 100%;
   width: 100%;
@@ -105,6 +112,7 @@
 
 .progressBarContainer {
   margin: 0 75px;
+  margin-top: 20px;
 }
 
 .progressBtn {
