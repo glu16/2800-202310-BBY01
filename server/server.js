@@ -988,10 +988,9 @@ app.post("/", async (req, res) => {
   // THE RESPONSE FROM OPENAI
   const response = await openai.createCompletion({
     // DEFAULT IS "text-davinci-003"
-    model: "davinci:ft-personal-2023-05-15-05-32-16",
-    prompt: `${message}` + " &&&&&",
+    model: "text-davinci-003",
+    prompt: `${message}`,
     max_tokens: 200,
-    stop: ["#####", "&&&&&"],
   });
 
   const parsableJson = response.data.choices[0].text;
