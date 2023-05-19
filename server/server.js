@@ -1020,8 +1020,9 @@ app.post("/", async (req, res) => {
     model: "gpt-3.5-turbo",
     // prompt: `${message}`, //BASE MODEL
     messages: [{ role: "user", content: `${message}` }],
-
     max_tokens: 200,
+    presence_penalty: 0.6,
+    frequency_penalty: 0.6,
   });
 
   // const parsableJson = response.data.choices[0].text; //BASE MODEL
