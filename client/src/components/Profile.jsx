@@ -288,6 +288,8 @@ const Profile = ({username}) => {
 
   // useState hook variables for deleting a friend
   const [selectedUser, setSelectedUser] = useState(null);
+
+    // useState hook variables for the delete friend modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Function to delete a friend
@@ -524,10 +526,10 @@ const Profile = ({username}) => {
                     key={challenge._id}
                     className={styles.challengeBackground}
                   >
-                    <h6 className={styles.challengeBody}>
+                    <h6 className={styles.challengeDesc}>
                       {challenge.challenge}
                     </h6>
-                    <h6 className={styles.challengeBody}>
+                    <h6 className={styles.challengePoints}>
                       Points: {challenge.points}
                     </h6>
                   </div>
