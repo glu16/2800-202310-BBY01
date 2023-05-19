@@ -40,14 +40,6 @@ function NavbarBeforeLogin() {
               </Link>
             </li>
           </ul>
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <Link to="/login" className="nav-link" onClick={handleNavClose}>
-                <span className="material-symbols-outlined"> login </span> Log
-                in
-              </Link>
-            </li>
-          </ul>
         </div>
       </div>
     </nav>
