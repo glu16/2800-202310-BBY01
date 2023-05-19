@@ -11,40 +11,6 @@
   margin-top: 160px;
 }
 
-.container-fluid {
-  /* Sets dropdown of navbar to be same colour as actual navbar */
-  background-color: inherit;
-}
-
-.title {
-  text-align: center;
-  margin-top: 20px;
-  font-weight: bold;
-  color: black;
-}
-
-.day {
-  border: 2px solid black ;
-  border-radius: 10px;
-}
-
-.anExercise {
-  border: 2px dashed red ;
-  border-radius: 10px;
-}
-
-#streakContainer {
-  border: 2px solid red ;
-  border-radius: 10px;
-}
-
-.modalImage {
-  height: 500px;
-  width: 500px;
-}
-
-
-
 @media (max-width: 767px) {
   html,
   body {
@@ -65,4 +31,68 @@
     margin-top: 80px;
   }
 }
+
+
+.container-fluid {
+  /* Sets dropdown of navbar to be same colour as actual navbar */
+  background-color: inherit;
+}
+
+.title {
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.day {
+  border: 2px solid black ;
+  border-radius: 10px;
+}
+
+.anExercise {
+  border: 2px solid grey ;
+  border-radius: 10px;
+}
+
+.aKey {
+  /* border: 2px dashed green ;
+  border-radius: 10px; */
+}
+
+.streakContainer {
+  /* border: 2px solid red ;
+  border-radius: 10px; */
+}
+
+.doneTodaySymbol {
+  width: 50px;
+  height: 50px;
+}
+
+.graphs {
+  display: flex;
+}
+
+.workoutForm {
+  /* border: 2px solid blue;
+  border-radius: 10px; */
+  /* display: none; */
+}
+
+.exerciseButtons {
+  display: flex;
+  justify-content: center;
+}
+
+.completeAllButton {
+
+}
+
+.modalImage {
+  height: 500px;
+  width: 500px;
+}
+
+
 

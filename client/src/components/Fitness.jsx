@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from "../css/fitness.module.css";
+// import 'bootstrap/dist/css/bootstrap.css';
 import Modal from "react-modal";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { VictoryPie, VictoryLabel } from 'victory';
+
 
 // for task completion buttons
 
@@ -188,7 +190,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           verticalAnchor="middle"
           x={svgSize / 2}
           y={svgSize / 2}
-          text={`${currentStreak} / ${longestStreak}`}
+          text={` ${currentStreak} / ${longestStreak} \n days`}
           style={{ fontSize }}
         />
       </svg>
@@ -269,14 +271,14 @@ function Workout({ handleOpenModal }) {
                   if (key == today) {
                     return (
                       <div key={index} className={styles.day}>
-                        <strong>Today, {key}:</strong> Rest day
+                        <h3>Today, {key}:</h3> Rest day
                       </div>
                     );
                     // if page is not today
                   } else {
                     return (
                       <div key={index} className={styles.day}>
-                        <strong>{key}:</strong> Rest day
+                        <h3>{key}:</h3> Rest day
                       </div>
                     );
                   }
@@ -290,7 +292,7 @@ function Workout({ handleOpenModal }) {
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
-                      <strong>Today, {key}</strong>
+                      <h3>Today, {key}</h3>
                       {renderExerciseToday(obj[key])}
                     </div>
                   );
@@ -298,7 +300,7 @@ function Workout({ handleOpenModal }) {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <strong>{key}</strong>
+                      <h3>{key}</h3>
                       {renderExercise(obj[key])}
                     </div>
                   );
@@ -319,13 +321,13 @@ function Workout({ handleOpenModal }) {
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
             <div key={index} className={styles.anExercise}>
-            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
-              // don't display detailKey if it is name or setsAndReps
-              if (detailKey == "name" || detailKey == "setsAndReps") {
+              if (detailKey == "name") {
+                return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
+              } else if (detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              // dispaly detailKey if it is calories
               } else if (detailKey == "calories") {
                 return (
                   <div key={detailKey} className={styles.aKey}>
@@ -339,7 +341,7 @@ function Workout({ handleOpenModal }) {
             })}
 
             {/* this opens up images for the exercise */}
-            <button onClick={handleOpenModal}>Get instructions</button>
+            <button onClick={handleOpenModal}>Help</button>
 
           </div>
 
@@ -363,13 +365,13 @@ function Workout({ handleOpenModal }) {
           >
             {/* original before Easter egg */}
             {/* <div key={index} className={styles.anExercise}> */}
-            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
-              // don't display detailKey if it is name or setsAndReps
-              if (detailKey == "name" || detailKey == "setsAndReps") {
+              if (detailKey == "name") {
+                return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
+              } else if (detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              // dispaly detailKey if it is calories
               } else if (detailKey == "calories") {
                 return (
                   <div key={detailKey} className={styles.aKey}>
@@ -382,11 +384,14 @@ function Workout({ handleOpenModal }) {
               }
             })}
 
-            {/* this opens up images for the exercise */}
-            <button onClick={handleOpenModal}>Get instructions</button>
+            <div className={styles.exerciseButtons}>
+              {/* this opens up images for the exercise */}
+              <button onClick={handleOpenModal}>Help</button>
 
-            {/* button to mark task completed */}
-            <CompleteExercisesButton />
+              {/* button to mark task completed */}
+              <CompleteExercisesButton />
+            </div>
+
 
           </div>
 
@@ -434,10 +439,10 @@ function Workout({ handleOpenModal }) {
   return (
     <div>
       <h2>{username}'s 7-Day Workout</h2>
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className="btn btn-info btn-arrow-left">
         Previous Day
       </button>
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6}>
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} class="btn btn-info btn-arrow-right">
         Next Day
       </button>
       <div className="d-flex align-items-center text-center justify-content-center row">
@@ -466,16 +471,15 @@ const CompleteExercisesButton = () => {
 
   };
   return (
-    <div className="container mt-5">
+    <div>
     <button
       className="markExerciseComplete btn btn-secondary btn-checkbox"
       onClick={handleClick}
       // disabled={}
     >
-      <FontAwesomeIcon
-        icon={isChecked ? faCheckSquare : faSquare}
+      <FontAwesomeIcon icon={isChecked ? faCheckSquare : faSquare}
         className="mr-2"
-      />Mark exercise complete!
+      /> Done!
     </button>
   </div>
   );
@@ -529,17 +533,17 @@ const Streak = () => {
 
   var percentDaysDone = 100 * daysDone / (daysDone + daysMissed);
 
+
   return (
-    <div id="streakContainer" style={{ border: '2px solid red'}}>
+    <div id="streakContainer" className={styles.streakContainer}>
       <h2>{username}'s Workout Stats</h2>
       <p>{doneTodayMessage} &nbsp;
-          <img src={doneTodaySymbol}
-            style={{width:'50px', height:'50px'}}></img>
+          <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
       </p>
 
       {/* <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} /> */}
 
-      <div id="graphs" style={{ display: 'flex' }}>
+      <div id="graphs" className={styles.graphs}>
         <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
         &nbsp; &nbsp; 
         <CircleStreak currentStreak={currentStreak} longestStreak={longestStreak} />
@@ -729,7 +733,7 @@ const Fitness = () => {
       <Streak />
 
 
-      <div id="workoutForm" style={{ border: '2px solid blue' }}>
+      <div id="workoutForm" className={styles.workoutForm}>
         <form id="addWorkout" onSubmit={addWorkoutToUser}>
           {/* SEND USERNAME FOR DATABASE SEARCH */}
           <input type="hidden" name="username" value={username}></input>
@@ -799,7 +803,7 @@ const Fitness = () => {
           onRequestClose={handleCloseModal}
           />
       )}
-      <button id="completeAll" 
+      <button id="completeAllButton" className="completeAllButton btn btn-success"
         onClick={completeAllExercises} 
         disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
         >Mark ALL exercises complete!
