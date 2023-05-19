@@ -361,6 +361,7 @@ const Leaderboard = () => {
   // Beginning of global to friend leaderboard switch
   const renderLeaderboard = () => {
     if (activeTab === "global") {
+      const sortedUsers = users.sort((a, b) => b.points - a.points);
       return (
         <table>
           <thead>
@@ -371,7 +372,7 @@ const Leaderboard = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, index) => (
+            {sortedUsers.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
                 <td>
