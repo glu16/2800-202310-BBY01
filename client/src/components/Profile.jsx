@@ -510,12 +510,13 @@ const Profile = ({ username }) => {
             </div>
           </div>
 
-          <div className={`card-body ${styles.friendsInnerCard}`}>
-            <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.friendsHeader}>Active Challenges</h1>
+          <div className={`card-body ${styles.challengeInnerCard}`}>
+              <div className={styles.friendsHeader}>
+                <h1>Active Challenges</h1></div>
+              <div className={styles.currentChallenges}>
               {challenges.length > 0 ? (
                 challenges.map((challenge) => (
-                  <div key={challenge._id}>
+                  <div key={challenge._id} className={styles.challengeBackground}>
                     <h6 className={styles.challengeBody}>{challenge.challenge}</h6>
                     <h6 className={styles.challengeBody}>Points: {challenge.points}</h6>
                   </div>
@@ -523,7 +524,7 @@ const Profile = ({ username }) => {
               ) : (
                 <p>No challenges found.</p>
               )}
-            </div>
+          </div>
           </div>
           {/* Render the DeleteFriendModal */}
           {showDeleteModal && (

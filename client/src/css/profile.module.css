@@ -23,17 +23,43 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 80px;
+}
+
+.challengeInnerCard {
+  max-height: 400px;
+  width: 90%;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: #474747;
+  overflow: auto;
+  position: relative;
+}
+
+.currentChallenges{
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+.challengeBackground {
+  background-color: gray;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  height: 80px;
+  margin: 10px;
 }
 
 .challengeBody {
   color: white;
+  margin-top: 5px;
+
 }
 
 .friendsCard {
   flex: 1;
   min-height: 742px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin-top: 160px;
   margin-right: 80px;
   margin-left: 40px;
