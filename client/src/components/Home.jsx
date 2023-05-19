@@ -54,7 +54,7 @@ const Home = () => {
           },
         }
       );
-      if (response == "empty") {
+      if (response === "empty") {
         setItems(["empty"]);
       } else {
         // Assigns the object containing today's exercise to the variable
