@@ -42,6 +42,7 @@
   flex-direction: column;
   margin-top: 10px;
 }
+
 .challengeBackground {
   background-color: gray;
   border-radius: 10px;
@@ -51,9 +52,13 @@
   margin: 10px;
 }
 
-.challengeBody {
+.challengeDesc {
   color: white;
-  margin-top: 5px;
+  margin-top: 16px;
+}
+
+.challengePoints {
+  color: white;
 }
 
 .friendsCard {
@@ -83,6 +88,7 @@
   overflow: auto;
   position: relative;
 }
+
 .errorMessage {
   color: red;
   font-size: 9pt;
@@ -285,11 +291,32 @@
   html,
   body {
     height: auto;
+    margin-bottom: 40px;
+  }
+
+  .profileBody {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 40px;
   }
 
   .cardContainer {
     flex-direction: column;
     margin-top: 60px;
+  }
+
+  .challengeBackground {
+    background-color: gray;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 90%;
+    height: 100px;
+    margin: 10px;
+  }
+
+  .challengeDesc,
+  .challengePoints {
+    color: white;
   }
 
   .profileCard,
