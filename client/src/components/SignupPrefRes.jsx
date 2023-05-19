@@ -133,9 +133,10 @@ function SignupPrefRes() {
                 name="gluten-free"
                 className="btn-check"
                 id="gluten-free"
-                value="gluten-free"
+                value="gluten,"
                 onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`} htmlFor="gluten-free">
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+               htmlFor="gluten-free">
                 Gluten-free
               </label>
               <input
@@ -143,7 +144,7 @@ function SignupPrefRes() {
                 name="lactose-intolerant"
                 className="btn-check"
                 id="lactose-intolerant"
-                value="lactose-intolerant"
+                value="lactose-intolerant,"
                 onChange={handleCheckbox}></input>
               <label
                 className={`btn btn-outline-info ${styles.checkboxLabel}`} 
@@ -155,9 +156,10 @@ function SignupPrefRes() {
                 name="kosher"
                 className="btn-check"
                 id="kosher"
-                value="kosher"
+                value="kosher,"
                 onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}  htmlFor="kosher">
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="kosher">
                 Kosher
               </label>
               <input
@@ -165,9 +167,10 @@ function SignupPrefRes() {
                 name="nut-allergy"
                 className="btn-check"
                 id="nut-allergy"
-                value="nut-allergy"
+                value="nuts,"
                 onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}  htmlFor="nut-allergy">
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="nut-allergy">
                 Nut Allergy
               </label>
             </div>
@@ -177,7 +180,7 @@ function SignupPrefRes() {
                 name="wheat-allergy"
                 className="btn-check"
                 id="wheat-allergy"
-                value="wheat-allergy"
+                value="wheat,"
                 onChange={handleCheckbox}></input>
               <label
                 className={`btn btn-outline-info ${styles.checkboxLabel}`} 
@@ -189,9 +192,10 @@ function SignupPrefRes() {
                 name="fish-allergy"
                 className="btn-check"
                 id="fish-allergy"
-                value="fish-allergy"
+                value="fish,"
                 onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}  htmlFor="fish-allergy">
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="fish-allergy">
                 Fish Allergy
               </label>
               <input
@@ -199,7 +203,7 @@ function SignupPrefRes() {
                 name="shellfish-allergy"
                 className="btn-check"
                 id="shellfish-allergy"
-                value="shellfish-allergy"
+                value="shellfish,"
                 onChange={handleCheckbox}></input>
               <label
                 className={`btn btn-outline-info ${styles.checkboxLabel}`} 
@@ -211,9 +215,10 @@ function SignupPrefRes() {
                 name="soy-allergy"
                 className="btn-check"
                 id="soy-allergy"
-                value="soy-allergy"
+                value="soy,"
                 onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}  htmlFor="soy-allergy">
+              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="soy-allergy">
                 Soy Allergy
               </label>
             </div>

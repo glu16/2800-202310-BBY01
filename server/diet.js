@@ -60,7 +60,8 @@ async function runAI(sex, age, height, weight, activityLevel, goal, foodPref, fo
   //default max tokens = 4096
   const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    messages: [{ role: "user", content: input }]
+    messages: [{ role: "user", content: input }],
+    temperature: 0.2,
   })
 
   // stop loading animation
