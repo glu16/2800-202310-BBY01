@@ -636,7 +636,7 @@ const Fitness = () => {
   }
 
   const ExerciseModal = ({ isOpen, onRequestClose }) => {
-    var source = exercise;
+    var source = "exercise"
 
     return (
       <Modal
@@ -649,6 +649,7 @@ const Fitness = () => {
         Modal content goes here
         <img className={styles.modalImage} src="" alt="Image" />
         <p>Modal is working now</p>
+        {source}
       </Modal>
     );
   };
@@ -656,6 +657,7 @@ const Fitness = () => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
+    // console.log(modalExercise);
     setShowModal(true);
   };
 
