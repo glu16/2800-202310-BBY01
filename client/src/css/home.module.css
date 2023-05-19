@@ -41,7 +41,7 @@
   border: none;
 }
 
-.challengesBtn:hover {
+.challengeBtn:hover {
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
