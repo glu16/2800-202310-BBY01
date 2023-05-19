@@ -1,12 +1,12 @@
 import React from "react";
-import { useState } from "react";
+import {useState} from "react";
 import axios from "axios";
 import styles from "../css/signupPrefRes.module.css";
 
 function SignupPrefRes() {
   const [data, setData] = useState({
-    foodPreferencs: "",
-    foodRestrictions: "",
+    foodPreferences: "",
+    dietaryRestrictions: "",
     workoutPreferences: "",
     workoutRestrictions: "",
   });
@@ -19,7 +19,7 @@ function SignupPrefRes() {
       const url = `http://localhost:5050/signupPrefRes/${localStorage.getItem(
         "username"
       )}`;
-      const { data: res } = await axios.post(url, data);
+      const {data: res} = await axios.post(url, data);
       window.location = "/login";
 
       const userName = localStorage.getItem("email");
@@ -28,12 +28,12 @@ function SignupPrefRes() {
       const workout = {};
 
       // GENERATES AND STORES WORKOUT PLAN
-      const data2 = { [workoutKey]: workout };
+      const data2 = {[workoutKey]: workout};
       const workoutRequest = fetch(
         `http://localhost:5050/fitness/${localStorage.getItem("username")}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json"},
           body: JSON.stringify(data2),
         }
       );
@@ -42,12 +42,12 @@ function SignupPrefRes() {
       const diet = {};
 
       // GENERATES AND STORES DIET PLAN
-      const data3 = { [mealKey]: diet };
+      const data3 = {[mealKey]: diet};
       const dietRequest = fetch(
         `http://localhost:5050/diet/${localStorage.getItem("username")}`,
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {"Content-Type": "application/json"},
           body: JSON.stringify(data3),
         }
       );
@@ -78,42 +78,159 @@ function SignupPrefRes() {
     }
   };
 
-  const handleChange = ({ currentTarget: input }) => {
-    setData({ ...data, [input.name]: input.value });
+  const handleChange = ({currentTarget: input}) => {
+    setData({...data, [input.name]: input.value});
   };
+
+
+  // Adds and removes input.value depending on if it is already in the dietaryRestrictions string
+  const handleCheckbox = ({currentTarget: input}) => { 
+    const dietaryRestrictions = data.dietaryRestrictions;
+    const newInput = input.value;
+    if (dietaryRestrictions.includes(newInput)){
+      let removedRestriction = dietaryRestrictions.replace(newInput, "");
+      setData({...data, dietaryRestrictions: removedRestriction });
+      console.log("Removed " + dietaryRestrictions)
+    }else {
+    setData({...data, dietaryRestrictions: (dietaryRestrictions + " " + input.value)});
+    console.log("Checked ")
+    console.log(dietaryRestrictions);
+  }
+  };
+
   return (
     <>
       <div className={`card-body ${styles.signupCard}`}>
         <form id={styles.signupDetails} onSubmit={handleSubmit}>
-        <h1 id={styles.detailsHeader}>Preferences and Restrictions  </h1>
+          <h1 id={styles.detailsHeader}>Preferences and Restrictions </h1>
 
-          <input
-            type="text"
-            id="foodPreferencs"
-            name="foodPreferencs"
+          <label htmlFor="foodPreferences"></label>
+          <select
+            type="select"
+            id="foodPreferences"
+            name="foodPreferences"
+            defaultValue={"Food Preferences"}
             className={`user-input ${styles.userInput}`}
             value={0 ? data.weight : null} //Fix this stuff
             onChange={handleChange}
             required
-          />
-          <label htmlFor="foodPreferencs" className={`${styles.inputLabel}`}>
-            <span className={`${styles.inputFoodName}`}>
-              Food Preferences
-            </span>
-          </label>
+          >
+            <option disabled>Food Preferences</option>
+            <option value="Vegetarian">Vegetarian</option>
+            <option value="Vegan">Vegan</option>
+            <option value="Pescatarian">Pescatarian</option>
+            <option value="Mediterranean">Mediterranean</option>
+            <option value="Paleo">Paleo</option>
+            <option value="Keto">Keto</option>
+            <option value="None">None</option>
+          </select>
 
-          <input
-            type="text"
-            step="any"
-            id="foodRestrictions"
-            name="foodRestrictions"
+          <select
+            type="select"
+            id="dietaryRestrictions"
+            name="dietaryRestrictions"
+            defaultValue={"Dietary Restrictions"}
             className={`user-input ${styles.userInput}`}
             value={0 ? data.weight : null}
             onChange={handleChange}
             required
-          />
-          <label htmlFor="foodRestrictions" className={`${styles.inputLabel}`}>
-            <span className={`${styles.inputFoodName}`}>Food Restrictions </span>
+          >
+            <option disabled>Dietary Restrictions</option>
+            <option value="gluten-free">Gluten-free</option>
+            <option value="lactose-intolerant">Lactose intolerant</option>
+            <option value="nut-allergies">Nut allergies</option>
+            <option value="Mediterranean">Mediterranean</option>
+            <option value="Paleo">Paleo</option>
+            <option value="Keto">Keto</option>
+            <option value="None">None</option>
+          </select>
+          <label
+            htmlFor="dietaryRestrictions"
+            className={`${styles.inputLabel}`}
+          ></label>
+
+          <input
+            type="checkbox"
+            name="gluten-free"
+            className="btn-check"
+            id="gluten-free"
+            value="gluten-free"
+            onChange={handleCheckbox}
+          ></input>
+          <label className="btn btn-outline-primary" htmlFor="gluten-free">
+            Gluten-free
+          </label>
+          <input
+            type="checkbox"
+            name="lactose-intolerant"
+            className="btn-check"
+            id="lactose-intolerant"
+            value="lactose-intolerant"
+            onChange={handleCheckbox}
+          ></input>
+          <label
+            className="btn btn-outline-primary"
+            htmlFor="lactose-intolerant"
+          >
+            Lactose Intolerant
+          </label>
+          <input
+            type="checkbox"
+            name="kosher"
+            className="btn-check"
+            id="kosher"
+            value="kosher"
+            onChange={handleCheckbox}
+          ></input>
+          <label className="btn btn-outline-primary" htmlFor="kosher">
+            Kosher
+          </label>
+          <input
+            type="checkbox"
+            name="nut-allergy"
+            className="btn-check"
+            id="nut-allergy"
+            value="nut-allergy"
+            onChange={handleCheckbox}
+          ></input>
+          <label className="btn btn-outline-primary" htmlFor="nut-allergy">
+            Nut Allergy
+          </label>
+          <input
+            type="checkbox"
+            name="wheat-allergy"
+            className="btn-check"
+            id="wheat-allergy"
+            value="wheat-allergy"
+            onChange={handleCheckbox}
+          ></input>
+          <label className="btn btn-outline-primary" htmlFor="wheat-allergy">
+            Wheat Allergy
+          </label>
+          <input
+            type="checkbox"
+            name="shellfish-allergy"
+            className="btn-check"
+            id="shellfish-allergy"
+            value="shellfish-allergy"
+            onChange={handleCheckbox}
+          ></input>
+          <label
+            className="btn btn-outline-primary"
+            htmlFor="shellfish-allergy"
+          >
+            Shellfish Allergy
+          </label>
+          <input
+            type="checkbox"
+            name="soy-allergy"
+            className="btn-check"
+            id="soy-allergy"
+            value="soy-allergy"
+            onChange={handleCheckbox}
+          ></input>
+          <label className="btn btn-outline-primary" htmlFor="soy-allergy">
+            Soy Allergy
           </label>
 
           <label htmlFor="workoutPreferences"></label>
