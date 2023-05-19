@@ -318,7 +318,7 @@ app.post("/signupdetails/:username", async (req, res) => {
 app.post("/signupPrefRes/:username", async (req, res) => {
   const userID = req.params.username;
   const foodPref = req.body.foodPreferences;
-  const foodRes = req.body.foodRestrictions;
+  const foodRes = req.body.dietaryRestrictions;
   const workoutPref = req.body.workoutPreferences;
   const workoutRes = req.body.workoutRestrictions;
 
