@@ -986,14 +986,19 @@ app.post("/", async (req, res) => {
   console.log(message);
 
   // THE RESPONSE FROM OPENAI
-  const response = await openai.createCompletion({
-    // DEFAULT IS "text-davinci-003"
-    model: "text-davinci-003",
-    prompt: `${message}`,
+  //.createCompletion // BASE MODEL
+  const response = await openai.createChatCompletion({
+
+    // model: "text-davinci-003", //BASE MODEL
+    model: "gpt-3.5-turbo",
+    // prompt: `${message}`, //BASE MODEL
+    messages: [{ role: "user", content: `${message}` }],
+
     max_tokens: 200,
   });
 
-  const parsableJson = response.data.choices[0].text;
+  // const parsableJson = response.data.choices[0].text; //BASE MODEL
+  const parsableJson = response.data.choices[0].message.content;
 
   console.log(parsableJson);
   let messageOutTest = parsableJson;
