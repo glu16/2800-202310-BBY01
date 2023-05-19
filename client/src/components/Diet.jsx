@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import styles from "../css/diet.module.css";
 
 // This is literally the same as Fitness.jsx but with different variable names
@@ -11,7 +11,7 @@ var diet;
 async function getDiet() {
   var response = await fetch(`http://localhost:5050/diet/${username}`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type": "application/json"},
   });
   var data = await response.json();
   // check if workouts is empty
@@ -123,24 +123,29 @@ function Diet() {
         setDiet(renderNestedObject(dietData));
 
         function assignVariables(data, variablePrefix = "") {
+          // Object to store variable assignments
+          const variables = {};
+
           for (const key in data) {
             const value = data[key];
-            // console.log("value: " + value);
             const variableName = variablePrefix + key;
-            // console.log("variableName: " + variableName);
 
             if (typeof value === "object") {
-              assignVariables(value, variableName + "_");
-            } else {
-              // Assign the value directly
-              const variableValue = value;
-              // Wrap key and value in quotes
-              eval(
-                `var ${variableName} = { key: "${key}", value: "${variableValue}" };`
+              // Handles nested objects recursively and returns 'variables' object with assignments
+              const nestedVariables = assignVariables(
+                value,
+                variableName + "_"
               );
+              // Dynamically stores variable assignments in the 'variables' object
+              variables[variableName] = {...nestedVariables};
+            } else {
+              variables[variableName] = {key, value};
             }
           }
+
+          return variables;
         }
+
         assignVariables(dietData);
       }
     }
@@ -191,7 +196,7 @@ function Diet() {
 }
 
 // Example Modal component
-function Modal({ onClose, children }) {
+function Modal({onClose, children}) {
   return (
     <div className="modal">
       <div className="modal-content">
@@ -225,12 +230,12 @@ const DietPlan = () => {
     // workout to write into user database, will generate with server side call to workouts.js
     const diet = {};
 
-    const data = { [mealKey]: diet };
+    const data = {[mealKey]: diet};
     const response = await fetch(
       `http://localhost:5050/diet/${localStorage.getItem("username")}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       }
     );
