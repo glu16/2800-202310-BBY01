@@ -314,7 +314,7 @@ app.get("/profile/:username", async (req, res) => {
 
     // RETRIEVE THE CHALLENGES ARRAY BASED ON THE CHALLENGE IDs
     const challengeDocuments = await Challenges.find(
-      { _id: { $in: challenges.map(challenge => challenge.challengeId) } },
+      { _id: { $in: challenges.map((challenge) => challenge.challengeId) } },
       { challengeId: 1, challenge: 1, points: 1 }
     );
     // SEND THE RESPONSE
@@ -713,6 +713,24 @@ app.get("/fitness/:username", async (req, res) => {
     res
       .status(500)
       .json({ error: "Internal server error. Couldn't send workout plan." });
+  }
+});
+
+// RETRIEVES THE DIET PLAN FOR THE USER
+app.get("/diet/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    // IF WORKOUTS EMPTY IE.NEW USER
+    if (user.diets.length == 0) {
+      res.send("empty");
+      // SENDS FIRST WORKOUT IN WORKOUTS
+    } else {
+      res.send(user.diets[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
