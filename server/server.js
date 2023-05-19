@@ -696,6 +696,24 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
+// // RETRIEVES THE DIET PLAN FOR THE USER
+app.get("/diet/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    // IF WORKOUTS EMPTY IE.NEW USER
+    if (user.diets.length == 0) {
+      res.send("empty");
+      // SENDS FIRST WORKOUT IN WORKOUTS
+    } else {
+      res.send(user.diets[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // RETRIEVES THE WORKOUT PLAN FOR THE USER
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
