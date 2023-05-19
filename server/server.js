@@ -83,10 +83,37 @@ app.get("/users/:username", async (req, res) => {
       userStats: user.userStats,
       imageURL: user.imageURL,
       userStats: user.userStats,
+      points: user.points,
     });
   } catch (e) {
     console.log(e);
     res.status(500).json({ message: "Server error" });
+  }
+});
+
+// ADDS THE CHALLENGE POINTS TO THE USER'S POINTS IN THE DATABASE
+app.put("/users/:username", async (req, res) => {
+  const { username } = req.params;
+  const { points } = req.body;
+  try {
+    // FIND THE USER BY USERNAME
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // GETS THE CHALLENGE POINTS FROM THE REQUEST
+    const challengePoints = points;
+    // ADDS THE CHALLENGE POINTS TO THE USER'S POINTS
+    user.points += challengePoints;
+
+    // SAVE THE CHANGES
+    await user.save();
+
+    res.json({ message: "User points updated successfully" });
+  } catch (error) {
+    console.error("Error occurred while updating user points:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

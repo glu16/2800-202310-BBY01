@@ -22,7 +22,6 @@ const Home = () => {
         );
         const username = response.data.username;
         console.log("Logged in user's name:", username);
-        // localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
       }
@@ -100,7 +99,7 @@ const Home = () => {
 
   // useEffect hook to retrieve logged in user's name
   useEffect(() => {
-    async function fetchUserName() {
+    async function fetchUserData() {
       try {
         const response = await axios.get(
           `http://localhost:5050/users/${localStorage.getItem("username")}`,
@@ -110,15 +109,17 @@ const Home = () => {
             },
           }
         );
-        const firstName = response.data.firstName;
+        const { firstName, points } = response.data;
         console.log(firstName);
+        console.log(points);
         setUserName(firstName);
+        setUserPoints(points);
       } catch (error) {
         console.error(error.message);
       }
     }
 
-    fetchUserName();
+    fetchUserData();
   }, []);
   // End of user name retrieval
 
@@ -172,9 +173,6 @@ const Home = () => {
 
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
-
-  // useState hook variables to apply the points
-  const [userPoints, setUserPoints] = useState(0);
 
   // Function to add challenges
   const addChallenge = async (challengeId, challenge, points) => {
@@ -252,19 +250,32 @@ const Home = () => {
     localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
   }
 
+  // useState hook variables to apply the points
+  const [userPoints, setUserPoints] = useState(0);
+
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
-      console.log(
-        "handleCompleteChallenge called with challengeId:",
-        challengeId
-      );
+      console.log("handleDoneClick called with challengeId:", challengeId);
       console.log("Points:", points);
-
-      // Add the challenge's points to the user's points
       console.log("User's current points balance:", userPoints);
-      console.log("User's new points balance:", points);
-      setUserPoints((prevPoints) => prevPoints + points);
+
+      // Update the user's points in the database
+      const updatedPoints = userPoints + points;
+
+      // Adds the challenge points to the user's points balanace in the database
+      await axios.put(
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        { points: updatedPoints, challengeId }, 
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Update the user's points in the state
+      setUserPoints(updatedPoints);
 
       // Remove the challenge from the user's "challenges" array
       setUserChallenges((prevUserChallenges) =>
@@ -298,8 +309,6 @@ const Home = () => {
 
   // Click event handler for completing a challenge
   const handleDoneClick = (challengeId, points) => {
-    console.log("handleDoneClick called with challengeId:", challengeId);
-    console.log("Points:", points);
     // Store the disabled state in localStorage
     localStorage.setItem(`doneButtonDisabled_${challengeId}`, "true");
     // Disable the Done button for the completed challenge
