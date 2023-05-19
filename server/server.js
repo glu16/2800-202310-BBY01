@@ -344,8 +344,8 @@ app.post("/signupdetails/:username", async (req, res) => {
 
 app.post("/signupPrefRes/:username", async (req, res) => {
   const userID = req.params.username;
-  const foodPref = req.body.foodPreferencs;
-  const foodRes = req.body.foodRestrictions;
+  const foodPref = req.body.foodPreferences;
+  const foodRes = req.body.dietaryRestrictions;
   const workoutPref = req.body.workoutPreferences;
   const workoutRes = req.body.workoutRestrictions;
 
@@ -356,10 +356,10 @@ app.post("/signupPrefRes/:username", async (req, res) => {
       // SET THE USER STATS
       {
         $set: {
-          "userStats.0.foodPref": foodPref,
-          "userStats.0.foodRes": foodRes,
-          "workoutPref.0.workoutPref": workoutPref,
-          "workoutRes.0.workoutRes": workoutRes,
+            "userStats.0.foodPref": foodPref,
+            "userStats.0.foodRes": foodRes,
+            "userStats.0.workoutPref": workoutPref,
+            "userStats.0.workoutRes": workoutRes
         },
       },
 

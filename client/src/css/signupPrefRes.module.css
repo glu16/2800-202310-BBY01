@@ -1,138 +1,149 @@
+.checkboxLabel {
+  margin: 10px;
+  color: white;
+  border-color:rgb(92, 208, 216);
+}
 
-  
-  #submitBtn {
-    padding: 10px !important;
-    box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
-    border: none;
-    border-radius: 10px;
-    transition: 0.2s;
-    width: 300px;
-    justify-content: center;
-    background-color: rgb(92, 208, 216);
-    margin-top: 12px;
-  }
-  
-  #submitBtn:hover {
-    background-color: hsl(184, 62%, 73%);
-  }
-  
-  #signupDetails {
-    height: 100%;
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0px 40px 40px 40px;
-  }
-  
-  #signupDetails > input {
-    display: flex;
-    align-items: center;
-    padding: 7px;
-  }
-  
-  #detailsHeader {
-    color: white;
-    margin-top: 30px;
-    font-size: 30pt;
-    font-weight: bold;
-  }
-  
-  #activityLevel {
-    /* margin: 12px 0 20px 0; */
-    padding: 10px;
-    background-color: white;
-  }
-  
-  #fitnessGoals {
-    /* margin: 12px 0 20px 0; */
-    padding: 10px;
-    background-color: white;
-  }
-  
-  .radioInput {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* width: 100px; */
-  }
-  
-  input[type="radio"] {
-    transition: ease-in-out 0.5s;
-    width: 17px;
-    height: 17px;
-  }
-  
-  input[type="radio"]:checked {
-    border-color: rgb(92, 208, 216);
-    background-color: rgb(92, 208, 216);
-  }
-  
-  .signupCard {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    font-family: "Quicksand", sans-serif;
-    background-image: url("../img/abstract.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: fixed;
-    border-radius: 10px;
-  }
-  
-  .userInput {
-    border: 2px solid #c0c0c0;
-    width: 300px;
-    justify-content: center;
-    border-radius: 10px;
-    margin: 15px;
-  }
-  
-  .inputFoodName{
-    color: gray;
-    position: relative;
-    bottom: 48px;
-    right: 70px;
-    transition: 0.2s;
-    display: inline-block;
-  }
-  .inputName{
-    color: gray;
-    position: relative;
-    bottom: 48px;
-    right: 55px;
-    transition: 0.2s;
-    display: inline-block;
-  }
-  
-  .agePlaceholder {
-    right: 128px;
-  }
-  
-  .inputLabel{
-    height: 0;
-  }
+.checkboxLabel:hover {
+  color: white;
+  background-color:hsl(184, 61%, 77%);
+}
 
-  .userInput:focus + .inputLabel .inputFoodName,
-  .userInput:valid + .inputLabel .inputFoodName {
-    transform: translateY(-150%);
-    font-size: 15px;
-    right: 105px;
-    color: rgb(92, 208, 216);
-    outline: none;
-  }
-  
+.checkboxes {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.checkboxGroup1 {
+  display: flex;
+  flex-direction: column;
+}
 
-  
-  .userInput:focus + .inputLabel .inputName,
-  .userInput:valid + .inputLabel .inputName {
-    transform: translateY(-150%);
-    font-size: 15px;
-    right: 105px;
-    color: rgb(92, 208, 216);
-    outline: none;
-  }
+.checkboxGroup2 {
+  display: flex;
+  flex-direction: column;
+}
+#foodPreferences {
+  /* margin: 12px 0 20px 0; */
+  padding: 10px;
+  background-color: white;
+}
+#submitBtn {
+  padding: 10px !important;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.685);
+  border: none;
+  border-radius: 10px;
+  transition: 0.2s;
+  width: 300px;
+  justify-content: center;
+  background-color: rgb(92, 208, 216);
+  margin-top: 12px;
+}
 
-  
+#submitBtn:hover {
+  background-color: hsl(184, 62%, 73%);
+}
+
+#signupDetails {
+  height: 100%;
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 40px 40px 40px;
+}
+
+#signupDetails > input {
+  display: flex;
+  align-items: center;
+  padding: 7px;
+}
+
+#detailsHeader {
+  color: white;
+  margin-top: 30px;
+  font-size: 30pt;
+  font-weight: bold;
+}
+
+.restrictionsHeader {
+  color: white;
+  justify-self: flex-start;
+}
+
+input[type="radio"] {
+  transition: ease-in-out 0.5s;
+  width: 17px;
+  height: 17px;
+}
+
+input[type="radio"]:checked {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
+input[type="checkbox"]:checked + .checkboxLabel {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
+.signupCard {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: "Quicksand", sans-serif;
+  background-image: url("../img/abstract.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: fixed;
+  border-radius: 10px;
+}
+
+.userInput {
+  border: 2px solid #c0c0c0;
+  width: 300px;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 15px;
+}
+
+.inputFoodName {
+  color: gray;
+  position: relative;
+  bottom: 48px;
+  right: 70px;
+  transition: 0.2s;
+  display: inline-block;
+}
+.inputName {
+  color: gray;
+  position: relative;
+  bottom: 48px;
+  right: 55px;
+  transition: 0.2s;
+  display: inline-block;
+}
+
+.inputLabel {
+  height: 0;
+}
+
+.userInput:focus + .inputLabel .inputFoodName,
+.userInput:valid + .inputLabel .inputFoodName {
+  transform: translateY(-150%);
+  font-size: 15px;
+  right: 105px;
+  color: rgb(92, 208, 216);
+  outline: none;
+}
+
+.userInput:focus + .inputLabel .inputName,
+.userInput:valid + .inputLabel .inputName {
+  transform: translateY(-150%);
+  font-size: 15px;
+  right: 70px;
+  color: rgb(92, 208, 216);
+  outline: none;
+}
