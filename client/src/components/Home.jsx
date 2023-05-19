@@ -402,6 +402,8 @@ const Home = () => {
             ) : (
               <p>No challenges available.</p>
             )}
+            <hr />
+            <h5 className={styles.pointsBalance}>Points Balance: {userPoints}</h5>
           </div>
         </animated.div>
       </animated.div>
