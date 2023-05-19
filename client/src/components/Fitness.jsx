@@ -132,7 +132,6 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           style={{
             data: {
               fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
-              filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))', // Shadow effect
             },
           }}
         />
@@ -142,7 +141,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={`${percentDaysDone}%`}
-          style={{ fontSize: 20, filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))' }} // Shadow effect
+          style={{ fontSize: 20 }} 
         />
       </svg>
       <p>Workout Completion Rate</p>
@@ -181,7 +180,6 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           style={{
             data: {
               fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
-              filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))', // Shadow effect
             },
           }}
         />
@@ -191,7 +189,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={` ${currentStreak} / ${longestStreak} \n days`}
-          style={{ fontSize: 20, filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))' }} // Shadow effect
+          style={{ fontSize: 16}}
         />
       </svg>
       <p>Current vs Longest Streak</p>
@@ -739,7 +737,7 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleDivVisibility}>
+      <button onClick={toggleDivVisibility} className="btn btn-primary">
         {isDivVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
       </button>
 
