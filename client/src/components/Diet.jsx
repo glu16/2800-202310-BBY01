@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import styles from "../css/diet.module.css";
 
 // This is literally the same as Fitness.jsx but with different variable names
@@ -11,7 +11,7 @@ var diet;
 async function getDiet() {
   var response = await fetch(`http://localhost:5050/diet/${username}`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type": "application/json"},
   });
   var data = await response.json();
   // check if workouts is empty
@@ -52,9 +52,9 @@ function Diet() {
 
   useEffect(() => {
     async function fetchData() {
-      const workoutData = await getDiet();
+      const dietData = await getDiet();
 
-      if (workoutData === "empty") {
+      if (dietData === "empty") {
         setDiet("No workout available"); // Set default value
       } else {
         function renderNestedObject(obj) {
@@ -93,7 +93,7 @@ function Diet() {
         function renderDiet(dietObj) {
           return Object.keys(dietObj).map((dietKey, index) => {
             return (
-              <div key={index} className={styles.aDiet}>
+              <div key={index} className={styles.mealCard}>
                 <strong className={styles.aDietTitle}>{dietKey}</strong>{" "}
                 {Object.entries(dietObj[dietKey]).map(
                   ([detailKey, detailValue]) => {
@@ -103,13 +103,13 @@ function Diet() {
                       detailKey == "Nutritional Info"
                     ) {
                       return (
-                        <div key={detailKey} className={styles.aKey}>
+                        <div key={detailKey} className={``}>
                           {detailValue}
                         </div>
                       );
                     } else {
                       return (
-                        <div key={detailKey} className={styles.aKey}>
+                        <div key={detailKey} className={`calories`}>
                           {detailKey}: {detailValue}
                         </div>
                       );
@@ -120,28 +120,33 @@ function Diet() {
             );
           });
         }
-        setDiet(renderNestedObject(workoutData));
+        setDiet(renderNestedObject(dietData));
 
         function assignVariables(data, variablePrefix = "") {
+          // Object to store variable assignments
+          const variables = {};
+
           for (const key in data) {
             const value = data[key];
-            // console.log("value: " + value);
             const variableName = variablePrefix + key;
-            // console.log("variableName: " + variableName);
 
             if (typeof value === "object") {
-              assignVariables(value, variableName + "_");
-            } else {
-              // Assign the value directly
-              const variableValue = value;
-              // Wrap key and value in quotes
-              eval(
-                `var ${variableName} = { key: "${key}", value: "${variableValue}" };`
+              // Handles nested objects recursively and returns 'variables' object with assignments
+              const nestedVariables = assignVariables(
+                value,
+                variableName + "_"
               );
+              // Dynamically stores variable assignments in the 'variables' object
+              variables[variableName] = {...nestedVariables};
+            } else {
+              variables[variableName] = {key, value};
             }
           }
+
+          return variables;
         }
-        assignVariables(workoutData);
+
+        assignVariables(dietData);
       }
     }
 
@@ -191,7 +196,7 @@ function Diet() {
 }
 
 // Example Modal component
-function Modal({ onClose, children }) {
+function Modal({onClose, children}) {
   return (
     <div className="modal">
       <div className="modal-content">
@@ -225,12 +230,12 @@ const DietPlan = () => {
     // workout to write into user database, will generate with server side call to workouts.js
     const diet = {};
 
-    const data = { [mealKey]: diet };
+    const data = {[mealKey]: diet};
     const response = await fetch(
       `http://localhost:5050/diet/${localStorage.getItem("username")}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       }
     );
@@ -253,8 +258,8 @@ const DietPlan = () => {
   };
 
   return (
-    <div className={`${styles.fitnessContainer}`}>
-      <div className={`card ${styles.exerciseCard}`}>
+    <div className={`${styles.dietContainer}`}>
+      <div className={`card ${styles.dietCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           <div>
             <form id="addWorkout" onSubmit={addDietToUser}>

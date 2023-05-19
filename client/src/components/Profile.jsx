@@ -3,7 +3,6 @@ import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
-import { color } from "framer-motion";
 
 const Profile = ({username}) => {
   // Retrieves the logged in user's username
@@ -20,7 +19,6 @@ const Profile = ({username}) => {
         );
         const username = response.data.username;
         console.log("Logged in user's name:", username);
-        // localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
       }
@@ -393,6 +391,28 @@ const Profile = ({username}) => {
   };
   // End of delete friend modal component
 
+  // useState hook variables for the user's challenges
+  const [challenges, setChallenges] = useState([]);
+
+  // useEffect hook to retrieve the user's challenges from the database
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        console.log("Logged in user's name:", localStorage.getItem("username"));
+        const response = await axios.get(
+          `http://localhost:5050/profile/${localStorage.getItem("username")}`
+        );
+        console.log(response.data);
+        setChallenges(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchChallenges();
+  }, [localStorage.getItem("username")]);
+  // End of user's challenges retrieval
+
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
@@ -463,16 +483,19 @@ const Profile = ({username}) => {
         </div>
         <div className={`${styles.friendsCard}`}>
           <div className={`${styles.friendsInnerCard}`}>
-            <div className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`} >
-              <div className={styles.friendsHeader}><h1>
-                Friends List
-                <a
-                  className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
-                  onClick={openInfoModal}
-                >
-                  info
-                </a>
-              </h1>
+            <div
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
+            >
+              <div className={styles.friendsHeader}>
+                <h1>
+                  Friends List
+                  <a
+                    className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
+                    onClick={openInfoModal}
+                  >
+                    info
+                  </a>
+                </h1>
               </div>
               {sortedFriends.map((friend, index) => (
                 <div className={styles.friends} key={index}>
@@ -487,12 +510,31 @@ const Profile = ({username}) => {
             </div>
           </div>
 
-          <div className={`card-body ${styles.friendsInnerCard}`}>
-            <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.friendsHeader}>Mini Challenges</h1>
-              <div style={{color:"white"}}>Challenge #1</div>
-              <div style={{color:"white"}}>Challenge #2</div>
-              <div style={{color:"white"}}>Challenge #3</div>
+          <div className={`${styles.challengeInnerCard}`}>
+            <div
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
+            >
+              <div className={styles.friendsHeader}>
+                <h1>Active Challenges</h1>
+              </div>
+
+              {challenges.length > 0 ? (
+                challenges.map((challenge) => (
+                  <div
+                    key={challenge._id}
+                    className={styles.challengeBackground}
+                  >
+                    <h6 className={styles.challengeBody}>
+                      {challenge.challenge}
+                    </h6>
+                    <h6 className={styles.challengeBody}>
+                      Points: {challenge.points}
+                    </h6>
+                  </div>
+                ))
+              ) : (
+                <p>No challenges found.</p>
+              )}
             </div>
           </div>
           {/* Render the DeleteFriendModal */}

@@ -7,16 +7,15 @@
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
+  overflow: auto;
 }
 
 .aboutHeader {
-  color: black;
+  color: rgb(255, 255, 255);
   font-size: 4em;
   text-align: center;
   font-weight: bold;
   margin-bottom: 40px;
-  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
-    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
 }
 
 .aboutDescription {
@@ -37,14 +36,12 @@
   }
 
   .aboutHeader {
-    color: black;
+    color: rgb(255, 255, 255);
     font-size: 4em;
     text-align: center;
     font-weight: bold;
     margin-top: 460px;
     margin-bottom: 40px;
-    text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
-      0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
   }
   
   .aboutDescription {

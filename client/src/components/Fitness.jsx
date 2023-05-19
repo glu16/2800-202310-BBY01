@@ -1,11 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from "../css/fitness.module.css";
+// import 'bootstrap/dist/css/bootstrap.css';
 import Modal from "react-modal";
-
-// for task completion buttons
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
+// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { VictoryPie, VictoryLabel } from 'victory';
 
 // import server hosting port
 const port = "5050";
@@ -75,6 +73,123 @@ function updateStreaks() {
     method: "POST",
   })
 }
+
+
+// BAR CHART GRAPH 
+// const MyBarChart = ({ currentStreak, longestStreak }) => {
+//   const data = [
+//     { name: 'Streak', currentStreak, longestStreak },
+//   ];
+//   const ticks = Array.from(Array(longestStreak + 1).keys());
+
+//   return (
+//     <BarChart width={400} height={100} data={data} layout="vertical">
+//       <CartesianGrid strokeDasharray="3 3" />
+//       <XAxis type="number" ticks={ticks}/>
+//       <YAxis type="category" dataKey="name" />
+//       <Tooltip />
+//       <Legend />
+//       <Bar dataKey="currentStreak" fill="#8884d8" barSize={10} />
+//       <Bar dataKey="longestStreak" fill="#82ca9d" barSize={10} />
+//     </BarChart>
+//   );
+// };
+
+
+const CirclePercentDaysDone = ({ percentDaysDone }) => {
+  const data = [
+    { x: 1, y: percentDaysDone },
+    { x: 2, y: 100 - percentDaysDone },
+  ];
+  const svgSize = 180; // Adjust the size of the SVG container
+  const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
+  const fontSize = 20; // Adjust the font size of the label
+  let color;
+  if (percentDaysDone >= 66) {
+    color = 'green';
+  } else if (percentDaysDone >= 33) {
+    color = 'yellow';
+  } else {
+    color = 'red';
+  }
+  return (
+    <div className={styles.graph}>
+      <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
+        <VictoryPie
+          standalone={false}
+          width={svgSize}
+          height={svgSize}
+          data={data}
+          innerRadius={radius - 10}
+          cornerRadius={25}
+          labels={() => null}
+          style={{
+            data: {
+              fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
+            },
+          }}
+        />
+        <VictoryLabel
+          textAnchor="middle"
+          verticalAnchor="middle"
+          x={svgSize / 2}
+          y={svgSize / 2}
+          text={`${percentDaysDone}%`}
+          style={{ fontSize: 20, fill: 'white' }} 
+        />
+      </svg>
+      <p>Workout Completion Rate</p>
+    </div>
+  );
+};
+
+const CircleStreak = ({ currentStreak, longestStreak }) => {
+  const percentStreak = 100 * currentStreak / longestStreak;
+  const data = [
+    { x: 1, y: percentStreak },
+    { x: 2, y: 100 - percentStreak },
+  ];
+  const svgSize = 180; // Adjust the size of the SVG container
+  const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
+  const fontSize = 20; // Adjust the font size of the label
+  let color;
+  if (percentStreak == 100) {
+    color = 'green';
+  } else if (percentStreak >= 50) {
+    color = 'yellow';
+  } else {
+    color = 'red';
+  }
+  return (
+    <div className={styles.graph}>
+      <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
+        <VictoryPie
+          standalone={false}
+          width={svgSize}
+          height={svgSize}
+          data={data}
+          innerRadius={radius - 10}
+          cornerRadius={25}
+          labels={() => null}
+          style={{
+            data: {
+              fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
+            },
+          }}
+        />
+        <VictoryLabel
+          textAnchor="middle"
+          verticalAnchor="middle"
+          x={svgSize / 2}
+          y={svgSize / 2}
+          text={` ${currentStreak} / ${longestStreak} \n days`}
+          style={{ fontSize: 16, fill: 'white'}}
+        />
+      </svg>
+      <p>Current vs Longest Streak</p>
+    </div>
+  );
+};
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
@@ -148,14 +263,14 @@ function Workout({ handleOpenModal }) {
                   if (key == today) {
                     return (
                       <div key={index} className={styles.day}>
-                        <strong>Today, {key}:</strong> Rest day
+                        <h3>Today, {key}:</h3> Rest day
                       </div>
                     );
                     // if page is not today
                   } else {
                     return (
                       <div key={index} className={styles.day}>
-                        <strong>{key}:</strong> Rest day
+                        <h3>{key}:</h3> Rest day
                       </div>
                     );
                   }
@@ -169,7 +284,7 @@ function Workout({ handleOpenModal }) {
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
-                      <strong>Today, {key}</strong>
+                      <h3>Today, {key}</h3>
                       {renderExerciseToday(obj[key])}
                     </div>
                   );
@@ -177,7 +292,7 @@ function Workout({ handleOpenModal }) {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <strong>{key}</strong>
+                      <h3>{key}</h3>
                       {renderExercise(obj[key])}
                     </div>
                   );
@@ -198,13 +313,13 @@ function Workout({ handleOpenModal }) {
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
             <div key={index} className={styles.anExercise}>
-            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
-              // don't display detailKey if it is name or setsAndReps
-              if (detailKey == "name" || detailKey == "setsAndReps") {
+              if (detailKey == "name") {
+                return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
+              } else if (detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              // dispaly detailKey if it is calories
               } else if (detailKey == "calories") {
                 return (
                   <div key={detailKey} className={styles.aKey}>
@@ -218,7 +333,7 @@ function Workout({ handleOpenModal }) {
             })}
 
             {/* this opens up images for the exercise */}
-            <button onClick={handleOpenModal}>Get instructions</button>
+            <button onClick={handleOpenModal} className="btn btn-info">Help</button>
 
           </div>
 
@@ -242,13 +357,13 @@ function Workout({ handleOpenModal }) {
           >
             {/* original before Easter egg */}
             {/* <div key={index} className={styles.anExercise}> */}
-            <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "}
+            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
-              // don't display detailKey if it is name or setsAndReps
-              if (detailKey == "name" || detailKey == "setsAndReps") {
+              if (detailKey == "name") {
+                return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
+              } else if (detailKey == "setsAndReps") {
                 return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              // dispaly detailKey if it is calories
               } else if (detailKey == "calories") {
                 return (
                   <div key={detailKey} className={styles.aKey}>
@@ -261,11 +376,14 @@ function Workout({ handleOpenModal }) {
               }
             })}
 
-            {/* this opens up images for the exercise */}
-            <button onClick={handleOpenModal}>Get instructions</button>
+            <div className={styles.exerciseButtons}>
+              {/* this opens up images for the exercise */}
+              <button onClick={handleOpenModal} className="btn btn-info">Help</button>
 
-            {/* button to mark task completed */}
-            <CompleteExercisesButton />
+              {/* button to mark task completed */}
+              <CompleteExercisesButton />
+            </div>
+
 
           </div>
 
@@ -313,10 +431,10 @@ function Workout({ handleOpenModal }) {
   return (
     <div>
       <h2>{username}'s 7-Day Workout</h2>
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0}>
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className="btn btn-info btn-arrow-left">
         Previous Day
       </button>
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6}>
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className="btn btn-info btn-arrow-right">
         Next Day
       </button>
       <div className="d-flex align-items-center text-center justify-content-center row">
@@ -345,17 +463,9 @@ const CompleteExercisesButton = () => {
 
   };
   return (
-    <div className="container mt-5">
-    <button
-      className="markExerciseComplete btn btn-secondary btn-checkbox"
-      onClick={handleClick}
-      // disabled={}
-    >
-      <FontAwesomeIcon
-        icon={isChecked ? faCheckSquare : faSquare}
-        className="mr-2"
-      />Mark exercise complete!
-    </button>
+    <div onClick={handleClick}>
+      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></input>
+      <label className="form-check-label" for="flexSwitchCheckDefault">Done!</label>
   </div>
   );
 };
@@ -397,26 +507,46 @@ const Streak = () => {
 
   // set which symbol via url to display if today's workout is done or not
   var doneTodaySymbol;
+  var doneTodayMessage;
   if (doneToday) {
     doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png'
+    doneTodayMessage = 'Today Completed!'
   } else {
     doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/04/logo-excel-rouge.png'
+    doneTodayMessage = 'Today not yet done'
   }
 
+  var percentDaysDone = 100 * daysDone / (daysDone + daysMissed);
+  // to prevent NaN error dividing 0
+  if (daysDone + daysMissed == 0) {
+    percentDaysDone = 0;
+  }
+
+
   return (
-    <div id="streakContainer" style={{ border: '2px solid red'}}>
+    <div id="streakContainer" className={styles.streakContainer}>
       <h2>{username}'s Workout Stats</h2>
-      <p>Done Today's Workout? &nbsp;
-          <img src={doneTodaySymbol}
-            style={{width:'50px', height:'50px'}}></img>
+      <p>
+          <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
+          &nbsp; {doneTodayMessage} 
       </p>
-      Current streak: {currentStreak} 
+
+      {/* <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} /> */}
+
+      <div id="graphs" className={styles.graphs}>
+        <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
+        &nbsp; &nbsp; 
+        <CircleStreak currentStreak={currentStreak} longestStreak={longestStreak} />
+      </div>
+
+      {/* Current streak: {currentStreak} 
       <br />
       Longest streak: {longestStreak} 
       <br />
       Days completed: {daysDone}
       <br />
-      Days missed: {daysMissed}
+      Days missed: {daysMissed} */}
+
     </div>
   );
 };
@@ -425,6 +555,12 @@ const Streak = () => {
 
 // PAGE RENDER COMPONENT
 const Fitness = () => {
+
+  const [isDivVisible, setDivVisible] = useState(false);
+
+  const toggleDivVisibility = () => {
+    setDivVisible(!isDivVisible);
+  };
   
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
@@ -592,8 +728,14 @@ const Fitness = () => {
 
       <Streak />
 
+      <button onClick={toggleDivVisibility} className="btn btn-primary">
+        {isDivVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
+      </button>
 
-      <div id="workoutForm" style={{ border: '2px solid blue' }}>
+      <div
+        id="workoutForm"
+        className={`${styles.workoutForm} ${isDivVisible ? '' : styles.hidden}`}
+      >
         <form id="addWorkout" onSubmit={addWorkoutToUser}>
           {/* SEND USERNAME FOR DATABASE SEARCH */}
           <input type="hidden" name="username" value={username}></input>
@@ -606,7 +748,7 @@ const Fitness = () => {
           <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
           <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
           <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
-          <p>Select desired intensity level for workout</p>
+          <p>Select desired intensity level</p>
           <br />
 
           {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
@@ -649,7 +791,7 @@ const Fitness = () => {
           <p>
             <small>Generating takes 30-60 seconds</small>
             <br />
-            <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small>
+            {/* <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small> */}
           </p>
         </form>
       </div>
@@ -663,7 +805,7 @@ const Fitness = () => {
           onRequestClose={handleCloseModal}
           />
       )}
-      <button id="completeAll" 
+      <button id="completeAllButton" className="completeAllButton btn btn-success"
         onClick={completeAllExercises} 
         disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
         >Mark ALL exercises complete!

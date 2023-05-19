@@ -12,13 +12,10 @@
 }
 
 .challengeCard {
-  height: 100%;
-  width: 100%;
-  color: white;
   border-radius: 10px;
   text-align: center;
-  margin-bottom: 30px;
   background-color: #2b2b2b;
+  margin-bottom: 30px;
 }
 
 .challengeInnerCard {
@@ -31,6 +28,7 @@
 
 .challengeHeader {
   text-align: center;
+  margin-bottom: 16px;
   color: rgb(92, 208, 216);
 }
 
@@ -45,12 +43,23 @@
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
+  color: black;
 }
 
 .challengeBtn:active,
 .challengeBtn:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.challengeBtn:disabled {
+  background-color: #95a4a9;
+  color: black;
+}
+
+.pointsBalance {
+  margin-top: 24px;
+  color: rgb(92, 208, 216);
 }
 
 .homeCard {
@@ -72,6 +81,14 @@
   color: rgb(92, 208, 216);
 }
 
+.fitness {
+  margin-right: 0 !important;
+}
+
+.diet {
+  margin-left: 0 !important;
+}
+
 .progressHeader {
   text-align: center;
   color: rgb(92, 208, 216);
@@ -84,14 +101,6 @@
   margin-bottom: 30px;
 }
 
-.fitness{
-margin-right: 0!important;
-}
-.diet{
-margin-left: 0!important;
-
-}
-
 .progressInnerCard {
   border-radius: 10px;
   text-align: center;
@@ -102,6 +111,7 @@ margin-left: 0!important;
 
 .progressBarContainer {
   margin: 0 75px;
+  margin-top: 20px;
 }
 
 .progressBtn {
@@ -114,6 +124,7 @@ margin-left: 0!important;
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
+  color: black;
 }
 
 .progressBtn:active,
@@ -126,6 +137,7 @@ margin-left: 0!important;
   font-size: 19pt;
   color: rgb(92, 208, 216);
 }
+
 .draggableList {
   padding: 30px 0;
 }

@@ -54,7 +54,7 @@ const Home = () => {
           },
         }
       );
-      if (response == "empty") {
+      if (response === "empty") {
         setItems(["empty"]);
       } else {
         // Assigns the object containing today's exercise to the variable
@@ -170,6 +170,7 @@ const Home = () => {
     };
     fetchChallenges();
   }, []);
+  // End of challenges retrieval
 
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
@@ -260,22 +261,16 @@ const Home = () => {
       console.log("Points:", points);
       console.log("User's current points balance:", userPoints);
 
-      // Update the user's points in the database
-      const updatedPoints = userPoints + points;
-
       // Adds the challenge points to the user's points balanace in the database
       await axios.put(
         `http://localhost:5050/users/${localStorage.getItem("username")}`,
-        { points: updatedPoints, challengeId }, 
+        { points: points, challengeId },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-      );
-
-      // Update the user's points in the state
-      setUserPoints(updatedPoints);
+      );  
 
       // Remove the challenge from the user's "challenges" array
       setUserChallenges((prevUserChallenges) =>
@@ -304,52 +299,25 @@ const Home = () => {
     }
   };
 
-  // useState hook variables for the disabled buttons
-  const [disabledButtons, setDisabledButtons] = useState([]);
+  // useState hook variables for the completed challenges
+  const [completedChallenges, setCompletedChallenges] = useState([]);
 
   // Click event handler for completing a challenge
   const handleDoneClick = (challengeId, points) => {
-    // Store the disabled state in localStorage
-    localStorage.setItem(`doneButtonDisabled_${challengeId}`, "true");
-    // Disable the Done button for the completed challenge
-    setDisabledButtons((prevDisabledButtons) => [
-      ...prevDisabledButtons,
+    // Update the user's points in the database
+    handleCompleteChallenge(challengeId, points);
+
+    // Add the completed challenge to the completedChallenges array
+    setCompletedChallenges((prevCompletedChallenges) => [
+      ...prevCompletedChallenges,
       challengeId,
     ]);
-    handleCompleteChallenge(challengeId, points);
+
+    // Remove the completed challenge from the challenges array
+    setChallenges((prevChallenges) =>
+      prevChallenges.filter((challenge) => challenge._id !== challengeId)
+    );
   };
-
-  // Keeps the doneButton disabled if the challengeId is in localstorage
-  React.useEffect(() => {
-    const storedDisabledButtons = [];
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith("doneButtonDisabled_")) {
-        const challengeId = key.replace("doneButtonDisabled_", "");
-        storedDisabledButtons.push(challengeId);
-      }
-    }
-    setDisabledButtons(storedDisabledButtons);
-  }, []);
-
-  // Keeps the doneButton disabled if the challengeId is in localstorage
-  window.addEventListener("load", () => {
-    // Iterate through the stored disabled states in localStorage
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.startsWith("doneButtonDisabled_")) {
-        const challengeId = key.replace("doneButtonDisabled_", "");
-        const doneButton = document.getElementById(`doneButton_${challengeId}`);
-        if (doneButton) {
-          // Retrieve the disabled state as a string from localStorage
-          const isDisabledString = localStorage.getItem(key);
-          // Convert the disabled state to a boolean value
-          const isDisabled = isDisabledString === "true";
-          doneButton.disabled = isDisabled;
-        }
-      }
-    }
-  });
 
   // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
@@ -369,10 +337,11 @@ const Home = () => {
 
   // Renders Home.jsx component
   return (
-    <div className={`row justify-content- ${styles.cardWrapper}`} >
+    <div className={`row justify-content- ${styles.cardWrapper}`}>
       <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
-        style={greetings}>
+        style={greetings}
+      >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
@@ -388,44 +357,53 @@ const Home = () => {
         </div>
       </animated.div>
       <animated.div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`} style={greetings}
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
+        style={greetings}
       >
         <animated.div className="card-body" style={greetings}>
-        <div className={styles.challengeInnerCard}>
-          <h1 className={styles.challengeHeader} style={greetings}>
-            Weekly Challenges
-          </h1>
-          {console.log("Challenges:", challenges)}
-          {challenges.length > 0 ? (
-            challenges.map((challenge) => (
-              <div key={challenge._id}>
-                <h5 className="card-title">Challenge: {challenge.challenge}</h5>
-                <h5 className="card-text">Points: {challenge.points}</h5>
-                {userChallenges.includes(challenge._id) ? (
-                  <button
-                    id={`doneButton_${challenge._id}`}
-                    className={`btn btn-success ${styles.challengeBtn}`}
-                    onClick={() =>
-                      handleDoneClick(challenge._id, challenge.points)
-                    }
-                  >
-                    Done
-                  </button>
-                ) : (
-                  <button
-                    className={`btn btn-primary ${styles.challengeBtn}`}
-                    onClick={() =>
-                      handleAddChallenge(challenge._id, challenge.points)
-                    }
-                  >
-                    Add Challenge
-                  </button>
-                )}
-              </div>
-            ))
-          ) : (
-            <p>No challenges available.</p>
-          )}
+          <div className={styles.challengeInnerCard}>
+            <h1 className={styles.challengeHeader} style={greetings}>
+              Weekly Challenges
+            </h1>
+            {console.log("Challenges:", challenges)}
+            {challenges.length > 0 ? (
+              challenges
+                .filter(
+                  (challenge) => !completedChallenges.includes(challenge._id)
+                )
+                .map((challenge) => (
+                  <div key={challenge._id}>
+                    <h5 className="card-title">
+                      Challenge: {challenge.challenge}
+                    </h5>
+                    <h5 className="card-text">Points: {challenge.points}</h5>
+                    {userChallenges.includes(challenge._id) ? (
+                      <button
+                        id={`doneButton_${challenge._id}`}
+                        className={`btn btn-success ${styles.challengeBtn}`}
+                        onClick={() =>
+                          handleDoneClick(challenge._id, challenge.points)
+                        }
+                      >
+                        Done
+                      </button>
+                    ) : (
+                      <button
+                        className={`btn btn-primary ${styles.challengeBtn}`}
+                        onClick={() =>
+                          handleAddChallenge(challenge._id, challenge.points)
+                        }
+                      >
+                        Add Challenge
+                      </button>
+                    )}
+                  </div>
+                ))
+            ) : (
+              <p>No challenges available.</p>
+            )}
+            <hr />
+            <h5 className={styles.pointsBalance}>Points Balance: {userPoints}</h5>
           </div>
         </animated.div>
       </animated.div>

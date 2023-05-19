@@ -11,7 +11,7 @@
 }
 
 .indexBtn {
-  margin: 4px 12px 36px 0;
+  margin: 32px 12px 32px 0;
   background-color: #2b2b2b;
   border: 1px solid #2b2b2b;
 }
@@ -37,6 +37,7 @@
   height: 100%;
   object-fit: cover;
 }
+
 .imageContainer {
   height: 100%;
   width: 100%;
@@ -63,7 +64,6 @@
   margin-top: 60px;
   font-weight: bold;
   text-align: left;
-  /* text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black; */
 }
 
 .indexDescription + div {
@@ -71,7 +71,7 @@
   max-width: 800px;
 }
 
-.signupOrLogin{
+.signupOrLogin {
   max-width: 800px;
 }
 
@@ -100,11 +100,20 @@
   .indexBody h4 {
     text-align: center;
   }
+
   h4 + div {
     text-align: center;
   }
 
   .indexCard {
     margin-left: 0px;
+  }
+
+  .indexTitle {
+    color: rgb(255, 255, 255);
+    max-width: 800px;
+    font-weight: bold;
+    font-size: 4rem;
+    text-align: center;
   }
 }

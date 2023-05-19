@@ -32,20 +32,15 @@ Installation:
 ```sh
 git clone https://github.com/glu16/2800-202310-BBY01
 ```
-* Install Node.js by running this in Command Prompt or Terminal in the \server folder.
+* Install dependencies by running this in Command Prompt or Terminal in the \server folder.
 ```sh
-npm install -g npm (Mac)
-npm install express (Windows)
+npm install
 ```
-* Check to make sure node was installed successfully.
+*  While still in the \server folder run this in the Command Promt or Terminal.
 ```sh
-node -v
+nodemon server
 ```
-* Check to make sure npm was installed successfully.
-```sh
-npm -v
-```
-*  Navigate to the \client folder and run this in Command Prompt or Terminal.
+*  Install dependencies by running this in Command Prompt or Terminal in the \client folder.
 ```sh
 npm install
 ```
@@ -87,7 +82,49 @@ It has the following subfolders:
 │   └── openAITester                # OpenAI test files
 │
 └── server/                         # Server-side files 
+    ├── FineTuning/
+    │   ├── 0API.mjs
+    │   ├── 00fileId.mjs
+    │   ├── 1uploadFile.mjs
+    │   ├── 2createFinetune.mjs
+    │   ├── 3listFinetune.mjs
+    │   ├── 4createCompletion.mjs
+    │   ├── readme.txt
+    │   ├── trainData_prepared.jsonl
+    │   └── trainData.jsonl               
+    │
+    ├── models/
+    │   ├── challenges.js
+    │   ├── tips.js
+    │   └── users.js                
+    │
+    ├── PnCGenerator/
+    │   ├── Datasets/
+    │   │   ├── DietPlans.csv
+    │   │   ├── Fitness.csv
+    │   │   ├── FoodNutrition.csv
+    │   │   └── FoodNutrition2.csv  
+    │   │
+    │   ├── GeneratedJSONFiles/
+    │   │   ├── DietPlans.json
+    │   │   ├── Fitness.json
+    │   │   ├── FoodNutrition.json
+    │   │   └── FoodNutrition2.json  
+    │   │
+    │   ├── DietPlans.py
+    │   ├── Fitness.py
+    │   ├── FoodNutrition.py
+    │   └── FoodNutrition2.py  
+    │  
+    ├── routes/
+    │   ├── auth.js
+    │   ├── passChange.js
+    │   └── users.js                
+    │
+    ├── database.js                 # JS file
+    ├── diet.js                     # JS file
     ├── package-lock.json           # JSON file
     ├── package.json                # JSON file
-    └── server.js                   # JS file
+    ├── server.js                   # JS file
+    └── workout.js                  # JS file
 ```

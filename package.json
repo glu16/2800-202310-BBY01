@@ -8,7 +8,6 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "fortawesome": "^0.0.1-security",
     "joi": "^17.9.2",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^9.0.0",
@@ -24,7 +23,8 @@
     "react-step-progress-bar": "^1.0.3",
     "react-typed": "^1.2.0",
     "react-typist": "^2.0.5",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "victory": "^36.6.10"
   },
   "name": "2800-202310-bby01",
   "description": "<h1 align=\"center\"> Healthify </h1> \r <div align=\"center\">\r   <a align=\"center\" href=\"https://github.com/glu16/2800-202310-BBY01\"></a>\r </div>",

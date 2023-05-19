@@ -65,7 +65,7 @@ app.get("/getFromUser/:email", async (req, res) => {
   }
 });
 
-// GETS THE USER'S DATA FROM THE DATABASE
+// RETRIEVES THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
   // THE USER'S USERNAME
   const userID = req.params.username;
@@ -102,10 +102,14 @@ app.put("/users/:username", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // GETS THE CHALLENGE POINTS FROM THE REQUEST
-    const challengePoints = points;
-    // ADDS THE CHALLENGE POINTS TO THE USER'S POINTS
-    user.points += challengePoints;
+    // GET THE CURRENT POINTS FROM THE USER
+    const currentPoints = user.points;
+
+    // ADD THE CHALLENGE POINTS TO THE USER'S CURRENT POINTS
+    const updatedPoints = currentPoints + points;
+
+    // UPDATE THE USER'S POINTS
+    user.points = updatedPoints;
 
     // SAVE THE CHANGES
     await user.save();
@@ -117,7 +121,7 @@ app.put("/users/:username", async (req, res) => {
   }
 });
 
-// GETS ALL THE USERS IN THE DATABASE
+// RETRIEVES ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
     const users = await User.find({}, { username: 1, points: 1, _id: 1 });
@@ -128,7 +132,7 @@ app.get("/leaderboard/users", async (req, res) => {
   }
 });
 
-// GETS ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
+// RETRIEVES ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
 app.get("/leaderboard/:username", async (req, res) => {
   try {
     const { username } = req.params;
@@ -137,18 +141,17 @@ app.get("/leaderboard/:username", async (req, res) => {
     if (!loggedInUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    // CHECK IF THE USER IS LOGGED IN
+
     const friends = await Promise.all(
       loggedInUser.friends.map(async (friend) => {
-        const friendUser = await User.findById(friend._id);
-        // SKIP DELETED USERS
+        const friendUser = await User.findOne({ _id: friend._id });
+        // CHECKS IF FRIEND WAS DELETED
         if (!friendUser) {
-          // RETRIEVE THE DELETED USER WITH THE OLD USERNAME
           const deletedUser = await User.findOne({ username: friend.username });
+          // SKIP DELETED USERS
           if (!deletedUser) {
             return null;
           }
-
           // RETURN THE NEW USER INFORMATION WITH THE OLD USERNAME
           return {
             username: friend.username,
@@ -156,12 +159,13 @@ app.get("/leaderboard/:username", async (req, res) => {
             _id: deletedUser._id,
           };
         }
-
+        // RETRIEVES THE FRIEND'S POINTS
+        const friendPoints = friendUser.points;
         // RETURN THE EXISTING USERS
         return {
           username: friendUser.username,
-          points: friend.points,
-          _id: friend._id,
+          points: friendPoints,
+          _id: friendUser._id,
         };
       })
     );
@@ -185,12 +189,23 @@ app.get("/settings/:username", async (req, res) => {
       res.status(404).send("User not found");
     }
     const settings = user.notificationSettings[0];
+    if (!settings){
+      res.send({
+        dietReminders: false,
+        fitnessReminders: false,
+        leaderboardReminders: false,
+        challengeReminders: false,
+      });
+    } else {
     res.send({
       dietReminders: settings.dietReminders,
       fitnessReminders: settings.fitnessReminders,
       leaderboardReminders: settings.leaderboardReminders,
       challengeReminders: settings.challengeReminders,
+      
     });
+  }
+    
   } catch (error) {
     console.log(error);
   }
@@ -294,6 +309,33 @@ app.delete("/profile/:friendId", async (req, res) => {
   }
 });
 
+// RETRIEVES THE USER'S CHALLENGES FROM THE DATABASE
+app.get("/profile/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    // FIND THE LOGGED IN USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF NOT THE USER
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // RETRIEVE THE CHALLENGES ARRAY
+    const { challenges } = user;
+
+    // RETRIEVE THE CHALLENGES ARRAY BASED ON THE CHALLENGE IDs
+    const challengeDocuments = await Challenges.find(
+      { _id: { $in: challenges.map((challenge) => challenge.challengeId) } },
+      { challengeId: 1, challenge: 1, points: 1 }
+    );
+    // SEND THE RESPONSE
+    res.json(challengeDocuments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 // GENERATES USER STATS AND SAVES IT IN THE DATABASE
 app.post("/signupdetails/:username", async (req, res) => {
   console.log(req.body.age);
@@ -356,10 +398,10 @@ app.post("/signupPrefRes/:username", async (req, res) => {
       // SET THE USER STATS
       {
         $set: {
-            "userStats.0.foodPref": foodPref,
-            "userStats.0.foodRes": foodRes,
-            "userStats.0.workoutPref": workoutPref,
-            "userStats.0.workoutRes": workoutRes
+          "userStats.0.foodPref": foodPref,
+          "userStats.0.foodRes": foodRes,
+          "userStats.0.workoutPref": workoutPref,
+          "userStats.0.workoutRes": workoutRes,
         },
       },
 
@@ -482,7 +524,7 @@ app.post("/settings/:username", async (req, res) => {
 });
 
 // STORES USER'S CHAT HISTORY TO THE DATABASE
-app.put("/users/:username", async (req, res) => {
+app.put("/history/:username", async (req, res) => {
   // THE USER'S EMAIL
   const userID = req.params.username;
   // USERS CHAT HITORY
@@ -509,7 +551,7 @@ app.put("/users/:username", async (req, res) => {
   }
 });
 
-// GETS THE USER'S CHAT HISTORY FROM THE DATABASE
+// RETRIEVES THE USER'S CHAT HISTORY FROM THE DATABASE
 app.get("/coach/:username", async (req, res) => {
   // THE USER'S EMAIL
   const userID = req.params.username;
@@ -665,15 +707,15 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
-// SENDS THE WORKOUT PLAN TO CLIENT
+// RETRIEVES THE WORKOUT PLAN FOR THE USER
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    // if workouts empty ie.new user
+    // IF WORKOUTS EMPTY IE.NEW USER
     if (user.workouts.length == 0) {
       res.send("empty");
-      // sends first workout in workouts
+      // SENDS FIRST WORKOUT IN WORKOUTS
     } else {
       res.send(user.workouts[0]);
     }
@@ -682,6 +724,24 @@ app.get("/fitness/:username", async (req, res) => {
     res
       .status(500)
       .json({ error: "Internal server error. Couldn't send workout plan." });
+  }
+});
+
+// RETRIEVES THE DIET PLAN FOR THE USER
+app.get("/diet/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    // IF WORKOUTS EMPTY IE.NEW USER
+    if (user.diets.length == 0) {
+      res.send("empty");
+      // SENDS FIRST WORKOUT IN WORKOUTS
+    } else {
+      res.send(user.diets[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -705,7 +765,7 @@ app.get("/streak/:username", async (req, res) => {
   }
 });
 
-// GETS THE USER'S COMPLETED WORKOUTS
+// RETRIEVES THE USER'S COMPLETED WORKOUTS
 app.get("/doneToday/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -719,7 +779,7 @@ app.get("/doneToday/:username", async (req, res) => {
   }
 });
 
-// GETS THE USER'S FIRST NAME AND LAST NAME
+// RETRIEVES THE USER'S FIRST NAME AND LAST NAME
 app.get("/getName/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -805,25 +865,7 @@ app.put("/diet/:username", async (req, res) => {
   generateDiet();
 });
 
-// GETS USER'S WORKOUT PLAN
-app.get("/diet/:username", async (req, res) => {
-  const userID = req.params.username;
-  try {
-    const user = await User.findOne({ username: userID });
-    // if workouts empty ie.new user
-    if (user.diets.length == 0) {
-      res.send("empty");
-      // sends first workout in workouts
-    } else {
-      res.send(user.diets[0]);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// GETS THE USER'S USER STATS
+// RETRIEVES THE USER'S USER STATS
 app.get("/userStats", async (req, res) => {
   // THE USER'S USERNAME
   const userID = req.params.username;
@@ -853,7 +895,7 @@ app.get("/userStats", async (req, res) => {
 let selectedTip = null;
 let selectedDate = null;
 
-// GETS TIPS FROM COLLECTION IN DATABASE
+// RETRIEVES A TIP FROM THE TIP COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
     const currentDate = new Date().toISOString().slice(0, 10);
@@ -881,12 +923,13 @@ setInterval(() => {
   }
 }, 1000 * 60 * 60 * 24);
 
-const challengesCache = {
+// CREATES A GLOBAL CACHE OBJECT TO STORE THE CHALLENGES FOR ALL USERS
+let challengesCache = {
   data: [],
   lastUpdated: null,
 };
 
-// GETS 3 RANDOM CHALLENGES FOR THE LOGGED-IN USER
+// RETRIEVES 3 RANDOM CHALLENGES FOR THE LOGGED-IN USER
 app.get("/home/challenges/:username", async (req, res) => {
   try {
     const username = req.params.username;
@@ -1015,13 +1058,13 @@ app.post("/", async (req, res) => {
   // THE RESPONSE FROM OPENAI
   //.createCompletion // BASE MODEL
   const response = await openai.createChatCompletion({
-
     // model: "text-davinci-003", //BASE MODEL
     model: "gpt-3.5-turbo",
     // prompt: `${message}`, //BASE MODEL
     messages: [{ role: "user", content: `${message}` }],
-
     max_tokens: 200,
+    presence_penalty: 0.6,
+    frequency_penalty: 0.6,
   });
 
   // const parsableJson = response.data.choices[0].text; //BASE MODEL
@@ -1042,12 +1085,12 @@ app.post("/fitness/:username", async (req, res) => {
   console.log(req.body);
   try {
     const user = await User.findOneAndUpdate(
-      // find user by username
+      // FIND USER BY USERNAME
       { username: userID },
       {
-        // increment currentStreak and daysDone FIELD BY 1
-        $inc: { currentStreak: 1, daysDone: 1 },
-        // set doneToday TO true
+        // INCREMENT currentStreak AND daysDone FIELD BY 1 AND award 100 points
+        $inc: { currentStreak: 1, daysDone: 1 , points: 100},
+        // SET doneToday TO true
         $set: { doneToday: true },
       },
       // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
@@ -1056,9 +1099,11 @@ app.post("/fitness/:username", async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    // Compare currentStreak with longestStreak and update longestStreak if necessary
+    // COMPARE currentStreak WITH longestStreak AND UPDATE longestStreak IF NECESSARY
     if (user.currentStreak > user.longestStreak) {
       user.longestStreak = user.currentStreak;
+      // aware extra 50 points if new streak 
+      user.points = user.points + 50;
       await user.save();
       console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
     }
@@ -1077,20 +1122,20 @@ app.post("/fitness/:username", async (req, res) => {
 
 // Daily at 12:01AM update streaks for all users <- TARGET THIS METHOD WITH CRON-JOB EXTERNALLY ONCE HOSTED
 app.post("/updateStreaks", async (req, res) => {
-  // handle whether user completed or did not complete their workout today
+  // HANDLE WHETHER USER COMPLETED OR DID NOT COMPLETE THEIR WORKOUT TODAY
   try {
-    // Find all users and iterate through them
+    // FIND ALL USERS AND ITERATE THROUGH THEM
     const users = await User.find();
     for (const user of users) {
       if (user.doneToday) {
-        // If the user completed a workout today, increment daysDone
+        // IF THE USER COMPLETED A WORKOUT TODAY, INCREMENT daysDone
         user.daysDone++;
       } else {
-        // If the user did not complete a workout today, update currentStreak and daysMissed
+        // IF THE USER DID NOT COMPLETE A WORKOUT TODAY, UPDATE currentStreak AND daysMissed
         user.currentStreak = 0;
         user.daysMissed++;
       }
-      // Save the updated user
+      // SAVE THE UPDATED USER
       await user.save();
       // console.log(`${user.username} streak updated.`);
     }
@@ -1099,7 +1144,7 @@ app.post("/updateStreaks", async (req, res) => {
     console.error("Failed to update streaks: ", err);
   }
 
-  // finally reset all user's doneToday to false
+  // FINALLY RESET ALL USER'S doneToday TO false
   try {
     await User.updateMany(
       {},
@@ -1119,7 +1164,7 @@ const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
-// send server port info to client
+// SEND SERVER PORT INFO TO CLIENT
 app.get("/api/port", (req, res) => {
   res.json({ port });
 });

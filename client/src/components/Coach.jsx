@@ -117,7 +117,7 @@ const Coach = () => {
   */
   async function sendChatLog(user, messages) {
     const username = localStorage.getItem("username");
-    const response = await fetch(`http://localhost:5050/users/${username}`, {
+    const response = await fetch(`http://localhost:5050/history/${username}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

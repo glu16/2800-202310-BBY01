@@ -1,5 +1,5 @@
-.fitnessContainer {
-  padding: 30px;
+.dietContainer {
+  padding: 0 80px;
 }
 
 .container-fluid {
@@ -7,7 +7,7 @@
   background-color: inherit;
 }
 
-.exerciseCard {
+.dietCard {
   width: 100%;
   border-radius: 10px;
   background-color: #2b2b2b;
@@ -26,7 +26,7 @@
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
-  color: white;
+  color: black;
 }
 
 .dietBtn:active,
@@ -35,10 +35,24 @@
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
+.mealCard {
+  margin: 10px;
+  border-radius: 10px;
+  background-color: hsl(0, 0%, 30%);
+  color: white;
+  top: 10rem;
+}
+
+.dietBtn:disabled {
+  background-color: #95a4a9;
+  color: black;
+}
+
 .loading {
   display: flex;
   align-items: center;
 }
+
 .loading p {
   margin-top: 0;
   margin-bottom: 0;
@@ -51,15 +65,18 @@
   font-weight: bold;
   color: black;
 }
+
 .date {
   position: absolute;
-  top: -25px;
+  top: -35px;
   left: 0;
   width: 100%;
   z-index: 1;
   margin: 10px 0;
 }
+
 .day {
+  min-height: 400px;
   margin-top: 30px;
   border-radius: 10px;
   display: flex;
@@ -71,7 +88,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .modalImage {
@@ -85,12 +102,12 @@
     height: 100%;
   }
 
-  .fitnessContainer {
+  .dietContainer {
     padding: 0;
     margin-top: 80px;
   }
 
-  .exerciseCard {
+  .dietCard {
     top: 1rem;
   }
 
@@ -102,6 +119,7 @@
 
   .day div {
     padding: 10px;
+    width: auto;
   }
   .day {
     margin-top: 40px;
