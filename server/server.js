@@ -189,12 +189,23 @@ app.get("/settings/:username", async (req, res) => {
       res.status(404).send("User not found");
     }
     const settings = user.notificationSettings[0];
+    if (!settings){
+      res.send({
+        dietReminders: false,
+        fitnessReminders: false,
+        leaderboardReminders: false,
+        challengeReminders: false,
+      });
+    } else {
     res.send({
       dietReminders: settings.dietReminders,
       fitnessReminders: settings.fitnessReminders,
       leaderboardReminders: settings.leaderboardReminders,
       challengeReminders: settings.challengeReminders,
+      
     });
+  }
+    
   } catch (error) {
     console.log(error);
   }
