@@ -20,7 +20,7 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:${port}/fitness/${username}`, {
+  var response = await fetch(`https://healthify-enxj.onrender.com/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -38,7 +38,7 @@ async function getWorkout() {
 var firstName;
 var lastName;
 async function getName() {
-  var response = await fetch(`http://localhost:${port}/getName/${username}`, {
+  var response = await fetch(`https://healthify-enxj.onrender.com/getName/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -52,7 +52,7 @@ getName();
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
-  var response = await fetch(`http://localhost:${port}/doneToday/${username}`, {
+  var response = await fetch(`https://healthify-enxj.onrender.com/doneToday/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -64,7 +64,7 @@ getDoneToday();
 
 // FUNCTION GETS USERSTATS FIELD FROM DATABASE
 // async function getUserStats() {
-//   var response = await fetch(`http://localhost:${port}/userStats/${username}`, {
+//   var response = await fetch(`https://healthify-enxj.onrender.com/userStats/${username}`, {
 //     method: "GET",
 //     headers: { "Content-Type": "application/json" },
 //   });
@@ -75,7 +75,7 @@ getDoneToday();
 // TEMPORARY TEST FUNCTION FOR CRON-JOB UPDATE USER STREAKS AT MIDNIGHT
 function updateStreaks() {
   console.log("button working");
-  fetch(`http://localhost:${port}/updateStreaks/`, {
+  fetch(`https://healthify-enxj.onrender.com/updateStreaks/`, {
     method: "POST",
   })
 }
@@ -494,7 +494,7 @@ const Streak = () => {
   // FUNCTION GETS USER STREAK STATS FROM DATABASE
   async function getStreak() {
     try {
-      const response = await fetch(`http://localhost:${port}/streak/${username}`, {
+      const response = await fetch(`https://healthify-enxj.onrender.com/streak/${username}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
       });
@@ -613,7 +613,7 @@ const Fitness = () => {
 
     // call server.js app.put method
     const response = await fetch(
-      `http://localhost:${port}/fitness/${username}`,
+      `https://healthify-enxj.onrender.com/fitness/${username}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -679,7 +679,7 @@ const Fitness = () => {
 
     // incriment the user field: streak
     try {
-      const response = await fetch(`http://localhost:${port}/fitness/${username}`, {
+      const response = await fetch(`https://healthify-enxj.onrender.com/fitness/${username}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
