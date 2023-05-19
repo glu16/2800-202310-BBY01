@@ -39,7 +39,6 @@ ul {
   padding-bottom: 5rem;
   margin-top: 100px;
   margin-bottom: 50px;
-  overflow-y: auto;
   color: white;
   width: auto;
 }
@@ -96,6 +95,7 @@ ul {
   left: 40px;
   position: relative;
   background-color: gray;
+  max-width: 65vw;
 }
 
 .message:before {
