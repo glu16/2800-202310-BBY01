@@ -75,8 +75,8 @@
 }
 
 .workoutForm {
-  /* border: 2px solid blue;
-  border-radius: 10px; */
+  border: 2px solid blue;
+  border-radius: 10px;
   /* display: none; */
 }
 
@@ -94,5 +94,7 @@
   width: 500px;
 }
 
-
+.hidden {
+  display: none;
+}
 

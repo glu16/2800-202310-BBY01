@@ -341,7 +341,7 @@ function Workout({ handleOpenModal }) {
             })}
 
             {/* this opens up images for the exercise */}
-            <button onClick={handleOpenModal}>Help</button>
+            <button onClick={handleOpenModal} className="btn btn-info">Help</button>
 
           </div>
 
@@ -386,7 +386,7 @@ function Workout({ handleOpenModal }) {
 
             <div className={styles.exerciseButtons}>
               {/* this opens up images for the exercise */}
-              <button onClick={handleOpenModal}>Help</button>
+              <button onClick={handleOpenModal} className="btn btn-info">Help</button>
 
               {/* button to mark task completed */}
               <CompleteExercisesButton />
@@ -442,7 +442,7 @@ function Workout({ handleOpenModal }) {
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className="btn btn-info btn-arrow-left">
         Previous Day
       </button>
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} class="btn btn-info btn-arrow-right">
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className="btn btn-info btn-arrow-right">
         Next Day
       </button>
       <div className="d-flex align-items-center text-center justify-content-center row">
@@ -565,6 +565,12 @@ const Streak = () => {
 
 // PAGE RENDER COMPONENT
 const Fitness = () => {
+
+  const [isDivVisible, setDivVisible] = useState(false);
+
+  const toggleDivVisibility = () => {
+    setDivVisible(!isDivVisible);
+  };
   
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
@@ -732,8 +738,14 @@ const Fitness = () => {
 
       <Streak />
 
+      <button onClick={toggleDivVisibility}>
+        {isDivVisible ? 'Hide Div' : 'Show Div'}
+      </button>
 
-      <div id="workoutForm" className={styles.workoutForm}>
+      <div
+        id="workoutForm"
+        className={`${styles.workoutForm} ${isDivVisible ? '' : styles.hidden}`}
+      >
         <form id="addWorkout" onSubmit={addWorkoutToUser}>
           {/* SEND USERNAME FOR DATABASE SEARCH */}
           <input type="hidden" name="username" value={username}></input>
