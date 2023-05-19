@@ -90,6 +90,12 @@ td img {
   text-decoration: none;
 }
 
+.infoLink:hover {
+  color: hsl(184, 61%, 80%);
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .ranksCard {
   height: 100%;
   width: 100%;
@@ -114,6 +120,13 @@ td img {
 
 .userNameLink {
   color: rgb(92, 208, 216);
+  cursor: pointer;
+  text-decoration: none;
+  transition: 0.2s;
+}
+
+.userNameLink:hover {
+  color: hsl(184, 61%, 80%);
   cursor: pointer;
   text-decoration: none;
 }
