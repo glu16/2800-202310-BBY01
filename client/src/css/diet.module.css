@@ -35,10 +35,16 @@
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
+.dietBtn:disabled {
+  background-color: #95a4a9;
+  color: black;
+}
+
 .loading {
   display: flex;
   align-items: center;
 }
+
 .loading p {
   margin-top: 0;
   margin-bottom: 0;
@@ -51,6 +57,7 @@
   font-weight: bold;
   color: black;
 }
+
 .date {
   position: absolute;
   top: -25px;
@@ -59,6 +66,7 @@
   z-index: 1;
   margin: 10px 0;
 }
+
 .day {
   margin-top: 30px;
   border-radius: 10px;
