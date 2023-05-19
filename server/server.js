@@ -1077,8 +1077,8 @@ app.post("/fitness/:username", async (req, res) => {
       // FIND USER BY USERNAME
       { username: userID },
       {
-        // INCREMENT currentStreak AND daysDone FIELD BY 1
-        $inc: { currentStreak: 1, daysDone: 1 },
+        // INCREMENT currentStreak AND daysDone FIELD BY 1 AND award 100 points
+        $inc: { currentStreak: 1, daysDone: 1 , points: 100},
         // SET doneToday TO true
         $set: { doneToday: true },
       },
@@ -1091,6 +1091,8 @@ app.post("/fitness/:username", async (req, res) => {
     // COMPARE currentStreak WITH longestStreak AND UPDATE longestStreak IF NECESSARY
     if (user.currentStreak > user.longestStreak) {
       user.longestStreak = user.currentStreak;
+      // aware extra 50 points if new streak 
+      user.points = user.points + 50;
       await user.save();
       console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
     }
