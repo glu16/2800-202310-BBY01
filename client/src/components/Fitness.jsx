@@ -633,6 +633,9 @@ const Fitness = () => {
   }
 
   const ExerciseModal = ({ isOpen, onRequestClose }) => {
+    var source = "";
+
+
     return (
       <Modal
         isOpen={isOpen}
@@ -642,7 +645,7 @@ const Fitness = () => {
         ariaHideApp={false}
       >
         Modal content goes here
-        <img className={styles.modalImage} src="" alt="Image" />
+        <img className={styles.modalImage} src={source} alt="Image" />
         <p>Modal is working now</p>
       </Modal>
     );
@@ -741,7 +744,7 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleDivVisibility} className="btn btn-warning">
+      <button onClick={toggleDivVisibility} className="btn btn-primary">
         {isDivVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
       </button>
 
