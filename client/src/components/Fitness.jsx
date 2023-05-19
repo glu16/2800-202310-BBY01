@@ -107,8 +107,8 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
     { x: 1, y: percentDaysDone },
     { x: 2, y: 100 - percentDaysDone },
   ];
-  const svgSize = 200; // Adjust the size of the SVG container
-  const radius = (svgSize - 40) / 2; // Adjust the radius of the circle
+  const svgSize = 180; // Adjust the size of the SVG container
+  const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
   const fontSize = 20; // Adjust the font size of the label
   let color;
   if (percentDaysDone >= 66) {
@@ -119,8 +119,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
     color = 'red';
   }
   return (
-    <div>
-      <p>Workout Completion Rate</p>
+    <div className={styles.graph}>
       <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
         <VictoryPie
           standalone={false}
@@ -133,6 +132,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           style={{
             data: {
               fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
+              filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))', // Shadow effect
             },
           }}
         />
@@ -142,9 +142,10 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={`${percentDaysDone}%`}
-          style={{ fontSize }}
+          style={{ fontSize: 20, filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))' }} // Shadow effect
         />
       </svg>
+      <p>Workout Completion Rate</p>
     </div>
   );
 };
@@ -155,8 +156,8 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
     { x: 1, y: percentStreak },
     { x: 2, y: 100 - percentStreak },
   ];
-  const svgSize = 200; // Adjust the size of the SVG container
-  const radius = (svgSize - 40) / 2; // Adjust the radius of the circle
+  const svgSize = 180; // Adjust the size of the SVG container
+  const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
   const fontSize = 20; // Adjust the font size of the label
   let color;
   if (percentStreak == 100) {
@@ -167,10 +168,8 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
     color = 'red';
   }
   return (
-    <div>
-      <p>Current vs Longest Streak</p>
+    <div className={styles.graph}>
       <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
-        
         <VictoryPie
           standalone={false}
           width={svgSize}
@@ -182,6 +181,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           style={{
             data: {
               fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
+              filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))', // Shadow effect
             },
           }}
         />
@@ -191,13 +191,13 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={` ${currentStreak} / ${longestStreak} \n days`}
-          style={{ fontSize }}
+          style={{ fontSize: 20, filter: 'drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.5))' }} // Shadow effect
         />
       </svg>
+      <p>Current vs Longest Streak</p>
     </div>
   );
 };
-
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
@@ -473,7 +473,7 @@ const CompleteExercisesButton = () => {
   return (
     <div>
     <button
-      className="markExerciseComplete btn btn-secondary btn-checkbox"
+      className="markExerciseComplete btn btn-success btn-checkbox"
       onClick={handleClick}
       // disabled={}
     >
@@ -537,8 +537,9 @@ const Streak = () => {
   return (
     <div id="streakContainer" className={styles.streakContainer}>
       <h2>{username}'s Workout Stats</h2>
-      <p>{doneTodayMessage} &nbsp;
+      <p>
           <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
+          &nbsp; {doneTodayMessage} 
       </p>
 
       {/* <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} /> */}
@@ -739,7 +740,7 @@ const Fitness = () => {
       <Streak />
 
       <button onClick={toggleDivVisibility}>
-        {isDivVisible ? 'Hide Div' : 'Show Div'}
+        {isDivVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
       </button>
 
       <div
@@ -758,7 +759,7 @@ const Fitness = () => {
           <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
           <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
           <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
-          <p>Select desired intensity level for workout</p>
+          <p>Select desired intensity level</p>
           <br />
 
           {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
@@ -801,7 +802,7 @@ const Fitness = () => {
           <p>
             <small>Generating takes 30-60 seconds</small>
             <br />
-            <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small>
+            {/* <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small> */}
           </p>
         </form>
       </div>

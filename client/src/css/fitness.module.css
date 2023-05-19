@@ -70,8 +70,15 @@
   height: 50px;
 }
 
-.graphs {
+.graph {
   display: flex;
+  align-items: center;
+  margin: none;
+  padding: none;
+  height: 100px;
+}
+.graphs {
+  /* display: flex; */
 }
 
 .workoutForm {
