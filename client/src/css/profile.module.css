@@ -27,8 +27,9 @@
 }
 
 .challengeInnerCard {
-  max-height: 400px;
+  flex: 1;
   width: 90%;
+  max-height: 400px;
   margin: 20px;
   border-radius: 10px;
   background-color: #474747;
@@ -36,7 +37,7 @@
   position: relative;
 }
 
-.currentChallenges{
+.currentChallenges {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
@@ -45,6 +46,7 @@
   background-color: gray;
   border-radius: 10px;
   margin-bottom: 20px;
+  width: 90%;
   height: 80px;
   margin: 10px;
 }
@@ -52,7 +54,6 @@
 .challengeBody {
   color: white;
   margin-top: 5px;
-
 }
 
 .friendsCard {
@@ -107,7 +108,7 @@
   color: white;
   margin-top: 10px;
   width: 90%;
-  background-color:gray;
+  background-color: gray;
   border-radius: 10px;
 }
 
@@ -198,19 +199,43 @@
 }
 
 .profileImage:hover {
- animation: profileBorder 6s infinite;
- /* transition: 0.2s; */
+  animation: profileBorder 6s infinite;
+  /* transition: 0.2s; */
 }
 
 @keyframes profileBorder {
-  0% {border-color: hsl(184, 61%, 60%); box-shadow: 0 0 0px 0px rgb(92, 208, 216);}
-  14% {border-color: hsl(184, 61%, 70%); box-shadow: 0 0 2px 1px #5cd0d8}
-  28% {border-color: hsl(175, 55%, 80%);box-shadow: 0 0 4px 2px #5cd0d8}
-  42% {border-color: hsl(175, 55%, 90%);box-shadow: 0 0 8px 3px #5cd0d8}
-  56% {border-color: hsl(175, 55%, 80%);box-shadow: 0 0 12px 4px #5cd0d8}
-  70% {border-color: hsl(175, 55%, 70%);box-shadow: 0 0 8px 3px #5cd0d8}
-  84% {border-color: hsl(175, 55%, 60%); box-shadow: 0 0 4px 2px rgb(92, 208, 216);}
-  100% {border-color: hsl(175, 55%, 50%); box-shadow: 0 0 2px 1px rgb(92, 208, 216);}
+  0% {
+    border-color: hsl(184, 61%, 60%);
+    box-shadow: 0 0 0px 0px rgb(92, 208, 216);
+  }
+  14% {
+    border-color: hsl(184, 61%, 70%);
+    box-shadow: 0 0 2px 1px #5cd0d8;
+  }
+  28% {
+    border-color: hsl(175, 55%, 80%);
+    box-shadow: 0 0 4px 2px #5cd0d8;
+  }
+  42% {
+    border-color: hsl(175, 55%, 90%);
+    box-shadow: 0 0 8px 3px #5cd0d8;
+  }
+  56% {
+    border-color: hsl(175, 55%, 80%);
+    box-shadow: 0 0 12px 4px #5cd0d8;
+  }
+  70% {
+    border-color: hsl(175, 55%, 70%);
+    box-shadow: 0 0 8px 3px #5cd0d8;
+  }
+  84% {
+    border-color: hsl(175, 55%, 60%);
+    box-shadow: 0 0 4px 2px rgb(92, 208, 216);
+  }
+  100% {
+    border-color: hsl(175, 55%, 50%);
+    box-shadow: 0 0 2px 1px rgb(92, 208, 216);
+  }
 }
 
 .profileImage img {
@@ -218,7 +243,6 @@
   width: 150px;
   height: 150px;
   object-fit: cover;
-  
 }
 
 .profileImage label {
