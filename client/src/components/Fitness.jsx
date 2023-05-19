@@ -530,6 +530,10 @@ const Streak = () => {
   }
 
   var percentDaysDone = 100 * daysDone / (daysDone + daysMissed);
+  // to prevent NaN error dividing 0
+  if (daysDone + daysMissed == 0) {
+    percentDaysDone = 0;
+  }
 
 
   return (
