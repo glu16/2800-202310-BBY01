@@ -1,11 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
-import { color } from "framer-motion";
 
-const Profile = ({username}) => {
+const Profile = ({ username }) => {
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -20,7 +19,6 @@ const Profile = ({username}) => {
         );
         const username = response.data.username;
         console.log("Logged in user's name:", username);
-        // localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
       }
@@ -85,9 +83,9 @@ const Profile = ({username}) => {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleChange = ({currentTarget: input}) => {
+  const handleChange = ({ currentTarget: input }) => {
     // Input is saved into the data array
-    setData({...data, [input.name]: input.value});
+    setData({ ...data, [input.name]: input.value });
 
     // Clears error message on change
     setError("");
@@ -99,7 +97,7 @@ const Profile = ({username}) => {
     }
   }, [image]);
 
-  const handleImageChange = ({currentTarget: input}) => {
+  const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
     console.log(input.files[0]);
@@ -180,7 +178,7 @@ const Profile = ({username}) => {
       const url = `http://localhost:5050/profile/${localStorage.getItem(
         "username"
       )}`;
-      const {data: res} = await axios.post(url, data);
+      const { data: res } = await axios.post(url, data);
 
       // Updates localStorage with newly entered username
       localStorage.setItem("username", data.username);
@@ -245,7 +243,7 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="infoModalLabel"
         aria-hidden="false"
-        style={{display: showInfoModal ? "block" : "none"}}
+        style={{ display: showInfoModal ? "block" : "none" }}
         role={showInfoModal ? "dialog" : ""}
         aria-modal={showInfoModal ? "true" : "false"}
       >
@@ -346,7 +344,7 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="deleteFriendModalLabel"
         aria-hidden="false"
-        style={{display: showDeleteModal ? "block" : "none"}}
+        style={{ display: showDeleteModal ? "block" : "none" }}
         role={showDeleteModal ? "dialog" : ""}
         aria-modal={showDeleteModal ? "true" : "false"}
       >
@@ -392,6 +390,25 @@ const Profile = ({username}) => {
     );
   };
   // End of delete friend modal component
+
+  // useState hook variables for the user's challenges
+  const [challenges, setChallenges] = useState([]);
+
+  // useEffect hook to retrieve the user's challenges from the database
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        console.log("Logged in user's name:", username);
+        const response = await axios.get(`http://localhost:5050/profile/${username}`);
+        setChallenges(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchChallenges();
+  }, [username]);
+  // End of user's challenges retrieval
 
   return (
     <div
@@ -463,16 +480,19 @@ const Profile = ({username}) => {
         </div>
         <div className={`${styles.friendsCard}`}>
           <div className={`${styles.friendsInnerCard}`}>
-            <div className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`} >
-              <div className={styles.friendsHeader}><h1>
-                Friends List
-                <a
-                  className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
-                  onClick={openInfoModal}
-                >
-                  info
-                </a>
-              </h1>
+            <div
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
+            >
+              <div className={styles.friendsHeader}>
+                <h1>
+                  Friends List
+                  <a
+                    className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
+                    onClick={openInfoModal}
+                  >
+                    info
+                  </a>
+                </h1>
               </div>
               {sortedFriends.map((friend, index) => (
                 <div className={styles.friends} key={index}>
@@ -489,10 +509,17 @@ const Profile = ({username}) => {
 
           <div className={`card-body ${styles.friendsInnerCard}`}>
             <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.friendsHeader}>Mini Challenges</h1>
-              <div style={{color:"white"}}>Challenge #1</div>
-              <div style={{color:"white"}}>Challenge #2</div>
-              <div style={{color:"white"}}>Challenge #3</div>
+              <h1 className={styles.friendsHeader}>Active Challenges</h1>
+              {challenges.length > 0 ? (
+                challenges.map((challenge) => (
+                  <div key={challenge.challengeId}>
+                    <h3>{challenge.challenge}</h3>
+                    <p>Points: {challenge.points}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No challenges found.</p>
+              )}
             </div>
           </div>
           {/* Render the DeleteFriendModal */}
@@ -516,7 +543,7 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="editModalLabel"
         aria-hidden="false"
-        style={{display: showModal ? "block" : "none"}}
+        style={{ display: showModal ? "block" : "none" }}
         role={showModal ? "dialog" : ""}
         aria-modal={showModal ? "true" : "false"}
       >
