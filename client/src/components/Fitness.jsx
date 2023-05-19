@@ -5,12 +5,6 @@ import Modal from "react-modal";
 // import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { VictoryPie, VictoryLabel } from 'victory';
 
-
-// for task completion buttons
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-
 // import server hosting port
 const port = "5050";
 
@@ -469,16 +463,9 @@ const CompleteExercisesButton = () => {
 
   };
   return (
-    <div>
-    <button
-      className="markExerciseComplete btn btn-success btn-checkbox"
-      onClick={handleClick}
-      // disabled={}
-    >
-      <FontAwesomeIcon icon={isChecked ? faCheckSquare : faSquare}
-        className="mr-2"
-      /> Done!
-    </button>
+    <div onClick={handleClick}>
+      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></input>
+      <label className="form-check-label" for="flexSwitchCheckDefault">Done!</label>
   </div>
   );
 };
