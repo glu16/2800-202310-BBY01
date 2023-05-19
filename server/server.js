@@ -65,7 +65,7 @@ app.get("/getFromUser/:email", async (req, res) => {
   }
 });
 
-// GETS THE USER'S DATA FROM THE DATABASE
+// RETRIEVES THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
   // THE USER'S USERNAME
   const userID = req.params.username;
@@ -121,7 +121,7 @@ app.put("/users/:username", async (req, res) => {
   }
 });
 
-// GETS ALL THE USERS IN THE DATABASE
+// RETRIEVES ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
     const users = await User.find({}, { username: 1, points: 1, _id: 1 });
@@ -132,7 +132,7 @@ app.get("/leaderboard/users", async (req, res) => {
   }
 });
 
-// GETS ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
+// RETRIEVES ALL OF THE LOGGED IN USER'S FRIENDS IN THE DATABASE
 app.get("/leaderboard/:username", async (req, res) => {
   try {
     const { username } = req.params;
@@ -295,6 +295,27 @@ app.delete("/profile/:friendId", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// RETRIEVES THE USER'S CHALLENGES FROM THE DATABASE
+app.get("/settings/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+
+    if (!user) {
+      res.status(404).send("User not found");
+    }
+    const settings = user.notificationSettings[0];
+    res.send({
+      dietReminders: settings.dietReminders,
+      fitnessReminders: settings.fitnessReminders,
+      leaderboardReminders: settings.leaderboardReminders,
+      challengeReminders: settings.challengeReminders,
+    });
+  } catch (error) {
+    console.log(error);
   }
 });
 
@@ -513,7 +534,7 @@ app.put("/history/:username", async (req, res) => {
   }
 });
 
-// GETS THE USER'S CHAT HISTORY FROM THE DATABASE
+// RETRIEVES THE USER'S CHAT HISTORY FROM THE DATABASE
 app.get("/coach/:username", async (req, res) => {
   // THE USER'S EMAIL
   const userID = req.params.username;
@@ -669,7 +690,7 @@ app.put("/fitness/:username", async (req, res) => {
   generateWorkout();
 });
 
-// SENDS THE WORKOUT PLAN TO CLIENT
+// RETRIEVES THE WORKOUT PLAN FOR THE USER
 app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -709,7 +730,7 @@ app.get("/streak/:username", async (req, res) => {
   }
 });
 
-// GETS THE USER'S COMPLETED WORKOUTS
+// RETRIEVES THE USER'S COMPLETED WORKOUTS
 app.get("/doneToday/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -723,7 +744,7 @@ app.get("/doneToday/:username", async (req, res) => {
   }
 });
 
-// GETS THE USER'S FIRST NAME AND LAST NAME
+// RETRIEVES THE USER'S FIRST NAME AND LAST NAME
 app.get("/getName/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -809,25 +830,7 @@ app.put("/diet/:username", async (req, res) => {
   generateDiet();
 });
 
-// GETS USER'S WORKOUT PLAN
-app.get("/diet/:username", async (req, res) => {
-  const userID = req.params.username;
-  try {
-    const user = await User.findOne({ username: userID });
-    // IF WORKOUTS EMPTY IE.NEW USER
-    if (user.diets.length == 0) {
-      res.send("empty");
-      // SENDS FIRST WORKOUT IN WORKOUTS
-    } else {
-      res.send(user.diets[0]);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// GETS THE USER'S USER STATS
+// RETRIEVES THE USER'S USER STATS
 app.get("/userStats", async (req, res) => {
   // THE USER'S USERNAME
   const userID = req.params.username;
@@ -857,7 +860,7 @@ app.get("/userStats", async (req, res) => {
 let selectedTip = null;
 let selectedDate = null;
 
-// GETS TIPS FROM COLLECTION IN DATABASE
+// RETRIEVES A TIP FROM THE TIP COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
     const currentDate = new Date().toISOString().slice(0, 10);
@@ -891,7 +894,7 @@ let challengesCache = {
   lastUpdated: null,
 };
 
-// GETS 3 RANDOM CHALLENGES FOR THE LOGGED-IN USER
+// RETRIEVES 3 RANDOM CHALLENGES FOR THE LOGGED-IN USER
 app.get("/home/challenges/:username", async (req, res) => {
   try {
     const username = req.params.username;
