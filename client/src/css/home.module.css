@@ -42,12 +42,18 @@
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
+  color: black;
 }
 
 .challengeBtn:active,
 .challengeBtn:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.challengeBtn:disabled {
+  background-color: #95a4a9;
+  color: black;
 }
 
 .homeCard {
@@ -111,6 +117,7 @@
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
+  color: black;
 }
 
 .progressBtn:active,
