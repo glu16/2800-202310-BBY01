@@ -429,7 +429,7 @@ const Home = () => {
       </div>
 
       <animated.div
-        className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
+        className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.diet}`}
         style={greetings}
       >
         <div className={styles.progressInnerCard}>
@@ -449,7 +449,7 @@ const Home = () => {
         </div>
       </animated.div>
       <animated.div
-        className={`col-md mx-md-3 h-100 ${styles.progressCard}`}
+        className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.fitness}`}
         style={greetings}
       >
         <div className={styles.progressInnerCard}>
