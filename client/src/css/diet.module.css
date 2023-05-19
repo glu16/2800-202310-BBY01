@@ -85,6 +85,11 @@
     height: 100%;
   }
 
+  .fitnessContainer {
+    padding: 0;
+    margin-top: 80px;
+  }
+
   .exerciseCard {
     top: 1rem;
   }
