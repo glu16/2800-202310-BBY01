@@ -482,7 +482,7 @@ app.post("/settings/:username", async (req, res) => {
 });
 
 // STORES USER'S CHAT HISTORY TO THE DATABASE
-app.put("/users/:username", async (req, res) => {
+app.put("/history/:username", async (req, res) => {
   // THE USER'S EMAIL
   const userID = req.params.username;
   // USERS CHAT HITORY
