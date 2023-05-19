@@ -439,11 +439,13 @@ function Workout({ handleOpenModal }) {
   return (
     <div>
       <h2>{username}'s 7-Day Workout</h2>
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className="btn btn-info btn-arrow-left">
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-info ${styles.arrowButton}`}>
         Previous Day
+        <span className={styles.arrowLeft}></span>
       </button>
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className="btn btn-info btn-arrow-right">
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn btn-info ${styles.arrowButton}`}>
         Next Day
+        <span className={styles.arrowRight}></span>
       </button>
       <div className="d-flex align-items-center text-center justify-content-center row">
         {workout}
@@ -739,7 +741,7 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleDivVisibility}>
+      <button onClick={toggleDivVisibility} className="btn btn-warning">
         {isDivVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
       </button>
 
