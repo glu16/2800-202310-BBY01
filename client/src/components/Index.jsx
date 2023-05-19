@@ -24,7 +24,7 @@ const Index = () => {
               personalized fitness plans, workout routines, and meal plans based
               on users' unique needs, preferences, and goals.
             </h4>
-            <div className={styles["button-group"]}>
+            <div className={`button-group`}>
               <Link to="/signup">
                 <button
                   className={`btn btn-primary btn-lg ${styles.indexBtn}`}

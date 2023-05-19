@@ -21,6 +21,14 @@
   background-color: #2b2b2b;
 }
 
+.challengeInnerCard {
+  border-radius: 10px;
+  text-align: center;
+  background-color: hsl(0, 0%, 30%);
+  padding: 20px 0;
+  margin: 20px 6px;
+}
+
 .challengeHeader {
   text-align: center;
   color: rgb(92, 208, 216);

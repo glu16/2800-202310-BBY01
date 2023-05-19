@@ -391,6 +391,7 @@ const Home = () => {
         className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`} style={greetings}
       >
         <animated.div className="card-body" style={greetings}>
+        <div className={styles.challengeInnerCard}>
           <h1 className={styles.challengeHeader} style={greetings}>
             Weekly Challenges
           </h1>
@@ -425,6 +426,7 @@ const Home = () => {
           ) : (
             <p>No challenges available.</p>
           )}
+          </div>
         </animated.div>
       </animated.div>
 
