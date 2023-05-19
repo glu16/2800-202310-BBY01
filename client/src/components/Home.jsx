@@ -261,22 +261,16 @@ const Home = () => {
       console.log("Points:", points);
       console.log("User's current points balance:", userPoints);
 
-      // Update the user's points in the database
-      const updatedPoints = userPoints + points;
-
       // Adds the challenge points to the user's points balanace in the database
       await axios.put(
         `http://localhost:5050/users/${localStorage.getItem("username")}`,
-        { points: updatedPoints, challengeId },
+        { points: points, challengeId },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-      );
-
-      // Update the user's points in the state
-      setUserPoints(updatedPoints);
+      );  
 
       // Remove the challenge from the user's "challenges" array
       setUserChallenges((prevUserChallenges) =>

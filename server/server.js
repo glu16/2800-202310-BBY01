@@ -102,10 +102,14 @@ app.put("/users/:username", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // GETS THE CHALLENGE POINTS FROM THE REQUEST
-    const challengePoints = points;
-    // ADDS THE CHALLENGE POINTS TO THE USER'S POINTS
-    user.points += challengePoints;
+    // GET THE CURRENT POINTS FROM THE USER
+    const currentPoints = user.points;
+
+    // ADD THE CHALLENGE POINTS TO THE USER'S CURRENT POINTS
+    const updatedPoints = currentPoints + points;
+
+    // UPDATE THE USER'S POINTS
+    user.points = updatedPoints;
 
     // SAVE THE CHANGES
     await user.save();
