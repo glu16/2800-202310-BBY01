@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { VictoryPie, VictoryLabel } from 'victory';
 
 // for task completion buttons
 
@@ -75,6 +77,74 @@ function updateStreaks() {
     method: "POST",
   })
 }
+
+
+// 
+const MyBarChart = ({ currentStreak, longestStreak }) => {
+  const data = [
+    { name: 'Streak', currentStreak, longestStreak },
+  ];
+  const ticks = Array.from(Array(longestStreak + 1).keys());
+
+  return (
+    <BarChart width={400} height={100} data={data} layout="vertical">
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis type="number" ticks={ticks}/>
+      <YAxis type="category" dataKey="name" />
+      <Tooltip />
+      <Legend />
+      <Bar dataKey="currentStreak" fill="#8884d8" barSize={10} />
+      <Bar dataKey="longestStreak" fill="#82ca9d" barSize={10} />
+    </BarChart>
+  );
+};
+const CircleChart = ({ percentDaysComplete }) => {
+  const data = [
+    { x: 1, y: percentDaysComplete },
+    { x: 2, y: 100 - percentDaysComplete },
+  ];
+
+  const svgSize = 200; // Adjust the size of the SVG container
+  const radius = (svgSize - 40) / 2; // Adjust the radius of the circle
+  const fontSize = 20; // Adjust the font size of the label
+
+  let color;
+  if (percentDaysComplete >= 66) {
+    color = 'green';
+  } else if (percentDaysComplete >= 33) {
+    color = 'yellow';
+  } else {
+    color = 'red';
+  }
+
+  return (
+    <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
+      <VictoryPie
+        standalone={false}
+        width={svgSize}
+        height={svgSize}
+        data={data}
+        innerRadius={radius - 10}
+        cornerRadius={25}
+        labels={() => null}
+        style={{
+          data: {
+            fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
+          },
+        }}
+      />
+      <VictoryLabel
+        textAnchor="middle"
+        verticalAnchor="middle"
+        x={svgSize / 2}
+        y={svgSize / 2}
+        text={`${percentDaysComplete}%`}
+        style={{ fontSize }}
+      />
+    </svg>
+  );
+};
+
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
@@ -403,6 +473,8 @@ const Streak = () => {
     doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/04/logo-excel-rouge.png'
   }
 
+  var percentDaysComplete = 100 * daysDone / (daysDone + daysMissed);
+
   return (
     <div id="streakContainer" style={{ border: '2px solid red'}}>
       <h2>{username}'s Workout Stats</h2>
@@ -410,6 +482,12 @@ const Streak = () => {
           <img src={doneTodaySymbol}
             style={{width:'50px', height:'50px'}}></img>
       </p>
+
+      <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} />
+
+      <CircleChart percentDaysComplete={percentDaysComplete} />
+
+
       Current streak: {currentStreak} 
       <br />
       Longest streak: {longestStreak} 

@@ -21,6 +21,8 @@
     "react-scripts": "^5.0.1",
     "react-spring": "^9.7.1",
     "react-step-progress-bar": "^1.0.3",
+    "recharts": "^2.6.2",
+    "victory": "^36.6.10",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
