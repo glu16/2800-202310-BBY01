@@ -881,7 +881,8 @@ setInterval(() => {
   }
 }, 1000 * 60 * 60 * 24);
 
-const challengesCache = {
+// CREATES A GLOBAL CACHE OBJECT TO STORE THE CHALLENGES FOR ALL USERS
+let challengesCache = {
   data: [],
   lastUpdated: null,
 };
