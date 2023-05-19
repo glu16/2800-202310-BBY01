@@ -1,5 +1,5 @@
 .dietContainer {
-  padding: 0 80px;
+  padding: 0 80px 80px 80px;
 }
 
 .container-fluid {
@@ -35,17 +35,38 @@
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
+.dietBtn:disabled {
+  background-color: #95a4a9;
+  color: black;
+}
+
+.dietBtn1{
+ position: absolute;
+ left: 37%;
+ top: 140px;
+ z-index: 1;
+}
+
+.dietBtn2{
+  position: absolute;
+  right: 37%;
+  top: 140px;
+  z-index: 1;
+ }
+
+ .dietBtnToday{
+  position: absolute;
+  left: 31.5%;
+  top: 140px;
+  z-index: 1;
+ }
+
 .mealCard {
   margin: 10px;
   border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
   color: white;
   top: 10rem;
-}
-
-.dietBtn:disabled {
-  background-color: #95a4a9;
-  color: black;
 }
 
 .loading {
@@ -71,7 +92,7 @@
   top: -35px;
   left: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 0;
   margin: 10px 0;
 }
 
@@ -96,21 +117,23 @@
   width: 500px;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 810px) {
   html,
   body {
     height: 100%;
   }
 
   .dietContainer {
-    padding: 0;
+    padding: 0 0 100px 0;
     margin-top: 80px;
   }
 
   .dietCard {
     top: 1rem;
   }
-
+  .dietBtn1, .dietBtn2, .dietBtnToday {
+    position:static;
+  }
   .day,
   .day > strong,
   .day div {
