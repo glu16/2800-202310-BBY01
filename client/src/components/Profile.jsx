@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
-const Profile = ({ username }) => {
+const Profile = ({username}) => {
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -83,9 +83,9 @@ const Profile = ({ username }) => {
   const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleChange = ({ currentTarget: input }) => {
+  const handleChange = ({currentTarget: input}) => {
     // Input is saved into the data array
-    setData({ ...data, [input.name]: input.value });
+    setData({...data, [input.name]: input.value});
 
     // Clears error message on change
     setError("");
@@ -97,7 +97,7 @@ const Profile = ({ username }) => {
     }
   }, [image]);
 
-  const handleImageChange = ({ currentTarget: input }) => {
+  const handleImageChange = ({currentTarget: input}) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
     console.log(input.files[0]);
@@ -178,7 +178,7 @@ const Profile = ({ username }) => {
       const url = `http://localhost:5050/profile/${localStorage.getItem(
         "username"
       )}`;
-      const { data: res } = await axios.post(url, data);
+      const {data: res} = await axios.post(url, data);
 
       // Updates localStorage with newly entered username
       localStorage.setItem("username", data.username);
@@ -243,7 +243,7 @@ const Profile = ({ username }) => {
         tabIndex="-1"
         aria-labelledby="infoModalLabel"
         aria-hidden="false"
-        style={{ display: showInfoModal ? "block" : "none" }}
+        style={{display: showInfoModal ? "block" : "none"}}
         role={showInfoModal ? "dialog" : ""}
         aria-modal={showInfoModal ? "true" : "false"}
       >
@@ -344,7 +344,7 @@ const Profile = ({ username }) => {
         tabIndex="-1"
         aria-labelledby="deleteFriendModalLabel"
         aria-hidden="false"
-        style={{ display: showDeleteModal ? "block" : "none" }}
+        style={{display: showDeleteModal ? "block" : "none"}}
         role={showDeleteModal ? "dialog" : ""}
         aria-modal={showDeleteModal ? "true" : "false"}
       >
@@ -510,14 +510,26 @@ const Profile = ({ username }) => {
             </div>
           </div>
 
-          <div className={`card-body ${styles.friendsInnerCard}`}>
-            <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.friendsHeader}>Active Challenges</h1>
+          <div className={`${styles.challengeInnerCard}`}>
+            <div
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
+            >
+              <div className={styles.friendsHeader}>
+                <h1>Active Challenges</h1>
+              </div>
+
               {challenges.length > 0 ? (
                 challenges.map((challenge) => (
-                  <div key={challenge._id}>
-                    <h6 className={styles.challengeBody}>{challenge.challenge}</h6>
-                    <h6 className={styles.challengeBody}>Points: {challenge.points}</h6>
+                  <div
+                    key={challenge._id}
+                    className={styles.challengeBackground}
+                  >
+                    <h6 className={styles.challengeBody}>
+                      {challenge.challenge}
+                    </h6>
+                    <h6 className={styles.challengeBody}>
+                      Points: {challenge.points}
+                    </h6>
                   </div>
                 ))
               ) : (
@@ -546,7 +558,7 @@ const Profile = ({ username }) => {
         tabIndex="-1"
         aria-labelledby="editModalLabel"
         aria-hidden="false"
-        style={{ display: showModal ? "block" : "none" }}
+        style={{display: showModal ? "block" : "none"}}
         role={showModal ? "dialog" : ""}
         aria-modal={showModal ? "true" : "false"}
       >
