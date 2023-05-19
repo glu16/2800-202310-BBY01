@@ -254,7 +254,7 @@ function SignupPrefRes() {
             type="submit"
             id={styles.submitBtn}
             name="submit"
-            value="Finalize"
+            value="Sign up"
           />
         </form>
       </div>

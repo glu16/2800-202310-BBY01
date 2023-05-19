@@ -143,7 +143,7 @@ function SignupDetails() {
                 type="submit"
                 id={styles.submitBtn}
                 name="submit"
-                value="Sign Up"
+                value="Next"
               />
             </form>
           </div>

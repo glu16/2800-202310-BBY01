@@ -91,7 +91,7 @@ const Home = () => {
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
-    delay: 500,
+    delay: 300,
   });
 
   // useState hook variables for the username
@@ -369,10 +369,10 @@ const Home = () => {
 
   // Renders Home.jsx component
   return (
-    <div className={`row justify-content- ${styles.cardWrapper}`}>
-      <div
+    <div className={`row justify-content- ${styles.cardWrapper}`} >
+      <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
-      >
+        style={greetings}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
@@ -386,14 +386,14 @@ const Home = () => {
             </animated.h4>
           </div>
         </div>
-      </div>
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
+      </animated.div>
+      <animated.div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`} style={greetings}
       >
-        <div className="card-body">
-          <animated.h1 className={styles.challengeHeader} style={greetings}>
+        <animated.div className="card-body" style={greetings}>
+          <h1 className={styles.challengeHeader} style={greetings}>
             Weekly Challenges
-          </animated.h1>
+          </h1>
           {console.log("Challenges:", challenges)}
           {challenges.length > 0 ? (
             challenges.map((challenge) => (
@@ -425,8 +425,8 @@ const Home = () => {
           ) : (
             <p>No challenges available.</p>
           )}
-        </div>
-      </div>
+        </animated.div>
+      </animated.div>
 
       <animated.div
         className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.diet}`}
