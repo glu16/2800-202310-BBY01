@@ -670,10 +670,10 @@ app.get("/fitness/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    // if workouts empty ie.new user
+    // IF WORKOUTS EMPTY IE.NEW USER
     if (user.workouts.length == 0) {
       res.send("empty");
-      // sends first workout in workouts
+      // SENDS FIRST WORKOUT IN WORKOUTS
     } else {
       res.send(user.workouts[0]);
     }
@@ -810,10 +810,10 @@ app.get("/diet/:username", async (req, res) => {
   const userID = req.params.username;
   try {
     const user = await User.findOne({ username: userID });
-    // if workouts empty ie.new user
+    // IF WORKOUTS EMPTY IE.NEW USER
     if (user.diets.length == 0) {
       res.send("empty");
-      // sends first workout in workouts
+      // SENDS FIRST WORKOUT IN WORKOUTS
     } else {
       res.send(user.diets[0]);
     }
@@ -1043,12 +1043,12 @@ app.post("/fitness/:username", async (req, res) => {
   console.log(req.body);
   try {
     const user = await User.findOneAndUpdate(
-      // find user by username
+      // FIND USER BY USERNAME
       { username: userID },
       {
-        // increment currentStreak and daysDone FIELD BY 1
+        // INCREMENT currentStreak AND daysDone FIELD BY 1
         $inc: { currentStreak: 1, daysDone: 1 },
-        // set doneToday TO true
+        // SET doneToday TO true
         $set: { doneToday: true },
       },
       // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
@@ -1057,7 +1057,7 @@ app.post("/fitness/:username", async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    // Compare currentStreak with longestStreak and update longestStreak if necessary
+    // COMPARE currentStreak WITH longestStreak AND UPDATE longestStreak IF NECESSARY
     if (user.currentStreak > user.longestStreak) {
       user.longestStreak = user.currentStreak;
       await user.save();
@@ -1078,20 +1078,20 @@ app.post("/fitness/:username", async (req, res) => {
 
 // Daily at 12:01AM update streaks for all users <- TARGET THIS METHOD WITH CRON-JOB EXTERNALLY ONCE HOSTED
 app.post("/updateStreaks", async (req, res) => {
-  // handle whether user completed or did not complete their workout today
+  // HANDLE WHETHER USER COMPLETED OR DID NOT COMPLETE THEIR WORKOUT TODAY
   try {
-    // Find all users and iterate through them
+    // FIND ALL USERS AND ITERATE THROUGH THEM
     const users = await User.find();
     for (const user of users) {
       if (user.doneToday) {
-        // If the user completed a workout today, increment daysDone
+        // IF THE USER COMPLETED A WORKOUT TODAY, INCREMENT daysDone
         user.daysDone++;
       } else {
-        // If the user did not complete a workout today, update currentStreak and daysMissed
+        // IF THE USER DID NOT COMPLETE A WORKOUT TODAY, UPDATE currentStreak AND daysMissed
         user.currentStreak = 0;
         user.daysMissed++;
       }
-      // Save the updated user
+      // SAVE THE UPDATED USER
       await user.save();
       // console.log(`${user.username} streak updated.`);
     }
@@ -1100,7 +1100,7 @@ app.post("/updateStreaks", async (req, res) => {
     console.error("Failed to update streaks: ", err);
   }
 
-  // finally reset all user's doneToday to false
+  // FINALLY RESET ALL USER'S doneToday TO false
   try {
     await User.updateMany(
       {},
@@ -1120,7 +1120,7 @@ const port = process.env.PORT || localPort;
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
 });
-// send server port info to client
+// SEND SERVER PORT INFO TO CLIENT
 app.get("/api/port", (req, res) => {
   res.json({ port });
 });

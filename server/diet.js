@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-//This page is bascially the same as workout.js, but it is for diet plans instead of workout plans.
 
 const { Configuration, OpenAIApi } = require("openai");
 const openai = new OpenAIApi(
@@ -27,13 +26,6 @@ const stopProgress = () => {
 
 function createPrompt(sex, age, height, weight, activityLevel, goal,foodPref, foodRes) {
 
-  // if foodRestrictions.length == 0 {
-  //     foodRestrictions = ["none"];
-  // }
-  // if foodPreferences.length == 0 {
-  //     foodPreferences = ["none"];
-  // }
-
   var inputPrompt = `I am a ${age} year old ${sex} and I am ${height} m tall and weigh ${weight} kilograms.
 My activity level is ${activityLevel} and my goal is to ${goal}. `
    inputPrompt+= `My restrictions are ${foodRes} and my preferences are ${foodPref}.`
@@ -57,7 +49,6 @@ async function runAI(sex, age, height, weight, activityLevel, goal, foodPref, fo
   var input = await createPrompt(sex, age, height, weight, activityLevel, goal, foodPref, foodRes);
 
   // RUN OPEN AI ON PROMPT
-  //default max tokens = 4096
   const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: input }],
