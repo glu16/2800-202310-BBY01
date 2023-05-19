@@ -107,7 +107,6 @@ td img {
 .ranksHeader {
   color: rgb(92, 208, 216);
   text-align: center;
-  margin-top: 20px;
   display: flex;
   align-items: center;
 }
