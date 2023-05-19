@@ -62,7 +62,6 @@
 .settings input:focus {
   border: none;
   box-shadow: 0 0 4px 4px hsl(184, 61%, 40%);
-  color: green;
 }
 
 .settings label {
@@ -80,4 +79,16 @@
 .toggleDiv {
   text-align: left;
   /* margin-left: 10px; */
+}
+
+@media (max-width: 767px){
+  .settings label {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+
+  .settings input {
+    margin: 10px;
+  }
+
 }
