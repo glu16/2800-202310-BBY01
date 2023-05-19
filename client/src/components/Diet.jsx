@@ -52,9 +52,9 @@ function Diet() {
 
   useEffect(() => {
     async function fetchData() {
-      const workoutData = await getDiet();
+      const dietData = await getDiet();
 
-      if (workoutData === "empty") {
+      if (dietData === "empty") {
         setDiet("No workout available"); // Set default value
       } else {
         function renderNestedObject(obj) {
@@ -93,7 +93,7 @@ function Diet() {
         function renderDiet(dietObj) {
           return Object.keys(dietObj).map((dietKey, index) => {
             return (
-              <div key={index} className={styles.aDiet}>
+              <div key={index} className={styles.mealCard}>
                 <strong className={styles.aDietTitle}>{dietKey}</strong>{" "}
                 {Object.entries(dietObj[dietKey]).map(
                   ([detailKey, detailValue]) => {
@@ -120,7 +120,7 @@ function Diet() {
             );
           });
         }
-        setDiet(renderNestedObject(workoutData));
+        setDiet(renderNestedObject(dietData));
 
         function assignVariables(data, variablePrefix = "") {
           for (const key in data) {
@@ -141,7 +141,7 @@ function Diet() {
             }
           }
         }
-        assignVariables(workoutData);
+        assignVariables(dietData);
       }
     }
 
@@ -253,8 +253,8 @@ const DietPlan = () => {
   };
 
   return (
-    <div className={`${styles.fitnessContainer}`}>
-      <div className={`card ${styles.exerciseCard}`}>
+    <div className={`${styles.dietContainer}`}>
+      <div className={`card ${styles.dietCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           <div>
             <form id="addWorkout" onSubmit={addDietToUser}>

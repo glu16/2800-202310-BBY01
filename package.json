@@ -24,7 +24,8 @@
     "react-step-progress-bar": "^1.0.3",
     "react-typed": "^1.2.0",
     "react-typist": "^2.0.5",
-    "sass": "^1.62.1"
+    "sass": "^1.62.1",
+    "victory": "^36.6.10"
   },
   "name": "2800-202310-bby01",
   "description": "<h1 align=\"center\"> Healthify </h1> \r <div align=\"center\">\r   <a align=\"center\" href=\"https://github.com/glu16/2800-202310-BBY01\"></a>\r </div>",

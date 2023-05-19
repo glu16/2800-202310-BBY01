@@ -1,4 +1,4 @@
-.fitnessContainer {
+.dietContainer {
   padding: 30px;
 }
 
@@ -7,7 +7,7 @@
   background-color: inherit;
 }
 
-.exerciseCard {
+.dietCard {
   width: 100%;
   border-radius: 10px;
   background-color: #2b2b2b;
@@ -33,6 +33,14 @@
 .dietBtn:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.mealCard{
+    margin: 10px;
+    border-radius: 10px;
+    background-color: hsl(0, 0%, 30%);
+    color: white;
+    top: 10rem;
 }
 
 .dietBtn:disabled {
@@ -68,6 +76,7 @@
 }
 
 .day {
+  min-height: 400px;
   margin-top: 30px;
   border-radius: 10px;
   display: flex;
@@ -93,23 +102,29 @@
     height: 100%;
   }
 
-  .fitnessContainer {
+  .dietContainer {
     padding: 0;
     margin-top: 80px;
   }
 
-  .exerciseCard {
+  .dietCard {
     top: 1rem;
+  }
+  
+  .mealCard {
+    /* margin: 0; */
   }
 
   .day,
   .day > strong,
   .day div {
     display: block;
+    
   }
 
   .day div {
     padding: 10px;
+    width: auto;
   }
   .day {
     margin-top: 40px;
