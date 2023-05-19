@@ -1,5 +1,5 @@
 .dietContainer {
-  padding: 30px;
+  padding: 0 80px;
 }
 
 .container-fluid {
@@ -35,12 +35,12 @@
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
-.mealCard{
-    margin: 10px;
-    border-radius: 10px;
-    background-color: hsl(0, 0%, 30%);
-    color: white;
-    top: 10rem;
+.mealCard {
+  margin: 10px;
+  border-radius: 10px;
+  background-color: hsl(0, 0%, 30%);
+  color: white;
+  top: 10rem;
 }
 
 .dietBtn:disabled {
@@ -88,7 +88,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .modalImage {
@@ -110,16 +110,11 @@
   .dietCard {
     top: 1rem;
   }
-  
-  .mealCard {
-    /* margin: 0; */
-  }
 
   .day,
   .day > strong,
   .day div {
     display: block;
-    
   }
 
   .day div {
