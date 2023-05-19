@@ -1,36 +1,44 @@
-h1 {
-  color: black;
-}
-
-h4 {
-  color: black;
-  margin-bottom: 40px;
+.calendarBody {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 80px;
 }
 
 .calendar {
+  height: 100%;
   width: 100%;
+  color: rgb(92, 208, 216);
 }
 
 .calendarCard {
   height: 100%;
   width: 100%;
   max-width: 1400px;
-  margin-top: 160px;
+  margin-top: 140px;
   border-radius: 10px;
   text-align: center;
-  background-color: #d4d4d4;
+  margin-bottom: 60px;
 }
 
-.calendarContainer {
-  height: 100%;
-  width: 100%;
-  max-width: 1000px;
-  border-radius: 10px;
-  display: flex;
-  text-align: center;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: auto;
-  margin-bottom: 60px;
+.calendarTitle {
+  color: rgb(92, 208, 216);
+  margin-bottom: 40px;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: auto;
+  }
+
+  .calendarCard {
+    height: 100%;
+    width: 100%;
+    max-width: 1400px;
+    margin-top: 60px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 60px;
+  }  
 }
