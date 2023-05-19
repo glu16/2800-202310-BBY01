@@ -40,26 +40,26 @@
   color: black;
 }
 
-.dietBtn1{
- position: absolute;
- left: 37%;
- top: 135px;
- z-index: 1;
+.dietBtn1 {
+  position: absolute;
+  left: 37%;
+  top: 135px;
+  z-index: 1;
 }
 
-.dietBtn2{
+.dietBtn2 {
   position: absolute;
   right: 37%;
   top: 135px;
   z-index: 1;
- }
+}
 
- .dietBtnToday{
+.dietBtnToday {
   position: absolute;
   left: 30%;
   top: 135px;
   z-index: 1;
- }
+}
 
 .mealCard {
   margin: 10px;
@@ -131,8 +131,10 @@
   .dietCard {
     top: 1rem;
   }
-  .dietBtn1, .dietBtn2, .dietBtnToday {
-    position:static;
+  .dietBtn1,
+  .dietBtn2,
+  .dietBtnToday {
+    position: static;
   }
   .day,
   .day > strong,
@@ -153,9 +155,11 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1200px){
-  .dietBtn1, .dietBtn2, .dietBtnToday {
-    position:static;
+@media (min-width: 768px) and (max-width: 1200px) {
+  .dietBtn1,
+  .dietBtn2,
+  .dietBtnToday {
+    position: static;
   }
 
   .day,
