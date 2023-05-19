@@ -141,7 +141,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={`${percentDaysDone}%`}
-          style={{ fontSize: 20 }} 
+          style={{ fontSize: 20, fill: 'white' }} 
         />
       </svg>
       <p>Workout Completion Rate</p>
@@ -189,7 +189,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={` ${currentStreak} / ${longestStreak} \n days`}
-          style={{ fontSize: 16}}
+          style={{ fontSize: 16, fill: 'white'}}
         />
       </svg>
       <p>Current vs Longest Streak</p>
