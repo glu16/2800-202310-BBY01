@@ -3,6 +3,7 @@ import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
+import { color } from "framer-motion";
 
 const Profile = ({username}) => {
   // Retrieves the logged in user's username
@@ -489,9 +490,9 @@ const Profile = ({username}) => {
           <div className={`card-body ${styles.friendsInnerCard}`}>
             <div className="d-flex flex-column align-items-center text-center">
               <h1 className={styles.friendsHeader}>Mini Challenges</h1>
-              <div>Challenge #1</div>
-              <div>Challenge #2</div>
-              <div>Challenge #3</div>
+              <div style={{color:"white"}}>Challenge #1</div>
+              <div style={{color:"white"}}>Challenge #2</div>
+              <div style={{color:"white"}}>Challenge #3</div>
             </div>
           </div>
           {/* Render the DeleteFriendModal */}
