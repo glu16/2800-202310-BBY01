@@ -299,23 +299,29 @@ app.delete("/profile/:friendId", async (req, res) => {
 });
 
 // RETRIEVES THE USER'S CHALLENGES FROM THE DATABASE
-app.get("/settings/:username", async (req, res) => {
-  const userID = req.params.username;
+app.get("/profile/:username", async (req, res) => {
   try {
-    const user = await User.findOne({ username: userID });
-
+    const { username } = req.params;
+    // FIND THE LOGGED IN USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF NOT THE USER
     if (!user) {
-      res.status(404).send("User not found");
+      return res.status(404).json({ error: "User not found" });
     }
-    const settings = user.notificationSettings[0];
-    res.send({
-      dietReminders: settings.dietReminders,
-      fitnessReminders: settings.fitnessReminders,
-      leaderboardReminders: settings.leaderboardReminders,
-      challengeReminders: settings.challengeReminders,
-    });
+
+    // RETRIEVE THE CHALLENGES ARRAY
+    const { challenges } = user;
+
+    // RETRIEVE THE CHALLENGES ARRAY BASED ON THE CHALLENGE IDs
+    const challengeDocuments = await Challenge.find(
+      { _id: { $in: challenges } },
+      { challengeId: 1, challenge: 1, points: 1 }
+    );
+    // SEND THE RESPONSE
+    res.json(challengeDocuments);
   } catch (error) {
-    console.log(error);
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
