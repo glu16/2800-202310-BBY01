@@ -76,6 +76,14 @@
   margin-bottom: 30px;
 }
 
+.fitness{
+margin-right: 0!important;
+}
+.diet{
+margin-left: 0!important;
+
+}
+
 .progressInnerCard {
   border-radius: 10px;
   text-align: center;
