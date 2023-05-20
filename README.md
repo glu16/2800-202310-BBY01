@@ -89,6 +89,17 @@ npm start
 localhost:3000
 ```
 
+Instructions:
+
+- Create an account or log in with your existing credentials. New users will need to provide information to enhance their dietary and fitness journey, including height, weight, food, and workout restrictions/preferences.
+- Once logged in, you will be directed to the Home page, where you can access your daily health tip, choose challenges, and track your diet and fitness progress.
+- If you need guidance on your health journey, visit the Coach page and chat with our AI Coach, specifically trained to answer your diet and fitness inquiries.
+- Generate a personalized 7-day diet plan on the Diet page or a 7-day workout plan on the Fitness page, based on the information you provided during signup.
+- Check the Leaderboard page to see your global ranking and compare against friends in completing workout challenges. Add and remove friends on this page.
+- The Profile page allows you to update your information, view your friends list, and manage active challenges.
+- Access the Calendar page to see upcoming events for the week.
+- Customize your notification preferences on the Settings page according to your preferences.
+
 ## Known Bugs & Limitations
 
 <br>
@@ -138,7 +149,8 @@ It has the following subfolders:
 │       │   ├── Settings.jsx 
 │       │   ├── SignUp.jsx 
 │       │   ├── SignupDetails.jsx 
-│       │   └── SignupPrefRes.jsx 
+│       │   ├── SignupPrefRes.jsx 
+│       │   └── useToken.js 
 │       │
 │       ├── css/
 │       │   ├── about.module.css
@@ -160,6 +172,11 @@ It has the following subfolders:
 │       │   └── signupPrefRes.module.css
 │       │
 │       ├── img/
+│       │   ├── exercises/
+│       │   │   ├── female/
+│       │   │   ├── male/
+│       │   │   └── sources.txt
+│       │   │
 │       │   ├── abstract.png
 │       │   ├── Arnold.png
 │       │   ├── fitness.png
