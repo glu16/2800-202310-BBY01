@@ -70,10 +70,6 @@
   top: 10rem;
 }
 
-.aKey {
-  /* border: 2px dashed green ;
-  border-radius: 10px; */
-}
 
 .streakContainer {
   display: flex;
@@ -164,6 +160,12 @@
 }
 .hiddenButton {
   margin: auto;
+
+}
+.hiddenButton:disabled {
+  background-color: hsl(184, 61%, 70%)!important;
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%)!important;
+
 }
 .checkbox {
   display: flex;
