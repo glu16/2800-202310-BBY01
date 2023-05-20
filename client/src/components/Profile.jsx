@@ -738,7 +738,7 @@ const Profile = ({ username }) => {
                   <label
                     htmlFor="phoneInput"
                     className={`form-label ${styles.formLabel}`}>
-                    Height
+                    Height (m)
                   </label>
                   <input
                     type="number"
@@ -759,7 +759,7 @@ const Profile = ({ username }) => {
                   <label
                     htmlFor="phoneInput"
                     className={`form-label ${styles.formLabel}`}>
-                    Weight
+                    Weight (kg)
                   </label>
                   <input
                     type="number"
