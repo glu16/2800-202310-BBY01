@@ -8,12 +8,15 @@ import styles from "../css/login.module.css";
 function Login({ setToken }) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
   //https://www.youtube.com/watch?v=HGgyd1bYWsE
+
+  // useState hook variables for users to log in
   const [data, setData] = useState({
     username: "",
     password: "",
   });
   const [error, setError] = useState("");
 
+  // Allows the user to log in once authenticated
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -30,6 +33,7 @@ function Login({ setToken }) {
     }
   };
 
+  // Checks to see if the login credentials are valid
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };

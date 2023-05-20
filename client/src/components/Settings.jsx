@@ -13,6 +13,7 @@ const Settings = () => {
   });
   // End of visual effects
 
+  // useState hook variables for the notification settings
   const [notificationSettings, setNotificationSettings] = useState({
     dietReminders: false,
     fitnessReminders: false,
@@ -21,6 +22,7 @@ const Settings = () => {
   });
   const [isSaved, setIsSaved] = useState(false);
 
+  // Saves the user's notification preferences
   const saveNotificationSettings = async () => {
     try {
       const username = localStorage.getItem("username");
@@ -37,7 +39,7 @@ const Settings = () => {
     }, 3000);
   };
 
-  // Retrieve notification settings from database
+  // Retrieves notification settings from database
   const fetchNotificationSettings = async () => {
     try {
       const username = localStorage.getItem("username");
@@ -57,11 +59,11 @@ const Settings = () => {
       console.log(error);
     }
   };
-
   // useEffect hook to call fetchNotificationSettings function
   useEffect(() => {
     fetchNotificationSettings();
   }, []);
+  // End of user's notifications retrieval
 
   return (
     <animated.div

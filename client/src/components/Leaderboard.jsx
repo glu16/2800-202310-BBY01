@@ -5,7 +5,7 @@ import styles from "../css/leaderboard.module.css";
 import { useSpring, animated } from "react-spring";
 
 const Leaderboard = () => {
-
+  // Visual page animation effects
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
@@ -72,7 +72,6 @@ const Leaderboard = () => {
       console.error(error);
     }
   };
-
   // useEffect hook to fetchFriends
   useEffect(() => {
     fetchFriends();
@@ -428,9 +427,10 @@ const Leaderboard = () => {
   return (
     <div className={styles.cardWrapper}>
       <animated.div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.ranksCard}`} style={fadeIn}
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.ranksCard}`}
+        style={fadeIn}
       >
-        <div className="card-body" >
+        <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <h1 className={styles.ranksHeader}>
               Leaderboard Ranks{" "}

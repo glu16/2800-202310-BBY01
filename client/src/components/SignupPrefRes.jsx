@@ -4,6 +4,7 @@ import axios from "axios";
 import styles from "../css/signupPrefRes.module.css";
 
 function SignupPrefRes() {
+  // useState hook variables for users to input their information
   const [data, setData] = useState({
     foodPreferences: "",
     dietaryRestrictions: "",
@@ -13,6 +14,7 @@ function SignupPrefRes() {
 
   const [error, setError] = useState("");
 
+  // Allows the user to submit their information to the database
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -27,7 +29,7 @@ function SignupPrefRes() {
       const workoutKey = "workout_" + today;
       const workout = {};
 
-      // GENERATES AND STORES WORKOUT PLAN
+      // Generates and stores the user's workout plan
       const data2 = { [workoutKey]: workout };
       const workoutRequest = fetch(
         `http://localhost:5050/fitness/${localStorage.getItem("username")}`,
@@ -41,7 +43,7 @@ function SignupPrefRes() {
       const mealKey = "meal_" + today;
       const diet = {};
 
-      // GENERATES AND STORES DIET PLAN
+      // Generates and stores the user's diet plan
       const data3 = { [mealKey]: diet };
       const dietRequest = fetch(
         `http://localhost:5050/diet/${localStorage.getItem("username")}`,
@@ -52,7 +54,7 @@ function SignupPrefRes() {
         }
       );
 
-      //ChatGPT was used to generate the code that allows for concurrent API calls
+      // ChatGPT was used to generate the code that allows for concurrent API calls
       const [workoutResponse, dietResponse] = await Promise.all([
         workoutRequest,
         dietRequest,
@@ -115,7 +117,8 @@ function SignupPrefRes() {
             className={`user-input ${styles.userInput}`}
             value={0 ? data.weight : null} //Fix this stuff
             onChange={handleChange}
-            required>
+            required
+          >
             <option disabled>Food Preferences</option>
             <option value="Vegetarian">Vegetarian</option>
             <option value="Vegan">Vegan</option>
@@ -126,7 +129,7 @@ function SignupPrefRes() {
             <option value="None">None</option>
           </select>
           <div className={styles.restrictionsHeader}>Dietary Restrictions</div>
-          <div className={styles.checkboxes}> 
+          <div className={styles.checkboxes}>
             <div className={styles.checkboxGroup1}>
               <input
                 type="checkbox"
@@ -134,9 +137,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="gluten-free"
                 value="gluten,"
-                onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
-               htmlFor="gluten-free">
+                onChange={handleCheckbox}
+              ></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="gluten-free"
+              >
                 Gluten-free
               </label>
               <input
@@ -145,10 +151,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="lactose-intolerant"
                 value="lactose-intolerant,"
-                onChange={handleCheckbox}></input>
+                onChange={handleCheckbox}
+              ></input>
               <label
-                className={`btn btn-outline-info ${styles.checkboxLabel}`} 
-                htmlFor="lactose-intolerant">
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="lactose-intolerant"
+              >
                 Lactose Intolerant
               </label>
               <input
@@ -157,9 +165,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="kosher"
                 value="kosher,"
-                onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
-                htmlFor="kosher">
+                onChange={handleCheckbox}
+              ></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="kosher"
+              >
                 Kosher
               </label>
               <input
@@ -168,9 +179,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="nut-allergy"
                 value="nuts,"
-                onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
-                htmlFor="nut-allergy">
+                onChange={handleCheckbox}
+              ></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="nut-allergy"
+              >
                 Nut Allergy
               </label>
             </div>
@@ -181,10 +195,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="wheat-allergy"
                 value="wheat,"
-                onChange={handleCheckbox}></input>
+                onChange={handleCheckbox}
+              ></input>
               <label
-                className={`btn btn-outline-info ${styles.checkboxLabel}`} 
-                htmlFor="wheat-allergy">
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="wheat-allergy"
+              >
                 Wheat Allergy
               </label>
               <input
@@ -193,9 +209,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="fish-allergy"
                 value="fish,"
-                onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
-                htmlFor="fish-allergy">
+                onChange={handleCheckbox}
+              ></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="fish-allergy"
+              >
                 Fish Allergy
               </label>
               <input
@@ -204,10 +223,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="shellfish-allergy"
                 value="shellfish,"
-                onChange={handleCheckbox}></input>
+                onChange={handleCheckbox}
+              ></input>
               <label
-                className={`btn btn-outline-info ${styles.checkboxLabel}`} 
-                htmlFor="shellfish-allergy">
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="shellfish-allergy"
+              >
                 Shellfish Allergy
               </label>
               <input
@@ -216,9 +237,12 @@ function SignupPrefRes() {
                 className="btn-check"
                 id="soy-allergy"
                 value="soy,"
-                onChange={handleCheckbox}></input>
-              <label className={`btn btn-outline-info ${styles.checkboxLabel}`}
-                htmlFor="soy-allergy">
+                onChange={handleCheckbox}
+              ></input>
+              <label
+                className={`btn btn-outline-info ${styles.checkboxLabel}`}
+                htmlFor="soy-allergy"
+              >
                 Soy Allergy
               </label>
             </div>
@@ -235,7 +259,8 @@ function SignupPrefRes() {
           />
           <label
             htmlFor="workoutPreferences"
-            className={`${styles.inputLabel}`}>
+            className={`${styles.inputLabel}`}
+          >
             <span className={`${styles.inputName}`}>Workout Preferences</span>
           </label>
 
@@ -251,7 +276,8 @@ function SignupPrefRes() {
           />
           <label
             htmlFor="workoutRestrictions"
-            className={`${styles.inputLabel}`}>
+            className={`${styles.inputLabel}`}
+          >
             <span className={`${styles.inputName}`}>Workout Restrictions</span>
           </label>
 
