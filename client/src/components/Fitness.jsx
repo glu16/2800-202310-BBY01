@@ -284,7 +284,7 @@ function Workout({ handleOpenModal }) {
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3>Today, {key}</h3>
+                      <h3 className={styles.date}>{key}</h3>
                       {renderExerciseToday(obj[key])}
                     </div>
                   );
@@ -292,7 +292,7 @@ function Workout({ handleOpenModal }) {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3>{key}</h3>
+                      <h3 className={styles.date} >{key}</h3>
                       {renderExercise(obj[key])}
                     </div>
                   );
@@ -333,7 +333,7 @@ function Workout({ handleOpenModal }) {
             })}
 
             {/* this opens up images for the exercise */}
-            <button onClick={handleOpenModal} className="btn btn-info">Help</button>
+            <button onClick={handleOpenModal} className={`btn btn-primary  ${styles.exerciseButtons}`}>Help</button>
 
           </div>
 
@@ -376,9 +376,9 @@ function Workout({ handleOpenModal }) {
               }
             })}
 
-            <div className={styles.exerciseButtons}>
+            <div className={styles.helpButtonsContainer}>
               {/* this opens up images for the exercise */}
-              <button onClick={handleOpenModal} className="btn btn-info">Help</button>
+              <button onClick={handleOpenModal} className={`btn btn-primary  ${styles.exerciseButtons}`}>Help</button>
 
               {/* button to mark task completed */}
               <CompleteExercisesButton />
@@ -429,14 +429,16 @@ function Workout({ handleOpenModal }) {
 
   // return for Workout()
   return (
-    <div>
-      <h2>{username}'s 7-Day Workout</h2>
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className="btn btn-info btn-arrow-left">
+    <div className={styles.workoutPlanContainer}>
+      <h2>Your Workout Plan</h2>
+      <div className={styles.PrevNext}>
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-primary  ${styles.exerciseButtons}`}>
         Previous Day
       </button>
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className="btn btn-info btn-arrow-right">
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn btn-primary  ${styles.exerciseButtons}`}>
         Next Day
       </button>
+      </div>
       <div className="d-flex align-items-center text-center justify-content-center row">
         {workout}
       </div>
@@ -463,7 +465,7 @@ const CompleteExercisesButton = () => {
 
   };
   return (
-    <div onClick={handleClick}>
+    <div onClick={handleClick} className={styles.checkbox}>
       <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></input>
       <label className="form-check-label" for="flexSwitchCheckDefault">Done!</label>
   </div>
@@ -525,7 +527,6 @@ const Streak = () => {
 
   return (
     <div id="streakContainer" className={styles.streakContainer}>
-      <h2>{username}'s Workout Stats</h2>
       <p>
           <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
           &nbsp; {doneTodayMessage} 
@@ -729,7 +730,7 @@ const Fitness = () => {
       <Streak />
 
       <button onClick={toggleDivVisibility} className="btn btn-primary">
-        {isDivVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
+        {isDivVisible ? 'Hide Generate Workout Plan Form' : 'Generate New Workout Plan'}
       </button>
 
       <div
@@ -774,7 +775,7 @@ const Fitness = () => {
           {/* button displays different text if clicked or not clicked */}
           <button
             type="submit"
-            className="btn btn-success"
+            className={`btn btn-primary  ${styles.exerciseButtons}`}
             disabled={isFormSubmitting}
           >
             {isFormSubmitting ? (
@@ -805,7 +806,7 @@ const Fitness = () => {
           onRequestClose={handleCloseModal}
           />
       )}
-      <button id="completeAllButton" className="completeAllButton btn btn-success"
+      <button id="completeAllButton" className={`btn btn-primary  ${styles.markButton}`}
         onClick={completeAllExercises} 
         disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
         >Mark ALL exercises complete!

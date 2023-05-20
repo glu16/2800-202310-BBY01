@@ -1,17 +1,18 @@
 .fitnessContainer {
   height: 100%;
-  max-width: 1000px;
   border-radius: 10px;
   display: flex;
   text-align: center;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
   margin-top: 160px;
 
   background-color: #2b2b2b;
   color: white;
+
+  margin-left: 80px;
+  margin-right: 80px;
 }
 
 @media (max-width: 767px) {
@@ -20,7 +21,7 @@
     height: auto;
     margin-bottom: 80px;
   }
-  
+
   .fitnessContainer {
     height: 100%;
     max-width: 1000px;
@@ -35,12 +36,13 @@
   }
 }
 
-
 .container-fluid {
   /* Sets dropdown of navbar to be same colour as actual navbar */
   background-color: inherit;
 }
-
+.workoutPlanContainer{
+  width: 100%;
+}
 .title {
   text-align: center;
   margin-top: 20px;
@@ -48,13 +50,30 @@
   color: black;
 }
 
+.date {
+  position: absolute;
+  top: -30px;
+  left: 0;
+  width: 100%;
+  z-index: 1;
+  margin: 10px 0;
+}
 .day {
-  border: 2px solid black ;
+  min-height: 400px;
+  margin-top: 30px;
   border-radius: 10px;
+  display: flex;
+  position: relative;
+}
+.day div {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .anExercise {
-  border: 2px solid grey ;
   border-radius: 10px;
 }
 
@@ -64,8 +83,7 @@
 }
 
 .streakContainer {
-  /* border: 2px solid red ;
-  border-radius: 10px; */
+  display: flex;
 }
 
 .doneTodaySymbol {
@@ -95,8 +113,48 @@
   justify-content: center;
 }
 
-.completeAllButton {
+.exerciseButtons,
+.markButton {
+  background-color: hsl(183.87deg 60.78% 40%);
+  color: white;
+  border: none;
+  margin: 5px;
+}
 
+.exerciseButtons:hover,
+.markButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
+  color: black;
+}
+
+.exerciseButtons:active,
+.exerciseButtons:focus.markButton:active,
+.markButton:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+.exerciseButtons:disabled,
+.markButton:disabled {
+  background-color: #95a4a9;
+  color: black;
+}
+.PrevNext {
+  display: flex;
+  justify-content: center;
+}
+.helpButtonsContainer {
+  display: flex;
+  padding-bottom: 0!important;
+}
+
+.checkbox {
+  display: flex;
+  flex-direction: row !important;
+}
+.markButton {
+  margin-bottom: 20px;
 }
 
 .modalImage {
@@ -107,4 +165,3 @@
 .hidden {
   display: none;
 }
-
