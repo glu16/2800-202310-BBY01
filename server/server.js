@@ -189,7 +189,7 @@ app.get("/settings/:username", async (req, res) => {
       res.status(404).send("User not found");
     }
     const settings = user.notificationSettings[0];
-    if (!settings){
+    if (!settings) {
       res.send({
         dietReminders: false,
         fitnessReminders: false,
@@ -197,15 +197,13 @@ app.get("/settings/:username", async (req, res) => {
         challengeReminders: false,
       });
     } else {
-    res.send({
-      dietReminders: settings.dietReminders,
-      fitnessReminders: settings.fitnessReminders,
-      leaderboardReminders: settings.leaderboardReminders,
-      challengeReminders: settings.challengeReminders,
-      
-    });
-  }
-    
+      res.send({
+        dietReminders: settings.dietReminders,
+        fitnessReminders: settings.fitnessReminders,
+        leaderboardReminders: settings.leaderboardReminders,
+        challengeReminders: settings.challengeReminders,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -946,10 +944,12 @@ app.get("/home/challenges/:username", async (req, res) => {
     const currentMinute = currentDate.getMinutes();
 
     if (
-      challengesCache.lastUpdated === null ||
-      (currentDayOfWeek === 0 && currentHour === 0 && currentMinute < 5) ||
-      (currentDayOfWeek === 6 && currentHour === 23 && currentMinute >= 55) ||
-      isCacheExpired(challengesCache.lastUpdated)
+      (currentDayOfWeek === 0 &&
+        currentHour === 0 &&
+        currentMinute >= 0 &&
+        currentMinute < 5) ||
+      isCacheExpired(challengesCache.lastUpdated) ||
+      !challengesCache.data
     ) {
       // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
       const challenges = await Challenges.aggregate([
@@ -1089,7 +1089,7 @@ app.post("/fitness/:username", async (req, res) => {
       { username: userID },
       {
         // INCREMENT currentStreak AND daysDone FIELD BY 1 AND award 100 points
-        $inc: { currentStreak: 1, daysDone: 1 , points: 100},
+        $inc: { currentStreak: 1, daysDone: 1, points: 100 },
         // SET doneToday TO true
         $set: { doneToday: true },
       },
@@ -1102,7 +1102,7 @@ app.post("/fitness/:username", async (req, res) => {
     // COMPARE currentStreak WITH longestStreak AND UPDATE longestStreak IF NECESSARY
     if (user.currentStreak > user.longestStreak) {
       user.longestStreak = user.currentStreak;
-      // aware extra 50 points if new streak 
+      // aware extra 50 points if new streak
       user.points = user.points + 50;
       await user.save();
       console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
