@@ -5,13 +5,6 @@ import Modal from "react-modal";
 // import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { VictoryPie, VictoryLabel } from 'victory';
 
-<<<<<<< HEAD
-// for task completion buttons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-
-=======
->>>>>>> dev
 // import server hosting port
 const port = "5050";
 
