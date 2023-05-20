@@ -42,7 +42,7 @@ Languages:
 
 IDEs:
 
-![Visual Studio Code](https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
 
 Hosting:
@@ -119,7 +119,7 @@ It has the following subfolders:
 │   │   └── robots.txt
 │   │  
 │   └── src/                                  # Source code
-│       ├── components
+│       ├── components/
 │       │   ├── About.jsx 
 │       │   ├── Calendar.jsx 
 │       │   ├── ChangePassword.jsx 
