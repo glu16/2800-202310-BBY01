@@ -629,7 +629,7 @@ const Fitness = () => {
   const ExerciseModal = ({ isOpen, onRequestClose, modalExercise }) => {
     var source = "ModalExercise"
     if (modalExercise) {
-      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/${modalExercise.toLowerCase()}.gif`
+      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${modalExercise.toLowerCase()}.gif`
     }
 
     return (
@@ -639,8 +639,10 @@ const Fitness = () => {
         contentLabel="Image Popup"
         appElement={document.getElementById("root")}
         ariaHideApp={false}
+        className = {styles.modal}
       >
         <strong>{modalExercise}</strong>
+        <small>{source}</small>
         <img className={styles.modalImage} 
         src={source}
         alt="No Exercise Image Found" />
