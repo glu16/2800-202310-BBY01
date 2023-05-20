@@ -629,7 +629,10 @@ const Fitness = () => {
   const ExerciseModal = ({ isOpen, onRequestClose, modalExercise }) => {
     var source = "ModalExercise"
     if (modalExercise) {
-      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${modalExercise.toLowerCase()}.gif`
+      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/`
+      // replace whitespaces with underscore and tolowercase as per image naming convention
+      + modalExercise.replace(/\s/g, "_").toLowerCase()
+      + `.gif`
     }
 
     return (
