@@ -482,7 +482,7 @@ const Profile = ({ username }) => {
                   )}
                 </div>
                 <button
-                  className={`btn btn-primary ${styles.editProfileButton}`}
+                  className={`btn btn-primary ${styles.editProfileBtn}`}
                   data-bs-toggle="modal"
                   data-bs-target="#editModal"
                 >
@@ -772,7 +772,7 @@ const Profile = ({ username }) => {
                   </button>
                   <button
                     type="button"
-                    className={`btn btn-primary ${styles.saveProfileButton}`}
+                    className={`btn btn-primary ${styles.saveProfileBtn}`}
                     onClick={handleSaveChanges}
                   >
                     Save Changes
