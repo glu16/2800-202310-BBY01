@@ -219,6 +219,125 @@
   margin-right: 10px;
 }
 
+@media (min-width: 1273px) and (max-width: 1420px) {
+  .fitnessContainer{
+    background-color: rgb(67, 33, 33);
+  }
+
+  .streakContainer {
+
+    right: 90px;
+    top: 77px;
+
+  }
+}
+
+@media (min-width: 1201px) and (max-width: 1272px) {
+  .fitnessContainer{
+    background-color: rgb(108, 46, 110)!important;
+  }
+
+  
+  .streakContainer {
+    right: 90px;
+    top: -5px;
+  }
+  .graph {
+    display: flex;
+    flex-direction: column;
+    height: 169px;
+  }
+
+
+}
+
+@media (min-width: 1030px) and (max-width: 1200px) {
+  .fitnessContainer{
+    background-color: rgb(108, 110, 46);
+  }
+
+  .streakContainer {
+    right: 90px;
+    top: -5px;
+  }
+  .graph {
+    display: flex;
+    flex-direction: column;
+    height: 169px;
+  }
+  .day{
+    align-items: center;
+  }
+
+}
+@media (min-width: 900px) and (max-width: 1029px) {
+  .fitnessContainer{
+    background-color: rgb(38, 128, 89);
+  }
+
+  .streakContainer {
+    right: 65px;
+    top: -5px;
+  }
+  .graph {
+    display: flex;
+    flex-direction: column;
+    height: 169px;
+  }
+
+  .anExercise{
+    width: auto!important;
+  }
+  .graph p {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 899px) {
+  .fitnessContainer{
+    background-color: rgb(40, 38, 128);
+  }
+
+  .streakContainer {
+    right: 65px;
+    top: -5px;
+  }
+  .graph {
+    display: flex;
+    flex-direction: column;
+    height: 169px;
+  }
+
+  .anExercise{
+    width: auto!important;
+  }
+  .graph p {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1200px) {
+  .day {
+    flex-direction: column;
+
+  }
+
+  .day div {
+    padding: 20px;
+    width: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    
+  }
+  .helpButtonsContainer button{
+    width: 50%;
+  }
+
+
+}
+
 @media (max-width: 767px) {
   html,
   body {
