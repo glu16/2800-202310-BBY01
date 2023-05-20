@@ -749,8 +749,8 @@ const Fitness = () => {
           <label htmlFor="intermediateOption" className="btn btn-outline-info">Intermediate</label>
           <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
           <label htmlFor="expertOption" className="btn btn-outline-info">Expert</label>
-          <p>Select desired intensity level</p>
-          <br />
+          <p style={{marginTop:"2px"}}>Select desired intensity level</p>
+     
 
           {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
 
