@@ -88,30 +88,37 @@ const Profile = ({ username }) => {
     workoutRes: "",
   });
 
+  // useState hook variables for displaying the edit modal
   const [showModal, setShowModal] = useState(false);
+
+  // useState hook variables for displaying the alert
   const [showAlert, setShowAlert] = useState(false);
 
+  // Click event handler for saving the profile changes
   const handleChange = ({ currentTarget: input }) => {
     // Input is saved into the data array
     setData({ ...data, [input.name]: input.value });
     
-
     // Clears error message on change
     setError("");
   };
 
+  // useEffect hook to handle image uploads
   useEffect(() => {
     if (image) {
       handleImageUpload();
     }
   }, [image]);
+  // End of image upload
 
+  // Allows the user to change their profile picture
   const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
     console.log(input.files[0]);
   };
 
+  // Executes the image upload to store the URL in the database
   const handleImageUpload = async () => {
     try {
       let imageURL = "";
@@ -145,6 +152,7 @@ const Profile = ({ username }) => {
     }
   };
 
+  // useEffect hook to close the modal after 3 seconds of saving the changes
   useEffect(() => {
     let timer;
     if (showAlert) {
@@ -160,6 +168,7 @@ const Profile = ({ username }) => {
     return () => clearTimeout(timer);
   }, [showAlert]);
 
+  // Saves the user's profile changes
   const handleSaveChanges = async (event) => {
     event.preventDefault();
 
@@ -203,9 +212,10 @@ const Profile = ({ username }) => {
   };
   // End of user profile update
 
-  // Retrieves the logged in user's friends from the database
+  // useState hook variables for the user's friends
   const [friends, setFriends] = useState([]);
 
+  // Retrieves the logged in user's friends from the database
   const fetchFriends = async () => {
     try {
       const response = await axios.get(
@@ -230,7 +240,7 @@ const Profile = ({ username }) => {
     return usernameA.localeCompare(usernameB);
   });
 
-  // useState hook variable for the info modal
+  // useState hook variables for the info modal
   const [showInfoModal, setShowInfoModal] = useState(false);
 
   // Info modal open handler
