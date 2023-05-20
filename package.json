@@ -8,7 +8,6 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
-    "fortawesome": "^0.0.1-security",
     "joi": "^17.9.2",
     "joi-password-complexity": "^5.1.0",
     "jsonwebtoken": "^9.0.0",

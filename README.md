@@ -1,4 +1,5 @@
-<h1 align="center"> Healthify </h1> 
+<h1 align="center"> HEALTHIFY </h1> 
+<h2 align="center"> MERN Stack (MongoDB, ExpressJS, React, NodeJS) </h2>
 <div align="center">
   <a align="center" href="https://github.com/glu16/2800-202310-BBY01"></a>
 </div>
@@ -16,39 +17,70 @@ Healthify is a comprehensive fitness and dietary app designed to help users achi
 
 ## Technologies & Resources Used
 
-![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+Database:
+
+![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
+
+Runtime Environment:
+
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![ExpressJS](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
+
+Libraries:
+
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
 ![React-Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+
+Languages:
+
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
-![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![Python](https://img.shields.io/badge/Python-14354C?style=for-the-badge&logo=python&logoColor=white)
+![JSON](https://img.shields.io/badge/json-5E5C5C?style=for-the-badge&logo=json&logoColor=white)
+
+IDEs:
+
+![Visual Studio Code](https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white)
+![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
 
 ## Complete Setup/Installion/Usage
 
 Installation:
-* Download this entire project folder and navigate to the root folder using Command Prompt or Terminal.
+
+- Download this entire project folder and navigate to the root folder using Command Prompt or Terminal.
+
 ```sh
 git clone https://github.com/glu16/2800-202310-BBY01
 ```
-* Install dependencies by running this in Command Prompt or Terminal in the \server folder.
+
+- Install dependencies by running this in Command Prompt or Terminal in the \server folder.
+
 ```sh
 npm install
 ```
-*  While still in the \server folder run this in the Command Promt or Terminal.
+
+- While in the \server folder run this in the Command Promt or Terminal.
+
 ```sh
 nodemon server
 ```
-*  Install dependencies by running this in Command Prompt or Terminal in the \client folder.
+
+- Install dependencies by running this in Command Prompt or Terminal in the \client folder.
+
 ```sh
 npm install
 ```
-* While still in the \client folder run this in the Command Promt or Terminal. The page should open automatically.
+
+- While in the \client folder run this in the Command Promt or Terminal. The page should open automatically.
+
 ```sh
 npm start
 ```
-* If not, open a web browser and type this in the address bar.
+
+- If not, open a web browser and type this in the address bar.
+
 ```sh
 localhost:3000
 ```
@@ -70,7 +102,7 @@ localhost:3000
 
  /2800-202310-BBY01
 ├── client                          # Client-side files
-├── server                          # Server-side files 
+├── server                          # Server-side files
 ├── .gitignore                      # Git ignore file
 └── README.md                       # Project description
 
@@ -81,7 +113,7 @@ It has the following subfolders:
 │   ├── src                         # Components, CSS and image files
 │   └── openAITester                # OpenAI test files
 │
-└── server/                         # Server-side files 
+└── server/                         # Server-side files
     ├── FineTuning/
     │   ├── 0API.mjs
     │   ├── 00fileId.mjs
@@ -91,35 +123,35 @@ It has the following subfolders:
     │   ├── 4createCompletion.mjs
     │   ├── readme.txt
     │   ├── trainData_prepared.jsonl
-    │   └── trainData.jsonl               
+    │   └── trainData.jsonl
     │
     ├── models/
     │   ├── challenges.js
     │   ├── tips.js
-    │   └── users.js                
+    │   └── users.js
     │
     ├── PnCGenerator/
     │   ├── Datasets/
     │   │   ├── DietPlans.csv
     │   │   ├── Fitness.csv
     │   │   ├── FoodNutrition.csv
-    │   │   └── FoodNutrition2.csv  
+    │   │   └── FoodNutrition2.csv
     │   │
     │   ├── GeneratedJSONFiles/
     │   │   ├── DietPlans.json
     │   │   ├── Fitness.json
     │   │   ├── FoodNutrition.json
-    │   │   └── FoodNutrition2.json  
+    │   │   └── FoodNutrition2.json
     │   │
     │   ├── DietPlans.py
     │   ├── Fitness.py
     │   ├── FoodNutrition.py
-    │   └── FoodNutrition2.py  
-    │  
+    │   └── FoodNutrition2.py
+    │
     ├── routes/
     │   ├── auth.js
     │   ├── passChange.js
-    │   └── users.js                
+    │   └── users.js
     │
     ├── database.js                 # JS file
     ├── diet.js                     # JS file

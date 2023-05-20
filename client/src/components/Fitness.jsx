@@ -5,12 +5,6 @@ import Modal from "react-modal";
 // import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { VictoryPie, VictoryLabel } from 'victory';
 
-
-// for task completion buttons
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-
 // import server hosting port
 const port = "5050";
 
@@ -200,7 +194,11 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
 function Workout({ handleOpenModal }) {
+
   const [workout, setWorkout] = useState(null);
+
+  // passed to modal
+  const [modalExercise, setModalExercise] = useState("");
  
   // use the today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
@@ -227,6 +225,8 @@ function Workout({ handleOpenModal }) {
   
   useEffect(() => {
     async function fetchData() {
+
+      
 
       // workoutData == the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
@@ -319,7 +319,6 @@ function Workout({ handleOpenModal }) {
         return Object.keys(exerciseObj).map((exerciseKey, index) => {
           return (
             <div key={index} className={styles.anExercise}>
-            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
             {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
 
               if (detailKey == "name") {
@@ -337,6 +336,7 @@ function Workout({ handleOpenModal }) {
                 return; 
               }
             })}
+
 
             {/* this opens up images for the exercise */}
             <button onClick={handleOpenModal} className="btn btn-info">Help</button>
@@ -349,6 +349,8 @@ function Workout({ handleOpenModal }) {
 
       // for the sublevel exercise object inside day object
       function renderExerciseToday(exerciseObj) {
+        
+
 
         // EASTER EGG Stuff
         const isSaitama = firstName.toLowerCase() == "saitama";
@@ -360,27 +362,27 @@ function Workout({ handleOpenModal }) {
             key={index}
             className={`${styles.anExercise} ${isSaitama ? styles.saitamaStyle : ""}`}
             style={isSaitama ? { backgroundImage: "url('https://staticg.sportskeeda.com/editor/2022/04/8e856-16505616347217-1920.jpg')", opacity: 1, backgroundSize: "100% 100%" } : null}
-          >
-            {/* original before Easter egg */}
-            {/* <div key={index} className={styles.anExercise}> */}
-            {/* <strong className={styles.anExerciseTitle}>{exerciseKey}</strong>{" "} */}
-            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+            >
 
-              if (detailKey == "name") {
-                return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
-              } else if (detailKey == "setsAndReps") {
-                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              } else if (detailKey == "calories") {
-                return (
-                  <div key={detailKey} className={styles.aKey}>
-                    Calories: {detailValue}
-                  </div>
-                );
-              // shouldn't be any other option currently
-              } else {
-                return; 
-              }
-            })}
+              {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
+
+                if (detailKey == "name") {
+                  return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
+                } else if (detailKey == "setsAndReps") {
+                  return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
+                } else if (detailKey == "calories") {
+                  return (
+                    <div key={detailKey} className={styles.aKey}>
+                      Calories: {detailValue}
+                    </div>
+                  );
+                // shouldn't be any other option currently
+                } else {
+                  return; 
+                }
+              })
+            }
+
 
             <div className={styles.exerciseButtons}>
               {/* this opens up images for the exercise */}
@@ -469,16 +471,9 @@ const CompleteExercisesButton = () => {
 
   };
   return (
-    <div>
-    <button
-      className="markExerciseComplete btn btn-success btn-checkbox"
-      onClick={handleClick}
-      // disabled={}
-    >
-      <FontAwesomeIcon icon={isChecked ? faCheckSquare : faSquare}
-        className="mr-2"
-      /> Done!
-    </button>
+    <div onClick={handleClick}>
+      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></input>
+      <label className="form-check-label" for="flexSwitchCheckDefault">Done!</label>
   </div>
   );
 };
@@ -569,10 +564,9 @@ const Streak = () => {
 // PAGE RENDER COMPONENT
 const Fitness = () => {
 
-  const [isDivVisible, setDivVisible] = useState(false);
-
-  const toggleDivVisibility = () => {
-    setDivVisible(!isDivVisible);
+  const [isWorkoutFormVisible, setWorkoutFormVisible] = useState(false);
+  const toggleWorkoutFormVisibility = () => {
+    setWorkoutFormVisible(!isWorkoutFormVisible);
   };
   
   // used to disable button after clicking until current execution is finished
@@ -632,7 +626,12 @@ const Fitness = () => {
     window.location.reload();
   }
 
-  const ExerciseModal = ({ isOpen, onRequestClose }) => {
+  const ExerciseModal = ({ isOpen, onRequestClose, modalExercise }) => {
+    var source = "ModalExercise"
+    if (modalExercise) {
+      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${modalExercise.toLowerCase()}.gif`
+    }
+
     return (
       <Modal
         isOpen={isOpen}
@@ -640,17 +639,27 @@ const Fitness = () => {
         contentLabel="Image Popup"
         appElement={document.getElementById("root")}
         ariaHideApp={false}
+        className = {styles.modal}
       >
-        Modal content goes here
-        <img className={styles.modalImage} src="" alt="Image" />
-        <p>Modal is working now</p>
+        <strong>{modalExercise}</strong>
+        <small>{source}</small>
+        <img className={styles.modalImage} 
+        src={source}
+        alt="No Exercise Image Found" />
+
+
       </Modal>
     );
   };
 
   const [showModal, setShowModal] = useState(false);
+  const [modalExercise, setModalExercise] = useState(null);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (event) => {
+    // get the name of the exercise via html structure then send it to modal
+    const strongElement = event.target.parentElement.parentElement.firstElementChild.textContent;
+    setModalExercise(strongElement);
+    // makes modal appear
     setShowModal(true);
   };
 
@@ -741,13 +750,13 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleDivVisibility} className="btn btn-primary">
-        {isDivVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
+      <button onClick={toggleWorkoutFormVisibility} className="btn btn-primary">
+        {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
       </button>
 
       <div
         id="workoutForm"
-        className={`${styles.workoutForm} ${isDivVisible ? '' : styles.hidden}`}
+        className={`${styles.workoutForm} ${isWorkoutFormVisible ? '' : styles.hidden}`}
       >
         <form id="addWorkout" onSubmit={addWorkoutToUser}>
           {/* SEND USERNAME FOR DATABASE SEARCH */}
@@ -816,6 +825,7 @@ const Fitness = () => {
         <ExerciseModal
           isOpen={showModal}
           onRequestClose={handleCloseModal}
+          modalExercise={modalExercise}
           />
       )}
       <button id="completeAllButton" className="completeAllButton btn btn-success"

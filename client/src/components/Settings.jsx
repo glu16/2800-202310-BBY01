@@ -65,6 +65,7 @@ const Settings = () => {
               <h1 className={styles.settingsHeader}>
                 Notification Preferences
               </h1>
+              <div className={styles.savedMessage}> {isSaved ? "Settings were successfully saved!" : "\u00a0\u00a0\u00a0"} </div>
               <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label htmlFor="diet-reminders" className="form-switch-label">
                   Diet Progress Reminders

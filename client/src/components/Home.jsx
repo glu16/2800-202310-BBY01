@@ -97,28 +97,28 @@ const Home = () => {
   // useState hook variables for the username
   const [userName, setUserName] = useState("");
 
+  async function fetchUserData() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { firstName, points } = response.data;
+      console.log(firstName);
+      console.log(points);
+      setUserName(firstName);
+      setUserPoints(points);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   // useEffect hook to retrieve logged in user's name
   useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem("username")}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        const { firstName, points } = response.data;
-        console.log(firstName);
-        console.log(points);
-        setUserName(firstName);
-        setUserPoints(points);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
-
     fetchUserData();
   }, []);
   // End of user name retrieval
@@ -156,18 +156,20 @@ const Home = () => {
   const [challenges, setChallenges] = useState([]);
 
   // Function to retrieve challenges from MongoDB
+  const fetchChallenges = async () => {
+    try {
+      const username = localStorage.getItem("username");
+      const response = await axios.get(
+        `http://localhost:5050/home/challenges/${username}`
+      );
+      setChallenges(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // useEffect hook to call fetchChallenges function
   useEffect(() => {
-    const fetchChallenges = async () => {
-      try {
-        const username = localStorage.getItem("username");
-        const response = await axios.get(
-          `http://localhost:5050/home/challenges/${username}`
-        );
-        setChallenges(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchChallenges();
   }, []);
   // End of challenges retrieval
@@ -223,7 +225,6 @@ const Home = () => {
     try {
       await addChallenge(_id, challengeString, challengePoints);
       alert("Challenge added successfully!");
-      window.location.reload();
     } catch (error) {
       console.error(error);
       return;
@@ -270,7 +271,7 @@ const Home = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
-      );  
+      );
 
       // Remove the challenge from the user's "challenges" array
       setUserChallenges((prevUserChallenges) =>
@@ -293,10 +294,10 @@ const Home = () => {
 
       console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
-      window.location.reload();
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);
     }
+    fetchUserData();
   };
 
   // useState hook variables for the completed challenges
@@ -340,8 +341,7 @@ const Home = () => {
     <div className={`row justify-content- ${styles.cardWrapper}`}>
       <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
-        style={greetings}
-      >
+        style={greetings}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
@@ -358,14 +358,13 @@ const Home = () => {
       </animated.div>
       <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
-        style={greetings}
-      >
+        style={greetings}>
         <animated.div className="card-body" style={greetings}>
           <div className={styles.challengeInnerCard}>
             <h1 className={styles.challengeHeader} style={greetings}>
               Weekly Challenges
             </h1>
-            {console.log("Challenges:", challenges)}
+            {/* {console.log("Challenges:", challenges)} */}
             {challenges.length > 0 ? (
               challenges
                 .filter(
@@ -381,10 +380,9 @@ const Home = () => {
                       <button
                         id={`doneButton_${challenge._id}`}
                         className={`btn btn-success ${styles.challengeBtn}`}
-                        onClick={() =>
-                          handleDoneClick(challenge._id, challenge.points)
-                        }
-                      >
+                        onClick={() => {
+                          handleDoneClick(challenge._id, challenge.points);
+                        }}>
                         Done
                       </button>
                     ) : (
@@ -392,26 +390,26 @@ const Home = () => {
                         className={`btn btn-primary ${styles.challengeBtn}`}
                         onClick={() =>
                           handleAddChallenge(challenge._id, challenge.points)
-                        }
-                      >
+                        }>
                         Add Challenge
                       </button>
                     )}
                   </div>
                 ))
             ) : (
-              <p>No challenges available.</p>
+              <p className={styles.noChallenge}>No challenges available.</p>
             )}
             <hr />
-            <h5 className={styles.pointsBalance}>Points Balance: {userPoints}</h5>
+            <h5 className={styles.pointsBalance}>
+              Points Balance: {userPoints}
+            </h5>
           </div>
         </animated.div>
       </animated.div>
 
       <animated.div
         className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.diet}`}
-        style={greetings}
-      >
+        style={greetings}>
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
@@ -422,16 +420,14 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleDietProgressChange(25)}
-          >
+            onClick={() => handleDietProgressChange(25)}>
             Update Progress
           </button>
         </div>
       </animated.div>
       <animated.div
         className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.fitness}`}
-        style={greetings}
-      >
+        style={greetings}>
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
           <div className={styles.progressBarContainer}>
@@ -442,16 +438,14 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleFitnessProgressChange(25)}
-          >
+            onClick={() => handleFitnessProgressChange(25)}>
             Update Progress
           </button>
         </div>
       </animated.div>
       <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}
-        style={greetings}
-      >
+        style={greetings}>
         <animated.div className={styles.progressInnerCard} style={greetings}>
           <Reorder.Group onReorder={setItems} values={items}>
             <p className={styles.exerciseDate}>Exercises for {date}</p>

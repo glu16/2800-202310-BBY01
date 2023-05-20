@@ -2,11 +2,6 @@
   height: 100%;
   border-radius: 10px;
   max-width: 1000px;
-  /* display: flex; */
-  /* text-align: center;
-  flex-direction: column;
-  justify-content: center; */
-  /* align-items: center; */
   margin: auto;
   margin-top: 160px;
 }
@@ -62,6 +57,9 @@
   color: rgb(92, 208, 216);
 }
 
+.noChallenge {
+  color: white;
+}
 .homeCard {
   height: 100%;
   width: 100%;
@@ -161,7 +159,6 @@
   html,
   body {
     height: auto;
-    margin-bottom: 200px;
   }
 
   .cardWrapper {
@@ -175,5 +172,6 @@
     align-items: center;
     margin: auto;
     margin-top: 80px;
+    margin-bottom: 100px;
   }
 }
