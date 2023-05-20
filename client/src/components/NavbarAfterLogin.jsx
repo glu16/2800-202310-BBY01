@@ -4,15 +4,18 @@ import { Link } from "react-router-dom";
 import "../css/navfooter.css";
 
 function NavbarAfterLogin() {
+  // useState hook variables for opening the navbar
   const [isNavOpen, setIsNavOpen] = useState(false);
 
+  // Click event handler to close the toggle menu dropdown
   const handleNavClose = () => {
     setIsNavOpen(false);
   };
-
+  
+  // Removes the user's token and logs them out
   function logout() {
-    sessionStorage.removeItem('token');
-    window.location.href = '/index';
+    sessionStorage.removeItem("token");
+    window.location.href = "/index";
   }
 
   return (
@@ -67,7 +70,10 @@ function NavbarAfterLogin() {
                 className="nav-link"
                 onClick={handleNavClose}
               >
-                <span className="material-symbols-outlined"> social_leaderboard </span>{" "}
+                <span className="material-symbols-outlined">
+                  {" "}
+                  social_leaderboard{" "}
+                </span>{" "}
                 Ranks
               </Link>
             </li>

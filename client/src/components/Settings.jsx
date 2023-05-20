@@ -5,12 +5,13 @@ import styles from "../css/settings.module.css";
 import { useSpring, animated } from "react-spring";
 
 const Settings = () => {
+  // Visual page animation effects
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 500,
   });
-    // End of visual effects
+  // End of visual effects
 
   const [notificationSettings, setNotificationSettings] = useState({
     dietReminders: false,
@@ -35,7 +36,6 @@ const Settings = () => {
       setIsSaved(false);
     }, 3000);
   };
-
 
   // Retrieve notification settings from database
   const fetchNotificationSettings = async () => {
@@ -65,7 +65,9 @@ const Settings = () => {
 
   return (
     <animated.div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`} style={fadeIn}>
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`}
+      style={fadeIn}
+    >
       <div className={`${styles.settingsCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
@@ -73,7 +75,12 @@ const Settings = () => {
               <h1 className={styles.settingsHeader}>
                 Notification Preferences
               </h1>
-              <div className={styles.savedMessage}> {isSaved ? "Settings were successfully saved!" : "\u00a0\u00a0\u00a0"} </div>
+              <div className={styles.savedMessage}>
+                {" "}
+                {isSaved
+                  ? "Settings were successfully saved!"
+                  : "\u00a0\u00a0\u00a0"}{" "}
+              </div>
               <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label htmlFor="diet-reminders" className="form-switch-label">
                   Diet Progress Reminders
@@ -96,7 +103,8 @@ const Settings = () => {
               <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label
                   htmlFor="fitness-reminders"
-                  className="form-switch-label">
+                  className="form-switch-label"
+                >
                   Fitness Progress Reminders
                   <input
                     className={`form-check-input ${styles.remindersInput}`}
@@ -117,7 +125,8 @@ const Settings = () => {
               <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label
                   htmlFor="leaderboard-reminders"
-                  className="form-switch-label">
+                  className="form-switch-label"
+                >
                   Leaderboard Reminders
                   <input
                     className={`form-check-input ${styles.remindersInput}`}
@@ -138,7 +147,8 @@ const Settings = () => {
               <div className={`form-check form-switch ${styles.toggleDiv}`}>
                 <label
                   htmlFor="challenge-reminders"
-                  className="form-switch-label">
+                  className="form-switch-label"
+                >
                   Mini Challenge Reminders
                   <input
                     className={`form-check-input ${styles.remindersInput}`}
@@ -159,8 +169,9 @@ const Settings = () => {
                 type="button"
                 className={`btn btn-primary ${styles.settingsBtn}`}
                 onClick={saveNotificationSettings}
-                disabled={isSaved}>
-                { isSaved ? "Settings saved!" : "Save Changes"}
+                disabled={isSaved}
+              >
+                {isSaved ? "Settings saved!" : "Save Changes"}
               </button>
             </div>
           </div>

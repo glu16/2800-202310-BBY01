@@ -6,6 +6,7 @@ import profile from "../img/placeholder-profile.png";
 import { useSpring, animated } from "react-spring";
 
 const Profile = ({ username }) => {
+  // Visual page animation effects
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
@@ -79,7 +80,6 @@ const Profile = ({ username }) => {
         workoutPref: response.data.userStats[0].workoutPref,
         workoutRes: response.data.userStats[0].workoutRes,
       }));
-
     } catch (error) {
       console.error(error.response.data);
     }
@@ -335,13 +335,15 @@ const Profile = ({ username }) => {
         aria-hidden="false"
         style={{ display: showInfoModal ? "block" : "none" }}
         role={showInfoModal ? "dialog" : ""}
-        aria-modal={showInfoModal ? "true" : "false"}>
+        aria-modal={showInfoModal ? "true" : "false"}
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="infoModalLabel">
+                id="infoModalLabel"
+              >
                 Information
               </h5>
               <button
@@ -349,7 +351,8 @@ const Profile = ({ username }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={closeInfoModal}></button>
+                onClick={closeInfoModal}
+              ></button>
             </div>
             <div className="modal-body">
               <p>
@@ -361,7 +364,8 @@ const Profile = ({ username }) => {
               <button
                 type="button"
                 className={`btn btn-primary ${styles.modalBtn}`}
-                onClick={closeInfoModal}>
+                onClick={closeInfoModal}
+              >
                 OK
               </button>
             </div>
@@ -434,13 +438,15 @@ const Profile = ({ username }) => {
         aria-hidden="false"
         style={{ display: showDeleteModal ? "block" : "none" }}
         role={showDeleteModal ? "dialog" : ""}
-        aria-modal={showDeleteModal ? "true" : "false"}>
+        aria-modal={showDeleteModal ? "true" : "false"}
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="deleteFriendModalLabel">
+                id="deleteFriendModalLabel"
+              >
                 Remove Friend
               </h5>
               <button
@@ -448,7 +454,8 @@ const Profile = ({ username }) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={closeModal}></button>
+                onClick={closeModal}
+              ></button>
             </div>
             <div className="modal-body">
               <p>Do you want to remove {selectedUser.username} as a friend?</p>
@@ -457,13 +464,15 @@ const Profile = ({ username }) => {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={closeModal}>
+                onClick={closeModal}
+              >
                 Cancel
               </button>
               <button
                 type="button"
                 className={`btn btn-danger ${styles.modalBtn}`}
-                onClick={handleRemoveFriend}>
+                onClick={handleRemoveFriend}
+              >
                 Remove
               </button>
             </div>
@@ -499,7 +508,8 @@ const Profile = ({ username }) => {
   return (
     <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
-      style={fadeIn}>
+      style={fadeIn}
+    >
       <div className={styles.cardContainer}>
         <div className={`${styles.profileCard}`}>
           <div className={`card-body ${styles.profileInnerCard}`}>
@@ -556,7 +566,8 @@ const Profile = ({ username }) => {
                 <button
                   className={`btn btn-primary ${styles.editProfileBtn}`}
                   data-bs-toggle="modal"
-                  data-bs-target="#editModal">
+                  data-bs-target="#editModal"
+                >
                   Edit Profile
                 </button>
               </div>
@@ -566,13 +577,15 @@ const Profile = ({ username }) => {
         <div className={`${styles.friendsCard}`}>
           <div className={`${styles.friendsInnerCard}`}>
             <div
-              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}>
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
+            >
               <div className={styles.friendsHeader}>
                 <h1>
                   Friends List
                   <a
                     className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
-                    onClick={openInfoModal}>
+                    onClick={openInfoModal}
+                  >
                     info
                   </a>
                 </h1>
@@ -581,7 +594,8 @@ const Profile = ({ username }) => {
                 <div className={styles.friends} key={index}>
                   <a
                     className={styles.userNameLink}
-                    onClick={() => handleUserClick(friend)}>
+                    onClick={() => handleUserClick(friend)}
+                  >
                     {friend.username}
                   </a>
                 </div>
@@ -591,7 +605,8 @@ const Profile = ({ username }) => {
 
           <div className={`${styles.challengeInnerCard}`}>
             <div
-              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}>
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
+            >
               <div className={styles.friendsHeader}>
                 <h1>Active Challenges</h1>
               </div>
@@ -600,7 +615,8 @@ const Profile = ({ username }) => {
                 challenges.map((challenge) => (
                   <div
                     key={challenge._id}
-                    className={styles.challengeBackground}>
+                    className={styles.challengeBackground}
+                  >
                     <h6 className={styles.challengeDesc}>
                       {challenge.challenge}
                     </h6>
@@ -637,27 +653,31 @@ const Profile = ({ username }) => {
         aria-hidden="false"
         style={{ display: showModal ? "block" : "none" }}
         role={showModal ? "dialog" : ""}
-        aria-modal={showModal ? "true" : "false"}>
+        aria-modal={showModal ? "true" : "false"}
+      >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="editModalLabel">
+                id="editModalLabel"
+              >
                 Edit Profile
               </h5>
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"></button>
+                aria-label="Close"
+              ></button>
             </div>
             <div className="modal-body">
               <form id="profile-form">
                 <div className="mb-3">
                   <label
                     htmlFor="nameInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Name
                   </label>
                   <input
@@ -677,7 +697,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="emailInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Email
                   </label>
                   <input
@@ -697,7 +718,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Phone
                   </label>
                   <input
@@ -717,7 +739,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Age
                   </label>
                   <input
@@ -737,7 +760,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Height (m)
                   </label>
                   <input
@@ -758,7 +782,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Weight (kg)
                   </label>
                   <input
@@ -779,7 +804,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="foodPrefInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Food Preferences
                   </label>
                   <input
@@ -794,7 +820,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="foodResInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Food Restrictions
                   </label>
                   <input
@@ -809,7 +836,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="workoutPrefInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Workout Preferences
                   </label>
                   <input
@@ -824,7 +852,8 @@ const Profile = ({ username }) => {
                 <div className="mb-3">
                   <label
                     htmlFor="workoutResInput"
-                    className={`form-label ${styles.formLabel}`}>
+                    className={`form-label ${styles.formLabel}`}
+                  >
                     Workout Restrictions
                   </label>
                   <input
@@ -840,13 +869,15 @@ const Profile = ({ username }) => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-bs-dismiss="modal">
+                    data-bs-dismiss="modal"
+                  >
                     Cancel
                   </button>
                   <button
                     type="button"
                     className={`btn btn-primary ${styles.saveProfileBtn}`}
-                    onClick={handleSaveChanges}>
+                    onClick={handleSaveChanges}
+                  >
                     Save Changes
                   </button>
                   {showAlert && (
