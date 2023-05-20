@@ -97,9 +97,6 @@
   padding: none;
   height: 100px;
 }
-.graphs {
-  /* display: flex; */
-}
 
 .workoutForm {
   border-radius: 10px;
@@ -194,12 +191,11 @@
   display: flex;
   align-items: center;
 }
-.checkDone{
+.checkDone {
   background-color: hsl(183.87deg 60.78% 40%);
   border: none;
-
 }
-.checkDone:checked{
+.checkDone:checked {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
@@ -220,6 +216,7 @@
     margin-top: 80px;
     margin-left: 0;
     margin-right: 0;
+    padding: 1rem 1rem;
   }
 
   .dietCard {
@@ -235,9 +232,10 @@
   .day div {
     padding: 10px;
     width: auto;
+    display: flex;
   }
   .day {
-    margin-top: 40px;
+    margin-top: 87px;
     flex-direction: column;
   }
 
@@ -248,5 +246,36 @@
   .helpButtonsContainer {
     display: flex;
     justify-content: center !important;
+  }
+  .graphs {
+    display: flex;
+    position: absolute;
+    top: -56px;
+    left: -25px;
+  }
+
+  .graph p {
+    display: none;
+  }
+
+  .workoutInnerCon{
+margin-top: 100px;
+  }
+
+  .streakContainer {
+    position: relative;
+    margin-top: 100px;
+    margin-bottom: 65px;
+  }
+  .workoutPlanContainer {
+    width: 100%;
+    margin-top: 0;
+    position: relative;
+  }
+
+  .PrevNext {
+
+    top: 110px;
+
   }
 }
