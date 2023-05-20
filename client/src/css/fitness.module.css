@@ -250,7 +250,7 @@
   .graphs {
     display: flex;
     position: absolute;
-    top: -56px;
+    top: 185px;
     left: -25px;
   }
 
@@ -258,8 +258,8 @@
     display: none;
   }
 
-  .workoutInnerCon{
-margin-top: 100px;
+  .workoutInnerCon {
+    margin-top: 400px;
   }
 
   .streakContainer {
@@ -269,13 +269,38 @@ margin-top: 100px;
   }
   .workoutPlanContainer {
     width: 100%;
-    margin-top: 0;
+    margin-top: -107px;
     position: relative;
   }
 
   .PrevNext {
+    top: 411px;
+  }
 
-    top: 110px;
+  .mainTitle {
+    top: -39px;
+  }
+  .newPlan {
+    display: none !important;
+  }
 
+  .workoutForm {
+    top: 50px;
+    left: 1px;
+    display: flex;
+  }
+  .workoutForm label {
+    margin-top: 30px;
+  }
+  .workoutForm p {
+    display: none;
+  }
+
+  .workoutForm button {
+    margin-top: 30px;
+  }
+
+  .workoutForm button + p {
+    display: contents;
   }
 }
