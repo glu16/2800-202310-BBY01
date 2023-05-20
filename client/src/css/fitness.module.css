@@ -14,6 +14,7 @@
   margin-left: 80px;
   margin-right: 80px;
   position: relative;
+  padding: 1rem 1rem;
 }
 
 .mainTitle {
@@ -41,7 +42,7 @@
 
 .date {
   position: absolute;
-  top: -30px;
+  top: -35px;
   left: 0;
   width: 100%;
   z-index: 1;
@@ -63,7 +64,11 @@
 }
 
 .anExercise {
+  margin: 10px;
   border-radius: 10px;
+  background-color: hsl(0, 0%, 30%);
+  color: white;
+  top: 10rem;
 }
 
 .aKey {
@@ -73,8 +78,8 @@
 
 .streakContainer {
   display: flex;
-  left: 50px;
-  top: 16px;
+  right: 157px;
+  top: 49px;
   position: absolute;
 }
 .streakContainer > p {
@@ -101,9 +106,12 @@
   border-radius: 10px;
   position: absolute;
   top: 20px;
-  right: 68px;
+  left: 68px;
   /* display: none; */
   z-index: 1;
+}
+.workoutForm label ~ .btn-check:checked+.btn-outline-primary{
+  background-color: red!important;
 }
 
 .newPlan {

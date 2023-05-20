@@ -284,7 +284,7 @@ function Workout({ handleOpenModal }) {
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3 className={styles.date}>{key}</h3>
+                      <strong className={styles.date}>{key}</strong>
                       {renderExerciseToday(obj[key])}
                     </div>
                   );
@@ -292,7 +292,7 @@ function Workout({ handleOpenModal }) {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3 className={styles.date} >{key}</h3>
+                      <strong className={styles.date} >{key}</strong>
                       {renderExercise(obj[key])}
                     </div>
                   );
