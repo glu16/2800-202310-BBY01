@@ -3,8 +3,17 @@ import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
+import { useSpring, animated } from "react-spring";
 
 const Profile = ({ username }) => {
+  
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+  // End of visual effects
+
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -435,8 +444,8 @@ const Profile = ({ username }) => {
   // End of user's challenges retrieval
 
   return (
-    <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
+    <animated.div
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`} style={fadeIn}
     >
       <div className={styles.cardContainer}>
         <div className={`${styles.profileCard}`}>
@@ -798,7 +807,7 @@ const Profile = ({ username }) => {
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 

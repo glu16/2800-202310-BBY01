@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import styles from "../css/diet.module.css";
+import { useSpring, animated } from "react-spring";
 
 // This is literally the same as Fitness.jsx but with different variable names
 // Might need an update
@@ -23,8 +24,11 @@ async function getDiet() {
   }
 }
 
+
+
 // display user's diet, can't be async
 function Diet() {
+
   const [diet, setDiet] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedDiet, setSelectedDiet] = useState(null);
@@ -221,6 +225,14 @@ function Modal({onClose, children}) {
 
 // page render
 const DietPlan = () => {
+
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 330,
+  });
+  // End of visual effects
+
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
@@ -268,7 +280,7 @@ const DietPlan = () => {
   };
 
   return (
-    <div className={`${styles.dietContainer}`}>
+    <animated.div className={`${styles.dietContainer}`} style={fadeIn}>
       <div className={`card ${styles.dietCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           <div>
@@ -305,7 +317,7 @@ const DietPlan = () => {
           <Diet />
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 
