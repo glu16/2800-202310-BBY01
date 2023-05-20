@@ -466,8 +466,8 @@ const CompleteExercisesButton = () => {
   };
   return (
     <div onClick={handleClick} className={styles.checkbox}>
-      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></input>
-      <label className="form-check-label" for="flexSwitchCheckDefault">Done!</label>
+      <input className="form-check-input btn btn-outline-info" type="checkbox" id="flexSwitchCheckDefault"></input>
+      <label className="form-check-label btn btn-outline-info" for="flexSwitchCheckDefault">Done!</label>
   </div>
   );
 };
@@ -743,31 +743,31 @@ const Fitness = () => {
 
           {/* SEND INTENSITY FOR WORKOUT GENERATION */}
           
-          <input type="radio" id="beginnerOption" name="intensity" value="beginner" className={`btn-check  ${styles.test}`}></input>
-          <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
+          <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
+          <label htmlFor="beginnerOption" className="btn btn-outline-info">Beginner</label>
           <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
-          <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
+          <label htmlFor="intermediateOption" className="btn btn-outline-info">Intermediate</label>
           <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
-          <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
+          <label htmlFor="expertOption" className="btn btn-outline-info">Expert</label>
           <p>Select desired intensity level</p>
           <br />
 
           {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
-          
-          <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
-          <label className="btn btn-outline-primary" htmlFor="arms">Arms</label>
-          <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
-          <label className="btn btn-outline-primary" htmlFor="legs">Legs</label>
-          <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
-          <label className="btn btn-outline-primary" htmlFor="chest">Chest</label>
-          <input type="checkbox" name="back" className="btn-check" id="back"></input>
-          <label className="btn btn-outline-primary" htmlFor="back">Back</label>
+
           <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
-          <label className="btn btn-outline-primary" htmlFor="shoulders">Shoulders</label>
+          <label className="btn btn-outline-info" htmlFor="shoulders">Shoulders</label>
+          <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
+          <label className="btn btn-outline-info" htmlFor="chest">Chest</label>
+          <input type="checkbox" name="back" className="btn-check" id="back"></input>
+          <label className="btn btn-outline-info" htmlFor="back">Back</label>
+          <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
+          <label className="btn btn-outline-info" htmlFor="arms">Arms</label>
           <input type="checkbox" name="core" className="btn-check" id="core"></input>
-          <label className="btn btn-outline-primary" htmlFor="core">Core</label>
+          <label className="btn btn-outline-info" htmlFor="core">Core</label>
           <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
-          <label className="btn btn-outline-primary" htmlFor="glutes">Glutes</label>
+          <label className="btn btn-outline-info" htmlFor="glutes">Glutes</label>
+          <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
+          <label className="btn btn-outline-info" htmlFor="legs">Legs</label>
           <p>Select muscle groups you want to focus on</p>
 
           <br />
@@ -787,6 +787,7 @@ const Fitness = () => {
             ) : (
               "Generate New Workout Plan"
             )}
+
           </button>
 
           <p>
