@@ -94,6 +94,7 @@ const Profile = ({ username }) => {
   const handleChange = ({ currentTarget: input }) => {
     // Input is saved into the data array
     setData({ ...data, [input.name]: input.value });
+    
 
     // Clears error message on change
     setError("");

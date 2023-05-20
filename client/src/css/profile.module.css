@@ -11,10 +11,12 @@
   border-color: rgb(92, 208, 216);
 }
 
-.editProfileButton:hover {
+.editProfileButton:hover,
+.editProfileButton:focus {
   color: black;
   background-color: hsl(184, 62%, 73%);
   border-color: hsl(184, 62%, 73%);
+  outline: none; 
 }
 
 .cardContainer {
