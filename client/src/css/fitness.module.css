@@ -13,35 +13,17 @@
 
   margin-left: 80px;
   margin-right: 80px;
+  position: relative;
 }
 
-@media (max-width: 767px) {
-  html,
-  body {
-    height: auto;
-    margin-bottom: 80px;
-  }
-
-  .fitnessContainer {
-    height: 100%;
-    max-width: 1000px;
-    border-radius: 10px;
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    margin-top: 80px;
-  }
-}
 
 .container-fluid {
   /* Sets dropdown of navbar to be same colour as actual navbar */
   background-color: inherit;
 }
-.workoutPlanContainer{
+.workoutPlanContainer {
   width: 100%;
+  margin-top: 100px;
 }
 .title {
   text-align: center;
@@ -84,6 +66,12 @@
 
 .streakContainer {
   display: flex;
+  left: 50px;
+  top: 40px;
+  position: absolute;
+}
+.streakContainer>p {
+  display: none;
 }
 
 .doneTodaySymbol {
@@ -146,7 +134,7 @@
 }
 .helpButtonsContainer {
   display: flex;
-  padding-bottom: 0!important;
+  padding-bottom: 0 !important;
 }
 
 .checkbox {
@@ -164,4 +152,46 @@
 
 .hidden {
   display: none;
+}
+
+@media (max-width: 767px) {
+  html,
+  body {
+    height: 100%;
+  }
+
+  .fitnessContainer {
+    padding: 0;
+    margin-top: 80px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .dietCard {
+    top: 1rem;
+  }
+
+  .day,
+  .day > strong,
+  .day div {
+    display: block;
+  }
+
+  .day div {
+    padding: 10px;
+    width: auto;
+  }
+  .day {
+    margin-top: 40px;
+    flex-direction: column;
+  }
+
+  .date {
+    top: -35px;
+  }
+
+  .helpButtonsContainer {
+    display: flex;
+    justify-content: center!important;
+  }
 }
