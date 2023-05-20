@@ -103,13 +103,13 @@ function Diet() {
                       detailKey == "Nutritional Info"
                     ) {
                       return (
-                        <div key={detailKey} className={styles.aKey}>
+                        <div key={detailKey} className={``}>
                           {detailValue}
                         </div>
                       );
                     } else {
                       return (
-                        <div key={detailKey} className={styles.aKey}>
+                        <div key={detailKey} className={`calories`}>
                           {detailKey}: {detailValue}
                         </div>
                       );

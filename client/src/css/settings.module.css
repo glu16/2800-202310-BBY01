@@ -2,6 +2,15 @@
   margin-right: 28px;
 }
 
+.savedMessage {
+  color: rgb(255, 255, 255);
+  font-size: 18pt;
+  margin-bottom: 5px;
+  min-width: 400px;
+  text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
+    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
+}
+
 .settingsBtn {
   margin-top: 40px;
   margin-bottom: 12px;
@@ -47,7 +56,7 @@
 }
 
 .settings h1 {
-  margin-bottom: 40px;
+  margin-bottom: 5px;
 }
 
 .settings input {
@@ -62,7 +71,6 @@
 .settings input:focus {
   border: none;
   box-shadow: 0 0 4px 4px hsl(184, 61%, 40%);
-  color: green;
 }
 
 .settings label {
@@ -80,4 +88,15 @@
 .toggleDiv {
   text-align: left;
   /* margin-left: 10px; */
+}
+
+@media (max-width: 767px) {
+  .settings label {
+    font-size: 1.05rem;
+    margin-bottom: 10px;
+  }
+
+  .settings input {
+    margin: 10px;
+  }
 }
