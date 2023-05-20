@@ -50,14 +50,14 @@
 }
 .day {
   min-height: 400px;
-  margin-top: 30px;
+  margin-top: 136px;
   border-radius: 10px;
   display: flex;
   position: relative;
 }
 .day div {
   width: 100%;
-  padding: 20px;
+  padding: 0 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -79,11 +79,12 @@
 .streakContainer {
   display: flex;
   right: 157px;
-  top: 49px;
+  top: 77px;
   position: absolute;
 }
 .streakContainer > p {
   display: none;
+
 }
 
 .doneTodaySymbol {
@@ -105,13 +106,10 @@
 .workoutForm {
   border-radius: 10px;
   position: absolute;
-  top: 20px;
+  top: 36px;
   left: 68px;
   /* display: none; */
   z-index: 1;
-}
-.workoutForm label ~ .btn-check:checked+.btn-outline-primary{
-  background-color: red!important;
 }
 
 .newPlan {
@@ -122,6 +120,10 @@
 .exerciseButtons {
   display: flex;
   justify-content: center;
+}
+.test:checked{
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
 .exerciseButtons,
@@ -160,6 +162,10 @@
 .PrevNext {
   display: flex;
   justify-content: center;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  right: 0;
 }
 .helpButtonsContainer {
   display: flex;

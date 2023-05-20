@@ -743,7 +743,7 @@ const Fitness = () => {
 
           {/* SEND INTENSITY FOR WORKOUT GENERATION */}
           
-          <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
+          <input type="radio" id="beginnerOption" name="intensity" value="beginner" className={`btn-check  ${styles.test}`}></input>
           <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
           <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
           <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
