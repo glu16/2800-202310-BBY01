@@ -194,7 +194,15 @@
   display: flex;
   align-items: center;
 }
+.checkDone{
+  background-color: hsl(183.87deg 60.78% 40%);
+  border: none;
 
+}
+.checkDone:checked{
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
 .loading p {
   margin-top: 0;
   margin-bottom: 0;

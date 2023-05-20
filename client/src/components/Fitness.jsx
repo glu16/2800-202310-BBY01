@@ -466,7 +466,7 @@ const CompleteExercisesButton = () => {
   };
   return (
     <div onClick={handleClick} className={styles.checkbox}>
-      <input className="form-check-input btn btn-outline-info" type="checkbox" id="flexSwitchCheckDefault"></input>
+      <input className={`form-check-input btn btn-outline-info ${styles.checkDone}`} type="checkbox" id="flexSwitchCheckDefault"></input>
       <label className="form-check-label btn btn-outline-info" for="flexSwitchCheckDefault">Done!</label>
   </div>
   );
