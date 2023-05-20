@@ -19,6 +19,19 @@
   outline: none; 
 }
 
+.saveProfileButton {
+  background-color: rgb(92, 208, 216);
+  border-color: rgb(92, 208, 216);
+}
+
+.saveProfileButton:hover,
+.saveProfileButton:focus {
+  color: black;
+  background-color: hsl(184, 62%, 73%);
+  border-color: hsl(184, 62%, 73%);
+  outline: none; 
+}
+
 .cardContainer {
   height: 100%;
   width: 100%;

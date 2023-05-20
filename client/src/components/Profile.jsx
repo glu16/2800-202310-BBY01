@@ -772,7 +772,7 @@ const Profile = ({ username }) => {
                   </button>
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className={`btn btn-primary ${styles.saveProfileButton}`}
                     onClick={handleSaveChanges}
                   >
                     Save Changes
