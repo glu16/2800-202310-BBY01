@@ -101,19 +101,66 @@ localhost:3000
  Top level of project folder:
 
  /2800-202310-BBY01
-├── client                          # Client-side files
-├── server                          # Server-side files
-├── .gitignore                      # Git ignore file
-└── README.md                       # Project description
+├── client                                    # Client-side files
+├── server                                    # Server-side files
+├── .gitignore                                # Git ignore file
+└── README.md                                 # Project description
 
 It has the following subfolders:
-├── client/                         # Client-side files
-│   ├── datasets                    # CSV files
-│   ├── public                      # Static React files
-│   ├── src                         # Components, CSS and image files
-│   └── openAITester                # OpenAI test files
+├── client/                                   # Client-side files
+│   ├── public                                # Static React files
+│   │   ├── favicon.ico 
+│   │   ├── index.html
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   │  
+│   └── src                                   # Source code
+│       ├── components
+│       │   ├── About.jsx 
+│       │   ├── Calendar.jsx 
+│       │   ├── ChangePassword.jsx 
+│       │   ├── Coach.jsx 
+│       │   ├── Diet.jsx 
+│       │   ├── Fitness.jsx 
+│       │   ├── Home.jsx 
+│       │   ├── Index.jsx 
+│       │   ├── Leaderboard.jsx 
+│       │   ├── Login.jsx 
+│       │   ├── MobileFooter.jsx 
+│       │   ├── MobileNavbar.jsx 
+│       │   ├── NavbarAfterLogin.jsx 
+│       │   ├── NavbarBeforeLogin.jsx
+│       │   ├── Profile.jsx 
+│       │   ├── Settings.jsx 
+│       │   ├── SignUp.jsx 
+│       │   ├── SignupDetails.jsx 
+│       │   └── SignupPrefRes.jsx 
+│       │
+│       ├── css
+│       │   ├── about.module.css
+│       │   ├── calendar.module.css
+│       │   ├── coach.module.css
+│       │   ├── diet.module.css
+│       │   ├── fitness.module.css
+│       │   ├── home.module.css
+│       │   ├── index.module.css
+│       │   ├── leaderboard.module.css
+│       │   ├── login.module.css
+│       │   ├── main.css
+│       │   ├── navfooter.css
+│       │   ├── password.module.css
+│       │   ├── profile.module.css
+│       │   ├── settings.module.css
+│       │   ├── signup.module.css
+│       │   ├── signupDetails.module.css
+│       │   └── signupPrefRes.module.css
+│       │
+│       ├── img
+│       │
+│       ├── App.js
+│       └── index.js
 │
-└── server/                         # Server-side files
+└── server/                                   # Server-side files
     ├── FineTuning/
     │   ├── 0API.mjs
     │   ├── 00fileId.mjs
@@ -153,10 +200,10 @@ It has the following subfolders:
     │   ├── passChange.js
     │   └── users.js
     │
-    ├── database.js                 # JS file
-    ├── diet.js                     # JS file
-    ├── package-lock.json           # JSON file
-    ├── package.json                # JSON file
-    ├── server.js                   # JS file
-    └── workout.js                  # JS file
+    ├── database.js                           # JS file
+    ├── diet.js                               # JS file
+    ├── package-lock.json                     # JSON file
+    ├── package.json                          # JSON file
+    ├── server.js                             # JS file
+    └── workout.js                            # JS file
 ```
