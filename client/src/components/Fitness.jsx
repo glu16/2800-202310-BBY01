@@ -767,8 +767,8 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleDivVisibility} className={`btn btn-primary  ${styles.exerciseButtons} ${styles.newPlan}`}>
-        {isDivVisible ? 'Hide Generate Workout Plan Form' : 'Generate New Workout Plan'}
+      <button onClick={toggleWorkoutFormVisibility} className={`btn btn-primary  ${styles.exerciseButtons} ${styles.newPlan}`}>
+        {isWorkoutFormVisible  ? 'Hide Generate Workout Plan Form' : 'Generate New Workout Plan'}
       </button>
 
       <div
