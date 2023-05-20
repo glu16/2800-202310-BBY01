@@ -5,6 +5,13 @@ import styles from "../css/coach.module.css";
 
 // The chat message code that displays the chat history
 const ChatMessage = ({ message }) => {
+  
+  const greetings = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 330,
+  });
+  // End of visual effects
   if (!message || typeof message.message !== "string") {
     return null;
   }
@@ -12,7 +19,7 @@ const ChatMessage = ({ message }) => {
 
   if (lines.length > 1) {
     return (
-      <div className={styles.chatMessageContainer}>
+      <animated.div className={styles.chatMessageContainer} style={greetings}>
         <div
           className={`avatar ${message.user === "gpt" && "AI"} ${
             styles.gptAvatar
@@ -31,19 +38,19 @@ const ChatMessage = ({ message }) => {
             }
           })}
         </ul>
-      </div>
+      </animated.div>
     );
   }
 
   return (
-    <div className={styles.chatMessageContainer}>
+    <animated.div className={styles.chatMessageContainer} style={greetings}>
       <div
         className={`avatar ${message.user === "gpt" && "AI"} ${
           styles.userAvatar
         }`}
       ></div>
       <div className={styles.message}>{message.message}</div>
-    </div>
+    </animated.div>
   );
 };
 // End of chat message code

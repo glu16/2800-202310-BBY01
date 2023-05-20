@@ -2,38 +2,34 @@
   margin-right: 28px;
 }
 
-.savedMessage{
-  color:rgb(92, 208, 216);
+.savedMessage {
+  color: rgb(255, 255, 255);
   font-size: 18pt;
   margin-bottom: 5px;
   min-width: 400px;
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
-    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff; 
+    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
 }
-
-
 
 .settingsBtn {
   margin-top: 40px;
   margin-bottom: 12px;
-  background-color: rgb(92, 208, 216);
+  background-color: hsl(184, 61%, 40%);
   border: none;
   transition: 0.1s;
 }
 
 .settingsBtn:hover {
-  background-color: hsl(184, 62%, 67%);
-}
-
-.settingsBtn:focus {
-  background-color: hsl(184, 62%, 77%);
+  background-color: hsl(184, 61%, 60%);
   border: none;
-  box-shadow: 0 0 3px 2px rgb(92, 208, 216);
-  transition: 0.1s;
+  outline: none;
+  color: black;
 }
 
-.settingsBtn:active {
-  box-shadow: 0 0 2px 4px hsl(184, 61%, 40%) !important;
+.settingsBtn:active,
+.settingsBtn:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
 .settingsBtn:disabled {
@@ -89,10 +85,9 @@
 
 .toggleDiv {
   text-align: left;
-  /* margin-left: 10px; */
 }
 
-@media (max-width: 767px){
+@media (max-width: 767px) {
   .settings label {
     font-size: 1.05rem;
     margin-bottom: 10px;
@@ -101,5 +96,4 @@
   .settings input {
     margin: 10px;
   }
-
 }

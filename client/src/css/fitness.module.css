@@ -180,9 +180,21 @@
   margin-bottom: 20px;
 }
 
-.modalImage {
+.modal {
+  display: flex;
+  flex-direction: column;
   height: 500px;
   width: 500px;
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  background-color: #2b2b2b;
+  border: 2px solid green;
+}
+
+.modalImage {
+  height: 200px;
+  width: 200px;
 }
 
 .hidden {
