@@ -2,16 +2,14 @@
   margin-right: 28px;
 }
 
-.savedMessage{
-  color:rgb(92, 208, 216);
+.savedMessage {
+  color: rgb(255, 255, 255);
   font-size: 18pt;
   margin-bottom: 5px;
   min-width: 400px;
   text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #fff,
-    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff; 
+    0 0 70px #fff, 0 0 80px #fff, 0 0 100px #fff, 0 0 150px #fff;
 }
-
-
 
 .settingsBtn {
   margin-top: 40px;
@@ -92,7 +90,7 @@
   /* margin-left: 10px; */
 }
 
-@media (max-width: 767px){
+@media (max-width: 767px) {
   .settings label {
     font-size: 1.05rem;
     margin-bottom: 10px;
@@ -101,5 +99,4 @@
   .settings input {
     margin: 10px;
   }
-
 }
