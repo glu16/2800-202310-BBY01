@@ -1,5 +1,6 @@
 .checkboxLabel {
   margin: 10px;
+  min-width: 160px;
   color: white;
   border-color:rgb(92, 208, 216);
 }
