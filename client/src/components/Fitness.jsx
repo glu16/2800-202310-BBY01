@@ -430,7 +430,7 @@ function Workout({ handleOpenModal }) {
   // return for Workout()
   return (
     <div className={styles.workoutPlanContainer}>
-      <h2>Your Workout Plan</h2>
+      <h2 className={styles.mainTitle}>Your Workout Plan</h2>
       <div className={styles.PrevNext}>
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-primary  ${styles.exerciseButtons}`}>
         Previous Day
@@ -729,7 +729,7 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleDivVisibility} className="btn btn-primary">
+      <button onClick={toggleDivVisibility} className={`btn btn-primary  ${styles.exerciseButtons} ${styles.newPlan}`}>
         {isDivVisible ? 'Hide Generate Workout Plan Form' : 'Generate New Workout Plan'}
       </button>
 
@@ -775,17 +775,17 @@ const Fitness = () => {
           {/* button displays different text if clicked or not clicked */}
           <button
             type="submit"
-            className={`btn btn-primary  ${styles.exerciseButtons}`}
+            className={`btn btn-primary  ${styles.exerciseButtons} ${styles.hiddenButton}`}
             disabled={isFormSubmitting}
           >
             {isFormSubmitting ? (
-              <div>
+              <div className={styles.loading}>
                 <p>Generating...</p>
                 {/* Bootstrap loadinng circle */}
                 <div id="processing" className="spinner-border" role="status"><span className="sr-only">Loading...</span></div>
               </div>
             ) : (
-              "Create new workout plan"
+              "Generate New Workout Plan"
             )}
           </button>
 

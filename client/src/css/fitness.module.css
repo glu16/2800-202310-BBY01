@@ -16,6 +16,12 @@
   position: relative;
 }
 
+.mainTitle {
+  position: absolute;
+  top: -175px;
+  left: 0;
+  right: 0;
+}
 
 .container-fluid {
   /* Sets dropdown of navbar to be same colour as actual navbar */
@@ -23,7 +29,8 @@
 }
 .workoutPlanContainer {
   width: 100%;
-  margin-top: 100px;
+  margin-top: 200px;
+  position: relative;
 }
 .title {
   text-align: center;
@@ -67,10 +74,10 @@
 .streakContainer {
   display: flex;
   left: 50px;
-  top: 40px;
+  top: 16px;
   position: absolute;
 }
-.streakContainer>p {
+.streakContainer > p {
   display: none;
 }
 
@@ -91,9 +98,17 @@
 }
 
 .workoutForm {
-  border: 2px solid blue;
   border-radius: 10px;
+  position: absolute;
+  top: 20px;
+  right: 68px;
   /* display: none; */
+  z-index: 1;
+}
+
+.newPlan {
+  position: absolute;
+  top: 83px;
 }
 
 .exerciseButtons {
@@ -102,7 +117,8 @@
 }
 
 .exerciseButtons,
-.markButton {
+.markButton,
+.workoutForm label {
   background-color: hsl(183.87deg 60.78% 40%);
   color: white;
   border: none;
@@ -110,7 +126,8 @@
 }
 
 .exerciseButtons:hover,
-.markButton:hover {
+.markButton:hover,
+.workoutForm label:hover {
   background-color: hsl(184, 61%, 60%);
   border: none;
   outline: none;
@@ -118,13 +135,17 @@
 }
 
 .exerciseButtons:active,
-.exerciseButtons:focus.markButton:active,
-.markButton:focus {
+.exerciseButtons:focus,
+.markButton:active,
+.markButton:focus,
+.workoutForm label:active,
+.workoutForm label:focus {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 .exerciseButtons:disabled,
-.markButton:disabled {
+.markButton:disabled,
+.workoutForm label:disabled {
   background-color: #95a4a9;
   color: black;
 }
@@ -135,6 +156,9 @@
 .helpButtonsContainer {
   display: flex;
   padding-bottom: 0 !important;
+}
+.hiddenButton {
+  margin: auto;
 }
 
 .checkbox {
@@ -152,6 +176,17 @@
 
 .hidden {
   display: none;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+}
+
+.loading p {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-right: 10px;
 }
 
 @media (max-width: 767px) {
@@ -192,6 +227,6 @@
 
   .helpButtonsContainer {
     display: flex;
-    justify-content: center!important;
+    justify-content: center !important;
   }
 }
