@@ -56,6 +56,19 @@ async function getDoneToday() {
 getDoneToday();
 
 
+// GET USER'S SEX FOR MODAL PICTURES
+var sex = "male";
+async function getSex() {
+  var response = await fetch(`http://localhost:${port}/getSex/${username}`, {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  });
+  var data = await response.json();
+  sex = data;
+  console.log(sex);
+}
+getSex();
+
 // FUNCTION GETS USERSTATS FIELD FROM DATABASE
 // async function getUserStats() {
 //   var response = await fetch(`http://localhost:${port}/userStats/${username}`, {
@@ -626,10 +639,11 @@ const Fitness = () => {
     window.location.reload();
   }
 
-  const ExerciseModal = ({ isOpen, onRequestClose, modalExercise }) => {
+  const ExerciseModal = ({ isOpen, onRequestClose, modalExercise, sex }) => {
     var source = "ModalExercise"
     if (modalExercise) {
-      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/`
+      // img source is url to the dev branch folder of exercise images
+      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${sex}/`
       // replace whitespaces with underscore and tolowercase as per image naming convention
       + modalExercise.replace(/\s/g, "_").toLowerCase()
       + `.gif`
@@ -829,6 +843,7 @@ const Fitness = () => {
           isOpen={showModal}
           onRequestClose={handleCloseModal}
           modalExercise={modalExercise}
+          sex = {sex}
           />
       )}
       <button id="completeAllButton" className="completeAllButton btn btn-success"

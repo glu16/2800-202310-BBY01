@@ -725,6 +725,23 @@ app.get("/fitness/:username", async (req, res) => {
   }
 });
 
+// GET THE USER'S SEX FOR MODAL IMAGES
+app.get("/getSex/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    var sex = JSON.stringify(user.userStats[0].sex)
+    res.send(sex);
+    console.log(`Sent ${userID}'s sex: ${sex}`);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send user's sex." });
+  }
+});
+
+
 // RETRIEVES THE DIET PLAN FOR THE USER
 app.get("/diet/:username", async (req, res) => {
   const userID = req.params.username;
