@@ -7,14 +7,21 @@ ul {
 .modalBtn {
   margin-top: 10px;
   margin-bottom: 16px;
-  background-color: rgb(92, 208, 216);
-  border-color: rgb(92, 208, 216);
+  background-color: hsl(184, 61%, 40%);
+  border: none;
 }
 
 .modalBtn:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
   color: black;
-  background-color: hsl(184, 62%, 73%);
-  border-color: hsl(184, 62%, 73%);
+}
+
+.modalBtn:active,
+.modalBtn:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
 .coach {
@@ -81,7 +88,6 @@ ul {
   background-color: rgb(4, 246, 61);
   width: 40px;
   height: 40px;
-  /* margin-top: 17px; */
   margin-right: 10px;
   align-self: flex-start;
   background-image: url("../img/terminator.jpg");
@@ -101,7 +107,6 @@ ul {
 .message:before {
   content: "";
   position: absolute;
-
   height: 0;
   border-top: 13px solid transparent;
   border-right: 50px solid gray;
