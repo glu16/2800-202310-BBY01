@@ -1,5 +1,5 @@
 <h1 align="center"> HEALTHIFY </h1> 
-<h2 align="center"> MERN Stack (MongoDB, ExpressJS, React, NodeJS) </h2>
+<h3 align="center"> MERN Stack (MongoDB, ExpressJS, React, NodeJS) </h3>
 <div align="center">
   <a align="center" href="https://github.com/glu16/2800-202310-BBY01"></a>
 </div>
@@ -61,7 +61,7 @@ git clone https://github.com/glu16/2800-202310-BBY01
 npm install
 ```
 
-- While in the \server folder run this in the Command Promt or Terminal.
+- While still in the \server folder run this in the Command Promt or Terminal.
 
 ```sh
 nodemon server
@@ -73,7 +73,7 @@ nodemon server
 npm install
 ```
 
-- While in the \client folder run this in the Command Promt or Terminal. The page should open automatically.
+- While still in the \client folder run this in the Command Promt or Terminal. The page should open automatically.
 
 ```sh
 npm start
