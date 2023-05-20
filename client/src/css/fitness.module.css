@@ -1,3 +1,5 @@
+/* THIS CODE IS SPAGHETTI, BE CAREFUL WHEN MODIFYING POSITIONS */
+
 .fitnessContainer {
   border-radius: 10px;
   display: flex;
@@ -69,7 +71,6 @@
   color: white;
   top: 10rem;
 }
-
 
 .streakContainer {
   display: flex;
@@ -160,12 +161,10 @@
 }
 .hiddenButton {
   margin: auto;
-
 }
 .hiddenButton:disabled {
-  background-color: hsl(184, 61%, 70%)!important;
-  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%)!important;
-
+  background-color: hsl(184, 61%, 70%) !important;
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%) !important;
 }
 .checkbox {
   display: flex;
@@ -220,24 +219,27 @@
 }
 
 @media (min-width: 1273px) and (max-width: 1420px) {
-  .fitnessContainer{
+  /* .fitnessContainer{
     background-color: rgb(67, 33, 33);
-  }
+  } */
 
   .streakContainer {
-
     right: 90px;
     top: 77px;
+  }
 
+  .workoutForm {
+    width: 421px;
+    top: 37px;
+    left: 9px;
   }
 }
 
 @media (min-width: 1201px) and (max-width: 1272px) {
-  .fitnessContainer{
+  /* .fitnessContainer{
     background-color: rgb(108, 46, 110)!important;
-  }
+  } */
 
-  
   .streakContainer {
     right: 90px;
     top: -5px;
@@ -248,30 +250,110 @@
     height: 169px;
   }
 
-
+  .workoutForm p {
+    display: none;
+  }
+  .workoutForm {
+    width: 100px;
+  }
+  .workoutForm form {
+    display: flex;
+    width: 314px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .workoutForm form label {
+    margin-bottom: 25px;
+  }
 }
 
 @media (min-width: 1030px) and (max-width: 1200px) {
-  .fitnessContainer{
+  .fitnessContainer {
     background-color: rgb(108, 110, 46);
   }
 
+  .workoutPlanContainer {
+    margin-top: -444px;
+  }
+  .workoutForm form {
+    display: flex;
+    width: 314px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .workoutForm form label {
+    margin-bottom: 0px;
+  }
+
+  .day{
+    margin-top: 217px!important;
+  }
+  .PrevNext{
+    top: 146px!important;
+  }
+
   .streakContainer {
-    right: 90px;
-    top: -5px;
+    position: relative;
+    margin-top: 100px;
+    margin-bottom: 65px;
+
+    top: 127px;
+    right: 0;
+    width: 100%;
   }
   .graph {
     display: flex;
     flex-direction: column;
     height: 169px;
+
   }
-  .day{
-    align-items: center;
+  .graphs {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
   }
 
+  .anExercise {
+    width: auto !important;
+  }
+
+  .PrevNext {
+    top: 182px;
+  }
+  .day {
+    margin-top: 260px;
+  }
+
+  .newPlan {
+    display: none !important;
+  }
+
+  .workoutForm {
+    top: -306px;
+    left: 1px;
+    display: flex;
+    padding: 0 10px;
+    position: relative;
+  }
+  .workoutForm label {
+    margin-top: 30px;
+  }
+  .workoutForm p {
+    display: none;
+  }
+
+  .workoutForm button {
+    margin-top: 30px;
+  }
+
+  .workoutForm button + p {
+    display: contents;
+  }
 }
 @media (min-width: 900px) and (max-width: 1029px) {
-  .fitnessContainer{
+  .fitnessContainer {
     background-color: rgb(38, 128, 89);
   }
 
@@ -285,8 +367,8 @@
     height: 169px;
   }
 
-  .anExercise{
-    width: auto!important;
+  .anExercise {
+    width: auto !important;
   }
   .graph p {
     display: none;
@@ -297,7 +379,7 @@
   /* .fitnessContainer{
     background-color: rgb(40, 38, 128);
   } */
-  .workoutPlanContainer{
+  .workoutPlanContainer {
     margin-top: -151px;
   }
 
@@ -314,22 +396,22 @@
     flex-direction: column;
     height: 169px;
   }
-  .graphs{
+  .graphs {
     display: flex;
   }
 
-  .anExercise{
-    width: auto!important;
+  .anExercise {
+    width: auto !important;
   }
   .graph p {
     display: none;
   }
-  .PrevNext{
+  .PrevNext {
     top: 182px;
   }
-.day{
-  margin-top: 260px;
-}
+  .day {
+    margin-top: 260px;
+  }
 
   .newPlan {
     display: none !important;
@@ -361,7 +443,6 @@
 @media (min-width: 768px) and (max-width: 1200px) {
   .day {
     flex-direction: column;
-
   }
 
   .day div {
@@ -371,13 +452,10 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    
   }
-  .helpButtonsContainer button{
+  .helpButtonsContainer button {
     width: 50%;
   }
-
-
 }
 
 @media (max-width: 767px) {
