@@ -296,7 +296,7 @@
 
   .streakContainer {
     position: relative;
-    margin-top: 100px;
+    margin-top: 53px;
     margin-bottom: 65px;
 
     top: 127px;
@@ -306,7 +306,7 @@
   .graph {
     display: flex;
     flex-direction: column;
-    height: 169px;
+    height: 223px;
 
   }
   .graphs {
