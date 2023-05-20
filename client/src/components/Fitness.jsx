@@ -661,7 +661,7 @@ const Fitness = () => {
         <small>{source}</small>
         <img className={styles.modalImage} 
         src={source}
-        alt="No Exercise Image Found" />
+        alt="No image avaiable for this exercise." />
 
 
       </Modal>

@@ -736,7 +736,7 @@ app.get("/getSex/:username", async (req, res) => {
     const user = await User.findOne({ username: userID });
     var sex = JSON.stringify(user.userStats[0].sex)
     res.send(sex);
-    console.log(`Sent ${userID}'s sex: ${sex}`);
+    // console.log(`Sent ${userID}'s sex: ${sex}`);
   } catch (err) {
     console.error(err);
     res
