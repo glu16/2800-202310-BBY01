@@ -79,7 +79,7 @@
 
 .challengeDesc {
   color: white;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .challengePoints {
@@ -344,7 +344,6 @@
     border-radius: 10px;
     margin-bottom: 20px;
     width: 90%;
-    height: 100px;
     margin: 10px;
   }
 

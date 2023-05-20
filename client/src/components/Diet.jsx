@@ -43,6 +43,9 @@ function Diet() {
   const date = today.toLocaleDateString("en-CA", dateOptions);
   // console.log(date);
 
+  const handleToday = () => {
+    setDaysToAdd(0);
+  };
   const handleIncrementDays = () => {
     setDaysToAdd(daysToAdd + 1); // Increment daysToAdd by 1
   };
@@ -165,19 +168,26 @@ function Diet() {
   return (
     <div>
       <button
+        onClick={handleToday}
+        disabled={daysToAdd == 0}
+        className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtnToday}`}
+      >
+        {"Today"}
+      </button>{" "}
+      <button
         onClick={handleDecrementDays}
         disabled={dayOfMealPlan == 0}
-        className={`btn btn-primary  ${styles.dietBtn}`}
+        className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtn1}`}
       >
-        Previous Day
+        <span className="material-symbols-outlined">chevron_left</span>
       </button>{" "}
       {/* Add the decrement button */}
       <button
         onClick={handleIncrementDays}
         disabled={dayOfMealPlan >= 6}
-        className={`btn btn-primary  ${styles.dietBtn}`}
+        className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtn2}`}
       >
-        Next Day
+        <span className="material-symbols-outlined">chevron_right</span>
       </button>{" "}
       {/* Add the increment button */}
       <div className="d-flex align-items-center text-center justify-content-center row">
