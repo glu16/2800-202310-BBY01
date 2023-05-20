@@ -97,27 +97,29 @@ const Home = () => {
   // useState hook variables for the username
   const [userName, setUserName] = useState("");
 
+
+  async function fetchUserData() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      const { firstName, points } = response.data;
+      console.log(firstName);
+      console.log(points);
+      setUserName(firstName);
+      setUserPoints(points);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   // useEffect hook to retrieve logged in user's name
   useEffect(() => {
-    async function fetchUserData() {
-      try {
-        const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem("username")}`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
-        const { firstName, points } = response.data;
-        console.log(firstName);
-        console.log(points);
-        setUserName(firstName);
-        setUserPoints(points);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
 
     fetchUserData();
   }, []);
@@ -156,18 +158,20 @@ const Home = () => {
   const [challenges, setChallenges] = useState([]);
 
   // Function to retrieve challenges from MongoDB
+  const fetchChallenges = async () => {
+    try {
+      const username = localStorage.getItem("username");
+      const response = await axios.get(
+        `http://localhost:5050/home/challenges/${username}`
+      );
+      setChallenges(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // useEffect hook to call fetchChallenges function
   useEffect(() => {
-    const fetchChallenges = async () => {
-      try {
-        const username = localStorage.getItem("username");
-        const response = await axios.get(
-          `http://localhost:5050/home/challenges/${username}`
-        );
-        setChallenges(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
     fetchChallenges();
   }, []);
   // End of challenges retrieval
@@ -223,7 +227,6 @@ const Home = () => {
     try {
       await addChallenge(_id, challengeString, challengePoints);
       alert("Challenge added successfully!");
-      window.location.reload();
     } catch (error) {
       console.error(error);
       return;
@@ -293,10 +296,10 @@ const Home = () => {
 
       console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
-      window.location.reload();
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);
     }
+    fetchUserData();
   };
 
   // useState hook variables for the completed challenges
@@ -317,6 +320,7 @@ const Home = () => {
     setChallenges((prevChallenges) =>
       prevChallenges.filter((challenge) => challenge._id !== challengeId)
     );
+
   };
 
   // useState hook variables for the diet progress
@@ -365,7 +369,7 @@ const Home = () => {
             <h1 className={styles.challengeHeader} style={greetings}>
               Weekly Challenges
             </h1>
-            {console.log("Challenges:", challenges)}
+            {/* {console.log("Challenges:", challenges)} */}
             {challenges.length > 0 ? (
               challenges
                 .filter(
@@ -381,9 +385,10 @@ const Home = () => {
                       <button
                         id={`doneButton_${challenge._id}`}
                         className={`btn btn-success ${styles.challengeBtn}`}
-                        onClick={() =>
-                          handleDoneClick(challenge._id, challenge.points)
+                        onClick={() => {
+                          handleDoneClick(challenge._id, challenge.points);
                         }
+                      }
                       >
                         Done
                       </button>
