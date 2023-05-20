@@ -64,8 +64,7 @@ async function getSex() {
     headers: { "Content-Type": "application/json" },
   });
   var data = await response.json();
-  sex = data;
-  console.log(sex);
+  sex = data.toLowerCase();
 }
 getSex();
 
