@@ -439,7 +439,7 @@ function Workout({ handleOpenModal }) {
         Next Day
       </button>
       </div>
-      <div className="d-flex align-items-center text-center justify-content-center row">
+      <div className={`d-flex align-items-center text-center justify-content-center row ${styles.workoutInnerCon}`}>
         {workout}
       </div>
     </div>
