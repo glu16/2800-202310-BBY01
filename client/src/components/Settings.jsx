@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import styles from "../css/settings.module.css";
+import { useSpring, animated } from "react-spring";
 
 const Settings = () => {
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+    // End of visual effects
+
   const [notificationSettings, setNotificationSettings] = useState({
     dietReminders: false,
     fitnessReminders: false,
@@ -56,8 +64,8 @@ const Settings = () => {
   }, []);
 
   return (
-    <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`}>
+    <animated.div
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`} style={fadeIn}>
       <div className={`${styles.settingsCard}`}>
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
@@ -158,7 +166,7 @@ const Settings = () => {
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 

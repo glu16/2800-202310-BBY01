@@ -1,10 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
+import { useSpring, animated } from "react-spring";
 
-const Profile = ({username}) => {
+const Profile = ({ username }) => {
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+  // End of visual effects
+
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -30,7 +38,15 @@ const Profile = ({username}) => {
 
   // Retrieves logged in user's data
   const [userInfo, setUserInfo] = useState(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    age: "",
+    height: "",
+    weight: "",
+  });
+
   const userEmail = localStorage.getItem("email");
   const userID = localStorage.getItem("username");
   const [image, setImage] = useState();
@@ -58,7 +74,12 @@ const Profile = ({username}) => {
         age: response.data.userStats[0].age,
         height: response.data.userStats[0].height,
         weight: response.data.userStats[0].weight,
+        foodPref: response.data.userStats[0].foodPref,
+        foodRes: response.data.userStats[0].foodRes,
+        workoutPref: response.data.userStats[0].workoutPref,
+        workoutRes: response.data.userStats[0].workoutRes,
       }));
+
     } catch (error) {
       console.error(error.response.data);
     }
@@ -78,31 +99,43 @@ const Profile = ({username}) => {
     age: "",
     height: "",
     weight: "",
+    foodPref: "",
+    foodRes: "",
+    workoutPref: "",
+    workoutRes: "",
   });
 
+  // useState hook variables for displaying the edit modal
   const [showModal, setShowModal] = useState(false);
+
+  // useState hook variables for displaying the alert
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleChange = ({currentTarget: input}) => {
+  // Click event handler for saving the profile changes
+  const handleChange = ({ currentTarget: input }) => {
     // Input is saved into the data array
-    setData({...data, [input.name]: input.value});
+    setData({ ...data, [input.name]: input.value });
 
     // Clears error message on change
-    setError("");
+    setError({ ...error, [input.name]: "" });
   };
 
+  // useEffect hook to handle image uploads
   useEffect(() => {
     if (image) {
       handleImageUpload();
     }
   }, [image]);
+  // End of image upload
 
-  const handleImageChange = ({currentTarget: input}) => {
+  // Allows the user to change their profile picture
+  const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
     console.log(input.files[0]);
   };
 
+  // Executes the image upload to store the URL in the database
   const handleImageUpload = async () => {
     try {
       let imageURL = "";
@@ -136,6 +169,7 @@ const Profile = ({username}) => {
     }
   };
 
+  // useEffect hook to close the modal after 3 seconds of saving the changes
   useEffect(() => {
     let timer;
     if (showAlert) {
@@ -151,6 +185,7 @@ const Profile = ({username}) => {
     return () => clearTimeout(timer);
   }, [showAlert]);
 
+  // Saves the user's profile changes
   const handleSaveChanges = async (event) => {
     event.preventDefault();
 
@@ -158,19 +193,73 @@ const Profile = ({username}) => {
     var emailRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
+    // Regex for validating phone format
     var phoneRegex = /^\(\d{3}\) \d{3}-\d{4}$/;
+
+    var usernameValid = true;
+    var emailValid = true;
+    var phoneValid = true;
+    var ageValid = true;
+    var heightValid = true;
+    var weightValid = true;
+
     // Checks to see if username that was input is a minimum of 3 characters
     if (data["username"].length < 3) {
-      setError("Username must be a minimum of 3 characters.");
-      return;
+      setError((error) => ({
+        ...error,
+        username: "Username must be a minimum of 3 characters.",
+      }));
+      usernameValid = false;
     }
-    if (!phoneRegex.test(data["phoneNumber"])) {
-      setError("Phone number must follow the format (000) 000-0000");
-      return;
-    }
+
     // Checks email formatting
     if (!emailRegex.test(data["email"])) {
-      setError("Email must be valid.");
+      setError((error) => ({ ...error, email: "Email must be valid." }));
+      emailValid = false;
+    }
+
+    // Validates phone formatting
+    if (!phoneRegex.test(data["phoneNumber"])) {
+      setError((error) => ({
+        ...error,
+        phone: "Phone number must follow the format (000) 000-0000",
+      }));
+      phoneValid = false;
+    }
+
+    // Age validation
+    if (data["age"] <= 0) {
+      setError((error) => ({ ...error, age: "Please enter a valid age." }));
+      ageValid = false;
+    }
+
+    // Height validation
+    if (data["height"] <= 0) {
+      setError((error) => ({
+        ...error,
+        height: "Please enter a valid height.",
+      }));
+      heightValid = false;
+    }
+
+    // Weight validation
+    if (data["weight"] <= 0) {
+      setError((error) => ({
+        ...error,
+        weight: "Please enter a valid weight.",
+      }));
+      weightValid = false;
+    }
+
+    if (
+      !usernameValid ||
+      !emailValid ||
+      !phoneValid ||
+      !ageValid ||
+      !heightValid ||
+      !weightValid
+    ) {
+      console.log(error);
       return;
     }
 
@@ -178,7 +267,7 @@ const Profile = ({username}) => {
       const url = `http://localhost:5050/profile/${localStorage.getItem(
         "username"
       )}`;
-      const {data: res} = await axios.post(url, data);
+      const { data: res } = await axios.post(url, data);
 
       // Updates localStorage with newly entered username
       localStorage.setItem("username", data.username);
@@ -194,9 +283,10 @@ const Profile = ({username}) => {
   };
   // End of user profile update
 
-  // Retrieves the logged in user's friends from the database
+  // useState hook variables for the user's friends
   const [friends, setFriends] = useState([]);
 
+  // Retrieves the logged in user's friends from the database
   const fetchFriends = async () => {
     try {
       const response = await axios.get(
@@ -221,7 +311,7 @@ const Profile = ({username}) => {
     return usernameA.localeCompare(usernameB);
   });
 
-  // useState hook variable for the info modal
+  // useState hook variables for the info modal
   const [showInfoModal, setShowInfoModal] = useState(false);
 
   // Info modal open handler
@@ -243,17 +333,15 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="infoModalLabel"
         aria-hidden="false"
-        style={{display: showInfoModal ? "block" : "none"}}
+        style={{ display: showInfoModal ? "block" : "none" }}
         role={showInfoModal ? "dialog" : ""}
-        aria-modal={showInfoModal ? "true" : "false"}
-      >
+        aria-modal={showInfoModal ? "true" : "false"}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="infoModalLabel"
-              >
+                id="infoModalLabel">
                 Information
               </h5>
               <button
@@ -261,8 +349,7 @@ const Profile = ({username}) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={closeInfoModal}
-              ></button>
+                onClick={closeInfoModal}></button>
             </div>
             <div className="modal-body">
               <p>
@@ -274,8 +361,7 @@ const Profile = ({username}) => {
               <button
                 type="button"
                 className={`btn btn-primary ${styles.modalBtn}`}
-                onClick={closeInfoModal}
-              >
+                onClick={closeInfoModal}>
                 OK
               </button>
             </div>
@@ -289,7 +375,7 @@ const Profile = ({username}) => {
   // useState hook variables for deleting a friend
   const [selectedUser, setSelectedUser] = useState(null);
 
-    // useState hook variables for the delete friend modal
+  // useState hook variables for the delete friend modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Function to delete a friend
@@ -346,17 +432,15 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="deleteFriendModalLabel"
         aria-hidden="false"
-        style={{display: showDeleteModal ? "block" : "none"}}
+        style={{ display: showDeleteModal ? "block" : "none" }}
         role={showDeleteModal ? "dialog" : ""}
-        aria-modal={showDeleteModal ? "true" : "false"}
-      >
+        aria-modal={showDeleteModal ? "true" : "false"}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="deleteFriendModalLabel"
-              >
+                id="deleteFriendModalLabel">
                 Remove Friend
               </h5>
               <button
@@ -364,8 +448,7 @@ const Profile = ({username}) => {
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                onClick={closeModal}
-              ></button>
+                onClick={closeModal}></button>
             </div>
             <div className="modal-body">
               <p>Do you want to remove {selectedUser.username} as a friend?</p>
@@ -374,15 +457,13 @@ const Profile = ({username}) => {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={closeModal}
-              >
+                onClick={closeModal}>
                 Cancel
               </button>
               <button
                 type="button"
                 className={`btn btn-danger ${styles.modalBtn}`}
-                onClick={handleRemoveFriend}
-              >
+                onClick={handleRemoveFriend}>
                 Remove
               </button>
             </div>
@@ -416,9 +497,9 @@ const Profile = ({username}) => {
   // End of user's challenges retrieval
 
   return (
-    <div
+    <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
-    >
+      style={fadeIn}>
       <div className={styles.cardContainer}>
         <div className={`${styles.profileCard}`}>
           <div className={`card-body ${styles.profileInnerCard}`}>
@@ -473,10 +554,9 @@ const Profile = ({username}) => {
                   )}
                 </div>
                 <button
-                  className={`btn btn-primary ${styles.editProfileButton}`}
+                  className={`btn btn-primary ${styles.editProfileBtn}`}
                   data-bs-toggle="modal"
-                  data-bs-target="#editModal"
-                >
+                  data-bs-target="#editModal">
                   Edit Profile
                 </button>
               </div>
@@ -486,15 +566,13 @@ const Profile = ({username}) => {
         <div className={`${styles.friendsCard}`}>
           <div className={`${styles.friendsInnerCard}`}>
             <div
-              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
-            >
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}>
               <div className={styles.friendsHeader}>
                 <h1>
                   Friends List
                   <a
                     className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
-                    onClick={openInfoModal}
-                  >
+                    onClick={openInfoModal}>
                     info
                   </a>
                 </h1>
@@ -503,8 +581,7 @@ const Profile = ({username}) => {
                 <div className={styles.friends} key={index}>
                   <a
                     className={styles.userNameLink}
-                    onClick={() => handleUserClick(friend)}
-                  >
+                    onClick={() => handleUserClick(friend)}>
                     {friend.username}
                   </a>
                 </div>
@@ -514,8 +591,7 @@ const Profile = ({username}) => {
 
           <div className={`${styles.challengeInnerCard}`}>
             <div
-              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
-            >
+              className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}>
               <div className={styles.friendsHeader}>
                 <h1>Active Challenges</h1>
               </div>
@@ -524,8 +600,7 @@ const Profile = ({username}) => {
                 challenges.map((challenge) => (
                   <div
                     key={challenge._id}
-                    className={styles.challengeBackground}
-                  >
+                    className={styles.challengeBackground}>
                     <h6 className={styles.challengeDesc}>
                       {challenge.challenge}
                     </h6>
@@ -535,7 +610,7 @@ const Profile = ({username}) => {
                   </div>
                 ))
               ) : (
-                <p>No challenges found.</p>
+                <p className={styles.challengeDesc}>No challenges found.</p>
               )}
             </div>
           </div>
@@ -560,33 +635,29 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="editModalLabel"
         aria-hidden="false"
-        style={{display: showModal ? "block" : "none"}}
+        style={{ display: showModal ? "block" : "none" }}
         role={showModal ? "dialog" : ""}
-        aria-modal={showModal ? "true" : "false"}
-      >
+        aria-modal={showModal ? "true" : "false"}>
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
               <h5
                 className={`modal-title ${styles.formLabel}`}
-                id="editModalLabel"
-              >
+                id="editModalLabel">
                 Edit Profile
               </h5>
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                aria-label="Close"></button>
             </div>
             <div className="modal-body">
               <form id="profile-form">
                 <div className="mb-3">
                   <label
                     htmlFor="nameInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
+                    className={`form-label ${styles.formLabel}`}>
                     Name
                   </label>
                   <input
@@ -597,15 +668,16 @@ const Profile = ({username}) => {
                     value={data.username}
                     onChange={handleChange}
                   />
-                  {error.includes("Username") && (
-                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  {error && (
+                    <span className={`${styles.errorMessage}`}>
+                      {error.username}
+                    </span>
                   )}
                 </div>
                 <div className="mb-3">
                   <label
                     htmlFor="emailInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
+                    className={`form-label ${styles.formLabel}`}>
                     Email
                   </label>
                   <input
@@ -616,15 +688,16 @@ const Profile = ({username}) => {
                     value={data.email}
                     onChange={handleChange}
                   />
-                  {error.includes("Email") && (
-                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  {error && (
+                    <span className={`${styles.errorMessage}`}>
+                      {error.email}
+                    </span>
                   )}
                 </div>
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
+                    className={`form-label ${styles.formLabel}`}>
                     Phone
                   </label>
                   <input
@@ -635,15 +708,16 @@ const Profile = ({username}) => {
                     value={data.phoneNumber}
                     onChange={handleChange}
                   />
-                  {error.includes("Phone") && (
-                    <span className={`${styles.errorMessage}`}>{error}</span>
+                  {error && (
+                    <span className={`${styles.errorMessage}`}>
+                      {error.phone}
+                    </span>
                   )}
                 </div>
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
+                    className={`form-label ${styles.formLabel}`}>
                     Age
                   </label>
                   <input
@@ -654,13 +728,17 @@ const Profile = ({username}) => {
                     value={data.age}
                     onChange={handleChange}
                   />
+                  {error && (
+                    <span className={`${styles.errorMessage}`}>
+                      {error.age}
+                    </span>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
-                    Height
+                    className={`form-label ${styles.formLabel}`}>
+                    Height (m)
                   </label>
                   <input
                     type="number"
@@ -671,13 +749,17 @@ const Profile = ({username}) => {
                     value={data.height}
                     onChange={handleChange}
                   />
+                  {error && (
+                    <span className={`${styles.errorMessage}`}>
+                      {error.height}
+                    </span>
+                  )}
                 </div>
                 <div className="mb-3">
                   <label
                     htmlFor="phoneInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
-                    Weight
+                    className={`form-label ${styles.formLabel}`}>
+                    Weight (kg)
                   </label>
                   <input
                     type="number"
@@ -688,34 +770,97 @@ const Profile = ({username}) => {
                     value={data.weight}
                     onChange={handleChange}
                   />
+                  {error && (
+                    <span className={`${styles.errorMessage}`}>
+                      {error.weight}
+                    </span>
+                  )}
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="foodPrefInput"
+                    className={`form-label ${styles.formLabel}`}>
+                    Food Preferences
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="foodPrefInput"
+                    name="foodPref"
+                    value={data.foodPref}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="foodResInput"
+                    className={`form-label ${styles.formLabel}`}>
+                    Food Restrictions
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="foodResInput"
+                    name="foodRes"
+                    value={data.foodRes}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="workoutPrefInput"
+                    className={`form-label ${styles.formLabel}`}>
+                    Workout Preferences
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="workoutPrefInput"
+                    name="workoutPref"
+                    value={data.workoutPref}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="workoutResInput"
+                    className={`form-label ${styles.formLabel}`}>
+                    Workout Restrictions
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="workoutResInput"
+                    name="workoutRes"
+                    value={data.workoutRes}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal">
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-primary ${styles.saveProfileBtn}`}
+                    onClick={handleSaveChanges}>
+                    Save Changes
+                  </button>
+                  {showAlert && (
+                    <div className="alert alert-success" role="alert">
+                      Profile updated successfully!
+                    </div>
+                  )}
                 </div>
               </form>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSaveChanges}
-              >
-                Save Changes
-              </button>
-              {showAlert && (
-                <div className="alert alert-success" role="alert">
-                  Profile updated successfully!
-                </div>
-              )}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 

@@ -2,8 +2,17 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 import styles from "../css/leaderboard.module.css";
+import { useSpring, animated } from "react-spring";
 
 const Leaderboard = () => {
+
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+  // End of visual effects
+
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -418,10 +427,10 @@ const Leaderboard = () => {
 
   return (
     <div className={styles.cardWrapper}>
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.ranksCard}`}
+      <animated.div
+        className={`d-flex justify-content-center align-items-center h-100 ${styles.ranksCard}`} style={fadeIn}
       >
-        <div className="card-body">
+        <div className="card-body" >
           <div className="d-flex flex-column align-items-center text-center">
             <h1 className={styles.ranksHeader}>
               Leaderboard Ranks{" "}
@@ -453,7 +462,7 @@ const Leaderboard = () => {
             {renderLeaderboard()}
           </div>
         </div>
-      </div>
+      </animated.div>
       {/* Render the FriendRequestModal */}
       {showModal && <AddFriendModal />}
       {/* Render the InfoModal */}

@@ -1,5 +1,5 @@
 <h1 align="center"> HEALTHIFY </h1> 
-<h2 align="center"> MERN Stack (MongoDB, ExpressJS, React, NodeJS) </h2>
+<h3 align="center"> MERN Stack (MongoDB, ExpressJS, React, NodeJS) </h3>
 <div align="center">
   <a align="center" href="https://github.com/glu16/2800-202310-BBY01"></a>
 </div>
@@ -42,8 +42,12 @@ Languages:
 
 IDEs:
 
-![Visual Studio Code](https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual_Studio_Code-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
+
+Hosting:
+
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
 
 ## Complete Setup/Installion/Usage
 
@@ -61,10 +65,10 @@ git clone https://github.com/glu16/2800-202310-BBY01
 npm install
 ```
 
-- While in the \server folder run this in the Command Promt or Terminal.
+- While still in the \server folder run this in the Command Promt or Terminal.
 
 ```sh
-nodemon server
+nodemon server.js
 ```
 
 - Install dependencies by running this in Command Prompt or Terminal in the \client folder.
@@ -73,7 +77,7 @@ nodemon server
 npm install
 ```
 
-- While in the \client folder run this in the Command Promt or Terminal. The page should open automatically.
+- While still in the \client folder run this in the Command Promt or Terminal. The page should open automatically.
 
 ```sh
 npm start
@@ -101,19 +105,73 @@ localhost:3000
  Top level of project folder:
 
  /2800-202310-BBY01
-├── client                          # Client-side files
-├── server                          # Server-side files
-├── .gitignore                      # Git ignore file
-└── README.md                       # Project description
+├── client                                    # Client-side files
+├── server                                    # Server-side files
+├── .gitignore                                # Git ignore file
+└── README.md                                 # Project description
 
 It has the following subfolders:
-├── client/                         # Client-side files
-│   ├── datasets                    # CSV files
-│   ├── public                      # Static React files
-│   ├── src                         # Components, CSS and image files
-│   └── openAITester                # OpenAI test files
+├── client/                                   # Client-side files
+│   ├── public/                               # Static React files
+│   │   ├── favicon.ico 
+│   │   ├── index.html
+│   │   ├── manifest.json
+│   │   └── robots.txt
+│   │  
+│   └── src/                                  # Source code
+│       ├── components/
+│       │   ├── About.jsx 
+│       │   ├── Calendar.jsx 
+│       │   ├── ChangePassword.jsx 
+│       │   ├── Coach.jsx 
+│       │   ├── Diet.jsx 
+│       │   ├── Fitness.jsx 
+│       │   ├── Home.jsx 
+│       │   ├── Index.jsx 
+│       │   ├── Leaderboard.jsx 
+│       │   ├── Login.jsx 
+│       │   ├── MobileFooter.jsx 
+│       │   ├── MobileNavbar.jsx 
+│       │   ├── NavbarAfterLogin.jsx 
+│       │   ├── NavbarBeforeLogin.jsx
+│       │   ├── Profile.jsx 
+│       │   ├── Settings.jsx 
+│       │   ├── SignUp.jsx 
+│       │   ├── SignupDetails.jsx 
+│       │   └── SignupPrefRes.jsx 
+│       │
+│       ├── css/
+│       │   ├── about.module.css
+│       │   ├── calendar.module.css
+│       │   ├── coach.module.css
+│       │   ├── diet.module.css
+│       │   ├── fitness.module.css
+│       │   ├── home.module.css
+│       │   ├── index.module.css
+│       │   ├── leaderboard.module.css
+│       │   ├── login.module.css
+│       │   ├── main.css
+│       │   ├── navfooter.css
+│       │   ├── password.module.css
+│       │   ├── profile.module.css
+│       │   ├── settings.module.css
+│       │   ├── signup.module.css
+│       │   ├── signupDetails.module.css
+│       │   └── signupPrefRes.module.css
+│       │
+│       ├── img/
+│       │   ├── abstract.png
+│       │   ├── Arnold.png
+│       │   ├── fitness.png
+│       │   ├── logo.svg
+│       │   ├── placeholder-profile.png
+│       │   ├── robot.png
+│       │   └── terminator.jpg
+│       │
+│       ├── App.js
+│       └── index.js
 │
-└── server/                         # Server-side files
+└── server/                                   # Server-side files
     ├── FineTuning/
     │   ├── 0API.mjs
     │   ├── 00fileId.mjs
@@ -153,10 +211,10 @@ It has the following subfolders:
     │   ├── passChange.js
     │   └── users.js
     │
-    ├── database.js                 # JS file
-    ├── diet.js                     # JS file
-    ├── package-lock.json           # JSON file
-    ├── package.json                # JSON file
-    ├── server.js                   # JS file
-    └── workout.js                  # JS file
+    ├── database.js                           # JS file
+    ├── diet.js                               # JS file
+    ├── package-lock.json                     # JSON file
+    ├── package.json                          # JSON file
+    ├── server.js                             # JS file
+    └── workout.js                            # JS file
 ```

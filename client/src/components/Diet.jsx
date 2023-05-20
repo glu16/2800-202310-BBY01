@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import styles from "../css/diet.module.css";
+import { useSpring, animated } from "react-spring";
 
 // This is literally the same as Fitness.jsx but with different variable names
 // Might need an update
@@ -23,8 +24,11 @@ async function getDiet() {
   }
 }
 
+
+
 // display user's diet, can't be async
 function Diet() {
+
   const [diet, setDiet] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [selectedDiet, setSelectedDiet] = useState(null);
@@ -43,6 +47,9 @@ function Diet() {
   const date = today.toLocaleDateString("en-CA", dateOptions);
   // console.log(date);
 
+  const handleToday = () => {
+    setDaysToAdd(0);
+  };
   const handleIncrementDays = () => {
     setDaysToAdd(daysToAdd + 1); // Increment daysToAdd by 1
   };
@@ -165,19 +172,26 @@ function Diet() {
   return (
     <div>
       <button
+        onClick={handleToday}
+        disabled={daysToAdd == 0}
+        className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtnToday}`}
+      >
+        {"Today"}
+      </button>{" "}
+      <button
         onClick={handleDecrementDays}
         disabled={dayOfMealPlan == 0}
-        className={`btn btn-primary  ${styles.dietBtn}`}
+        className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtn1}`}
       >
-        Previous Day
+        <span className="material-symbols-outlined">chevron_left</span>
       </button>{" "}
       {/* Add the decrement button */}
       <button
         onClick={handleIncrementDays}
         disabled={dayOfMealPlan >= 6}
-        className={`btn btn-primary  ${styles.dietBtn}`}
+        className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtn2}`}
       >
-        Next Day
+        <span className="material-symbols-outlined">chevron_right</span>
       </button>{" "}
       {/* Add the increment button */}
       <div className="d-flex align-items-center text-center justify-content-center row">
@@ -211,6 +225,14 @@ function Modal({onClose, children}) {
 
 // page render
 const DietPlan = () => {
+
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 330,
+  });
+  // End of visual effects
+
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
@@ -258,7 +280,7 @@ const DietPlan = () => {
   };
 
   return (
-    <div className={`${styles.dietContainer}`}>
+    <animated.div className={`${styles.dietContainer}`} style={fadeIn}>
       <div className={`card ${styles.dietCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           <div>
@@ -295,7 +317,7 @@ const DietPlan = () => {
           <Diet />
         </div>
       </div>
-    </div>
+    </animated.div>
   );
 };
 
