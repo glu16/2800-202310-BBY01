@@ -1,5 +1,4 @@
 .fitnessContainer {
-  height: 100%;
   border-radius: 10px;
   display: flex;
   text-align: center;
@@ -84,7 +83,6 @@
 }
 .streakContainer > p {
   display: none;
-
 }
 
 .doneTodaySymbol {
