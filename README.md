@@ -45,6 +45,10 @@ IDEs:
 ![Visual Studio Code](https://img.shields.io/badge/Visual_Studio-5C2D91?style=for-the-badge&logo=visual%20studio&logoColor=white)
 ![Prettier](https://img.shields.io/badge/prettier-1A2C34?style=for-the-badge&logo=prettier&logoColor=F7BA3E)
 
+Hosting:
+
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
+
 ## Complete Setup/Installion/Usage
 
 Installation:
@@ -64,7 +68,7 @@ npm install
 - While still in the \server folder run this in the Command Promt or Terminal.
 
 ```sh
-nodemon server
+nodemon server.js
 ```
 
 - Install dependencies by running this in Command Prompt or Terminal in the \client folder.
@@ -108,13 +112,13 @@ localhost:3000
 
 It has the following subfolders:
 ├── client/                                   # Client-side files
-│   ├── public                                # Static React files
+│   ├── public/                               # Static React files
 │   │   ├── favicon.ico 
 │   │   ├── index.html
 │   │   ├── manifest.json
 │   │   └── robots.txt
 │   │  
-│   └── src                                   # Source code
+│   └── src/                                  # Source code
 │       ├── components
 │       │   ├── About.jsx 
 │       │   ├── Calendar.jsx 
@@ -136,7 +140,7 @@ It has the following subfolders:
 │       │   ├── SignupDetails.jsx 
 │       │   └── SignupPrefRes.jsx 
 │       │
-│       ├── css
+│       ├── css/
 │       │   ├── about.module.css
 │       │   ├── calendar.module.css
 │       │   ├── coach.module.css
@@ -155,7 +159,14 @@ It has the following subfolders:
 │       │   ├── signupDetails.module.css
 │       │   └── signupPrefRes.module.css
 │       │
-│       ├── img
+│       ├── img/
+│       │   ├── abstract.png
+│       │   ├── Arnold.png
+│       │   ├── fitness.png
+│       │   ├── logo.svg
+│       │   ├── placeholder-profile.png
+│       │   ├── robot.png
+│       │   └── terminator.jpg
 │       │
 │       ├── App.js
 │       └── index.js
