@@ -126,14 +126,16 @@ ul {
 .userMessage {
   left: auto;
   right: 30px;
+  background-color: hsl(184, 61%, 35%);
 }
 
 .userMessage:after {
   content: "";
+  
   position: absolute;
   height: 0;
   border-top: 10px solid transparent;
-  border-left: 20px solid gray;
+  border-left: 20px solid hsl(184, 61%, 35%);
   border-bottom: 10px solid transparent;
   /* margin: -6px 0 0 -40px; */
   right: -12px;

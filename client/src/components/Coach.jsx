@@ -18,6 +18,7 @@ const ChatMessage = ({ message }) => {
   const lines = message.message.split("\n");
   console.log(message)
 
+  // if (lines.length > 1) {
   if (message.user === "gpt") {
     return (
       <animated.div className={styles.chatMessageContainer} style={greetings}>
