@@ -57,6 +57,9 @@
   color: rgb(92, 208, 216);
 }
 
+.noChallenge {
+  color: white;
+}
 .homeCard {
   height: 100%;
   width: 100%;
