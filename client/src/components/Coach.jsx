@@ -16,8 +16,9 @@ const ChatMessage = ({ message }) => {
     return null;
   }
   const lines = message.message.split("\n");
+  console.log(message)
 
-  if (lines.length > 1) {
+  if (message.user === "gpt") {
     return (
       <animated.div className={styles.chatMessageContainer} style={greetings}>
         <div
@@ -25,7 +26,7 @@ const ChatMessage = ({ message }) => {
             styles.gptAvatar
           }`}
         ></div>
-        <ul className={`${styles.message}`}>
+        <ul className={`${styles.message} ${styles.coachMessage}`}>
           {lines.map((line, index) => {
             if (line.includes("Day")) {
               return (
@@ -43,13 +44,13 @@ const ChatMessage = ({ message }) => {
   }
 
   return (
-    <animated.div className={styles.chatMessageContainer} style={greetings}>
+    <animated.div className={`${styles.chatMessageContainer} ${styles.userContainer}`} style={greetings}>
       <div
         className={`avatar ${message.user === "gpt" && "AI"} ${
           styles.userAvatar
         }`}
       ></div>
-      <div className={styles.message}>{message.message}</div>
+      <div className={`${styles.message} ${styles.userMessage}`}>{message.message}</div>
     </animated.div>
   );
 };
