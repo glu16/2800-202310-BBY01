@@ -869,7 +869,7 @@ app.get("/userStats", async (req, res) => {
   const userID = req.params.username;
   try {
     // FIND THE USER BY USERNAME
-    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
+    // DEFAULT USERNAME IS "ndurano" UNTIL FIX
     const user = await User.findOne({ username: "ndurano" });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -881,6 +881,10 @@ app.get("/userStats", async (req, res) => {
       weight: user.userStats[0].weight,
       activityLevel: user.userStats[0].activityLevel,
       goal: user.userStats[0].goal,
+      foodPref: user.userStats[0].foodPref,
+      foodRes: user.userStats[0].foodRes,
+      workoutPref: user.userStats[0].workoutPref,
+      workoutRes: user.userStats[0].workoutRes,
     });
   } catch (e) {
     console.log(e);
