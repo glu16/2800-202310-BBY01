@@ -435,6 +435,10 @@ app.post("/profile/:username", async (req, res) => {
           "userStats.0.age": req.body.age,
           "userStats.0.height": req.body.height,
           "userStats.0.weight": req.body.weight,
+          foodPref: req.body.foodPref,
+          foodRes: req.body.foodRes,
+          workoutPref: req.body.workoutPref,
+          workoutRes: req.body.workoutRes,
         },
       },
 
@@ -869,7 +873,7 @@ app.get("/userStats", async (req, res) => {
   const userID = req.params.username;
   try {
     // FIND THE USER BY USERNAME
-    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
+    // DEFAULT USERNAME IS "ndurano" UNTIL FIX
     const user = await User.findOne({ username: "ndurano" });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -881,6 +885,10 @@ app.get("/userStats", async (req, res) => {
       weight: user.userStats[0].weight,
       activityLevel: user.userStats[0].activityLevel,
       goal: user.userStats[0].goal,
+      foodPref: user.userStats[0].foodPref,
+      foodRes: user.userStats[0].foodRes,
+      workoutPref: user.userStats[0].workoutPref,
+      workoutRes: user.userStats[0].workoutRes,
     });
   } catch (e) {
     console.log(e);

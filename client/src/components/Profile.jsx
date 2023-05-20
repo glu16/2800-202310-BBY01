@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import styles from "../css/profile.module.css";
 import profile from "../img/placeholder-profile.png";
 
-const Profile = ({username}) => {
+const Profile = ({ username }) => {
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -58,6 +58,10 @@ const Profile = ({username}) => {
         age: response.data.userStats[0].age,
         height: response.data.userStats[0].height,
         weight: response.data.userStats[0].weight,
+        foodPref: response.data.userStats[0].foodPref,
+        foodRes: response.data.userStats[0].foodRes,
+        workoutPref: response.data.userStats[0].workoutPref,
+        workoutRes: response.data.userStats[0].workoutRes,
       }));
     } catch (error) {
       console.error(error.response.data);
@@ -78,31 +82,43 @@ const Profile = ({username}) => {
     age: "",
     height: "",
     weight: "",
+    foodPref: "",
+    foodRes: "",
+    workoutPref: "",
+    workoutRes: "",
   });
 
+  // useState hook variables for displaying the edit modal
   const [showModal, setShowModal] = useState(false);
+
+  // useState hook variables for displaying the alert
   const [showAlert, setShowAlert] = useState(false);
 
-  const handleChange = ({currentTarget: input}) => {
+  // Click event handler for saving the profile changes
+  const handleChange = ({ currentTarget: input }) => {
     // Input is saved into the data array
-    setData({...data, [input.name]: input.value});
-
+    setData({ ...data, [input.name]: input.value });
+    
     // Clears error message on change
     setError("");
   };
 
+  // useEffect hook to handle image uploads
   useEffect(() => {
     if (image) {
       handleImageUpload();
     }
   }, [image]);
+  // End of image upload
 
-  const handleImageChange = ({currentTarget: input}) => {
+  // Allows the user to change their profile picture
+  const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
     console.log(input.files[0]);
   };
 
+  // Executes the image upload to store the URL in the database
   const handleImageUpload = async () => {
     try {
       let imageURL = "";
@@ -136,6 +152,7 @@ const Profile = ({username}) => {
     }
   };
 
+  // useEffect hook to close the modal after 3 seconds of saving the changes
   useEffect(() => {
     let timer;
     if (showAlert) {
@@ -151,6 +168,7 @@ const Profile = ({username}) => {
     return () => clearTimeout(timer);
   }, [showAlert]);
 
+  // Saves the user's profile changes
   const handleSaveChanges = async (event) => {
     event.preventDefault();
 
@@ -178,7 +196,7 @@ const Profile = ({username}) => {
       const url = `http://localhost:5050/profile/${localStorage.getItem(
         "username"
       )}`;
-      const {data: res} = await axios.post(url, data);
+      const { data: res } = await axios.post(url, data);
 
       // Updates localStorage with newly entered username
       localStorage.setItem("username", data.username);
@@ -194,9 +212,10 @@ const Profile = ({username}) => {
   };
   // End of user profile update
 
-  // Retrieves the logged in user's friends from the database
+  // useState hook variables for the user's friends
   const [friends, setFriends] = useState([]);
 
+  // Retrieves the logged in user's friends from the database
   const fetchFriends = async () => {
     try {
       const response = await axios.get(
@@ -221,7 +240,7 @@ const Profile = ({username}) => {
     return usernameA.localeCompare(usernameB);
   });
 
-  // useState hook variable for the info modal
+  // useState hook variables for the info modal
   const [showInfoModal, setShowInfoModal] = useState(false);
 
   // Info modal open handler
@@ -243,7 +262,7 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="infoModalLabel"
         aria-hidden="false"
-        style={{display: showInfoModal ? "block" : "none"}}
+        style={{ display: showInfoModal ? "block" : "none" }}
         role={showInfoModal ? "dialog" : ""}
         aria-modal={showInfoModal ? "true" : "false"}
       >
@@ -289,7 +308,7 @@ const Profile = ({username}) => {
   // useState hook variables for deleting a friend
   const [selectedUser, setSelectedUser] = useState(null);
 
-    // useState hook variables for the delete friend modal
+  // useState hook variables for the delete friend modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Function to delete a friend
@@ -346,7 +365,7 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="deleteFriendModalLabel"
         aria-hidden="false"
-        style={{display: showDeleteModal ? "block" : "none"}}
+        style={{ display: showDeleteModal ? "block" : "none" }}
         role={showDeleteModal ? "dialog" : ""}
         aria-modal={showDeleteModal ? "true" : "false"}
       >
@@ -473,7 +492,7 @@ const Profile = ({username}) => {
                   )}
                 </div>
                 <button
-                  className={`btn btn-primary ${styles.editProfileButton}`}
+                  className={`btn btn-primary ${styles.editProfileBtn}`}
                   data-bs-toggle="modal"
                   data-bs-target="#editModal"
                 >
@@ -535,7 +554,7 @@ const Profile = ({username}) => {
                   </div>
                 ))
               ) : (
-                <p>No challenges found.</p>
+                <p className={styles.challengeDesc}>No challenges found.</p>
               )}
             </div>
           </div>
@@ -560,7 +579,7 @@ const Profile = ({username}) => {
         tabIndex="-1"
         aria-labelledby="editModalLabel"
         aria-hidden="false"
-        style={{display: showModal ? "block" : "none"}}
+        style={{ display: showModal ? "block" : "none" }}
         role={showModal ? "dialog" : ""}
         aria-modal={showModal ? "true" : "false"}
       >
@@ -689,28 +708,92 @@ const Profile = ({username}) => {
                     onChange={handleChange}
                   />
                 </div>
-              </form>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={handleSaveChanges}
-              >
-                Save Changes
-              </button>
-              {showAlert && (
-                <div className="alert alert-success" role="alert">
-                  Profile updated successfully!
+                <div className="mb-3">
+                  <label
+                    htmlFor="foodPrefInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Food Preferences
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="foodPrefInput"
+                    name="foodPref"
+                    value={data.foodPref}
+                    onChange={handleChange}
+                  />
                 </div>
-              )}
+                <div className="mb-3">
+                  <label
+                    htmlFor="foodResInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Food Restrictions
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="foodResInput"
+                    name="foodRes"
+                    value={data.foodRes}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="workoutPrefInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Workout Preferences
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="workoutPrefInput"
+                    name="workoutPref"
+                    value={data.workoutPref}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label
+                    htmlFor="workoutResInput"
+                    className={`form-label ${styles.formLabel}`}
+                  >
+                    Workout Restrictions
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="workoutResInput"
+                    name="workoutRes"
+                    value={data.workoutRes}
+                    onChange={handleChange}
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className={`btn btn-primary ${styles.saveProfileBtn}`}
+                    onClick={handleSaveChanges}
+                  >
+                    Save Changes
+                  </button>
+                  {showAlert && (
+                    <div className="alert alert-success" role="alert">
+                      Profile updated successfully!
+                    </div>
+                  )}
+                </div>
+              </form>
             </div>
           </div>
         </div>
