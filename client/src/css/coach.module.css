@@ -48,6 +48,8 @@ ul {
   margin-bottom: 20px;
   color: white;
   width: auto;
+  height: 85vh;
+  overflow-y: auto;
 }
 
 .chatMessageContainer {
@@ -176,10 +178,10 @@ ul {
 
   .chatLogContainer {
     padding: 24px;
-    padding-bottom: 10rem;
+    padding-bottom: 4rem;
     margin-top: 100px;
     margin-bottom: 50px;
-    overflow-y: auto;
+    height: 70vh;
     color: white;
     width: auto;
   }
