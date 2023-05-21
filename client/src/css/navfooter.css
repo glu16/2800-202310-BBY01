@@ -19,7 +19,7 @@ img {
 }
 
 .navbar {
-  height: 100px;
+  height: 90px;
   background-color: #2b2b2b;
   z-index: 2;
 }
@@ -48,4 +48,10 @@ img {
 
 #logout {
   right: 0;
+}
+
+@media (max-width: 767px){
+  .navbar {
+    height: 80px;
+  }
 }

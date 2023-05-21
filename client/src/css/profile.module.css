@@ -208,6 +208,7 @@
   justify-content: center;
   align-items: center;
   background-color: #2b2b2b;
+  transition: 0.2s;
 }
 
 .profileInnerCard {
