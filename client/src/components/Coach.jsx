@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
@@ -17,7 +17,7 @@ const ChatMessage = ({ message }) => {
   }
   const lines = message.message.split("\n");
 
-  if (lines.length > 1) {
+  if (message.user === "gpt") {
     return (
       <animated.div className={styles.chatMessageContainer} style={greetings}>
         <div
@@ -25,7 +25,7 @@ const ChatMessage = ({ message }) => {
             styles.gptAvatar
           }`}
         ></div>
-        <ul className={`${styles.message}`}>
+        <ul className={`${styles.message} ${styles.coachMessage}`}>
           {lines.map((line, index) => {
             if (line.includes("Day")) {
               return (
@@ -43,33 +43,20 @@ const ChatMessage = ({ message }) => {
   }
 
   return (
-    <animated.div className={styles.chatMessageContainer} style={greetings}>
+    <animated.div className={`${styles.chatMessageContainer} ${styles.userContainer}`} style={greetings}>
       <div
         className={`avatar ${message.user === "gpt" && "AI"} ${
           styles.userAvatar
         }`}
       ></div>
-      <div className={styles.message}>{message.message}</div>
+      <div className={`${styles.message} ${styles.userMessage}`}>{message.message}</div>
     </animated.div>
   );
 };
 // End of chat message code
 
 const Coach = () => {
-  // Visual effects
-  const [scrollPos, setScrollPos] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollPos(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
@@ -80,6 +67,7 @@ const Coach = () => {
 
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
+  const chatLogRef = useRef(null);
 
   // This code gets the chat log from the database and displays it
   useEffect(
@@ -242,11 +230,15 @@ const Coach = () => {
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
     await sendChatLog("gpt", data.message);
   }
+
+  useEffect(() => {
+    chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+  }, [chatLog]);
   // End of code that handles user and gpt interaction
 
   return (
     <div className={styles.coach}>
-      <div className={styles.chatLogContainer}>
+      <div className={styles.chatLogContainer} ref={chatLogRef}>
         <animated.h1 className={styles.coachTitle} style={greetings}>
           Welcome to your AI Coach!
           <a
