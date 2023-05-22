@@ -644,28 +644,28 @@ const Profile = ({ username }) => {
               </div>
 
               {challenges.length > 0 ? (
-                challenges.map((challenge, index) => (
-                  <div
-                    key={challenge._id}
-                    className={styles.challengeBackground}
-                    style={{ marginTop: index !== 0 ? "54px" : "0" }}
-                  >
-                    <h6 className={styles.challengeDesc}>
-                      {challenge.challenge}
-                    </h6>
-                    <h6 className={styles.challengePoints}>
-                      Points: {challenge.points}
-                    </h6>
-                    <div className={styles.buttonContainer}>
-                      <button
-                        className={`btn btn-primary ${styles.clearBtn}`}
-                        onClick={() => handleRemoveChallenge(challenge._id)}
-                      >
-                        Remove
-                      </button>
+                <div>
+                  {challenges.map((challenge) => (
+                    <div key={challenge._id} className={styles.challengeItem}>
+                      <div className={styles.challengeBackground}>
+                        <h6 className={styles.challengeDesc}>
+                          {challenge.challenge}
+                        </h6>
+                        <h6 className={styles.challengePoints}>
+                          Points: {challenge.points}
+                        </h6>
+                      </div>
+                      <div className={styles.buttonContainer}>
+                        <button
+                          className={`btn btn-primary ${styles.clearBtn}`}
+                          onClick={() => handleRemoveChallenge(challenge._id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))}
+                </div>
               ) : (
                 <p className={styles.challengeDesc}>No challenges found.</p>
               )}
@@ -865,14 +865,24 @@ const Profile = ({ username }) => {
                   >
                     Food Restrictions
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
+                  <select
+                    className="form-select"
                     id="foodResInput"
                     name="foodRes"
                     value={data.foodRes}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select an option</option>
+                    <option value="None">None</option>
+                    <option value="Gluten-Free">Gluten-Free</option>
+                    <option value="Wheat Allergy">Wheat Allergy</option>
+                    <option value="Lactose Intolerant">Lactose Intolerant</option>
+                    <option value="Fish Allergy">Fish Allergy</option>
+                    <option value="Kosher">Kosher</option>
+                    <option value="Shellfish Allergy">Shellfish Allergy</option>
+                    <option value="Nut Allergy">Nut Allergy</option>
+                    <option value="Soy Allergy">Soy Allergy</option>
+                  </select>
                 </div>
                 <div className="mb-3">
                   <label
