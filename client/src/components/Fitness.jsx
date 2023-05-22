@@ -302,7 +302,7 @@ function Workout({ handleOpenModal }) {
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3>Today, {key}</h3>
+                      <strong className={styles.date}>{key}</strong>
                       {renderExerciseToday(obj[key])}
                     </div>
                   );
@@ -310,7 +310,7 @@ function Workout({ handleOpenModal }) {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3>{key}</h3>
+                      <strong className={styles.date} >{key}</strong>
                       {renderExercise(obj[key])}
                     </div>
                   );
@@ -351,7 +351,7 @@ function Workout({ handleOpenModal }) {
 
 
             {/* this opens up images for the exercise */}
-            <button onClick={handleOpenModal} className="btn btn-info">Help</button>
+            <button onClick={handleOpenModal} className={`btn btn-primary  ${styles.exerciseButtons}`}>Help</button>
 
           </div>
 
@@ -396,9 +396,9 @@ function Workout({ handleOpenModal }) {
             }
 
 
-            <div className={styles.exerciseButtons}>
+            <div className={styles.helpButtonsContainer}>
               {/* this opens up images for the exercise */}
-              <button onClick={handleOpenModal} className="btn btn-info">Help</button>
+              <button onClick={handleOpenModal} className={`btn btn-primary  ${styles.exerciseButtons}`}>Help</button>
 
               {/* button to mark task completed */}
               <CompleteExercisesButton />
@@ -449,15 +449,17 @@ function Workout({ handleOpenModal }) {
 
   // return for Workout()
   return (
-    <div>
-      <h2>{username}'s 7-Day Workout</h2>
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className="btn btn-info btn-arrow-left">
+    <div className={styles.workoutPlanContainer}>
+      <h2 className={styles.mainTitle}>Your Workout Plan</h2>
+      <div className={styles.PrevNext}>
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-primary  ${styles.exerciseButtons}`}>
         Previous Day
       </button>
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className="btn btn-info btn-arrow-right">
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn btn-primary  ${styles.exerciseButtons}`}>
         Next Day
       </button>
-      <div className="d-flex align-items-center text-center justify-content-center row">
+      </div>
+      <div className={`d-flex align-items-center text-center justify-content-center row ${styles.workoutInnerCon}`}>
         {workout}
       </div>
     </div>
@@ -483,9 +485,9 @@ const CompleteExercisesButton = () => {
 
   };
   return (
-    <div onClick={handleClick}>
-      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></input>
-      <label className="form-check-label" for="flexSwitchCheckDefault">Done!</label>
+    <div onClick={handleClick} className={styles.checkbox}>
+      <input className={`form-check-input btn btn-outline-info ${styles.checkDone}`} type="checkbox" id="flexSwitchCheckDefault"></input>
+      <label className="form-check-label btn btn-outline-info" for="flexSwitchCheckDefault">Done!</label>
   </div>
   );
 };
@@ -545,7 +547,6 @@ const Streak = () => {
 
   return (
     <div id="streakContainer" className={styles.streakContainer}>
-      <h2>{username}'s Workout Stats</h2>
       <p>
           <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
           &nbsp; {doneTodayMessage} 
@@ -766,8 +767,8 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleWorkoutFormVisibility} className="btn btn-primary">
-        {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
+      <button onClick={toggleWorkoutFormVisibility} className={`btn btn-primary  ${styles.exerciseButtons} ${styles.newPlan}`}>
+        {isWorkoutFormVisible  ? 'Hide Generate Workout Plan Form' : 'Generate New Workout Plan'}
       </button>
 
       <div
@@ -781,30 +782,30 @@ const Fitness = () => {
           {/* SEND INTENSITY FOR WORKOUT GENERATION */}
           
           <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
-          <label htmlFor="beginnerOption" className="btn btn-outline-primary">Beginner</label>
+          <label htmlFor="beginnerOption" className="btn btn-outline-info">Beginner</label>
           <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
-          <label htmlFor="intermediateOption" className="btn btn-outline-primary">Intermediate</label>
+          <label htmlFor="intermediateOption" className="btn btn-outline-info">Intermediate</label>
           <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
-          <label htmlFor="expertOption" className="btn btn-outline-primary">Expert</label>
-          <p>Select desired intensity level</p>
-          <br />
+          <label htmlFor="expertOption" className="btn btn-outline-info">Expert</label>
+          <p style={{marginTop:"2px"}}>Select desired intensity level</p>
+     
 
           {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
-          
-          <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
-          <label className="btn btn-outline-primary" htmlFor="arms">Arms</label>
-          <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
-          <label className="btn btn-outline-primary" htmlFor="legs">Legs</label>
-          <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
-          <label className="btn btn-outline-primary" htmlFor="chest">Chest</label>
-          <input type="checkbox" name="back" className="btn-check" id="back"></input>
-          <label className="btn btn-outline-primary" htmlFor="back">Back</label>
+
           <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
-          <label className="btn btn-outline-primary" htmlFor="shoulders">Shoulders</label>
+          <label className="btn btn-outline-info" htmlFor="shoulders">Shoulders</label>
+          <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
+          <label className="btn btn-outline-info" htmlFor="chest">Chest</label>
+          <input type="checkbox" name="back" className="btn-check" id="back"></input>
+          <label className="btn btn-outline-info" htmlFor="back">Back</label>
+          <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
+          <label className="btn btn-outline-info" htmlFor="arms">Arms</label>
           <input type="checkbox" name="core" className="btn-check" id="core"></input>
-          <label className="btn btn-outline-primary" htmlFor="core">Core</label>
+          <label className="btn btn-outline-info" htmlFor="core">Core</label>
           <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
-          <label className="btn btn-outline-primary" htmlFor="glutes">Glutes</label>
+          <label className="btn btn-outline-info" htmlFor="glutes">Glutes</label>
+          <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
+          <label className="btn btn-outline-info" htmlFor="legs">Legs</label>
           <p>Select muscle groups you want to focus on</p>
 
           <br />
@@ -812,18 +813,19 @@ const Fitness = () => {
           {/* button displays different text if clicked or not clicked */}
           <button
             type="submit"
-            className="btn btn-success"
+            className={`btn btn-primary  ${styles.exerciseButtons} ${styles.hiddenButton}`}
             disabled={isFormSubmitting}
           >
             {isFormSubmitting ? (
-              <div>
+              <div className={styles.loading}>
                 <p>Generating...</p>
                 {/* Bootstrap loadinng circle */}
                 <div id="processing" className="spinner-border" role="status"><span className="sr-only">Loading...</span></div>
               </div>
             ) : (
-              "Create new workout plan"
+              "Generate New Workout Plan"
             )}
+
           </button>
 
           <p>
@@ -845,7 +847,7 @@ const Fitness = () => {
           sex = {sex}
           />
       )}
-      <button id="completeAllButton" className="completeAllButton btn btn-success"
+      <button id="completeAllButton" className={`btn btn-primary  ${styles.markButton}`}
         onClick={completeAllExercises} 
         disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
         >Mark ALL exercises complete!
