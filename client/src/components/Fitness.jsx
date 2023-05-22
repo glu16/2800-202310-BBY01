@@ -227,6 +227,11 @@ function Workout({ handleOpenModal }) {
   // tracks which day x/7 of the weeklong workout plan is today's, going to use this to limit button navigation
   const [dayOfWorkoutPlan, setDayOfWorkoutPlan] = useState(0);
 
+  // for navigating to present day
+  const handleToday = () => {
+    setDaysToAdd(0);
+  };
+
   // for previous day and next day button navigation
   const handleIncrementDays = () => {
     setDaysToAdd(daysToAdd + 1);
@@ -472,16 +477,22 @@ function Workout({ handleOpenModal }) {
       <h2 className={styles.mainTitle}>Your Workout Plan</h2>
       <div className={styles.PrevNext}>
         <button
+          onClick={handleToday}
+          disabled={daysToAdd == 0}
+          className={`btn btn-primary  ${styles.exerciseButtons} ${styles.exerciseBtnToday}`}>
+          {"Today"}
+        </button>{" "}
+        <button
           onClick={handleDecrementDays}
           disabled={dayOfWorkoutPlan <= 0}
-          className={`btn btn-primary  ${styles.exerciseButtons}`}>
-          Previous Day
+          className={`btn btn-primary  ${styles.exerciseButtons} ${styles.exerciseBtn1}`}>
+          <span className="material-symbols-outlined">chevron_left</span>
         </button>
         <button
           onClick={handleIncrementDays}
           disabled={dayOfWorkoutPlan >= 6}
-          className={`btn btn-primary  ${styles.exerciseButtons}`}>
-          Next Day
+          className={`btn btn-primary  ${styles.exerciseButtons} ${styles.exerciseBtn2}`}>
+          <span className="material-symbols-outlined">chevron_right</span>
         </button>
       </div>
       <div
@@ -498,7 +509,7 @@ const CompleteExercisesButton = () => {
 
   const handleClick = () => {
     setIsChecked(!isChecked);
-    console.log("Checked")
+    console.log("Checked");
     if (!isChecked) {
       let numberOfExercises = parseInt(
         localStorage.getItem("numberOfExercises")
@@ -519,9 +530,7 @@ const CompleteExercisesButton = () => {
         className={`form-check-input btn-outline-info ${styles.checkDone}`}
         type="checkbox"
         id="flexSwitchCheckDefault"></input>
-      <label
-        className="form-check-label"
-        htmlFor="">
+      <label className="form-check-label" htmlFor="">
         Done!
       </label>
     </div>
@@ -595,7 +604,6 @@ const Streak = () => {
 
       <div id="graphs" className={styles.graphs}>
         <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
-        &nbsp; &nbsp;
         <CircleStreak
           currentStreak={currentStreak}
           longestStreak={longestStreak}
@@ -690,7 +698,7 @@ const Fitness = () => {
 
     // Styling for changing the React-Modal overlay; overlayClassName was not working as intended
     const overlayStyles = {
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
     };
 
     return (
@@ -701,7 +709,7 @@ const Fitness = () => {
         appElement={document.getElementById("root")}
         ariaHideApp={false}
         style={{
-          overlay: overlayStyles
+          overlay: overlayStyles,
         }}
         className={styles.modal}>
         <div className={styles.modalContents}>
