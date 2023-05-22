@@ -192,7 +192,8 @@ input[type="radio"]:active + .checkboxLabel {
 }
 
 .checkbox label {
-  display: none;
+  /* display: none; */
+  margin-left: 10px;
 }
 
 .markButton {
@@ -208,8 +209,8 @@ input[type="radio"]:active + .checkboxLabel {
   position: relative;
   top: 30%;
   margin: 0 auto;
-  background-color: #2b2b2b;
-  border: 2px solid green;
+  background-color: hsl(0, 0%, 30%);
+  border-radius: 10px;
   z-index: 1;
 }
 
@@ -222,13 +223,15 @@ input[type="radio"]:active + .checkboxLabel {
 .modalExercise {
   color: white;
   font-size: 30px;
-  margin-bottom: 100px;
+  margin-top: 30px;
+  margin-bottom: 70px;
   
 }
 
 .modalImage {
   height: 200px;
   width: 200px;
+  border-radius: 10px;
 }
 
 .hidden {
@@ -241,13 +244,30 @@ input[type="radio"]:active + .checkboxLabel {
 }
 
 .checkDone {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: white;
+  width: 16px;
   border: none;
 }
 
 .checkDone:checked {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.checkDone:active{
+  background-color: white;
+  width: 16px;
+  border: none;
+}
+
+.checkDone:focus {
+  outline: none;
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.checkDone:hover:not(.checkDone:checked){
+  background-color: hsl(184, 61%, 90%);
+
 }
 
 .loading p {

@@ -498,6 +498,7 @@ const CompleteExercisesButton = () => {
 
   const handleClick = () => {
     setIsChecked(!isChecked);
+    console.log("Checked")
     if (!isChecked) {
       let numberOfExercises = parseInt(
         localStorage.getItem("numberOfExercises")
@@ -515,12 +516,12 @@ const CompleteExercisesButton = () => {
   return (
     <div onClick={handleClick} className={styles.checkbox}>
       <input
-        className={`form-check-input btn btn-outline-info ${styles.checkDone}`}
+        className={`form-check-input btn-outline-info ${styles.checkDone}`}
         type="checkbox"
         id="flexSwitchCheckDefault"></input>
       <label
-        className="form-check-label btn btn-outline-info"
-        for="flexSwitchCheckDefault">
+        className="form-check-label"
+        htmlFor="">
         Done!
       </label>
     </div>
@@ -687,6 +688,11 @@ const Fitness = () => {
         `.gif`;
     }
 
+    // Styling for changing the React-Modal overlay; overlayClassName was not working as intended
+    const overlayStyles = {
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    };
+
     return (
       <Modal
         isOpen={isOpen}
@@ -694,6 +700,9 @@ const Fitness = () => {
         contentLabel="Image Popup"
         appElement={document.getElementById("root")}
         ariaHideApp={false}
+        style={{
+          overlay: overlayStyles
+        }}
         className={styles.modal}>
         <div className={styles.modalContents}>
           <strong className={styles.modalExercise}>{modalExercise}</strong>
@@ -978,7 +987,7 @@ const Fitness = () => {
       )}
       <button
         id="completeAllButton"
-        className={`btn btn-primary  ${styles.markButton}`}
+        className={`btn btn-primary ${styles.markButton}`}
         onClick={completeAllExercises}
         disabled={
           numberOfExercises !== 0 || completeAllExercisesClicked || doneToday
