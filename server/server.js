@@ -121,6 +121,7 @@ app.put("/users/:username", async (req, res) => {
   }
 });
 
+/**********LEADERBOARD ROUTES************/
 // RETRIEVES ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
@@ -180,36 +181,6 @@ app.get("/leaderboard/:username", async (req, res) => {
   }
 });
 
-// RETRIEVES USER'S NOTIFICATION SETTINGS FROM DATABASE
-app.get("/settings/:username", async (req, res) => {
-  const userID = req.params.username;
-  try {
-    const user = await User.findOne({ username: userID });
-
-    if (!user) {
-      res.status(404).send("User not found");
-    }
-    const settings = user.notificationSettings[0];
-    if (!settings) {
-      res.send({
-        dietReminders: false,
-        fitnessReminders: false,
-        leaderboardReminders: false,
-        challengeReminders: false,
-      });
-    } else {
-      res.send({
-        dietReminders: settings.dietReminders,
-        fitnessReminders: settings.fitnessReminders,
-        leaderboardReminders: settings.leaderboardReminders,
-        challengeReminders: settings.challengeReminders,
-      });
-    }
-  } catch (error) {
-    console.log(error);
-  }
-});
-
 // UPDATES AND SAVES THE LOGGED IN USER'S NAME INTO THE SPECIFIED USER'S COLLECTION
 app.post("/leaderboard/:friendUsername", async (req, res) => {
   const { friendUsername } = req.params;
@@ -256,6 +227,142 @@ app.post("/leaderboard/:friendUsername", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+/**********END OF LEADERBOARD ROUTES************/
+
+/**********SETTINGS ROUTES************/
+// RETRIEVES USER'S NOTIFICATION SETTINGS FROM DATABASE
+app.get("/settings/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+
+    if (!user) {
+      res.status(404).send("User not found");
+    }
+    const settings = user.notificationSettings[0];
+    if (!settings) {
+      res.send({
+        dietReminders: false,
+        fitnessReminders: false,
+        leaderboardReminders: false,
+        challengeReminders: false,
+      });
+    } else {
+      res.send({
+        dietReminders: settings.dietReminders,
+        fitnessReminders: settings.fitnessReminders,
+        leaderboardReminders: settings.leaderboardReminders,
+        challengeReminders: settings.challengeReminders,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// UPDATES USER NOTIFICATION SETTINGS IN DATABASE
+app.post("/settings/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body.challengeReminders);
+  try {
+    if (!req.body) {
+      res.status(404).send("No settings received.");
+    }
+    await User.findOneAndUpdate(
+      { username: userID },
+      {
+        $set: {
+          notificationSettings: {
+            dietReminders: req.body.dietReminders,
+            fitnessReminders: req.body.fitnessReminders,
+            leaderboardReminders: req.body.leaderboardReminders,
+            challengeReminders: req.body.challengeReminders,
+          },
+        },
+      },
+      { new: true, upsert: true }
+    );
+    console.log(`settings updated`);
+    res.status(200).send("Notification settings successfully updated");
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error (Notification settings were not saved",
+    });
+  }
+});
+/**********END OF SETTINGS ROUTES************/
+
+/**********PROFILE ROUTES************/
+// RETRIEVES THE USER'S CHALLENGES FROM THE DATABASE
+app.get("/profile/:username", async (req, res) => {
+  try {
+    const { username } = req.params;
+    // FIND THE LOGGED IN USER BY USERNAME
+    const user = await User.findOne({ username });
+    // THROW ERROR IF NOT THE USER
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // RETRIEVE THE CHALLENGES ARRAY
+    const { challenges } = user;
+
+    // RETRIEVE THE CHALLENGES ARRAY BASED ON THE CHALLENGE IDs
+    const challengeDocuments = await Challenges.find(
+      { _id: { $in: challenges.map((challenge) => challenge.challengeId) } },
+      { challengeId: 1, challenge: 1, points: 1 }
+    );
+    // SEND THE RESPONSE
+    res.json(challengeDocuments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// UPDATES AND SAVES THE USER'S PROFILE INFORMATION IN THE DATABASE
+app.post("/profile/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body);
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      { username: userID },
+      // SETS THE USER'S PROFILE INFORMATION
+      {
+        $set: {
+          username: req.body.username,
+          email: req.body.email,
+          phoneNumber: req.body.phoneNumber,
+          "userStats.0.age": req.body.age,
+          "userStats.0.height": req.body.height,
+          "userStats.0.weight": req.body.weight,
+          foodPref: req.body.foodPref,
+          foodRes: req.body.foodRes,
+          workoutPref: req.body.workoutPref,
+          workoutRes: req.body.workoutRes,
+        },
+      },
+
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      { new: true }
+    );
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    // RETURNS ERROR MESSAGE BASED ON ERR OBJECT PROPERTIES
+    if (err.codeName == "DuplicateKey" && err.keyValue.username) {
+      res.status(500).send("Username is already taken");
+    } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
+      res.status(500).send("Email is already taken");
+    } else {
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
 });
 
@@ -308,33 +415,40 @@ app.delete("/profile/:friendId", async (req, res) => {
   }
 });
 
-// RETRIEVES THE USER'S CHALLENGES FROM THE DATABASE
-app.get("/profile/:username", async (req, res) => {
+// UPDATES AND SAVES DOWNLOAD LINK FOR PROFILE PICTURE FOR USER IN DATABASE
+app.post("/pfp/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body.image);
   try {
-    const { username } = req.params;
-    // FIND THE LOGGED IN USER BY USERNAME
-    const user = await User.findOne({ username });
-    // THROW ERROR IF NOT THE USER
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
+    if (req.body == "") {
+      res.status(404).send("Please try uploading your image again.");
     }
-
-    // RETRIEVE THE CHALLENGES ARRAY
-    const { challenges } = user;
-
-    // RETRIEVE THE CHALLENGES ARRAY BASED ON THE CHALLENGE IDs
-    const challengeDocuments = await Challenges.find(
-      { _id: { $in: challenges.map((challenge) => challenge.challengeId) } },
-      { challengeId: 1, challenge: 1, points: 1 }
+    const user = await User.findOneAndUpdate(
+      // FIND BY EMAIL
+      { username: userID },
+      // SETS THE USER'S IMAGE DOWNLOAD LINK
+      {
+        $set: {
+          imageURL: req.body.image,
+        },
+      },
+      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
+      { new: true }
     );
-    // SEND THE RESPONSE
-    res.json(challengeDocuments);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
+
+    res.status(200).json({
+      message: `User with username ${userID} updated successfully`,
+      user,
+    });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ error: "Internal server error (Image URL was not saved)" });
   }
 });
+/**********END OF PROFILE ROUTES************/
 
+/*********************SIGNUP ROUTES *******************/
 // GENERATES USER STATS AND SAVES IT IN THE DATABASE
 app.post("/signupdetails/:username", async (req, res) => {
   console.log(req.body.age);
@@ -418,114 +532,10 @@ app.post("/signupPrefRes/:username", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+/*********************END OF SIGNUP ROUTES *******************/
 
-// UPDATES AND SAVES THE USER'S PROFILE INFORMATION IN THE DATABASE
-app.post("/profile/:username", async (req, res) => {
-  const userID = req.params.username;
-  console.log(req.body);
-  try {
-    const user = await User.findOneAndUpdate(
-      // FIND BY EMAIL
-      { username: userID },
-      // SETS THE USER'S PROFILE INFORMATION
-      {
-        $set: {
-          username: req.body.username,
-          email: req.body.email,
-          phoneNumber: req.body.phoneNumber,
-          "userStats.0.age": req.body.age,
-          "userStats.0.height": req.body.height,
-          "userStats.0.weight": req.body.weight,
-          foodPref: req.body.foodPref,
-          foodRes: req.body.foodRes,
-          workoutPref: req.body.workoutPref,
-          workoutRes: req.body.workoutRes,
-        },
-      },
 
-      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true }
-    );
-
-    res.status(200).json({
-      message: `User with username ${userID} updated successfully`,
-      user,
-    });
-  } catch (err) {
-    // RETURNS ERROR MESSAGE BASED ON ERR OBJECT PROPERTIES
-    if (err.codeName == "DuplicateKey" && err.keyValue.username) {
-      res.status(500).send("Username is already taken");
-    } else if (err.codeName == "DuplicateKey" && err.keyValue.email) {
-      res.status(500).send("Email is already taken");
-    } else {
-      res.status(500).json({ error: "Internal server error" });
-    }
-  }
-});
-
-// UPDATES AND SAVES DOWNLOAD LINK FOR PROFILE PICTURE FOR USER IN DATABASE
-app.post("/pfp/:username", async (req, res) => {
-  const userID = req.params.username;
-  console.log(req.body.image);
-  try {
-    if (req.body == "") {
-      res.status(404).send("Please try uploading your image again.");
-    }
-    const user = await User.findOneAndUpdate(
-      // FIND BY EMAIL
-      { username: userID },
-      // SETS THE USER'S IMAGE DOWNLOAD LINK
-      {
-        $set: {
-          imageURL: req.body.image,
-        },
-      },
-      // NEW: RETURNS THE MODIFIED DOCUMENT RATHER THAN THE ORIGINAL.
-      { new: true }
-    );
-
-    res.status(200).json({
-      message: `User with username ${userID} updated successfully`,
-      user,
-    });
-  } catch (err) {
-    res
-      .status(500)
-      .json({ error: "Internal server error (Image URL was not saved)" });
-  }
-});
-
-// UPDATES USER NOTIFICATION SETTINGS IN DATABASE
-app.post("/settings/:username", async (req, res) => {
-  const userID = req.params.username;
-  console.log(req.body.challengeReminders);
-  try {
-    if (!req.body) {
-      res.status(404).send("No settings received.");
-    }
-    await User.findOneAndUpdate(
-      { username: userID },
-      {
-        $set: {
-          notificationSettings: {
-            dietReminders: req.body.dietReminders,
-            fitnessReminders: req.body.fitnessReminders,
-            leaderboardReminders: req.body.leaderboardReminders,
-            challengeReminders: req.body.challengeReminders,
-          },
-        },
-      },
-      { new: true, upsert: true }
-    );
-    console.log(`settings updated`);
-    res.status(200).send("Notification settings successfully updated");
-  } catch (error) {
-    res.status(500).json({
-      error: "Internal server error (Notification settings were not saved",
-    });
-  }
-});
-
+/*********************COACH/CHAT ROUTES********************/
 // STORES USER'S CHAT HISTORY TO THE DATABASE
 app.put("/history/:username", async (req, res) => {
   // THE USER'S EMAIL
@@ -576,6 +586,37 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
+// THE CURRENT AI IN THE COACH TAB
+app.post("/", async (req, res) => {
+  const { message } = req.body;
+  console.log(message);
+
+  // THE RESPONSE FROM OPENAI
+  //.createCompletion // BASE MODEL
+  const response = await openai.createChatCompletion({
+    // model: "text-davinci-003", //BASE MODEL
+    model: "gpt-3.5-turbo",
+    // prompt: `${message}`, //BASE MODEL
+    messages: [{ role: "user", content: `${message}` }],
+    max_tokens: 200,
+    presence_penalty: 0.6,
+    frequency_penalty: 0.6,
+  });
+
+  // const parsableJson = response.data.choices[0].text; //BASE MODEL
+  const parsableJson = response.data.choices[0].message.content;
+
+  console.log(parsableJson);
+  let messageOutTest = parsableJson;
+
+  // THE MESSAGE SENT TO THE USER
+  res.json({
+    message: messageOutTest,
+  });
+});
+/*********************END OF COACH/CHAT ROUTES********************/
+
+/*********************FITNESS ROUTES********************/
 // GENERATE AND STORE WORKOUT PLAN FOR USER
 app.put("/fitness/:username", async (req, res) => {
   // STORE USER'S USERNAME
@@ -730,6 +771,47 @@ app.get("/fitness/:username", async (req, res) => {
   }
 });
 
+// FOR STREAK TRACKER
+app.post("/fitness/:username", async (req, res) => {
+  const userID = req.params.username;
+  console.log(req.body);
+  try {
+    const user = await User.findOneAndUpdate(
+      // FIND USER BY USERNAME
+      { username: userID },
+      {
+        // INCREMENT currentStreak AND daysDone FIELD BY 1 AND award 100 points
+        $inc: { currentStreak: 1, daysDone: 1, points: 100 },
+        // SET doneToday TO true
+        $set: { doneToday: true },
+      },
+      // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    // COMPARE currentStreak WITH longestStreak AND UPDATE longestStreak IF NECESSARY
+    if (user.currentStreak > user.longestStreak) {
+      user.longestStreak = user.currentStreak;
+      // aware extra 50 points if new streak
+      user.points = user.points + 50;
+      await user.save();
+      console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
+    }
+    console.log(
+      `Successfully updated ${userID}'s currentStreak, daysDone, and doneToday`
+    );
+    res.status(200).json({
+      message: `${userID} streak stats updated successfully`,
+      user,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // GET THE USER'S SEX FOR MODAL IMAGES
 app.get("/getSex/:username", async (req, res) => {
   const userID = req.params.username;
@@ -743,25 +825,6 @@ app.get("/getSex/:username", async (req, res) => {
     res
       .status(500)
       .json({ error: "Internal server error. Couldn't send user's sex." });
-  }
-});
-
-
-// RETRIEVES THE DIET PLAN FOR THE USER
-app.get("/diet/:username", async (req, res) => {
-  const userID = req.params.username;
-  try {
-    const user = await User.findOne({ username: userID });
-    // IF WORKOUTS EMPTY IE.NEW USER
-    if (user.diets.length == 0) {
-      res.send("empty");
-      // SENDS FIRST WORKOUT IN WORKOUTS
-    } else {
-      res.send(user.diets[0]);
-    }
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -799,7 +862,7 @@ app.get("/doneToday/:username", async (req, res) => {
   }
 });
 
-// RETRIEVES THE USER'S FIRST NAME AND LAST NAME
+// RETRIEVES THE USER'S FIRST NAME AND LAST NAME FOR DONETODAY
 app.get("/getName/:username", async (req, res) => {
   const userID = req.params.username;
   try {
@@ -813,6 +876,65 @@ app.get("/getName/:username", async (req, res) => {
     res
       .status(500)
       .json({ error: "Internal server error. Couldn't send doneToday." });
+  }
+});
+
+// Daily at 12:01AM update streaks for all users <- TARGET THIS METHOD WITH CRON-JOB EXTERNALLY ONCE HOSTED
+app.post("/updateStreaks", async (req, res) => {
+  // HANDLE WHETHER USER COMPLETED OR DID NOT COMPLETE THEIR WORKOUT TODAY
+  try {
+    // FIND ALL USERS AND ITERATE THROUGH THEM
+    const users = await User.find();
+    for (const user of users) {
+      if (user.doneToday) {
+        // IF THE USER COMPLETED A WORKOUT TODAY, INCREMENT daysDone
+        user.daysDone++;
+      } else {
+        // IF THE USER DID NOT COMPLETE A WORKOUT TODAY, UPDATE currentStreak AND daysMissed
+        user.currentStreak = 0;
+        user.daysMissed++;
+      }
+      // SAVE THE UPDATED USER
+      await user.save();
+      // console.log(`${user.username} streak updated.`);
+    }
+    console.log("All streaks updated successfully.");
+  } catch (err) {
+    console.error("Failed to update streaks: ", err);
+  }
+
+  // FINALLY RESET ALL USER'S doneToday TO false
+  try {
+    await User.updateMany(
+      {},
+      {
+        doneToday: false,
+      }
+    );
+    console.log("All doneToday reset to false successfully.");
+  } catch (error) {
+    console.log("Failed to reset donetToday:" + error);
+  }
+});
+/*********************END OF FITNESS ROUTES********************/
+
+
+/*********************DIET ROUTES********************/
+// RETRIEVES THE DIET PLAN FOR THE USER
+app.get("/diet/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    // IF WORKOUTS EMPTY IE.NEW USER
+    if (user.diets.length == 0) {
+      res.send("empty");
+      // SENDS FIRST WORKOUT IN WORKOUTS
+    } else {
+      res.send(user.diets[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -914,11 +1036,13 @@ app.get("/userStats", async (req, res) => {
   }
 });
 
+/*********************END OF DIET ROUTES********************/
+
+/*********************HOME ROUTES***********************/
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
 let selectedTip = null;
 let selectedDate = null;
-
 // RETRIEVES A TIP FROM THE TIP COLLECTION IN DATABASE
 app.get("/home/tips", async (req, res) => {
   try {
@@ -1076,113 +1200,7 @@ app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
   }
 });
 
-// THE CURRENT AI IN THE COACH TAB
-app.post("/", async (req, res) => {
-  const { message } = req.body;
-  console.log(message);
-
-  // THE RESPONSE FROM OPENAI
-  //.createCompletion // BASE MODEL
-  const response = await openai.createChatCompletion({
-    // model: "text-davinci-003", //BASE MODEL
-    model: "gpt-3.5-turbo",
-    // prompt: `${message}`, //BASE MODEL
-    messages: [{ role: "user", content: `${message}` }],
-    max_tokens: 200,
-    presence_penalty: 0.6,
-    frequency_penalty: 0.6,
-  });
-
-  // const parsableJson = response.data.choices[0].text; //BASE MODEL
-  const parsableJson = response.data.choices[0].message.content;
-
-  console.log(parsableJson);
-  let messageOutTest = parsableJson;
-
-  // THE MESSAGE SENT TO THE USER
-  res.json({
-    message: messageOutTest,
-  });
-});
-
-// FOR STREAK TRACKER
-app.post("/fitness/:username", async (req, res) => {
-  const userID = req.params.username;
-  console.log(req.body);
-  try {
-    const user = await User.findOneAndUpdate(
-      // FIND USER BY USERNAME
-      { username: userID },
-      {
-        // INCREMENT currentStreak AND daysDone FIELD BY 1 AND award 100 points
-        $inc: { currentStreak: 1, daysDone: 1, points: 100 },
-        // SET doneToday TO true
-        $set: { doneToday: true },
-      },
-      // ENABLE NEW: TRUE TO RETURN THE UPDATED DOCUMENT
-      { new: true }
-    );
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-    // COMPARE currentStreak WITH longestStreak AND UPDATE longestStreak IF NECESSARY
-    if (user.currentStreak > user.longestStreak) {
-      user.longestStreak = user.currentStreak;
-      // aware extra 50 points if new streak
-      user.points = user.points + 50;
-      await user.save();
-      console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);
-    }
-    console.log(
-      `Successfully updated ${userID}'s currentStreak, daysDone, and doneToday`
-    );
-    res.status(200).json({
-      message: `${userID} streak stats updated successfully`,
-      user,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// Daily at 12:01AM update streaks for all users <- TARGET THIS METHOD WITH CRON-JOB EXTERNALLY ONCE HOSTED
-app.post("/updateStreaks", async (req, res) => {
-  // HANDLE WHETHER USER COMPLETED OR DID NOT COMPLETE THEIR WORKOUT TODAY
-  try {
-    // FIND ALL USERS AND ITERATE THROUGH THEM
-    const users = await User.find();
-    for (const user of users) {
-      if (user.doneToday) {
-        // IF THE USER COMPLETED A WORKOUT TODAY, INCREMENT daysDone
-        user.daysDone++;
-      } else {
-        // IF THE USER DID NOT COMPLETE A WORKOUT TODAY, UPDATE currentStreak AND daysMissed
-        user.currentStreak = 0;
-        user.daysMissed++;
-      }
-      // SAVE THE UPDATED USER
-      await user.save();
-      // console.log(`${user.username} streak updated.`);
-    }
-    console.log("All streaks updated successfully.");
-  } catch (err) {
-    console.error("Failed to update streaks: ", err);
-  }
-
-  // FINALLY RESET ALL USER'S doneToday TO false
-  try {
-    await User.updateMany(
-      {},
-      {
-        doneToday: false,
-      }
-    );
-    console.log("All doneToday reset to false successfully.");
-  } catch (error) {
-    console.log("Failed to reset donetToday:" + error);
-  }
-});
+/*********************END OF HOME ROUTES***********************/
 
 // SERVER HOSTING
 const localPort = 5050;
