@@ -865,14 +865,24 @@ const Profile = ({ username }) => {
                   >
                     Food Restrictions
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
+                  <select
+                    className="form-select"
                     id="foodResInput"
                     name="foodRes"
                     value={data.foodRes}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select an option</option>
+                    <option value="None">None</option>
+                    <option value="Gluten-Free">Gluten-Free</option>
+                    <option value="Wheat Allergy">Wheat Allergy</option>
+                    <option value="Lactose Intolerant">Lactose Intolerant</option>
+                    <option value="Fish Allergy">Fish Allergy</option>
+                    <option value="Kosher">Kosher</option>
+                    <option value="Shellfish Allergy">Shellfish Allergy</option>
+                    <option value="Nut Allergy">Nut Allergy</option>
+                    <option value="Soy Allergy">Soy Allergy</option>
+                  </select>
                 </div>
                 <div className="mb-3">
                   <label

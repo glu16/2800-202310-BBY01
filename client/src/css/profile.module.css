@@ -18,12 +18,12 @@
 
 .challengeItem {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 }
 
 .clearBtn {
-  margin: 10px 10px 16px 0px;
+  margin: 6px 0px 16px 0px;
   background-color: hsl(184, 61%, 40%);
   border: none;
 }
