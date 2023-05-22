@@ -189,7 +189,7 @@ It has the following subfolders:
 │       └── index.js
 │
 └── server/                                   # Server-side files
-    ├── FineTuning/
+    ├── FineTuning/                           # Finetuning files (No longer used)
     │   ├── 0API.mjs
     │   ├── 00fileId.mjs
     │   ├── 1uploadFile.mjs
@@ -200,38 +200,38 @@ It has the following subfolders:
     │   ├── trainData_prepared.jsonl
     │   └── trainData.jsonl
     │
-    ├── models/
+    ├── models/                               # Schema Files 
     │   ├── challenges.js
     │   ├── tips.js
     │   └── users.js
     │
-    ├── PnCGenerator/
-    │   ├── Datasets/
+    ├── PnCGenerator/                         # Prompt and Completion files for finetuning AI (No longer used)
+    │   ├── Datasets/                         # Kaggle data sets
     │   │   ├── DietPlans.csv
     │   │   ├── Fitness.csv
     │   │   ├── FoodNutrition.csv
     │   │   └── FoodNutrition2.csv
     │   │
-    │   ├── GeneratedJSONFiles/
+    │   ├── GeneratedJSONFiles/               # Generated JSON files from python scripts
     │   │   ├── DietPlans.json
     │   │   ├── Fitness.json
     │   │   ├── FoodNutrition.json
     │   │   └── FoodNutrition2.json
     │   │
-    │   ├── DietPlans.py
+    │   ├── DietPlans.py                      # Python scripts 
     │   ├── Fitness.py
     │   ├── FoodNutrition.py
     │   └── FoodNutrition2.py
     │
-    ├── routes/
+    ├── routes/                               # Auth, sign up, log in files
     │   ├── auth.js
     │   ├── passChange.js
     │   └── users.js
     │
-    ├── database.js                           # JS file
-    ├── diet.js                               # JS file
-    ├── package-lock.json                     # JSON file
-    ├── package.json                          # JSON file
-    ├── server.js                             # JS file
-    └── workout.js                            # JS file
+    ├── database.js                           # Connection to the database            
+    ├── diet.js                               # Logic for diet tab
+    ├── package-lock.json                     
+    ├── package.json                          
+    ├── server.js                             # Main backend file
+    └── workout.js                            # Logic for fitness tab
 ```
