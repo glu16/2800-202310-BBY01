@@ -24,19 +24,6 @@
   border: none;
 }
 
-.clearBtn:hover {
-  background-color: hsl(184, 61%, 60%);
-  border: none;
-  outline: none;
-  color: black;
-}
-
-.clearBtn:active,
-.clearBtn:focus {
-  background-color: hsl(184, 61%, 70%);
-  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
-}
-
 .editProfileBtn {
   margin-top: 10px;
   margin-bottom: 16px;
@@ -44,24 +31,13 @@
   border: none;
 }
 
-.editProfileBtn:hover {
-  background-color: hsl(184, 61%, 60%);
-  border: none;
-  outline: none;
-  color: black;
-}
-
-.editProfileBtn:active,
-.editProfileBtn:focus {
-  background-color: hsl(184, 61%, 70%);
-  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
-}
-
 .saveProfileBtn {
   background-color: hsl(184, 61%, 40%);
   border: none;
 }
 
+.clearBtn:hover,
+.editProfileBtn:hover,
 .saveProfileBtn:hover {
   background-color: hsl(184, 61%, 60%);
   border: none;
@@ -69,6 +45,10 @@
   color: black;
 }
 
+.clearBtn:active,
+.clearBtn:focus,
+.editProfileBtn:active,
+.editProfileBtn:focus,
 .saveProfileBtn:active,
 .saveProfileBtn:focus {
   background-color: hsl(184, 61%, 70%);
