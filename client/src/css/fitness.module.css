@@ -45,10 +45,10 @@
 
 .date {
   position: absolute;
-  top: -35px;
+  top: -40px;
   left: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 0;
   margin: 10px 0;
 }
 
@@ -95,6 +95,7 @@
 .graph {
   display: flex;
   align-items: center;
+  justify-content: stretch;
   margin: none;
   padding: none;
   height: 100px;
@@ -106,7 +107,7 @@
   top: 83px;
   left: 68px;
   /* display: none; */
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .newPlan {
@@ -163,6 +164,27 @@
   right: 0;
 }
 
+.exerciseBtnToday {
+  position: absolute;
+  left: 30%;
+  top: 30px;
+  z-index: 1;
+}
+
+.exerciseBtn1 {
+  position: absolute;
+  left: 37%;
+  top: 30px;
+  z-index: 1;
+}
+
+.exerciseBtn2 {
+  position: absolute;
+  right: 37%;
+  top: 30px;
+  z-index: 1;
+}
+
 .helpButtonsContainer {
   display: flex;
   padding-bottom: 0 !important;
@@ -183,8 +205,17 @@
   justify-content: center !important;
 }
 
+input[type="checkbox"]:checked + .checkboxLabel,
+input[type="checkbox"]:active + .checkboxLabel,
+input[type="radio"]:checked + .checkboxLabel,
+input[type="radio"]:active + .checkboxLabel {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
 .checkbox label {
-  display: none;
+  /* display: none; */
+  margin-left: 10px;
 }
 
 .markButton {
@@ -194,18 +225,34 @@
 .modal {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 500px;
   width: 500px;
-  position: fixed;
+  position: relative;
   top: 30%;
-  left: 30%;
-  background-color: #2b2b2b;
-  border: 2px solid green;
+  margin: 0 auto;
+  background-color: hsl(0, 0%, 30%);
+  border-radius: 10px;
+  z-index: 1;
+}
+
+.modalContents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalExercise {
+  color: white;
+  font-size: 30px;
+  margin-top: 30px;
+  margin-bottom: 70px;
 }
 
 .modalImage {
   height: 200px;
   width: 200px;
+  border-radius: 10px;
 }
 
 .hidden {
@@ -218,13 +265,29 @@
 }
 
 .checkDone {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: white;
+  width: 16px;
   border: none;
 }
 
 .checkDone:checked {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.checkDone:active {
+  background-color: white;
+  width: 16px;
+  border: none;
+}
+
+.checkDone:focus {
+  outline: none;
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.checkDone:hover:not(.checkDone:checked) {
+  background-color: hsl(184, 61%, 90%);
 }
 
 .loading p {
@@ -241,6 +304,18 @@
   .streakContainer {
     right: 90px;
     top: 77px;
+  }
+
+  .exerciseBtnToday {
+    left: 28%;
+  }
+
+  .exerciseBtn1 {
+    left: 35%;
+  }
+
+  .exerciseBtn2 {
+    right: 35%;
   }
 
   .workoutForm {
@@ -264,6 +339,17 @@
     display: flex;
     flex-direction: column;
     height: 169px;
+    padding-top: 0px;
+  }
+
+  .graph:nth-child(1) {
+    height: 169px;
+    margin-top: 20px;
+  }
+
+  .graph p {
+    position: absolute;
+    width: 300px;
   }
 
   .workoutForm p {
@@ -284,6 +370,18 @@
 
   .workoutForm form label {
     margin-bottom: 25px;
+  }
+
+  .exerciseBtnToday {
+    left: 28%;
+  }
+
+  .exerciseBtn1 {
+    left: 35%;
+  }
+
+  .exerciseBtn2 {
+    right: 35%;
   }
 }
 
@@ -330,12 +428,25 @@
     display: flex;
     flex-direction: column;
     height: 223px;
+    margin: 0 31% 0 9%;
   }
+
+  .graph > p {
+    position: absolute;
+  }
+
+  /* .graph:nth-of-type(1) p {
+    left: 100px;
+  }
+
+  .graph:nth-of-type(2) p {
+    right: 100px;
+  } */
 
   .graphs {
     display: flex;
     width: 100%;
-    justify-content: space-around;
+    /* justify-content: space-around; */
   }
 
   .anExercise {
@@ -344,6 +455,18 @@
 
   .PrevNext {
     top: 182px;
+  }
+
+  .exerciseBtnToday {
+    left: 21%;
+  }
+
+  .exerciseBtn1 {
+    left: 30%;
+  }
+
+  .exerciseBtn2 {
+    right: 30%;
   }
 
   .day {
@@ -419,6 +542,18 @@
     top: 182px;
   }
 
+  .exerciseBtnToday {
+    left: 16%;
+  }
+
+  .exerciseBtn1 {
+    left: 27%;
+  }
+
+  .exerciseBtn2 {
+    right: 27%;
+  }
+
   .day {
     margin-top: 260px;
   }
@@ -490,6 +625,18 @@
     top: 182px;
   }
 
+  .exerciseBtnToday {
+    left: 8%;
+  }
+
+  .exerciseBtn1 {
+    left: 22%;
+  }
+
+  .exerciseBtn2 {
+    right: 22%;
+  }
+
   .day {
     margin-top: 260px;
   }
@@ -550,9 +697,7 @@
 
   .fitnessContainer {
     padding: 0;
-    margin-top: 80px;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 80px 0 90px 0;
     padding: 1rem 1rem;
   }
 
@@ -614,7 +759,22 @@
   }
 
   .PrevNext {
-    top: 411px;
+    top: 390px;
+  }
+
+  .exerciseBtnToday {
+    left: 17%;
+    margin: 0 auto;
+  }
+
+  .exerciseBtn1 {
+    left: 42%;
+    margin: 0 auto;
+  }
+
+  .exerciseBtn2 {
+    right: 24%;
+    margin: 0 auto;
   }
 
   .mainTitle {
@@ -646,5 +806,11 @@
 
   .workoutForm button + p {
     display: contents;
+  }
+
+  .modal {
+    top: 20%;
+    width: 300px;
+    height: 400px;
   }
 }
