@@ -699,6 +699,7 @@ const Fitness = () => {
     // Styling for changing the React-Modal overlay; overlayClassName was not working as intended
     const overlayStyles = {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
+      zIndex: 2,
     };
 
     return (
