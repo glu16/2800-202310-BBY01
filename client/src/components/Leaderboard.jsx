@@ -3,6 +3,7 @@ import axios from "axios";
 
 import styles from "../css/leaderboard.module.css";
 import { useSpring, animated } from "react-spring";
+import pfpPlaceholder from "../img/placeholder-profile.png";
 
 const Leaderboard = () => {
   // Visual page animation effects
@@ -383,13 +384,13 @@ const Leaderboard = () => {
             {sortedUsers.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>
+                <td className={`${styles.names}`}>
                   {" "}
                   <a
                     className={styles.userNameLink}
                     onClick={() => handleUserClick(user)}
                   >
-                    {user.username}
+                    <img src={user.imageURL || pfpPlaceholder}/>{" "} {user.username}
                   </a>
                 </td>
                 <td>{user.points}</td>
@@ -413,7 +414,7 @@ const Leaderboard = () => {
             {sortedFriends.map((friend, index) => (
               <tr key={friend._id}>
                 <td>{index + 1}</td>
-                <td>{friend.username}</td>
+                <td className={styles.names}> <img src={friend.imageURL || pfpPlaceholder}/> {" "} {friend.username}</td>
                 <td>{friend.points}</td>
               </tr>
             ))}

@@ -28,10 +28,16 @@ td img {
   border-radius: 50%;
   object-fit: cover;
   object-position: center center;
-  background-color: white;
+  /* background-color: white; */
   width: 40px;
   height: 40px;
   margin-right: 10px;
+}
+
+.names {
+  position: relative;
+  left: 23%;
+  text-align: left;
 }
 
 .button {
@@ -155,5 +161,9 @@ td img {
     align-items: center;
     margin: auto;
     margin-top: 80px;
+  }
+
+  .names {
+    left: 10%;
   }
 }

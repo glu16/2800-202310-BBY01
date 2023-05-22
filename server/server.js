@@ -124,7 +124,7 @@ app.put("/users/:username", async (req, res) => {
 // RETRIEVES ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { username: 1, points: 1, _id: 1 });
+    const users = await User.find({}, { username: 1, points: 1, _id: 1, imageURL: 1});
     res.send(users);
   } catch (error) {
     console.log(error);
@@ -166,6 +166,7 @@ app.get("/leaderboard/:username", async (req, res) => {
           username: friendUser.username,
           points: friendPoints,
           _id: friendUser._id,
+          imageURL: friendUser.imageURL,
         };
       })
     );
