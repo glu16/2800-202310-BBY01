@@ -48,7 +48,7 @@
   top: -35px;
   left: 0;
   width: 100%;
-  z-index: 1;
+  /* z-index: 1; */
   margin: 10px 0;
 }
 
@@ -106,7 +106,7 @@
   top: 83px;
   left: 68px;
   /* display: none; */
-  z-index: 1;
+  /* z-index: 1; */
 }
 
 .newPlan {
@@ -183,6 +183,14 @@
   justify-content: center !important;
 }
 
+input[type="checkbox"]:checked + .checkboxLabel,
+input[type="checkbox"]:active + .checkboxLabel,
+input[type="radio"]:checked + .checkboxLabel,
+input[type="radio"]:active + .checkboxLabel {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
 .checkbox label {
   display: none;
 }
@@ -194,6 +202,7 @@
 .modal {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 500px;
   width: 500px;
   position: fixed;
@@ -201,6 +210,22 @@
   left: 30%;
   background-color: #2b2b2b;
   border: 2px solid green;
+  z-index: 1;
+}
+
+.modalContents{
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  align-items: center;
+  /* padding: 100px; */
+}
+
+.modalExercise {
+  color: white;
+  font-size: 30px;
+  margin-bottom: 100px;
+  
 }
 
 .modalImage {
