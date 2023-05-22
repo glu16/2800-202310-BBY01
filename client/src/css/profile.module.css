@@ -14,12 +14,16 @@
   color: rgb(92, 208, 216);
   background-color: #474747;
   margin-top: 6px;
-  margin-bottom: 12px;
+}
+
+.challengeItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .clearBtn {
-  margin-top: 10px;
-  margin-bottom: 16px;
+  margin: 10px 10px 16px 0px;
   background-color: hsl(184, 61%, 40%);
   border: none;
 }

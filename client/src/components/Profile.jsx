@@ -644,28 +644,28 @@ const Profile = ({ username }) => {
               </div>
 
               {challenges.length > 0 ? (
-                challenges.map((challenge, index) => (
-                  <div
-                    key={challenge._id}
-                    className={styles.challengeBackground}
-                    style={{ marginTop: index !== 0 ? "54px" : "0" }}
-                  >
-                    <h6 className={styles.challengeDesc}>
-                      {challenge.challenge}
-                    </h6>
-                    <h6 className={styles.challengePoints}>
-                      Points: {challenge.points}
-                    </h6>
-                    <div className={styles.buttonContainer}>
-                      <button
-                        className={`btn btn-primary ${styles.clearBtn}`}
-                        onClick={() => handleRemoveChallenge(challenge._id)}
-                      >
-                        Remove
-                      </button>
+                <div>
+                  {challenges.map((challenge) => (
+                    <div key={challenge._id} className={styles.challengeItem}>
+                      <div className={styles.challengeBackground}>
+                        <h6 className={styles.challengeDesc}>
+                          {challenge.challenge}
+                        </h6>
+                        <h6 className={styles.challengePoints}>
+                          Points: {challenge.points}
+                        </h6>
+                      </div>
+                      <div className={styles.buttonContainer}>
+                        <button
+                          className={`btn btn-primary ${styles.clearBtn}`}
+                          onClick={() => handleRemoveChallenge(challenge._id)}
+                        >
+                          Remove
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                ))
+                  ))}
+                </div>
               ) : (
                 <p className={styles.challengeDesc}>No challenges found.</p>
               )}
