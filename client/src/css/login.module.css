@@ -8,7 +8,8 @@
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
-  overflow: auto;
+  /* overflow-y: auto; */
+  /* overflow-x: hidden; */
 }
 
 #login {
