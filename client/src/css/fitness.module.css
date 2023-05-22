@@ -29,11 +29,13 @@
   /* Sets dropdown of navbar to be same colour as actual navbar */
   background-color: inherit;
 }
+
 .workoutPlanContainer {
   width: 100%;
   margin-top: 200px;
   position: relative;
 }
+
 .title {
   text-align: center;
   margin-top: 20px;
@@ -49,6 +51,7 @@
   z-index: 1;
   margin: 10px 0;
 }
+
 .day {
   min-height: 400px;
   margin-top: 136px;
@@ -56,6 +59,7 @@
   display: flex;
   position: relative;
 }
+
 .day div {
   width: 100%;
   padding: 0 20px;
@@ -78,6 +82,7 @@
   top: 77px;
   position: absolute;
 }
+
 .streakContainer > p {
   display: none;
 }
@@ -141,12 +146,14 @@
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
+
 .exerciseButtons:disabled,
 .markButton:disabled,
 .workoutForm label:disabled {
   background-color: #95a4a9;
   color: black;
 }
+
 .PrevNext {
   display: flex;
   justify-content: center;
@@ -155,17 +162,21 @@
   left: 0;
   right: 0;
 }
+
 .helpButtonsContainer {
   display: flex;
   padding-bottom: 0 !important;
 }
+
 .hiddenButton {
   margin: auto;
 }
+
 .hiddenButton:disabled {
   background-color: hsl(184, 61%, 70%) !important;
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%) !important;
 }
+
 .checkbox {
   display: flex;
   flex-direction: row !important;
@@ -175,6 +186,7 @@
 .checkbox label {
   display: none;
 }
+
 .markButton {
   margin-bottom: 20px;
 }
@@ -204,14 +216,17 @@
   display: flex;
   align-items: center;
 }
+
 .checkDone {
   background-color: hsl(183.87deg 60.78% 40%);
   border: none;
 }
+
 .checkDone:checked {
   background-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
+
 .loading p {
   margin-top: 0;
   margin-bottom: 0;
@@ -244,6 +259,7 @@
     right: 90px;
     top: -5px;
   }
+
   .graph {
     display: flex;
     flex-direction: column;
@@ -253,9 +269,11 @@
   .workoutForm p {
     display: none;
   }
+
   .workoutForm {
     width: 100px;
   }
+
   .workoutForm form {
     display: flex;
     width: 314px;
@@ -263,6 +281,7 @@
     justify-content: center;
     flex-wrap: wrap;
   }
+
   .workoutForm form label {
     margin-bottom: 25px;
   }
@@ -276,6 +295,7 @@
   .workoutPlanContainer {
     margin-top: -444px;
   }
+
   .workoutForm form {
     display: flex;
     width: 314px;
@@ -283,15 +303,17 @@
     justify-content: center;
     flex-wrap: wrap;
   }
+
   .workoutForm form label {
     margin-bottom: 0px;
   }
 
-  .day{
-    margin-top: 217px!important;
+  .day {
+    margin-top: 217px !important;
   }
-  .PrevNext{
-    top: 146px!important;
+
+  .PrevNext {
+    top: 146px !important;
   }
 
   .streakContainer {
@@ -303,12 +325,13 @@
     right: 0;
     width: 100%;
   }
+
   .graph {
     display: flex;
     flex-direction: column;
     height: 223px;
-
   }
+
   .graphs {
     display: flex;
     width: 100%;
@@ -322,6 +345,7 @@
   .PrevNext {
     top: 182px;
   }
+
   .day {
     margin-top: 260px;
   }
@@ -337,9 +361,11 @@
     padding: 0 10px;
     position: relative;
   }
+
   .workoutForm label {
     margin-top: 30px;
   }
+
   .workoutForm p {
     display: none;
   }
@@ -352,6 +378,7 @@
     display: contents;
   }
 }
+
 @media (min-width: 900px) and (max-width: 1029px) {
   /* .fitnessContainer {
     background-color: rgb(38, 128, 89);
@@ -369,11 +396,13 @@
     top: 134px;
     right: 0;
   }
+
   .graph {
     display: flex;
     flex-direction: column;
     height: 169px;
   }
+
   .graphs {
     display: flex;
   }
@@ -381,12 +410,15 @@
   .anExercise {
     width: auto !important;
   }
+
   .graph p {
     display: none;
   }
+
   .PrevNext {
     top: 182px;
   }
+
   .day {
     margin-top: 260px;
   }
@@ -401,9 +433,11 @@
     display: flex;
     padding: 0 10px;
   }
+
   .workoutForm label {
     margin-top: 30px;
   }
+
   .workoutForm p {
     display: none;
   }
@@ -433,11 +467,13 @@
     top: 134px;
     right: 0;
   }
+
   .graph {
     display: flex;
     flex-direction: column;
     height: 169px;
   }
+
   .graphs {
     display: flex;
   }
@@ -445,12 +481,15 @@
   .anExercise {
     width: auto !important;
   }
+
   .graph p {
     display: none;
   }
+
   .PrevNext {
     top: 182px;
   }
+
   .day {
     margin-top: 260px;
   }
@@ -465,9 +504,11 @@
     display: flex;
     padding: 0 10px;
   }
+
   .workoutForm label {
     margin-top: 30px;
   }
+
   .workoutForm p {
     display: none;
   }
@@ -495,6 +536,7 @@
     align-items: center;
     width: 100%;
   }
+
   .helpButtonsContainer button {
     width: 50%;
   }
@@ -529,6 +571,7 @@
     width: auto;
     display: flex;
   }
+
   .day {
     margin-top: 87px;
     flex-direction: column;
@@ -542,6 +585,7 @@
     display: flex;
     justify-content: center !important;
   }
+
   .graphs {
     display: flex;
     position: absolute;
@@ -562,6 +606,7 @@
     margin-top: 100px;
     margin-bottom: 65px;
   }
+
   .workoutPlanContainer {
     width: 100%;
     margin-top: -107px;
@@ -575,6 +620,7 @@
   .mainTitle {
     top: -39px;
   }
+
   .newPlan {
     display: none !important;
   }
@@ -585,9 +631,11 @@
     display: flex;
     padding: 0 10px;
   }
+
   .workoutForm label {
     margin-top: 30px;
   }
+
   .workoutForm p {
     display: none;
   }
