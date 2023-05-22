@@ -505,6 +505,38 @@ const Profile = ({ username }) => {
   }, [localStorage.getItem("username")]);
   // End of user's challenges retrieval
 
+  // Function to get user challenges from localstorage
+  function getUserChallengesFromStorage() {
+    const userChallengesString = localStorage.getItem("userChallenges");
+    if (userChallengesString) {
+      return JSON.parse(userChallengesString);
+    }
+    return [];
+  }
+
+  // Function to remove the challenge
+  const handleRemoveChallenge = async (challengeId) => {
+    try {
+      await axios.delete(
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
+          "username"
+        )}/${challengeId}`
+      );
+      // Update the challenges state by filtering out the removed challenge
+      setChallenges((prevChallenges) =>
+        prevChallenges.filter((challenge) => challenge._id !== challengeId)
+      );
+      // Remove challenge from localStorage
+      const storedChallenges = getUserChallengesFromStorage();
+      const updatedChallenges = storedChallenges.filter(
+        (id) => id !== challengeId
+      );
+      localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
@@ -607,15 +639,16 @@ const Profile = ({ username }) => {
             <div
               className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
             >
-              <div className={styles.friendsHeader}>
-                <h1>Active Challenges</h1>
+              <div>
+                <h1 className={styles.challengesHeader}>Active Challenges</h1>
               </div>
 
               {challenges.length > 0 ? (
-                challenges.map((challenge) => (
+                challenges.map((challenge, index) => (
                   <div
                     key={challenge._id}
                     className={styles.challengeBackground}
+                    style={{ marginTop: index !== 0 ? "54px" : "0" }}
                   >
                     <h6 className={styles.challengeDesc}>
                       {challenge.challenge}
@@ -623,6 +656,14 @@ const Profile = ({ username }) => {
                     <h6 className={styles.challengePoints}>
                       Points: {challenge.points}
                     </h6>
+                    <div className={styles.buttonContainer}>
+                      <button
+                        className={`btn btn-primary ${styles.clearBtn}`}
+                        onClick={() => handleRemoveChallenge(challenge._id)}
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 ))
               ) : (

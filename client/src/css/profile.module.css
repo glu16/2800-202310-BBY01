@@ -4,6 +4,39 @@
   margin: 0;
 }
 
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.challengesHeader {
+  color: rgb(92, 208, 216);
+  background-color: #474747;
+  margin-top: 6px;
+  margin-bottom: 12px;
+}
+
+.clearBtn {
+  margin-top: 10px;
+  margin-bottom: 16px;
+  background-color: hsl(184, 61%, 40%);
+  border: none;
+}
+
+.clearBtn:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
+  color: black;
+}
+
+.clearBtn:active,
+.clearBtn:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
 .editProfileBtn {
   margin-top: 10px;
   margin-bottom: 16px;

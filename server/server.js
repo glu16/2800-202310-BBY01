@@ -314,14 +314,12 @@ app.get("/profile/:username", async (req, res) => {
     const { username } = req.params;
     // FIND THE LOGGED IN USER BY USERNAME
     const user = await User.findOne({ username });
-    // THROW ERROR IF NOT THE USER
+    // THROW AN ERROR IF THE USER IS NOT FOUND
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
     // RETRIEVE THE CHALLENGES ARRAY
     const { challenges } = user;
-
     // RETRIEVE THE CHALLENGES ARRAY BASED ON THE CHALLENGE IDs
     const challengeDocuments = await Challenges.find(
       { _id: { $in: challenges.map((challenge) => challenge.challengeId) } },
