@@ -27,7 +27,7 @@ const Settings = () => {
     try {
       const username = localStorage.getItem("username");
       await axios.post(
-        `https://healthify-enxj.onrender.com/settings/${username}`,
+        `https://healthify-server.vercel.app/settings/${username}`,
         notificationSettings
       );
     } catch (error) {
@@ -44,7 +44,7 @@ const Settings = () => {
     try {
       const username = localStorage.getItem("username");
       const response = await axios.get(
-        `https://healthify-enxj.onrender.com/settings/${username}`
+        `https://healthify-server.vercel.app/settings/${username}`
       );
 
       // Sets retrieved settings as initial values for attributes of notifcationSettings

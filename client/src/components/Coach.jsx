@@ -14,7 +14,7 @@ const ChatMessage = ({ message }) => {
 
   useEffect(() => {
     async function getUserAvatar() {
-      const response = await fetch(`http://localhost:5050/coachPic/${username}`);
+      const response = await fetch(`https://healthify-server.vercel.app/coachPic/${username}`);
       const data = await response.json();
       console.log(data);
       setUserAvatar(JSON.stringify(data));
@@ -102,7 +102,7 @@ const Coach = () => {
     () => {
       async function getChatLog() {
         const response = await fetch(
-          `https://healthify-enxj.onrender.com/coach/${username}`,
+          `https://healthify-server.vercel.app/coach/${username}`,
           {
             method: "GET",
             headers: {
@@ -140,7 +140,7 @@ const Coach = () => {
   */
   async function sendChatLog(user, messages) {
     const username = localStorage.getItem("username");
-    const response = await fetch(`https://healthify-enxj.onrender.com/history/${username}`, {
+    const response = await fetch(`https://healthify-server.vercel.app/history/${username}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -241,7 +241,7 @@ const Coach = () => {
 
     const messages = chatLogNew.map((message) => message.message).join("\n");
 
-    const response = await fetch("https://healthify-enxj.onrender.com", {
+    const response = await fetch("https://healthify-server.vercel.app", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -19,7 +19,7 @@ const Leaderboard = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
+          `https://healthify-server.vercel.app/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -46,7 +46,7 @@ const Leaderboard = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://healthify-enxj.onrender.com/leaderboard/users"
+          "https://healthify-server.vercel.app/leaderboard/users"
         );
         const sortedUsers = response.data.sort((a, b) => b.points - a.points);
         setUsers(sortedUsers);
@@ -65,7 +65,7 @@ const Leaderboard = () => {
   const fetchFriends = async () => {
     try {
       const response = await axios.get(
-        `https://healthify-enxj.onrender.com/leaderboard/${localStorage.getItem("username")}`
+        `https://healthify-server.vercel.app/leaderboard/${localStorage.getItem("username")}`
       );
       console.log(response.data);
       setFriends(response.data);
@@ -176,7 +176,7 @@ const Leaderboard = () => {
       } else {
         window.alert("Friend added successfully!");
         await axios.post(
-          `https://healthify-enxj.onrender.com/leaderboard/${friendUsername}`,
+          `https://healthify-server.vercel.app/leaderboard/${friendUsername}`,
           {
             username: username,
             friendUsername: friendUsername,

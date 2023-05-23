@@ -17,7 +17,7 @@ function ChangePassword() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "https://healthify-enxj.onrender.com/api/passChange";
+      const url = "https://healthify-server.vercel.app/api/passChange";
       const { data: res } = await axios.post(url, data);
       console.log(res);
       window.location = "/login";
