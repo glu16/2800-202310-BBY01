@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from "../css/fitness.module.css";
-// import 'bootstrap/dist/css/bootstrap.css';
 import Modal from "react-modal";
-// import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import { VictoryPie, VictoryLabel } from 'victory';
 
 // import server hosting port
@@ -14,7 +12,7 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:${port}/fitness/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -32,7 +30,7 @@ async function getWorkout() {
 var firstName;
 var lastName;
 async function getName() {
-  var response = await fetch(`http://localhost:${port}/getName/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/getName/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -46,7 +44,7 @@ getName();
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
-  var response = await fetch(`http://localhost:${port}/doneToday/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/doneToday/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -59,7 +57,7 @@ getDoneToday();
 // GET USER'S SEX FOR MODAL PICTURES
 var sex = "male";
 async function getSex() {
-  var response = await fetch(`http://localhost:${port}/getSex/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/getSex/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -67,45 +65,6 @@ async function getSex() {
   sex = data.toLowerCase();
 }
 getSex();
-
-// FUNCTION GETS USERSTATS FIELD FROM DATABASE
-// async function getUserStats() {
-//   var response = await fetch(`http://localhost:${port}/userStats/${username}`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   });
-//   var data = await response.json();
-//   console.log(data);
-// }
-
-// TEMPORARY TEST FUNCTION FOR CRON-JOB UPDATE USER STREAKS AT MIDNIGHT
-// function updateStreaks() {
-//   console.log("button working");
-//   fetch(`http://localhost:${port}/updateStreaks/`, {
-//     method: "POST",
-//   })
-// }
-
-
-// BAR CHART GRAPH 
-// const MyBarChart = ({ currentStreak, longestStreak }) => {
-//   const data = [
-//     { name: 'Streak', currentStreak, longestStreak },
-//   ];
-//   const ticks = Array.from(Array(longestStreak + 1).keys());
-
-//   return (
-//     <BarChart width={400} height={100} data={data} layout="vertical">
-//       <CartesianGrid strokeDasharray="3 3" />
-//       <XAxis type="number" ticks={ticks}/>
-//       <YAxis type="category" dataKey="name" />
-//       <Tooltip />
-//       <Legend />
-//       <Bar dataKey="currentStreak" fill="#8884d8" barSize={10} />
-//       <Bar dataKey="longestStreak" fill="#82ca9d" barSize={10} />
-//     </BarChart>
-//   );
-// };
 
 
 const CirclePercentDaysDone = ({ percentDaysDone }) => {
@@ -529,10 +488,13 @@ const Streak = () => {
   // FUNCTION GETS USER STREAK STATS FROM DATABASE
   async function getStreak() {
     try {
-      const response = await fetch(`http://localhost:${port}/streak/${username}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-      });
+      const response = await fetch(
+        `https://healthify-server.vercel.app/streak/${username}`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
       const data = await response.json();
       setCurrentStreak(data.currentStreak);
       setLongestStreak(data.longestStreak);
@@ -588,14 +550,6 @@ const Streak = () => {
         <CircleStreak currentStreak={currentStreak} longestStreak={longestStreak} />
       </div>
 
-      {/* Current streak: {currentStreak} 
-      <br />
-      Longest streak: {longestStreak} 
-      <br />
-      Days completed: {daysDone}
-      <br />
-      Days missed: {daysMissed} */}
-
     </div>
   );
 };
@@ -648,7 +602,7 @@ const Fitness = () => {
 
     // call server.js app.put method
     const response = await fetch(
-      `http://localhost:${port}/fitness/${username}`,
+      `https://healthify-server.vercel.app/fitness/${username}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
