@@ -5,8 +5,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import styles from "../css/calendar.module.css";
 
 const Calendar = () => {
+  // useState hook variables for the calendar events
   const [events, setEvents] = useState([]);
 
+  // useEffect hook to retrieve the user's 7-day workout plan 
+  // from the database and convert them into calendar events
   useEffect(() => {
     async function fetchWorkout() {
       try {
@@ -17,58 +20,41 @@ const Calendar = () => {
         );
         const data = await response.json();
 
-        if (data === "empty") {
-          setEvents([]);
-        } else {
-          if (typeof data === "object") {
-            const workouts = Object.entries(data);
-            console.log("Workouts:", workouts);
+        if (typeof data === "object") {
+          const workouts = Object.entries(data);
 
-            const calendarEvents = workouts
-              .map(([date, exercises]) => {
-                const formattedDate = new Date(date).toLocaleDateString(
-                  undefined,
-                  {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  }
-                );
+          const calendarEvents = workouts.flatMap(([date, exercises]) => {
+            const isoDate = new Date(date).toISOString().split("T")[0];
 
-                const exercisesList = Object.values(exercises);
-                console.log("Exercises:", exercisesList);
-
-                return exercisesList.map((exercise) => ({
-                  title: exercise.name,
-                  date: formattedDate,
-                  extendedProps: {
-                    setsAndReps: exercise.setsAndReps,
-                    calories: exercise.calories,
-                  },
-                }));
-              })
-              .flat();
-
-            console.log("Calendar events:", calendarEvents);
-            setEvents([...calendarEvents]);
-          } else {
-            console.log("Invalid data format:", data);
-          }
+            const exercisesList = Object.values(exercises);
+            // Map function to assign the values to the calendar events
+            return exercisesList.map((exercise) => ({
+              title: exercise.name,
+              date: isoDate,
+              extendedProps: {
+                setsAndReps: exercise.setsAndReps,
+                calories: exercise.calories,
+              },
+              classNames: [styles.fullCalendar],
+            }));
+          });
+          // Create the calendar events
+          setEvents(calendarEvents);
         }
       } catch (error) {
         console.error("Error retrieving workout:", error);
       }
     }
-
     fetchWorkout();
   }, []);
+  // End of workout retrieval
 
+  // Function to render the calendar events
   function renderEventContent(eventInfo) {
     return (
       <div>
-        <h3>{eventInfo.event.title}</h3>
-        <p>{eventInfo.event.extendedProps.setsAndReps}</p>
+        <h3 className={styles.workoutEventTitle}>{eventInfo.event.title}</h3>
+        <p className={styles.workoutEvent}>{eventInfo.event.extendedProps.setsAndReps}</p>
       </div>
     );
   }
@@ -82,7 +68,7 @@ const Calendar = () => {
           <div className="card-body">
             <div className="d-flex flex-column align-items-center text-center">
               <h1 className={styles.calendarTitle}>
-                Welcome to the Calendar Page
+                Calendar Events
               </h1>
               <div className={styles.calendar}>
                 <FullCalendar
@@ -90,6 +76,7 @@ const Calendar = () => {
                   initialView="dayGridMonth"
                   events={events}
                   eventContent={renderEventContent}
+                  className={styles.fullCalendar}
                 />
               </div>
             </div>
