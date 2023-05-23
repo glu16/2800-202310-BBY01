@@ -77,8 +77,8 @@ const Profile = ({ username }) => {
         weight: response.data.userStats[0].weight,
         foodPref: response.data.userStats[0].foodPref,
         foodRes: response.data.userStats[0].foodRes,
-        workoutPref: response.data.userStats[0].workoutPref,
-        workoutRes: response.data.userStats[0].workoutRes,
+        // workoutPref: response.data.userStats[0].workoutPref,
+        // workoutRes: response.data.userStats[0].workoutRes,
       }));
     } catch (error) {
       console.error(error.response.data);
@@ -101,8 +101,8 @@ const Profile = ({ username }) => {
     weight: "",
     foodPref: "",
     foodRes: "",
-    workoutPref: "",
-    workoutRes: "",
+    // workoutPref: "",
+    // workoutRes: "",
   });
 
   // useState hook variables for displaying the edit modal
@@ -972,7 +972,7 @@ const Profile = ({ username }) => {
                     <option value="Soy Allergy">Soy Allergy</option>
                   </select>
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label
                     htmlFor="workoutPrefInput"
                     className={`form-label ${styles.formLabel}`}
@@ -1003,7 +1003,7 @@ const Profile = ({ username }) => {
                     value={data.workoutRes}
                     onChange={handleChange}
                   />
-                </div>
+                </div> */}
                 <div className="modal-footer">
                   <button
                     type="button"

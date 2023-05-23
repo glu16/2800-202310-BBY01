@@ -403,8 +403,8 @@ app.post("/signupPrefRes/:username", async (req, res) => {
   const userID = req.params.username;
   const foodPref = req.body.foodPreferences;
   const foodRes = req.body.dietaryRestrictions;
-  const workoutPref = req.body.workoutPreferences;
-  const workoutRes = req.body.workoutRestrictions;
+  // const workoutPref = req.body.workoutPreferences;
+  // const workoutRes = req.body.workoutRestrictions;
 
   try {
     const user = await User.findOneAndUpdate(
@@ -415,8 +415,8 @@ app.post("/signupPrefRes/:username", async (req, res) => {
         $set: {
           "userStats.0.foodPref": foodPref,
           "userStats.0.foodRes": foodRes,
-          "userStats.0.workoutPref": workoutPref,
-          "userStats.0.workoutRes": workoutRes,
+          // "userStats.0.workoutPref": workoutPref,
+          // "userStats.0.workoutRes": workoutRes,
         },
       },
 
@@ -454,8 +454,8 @@ app.post("/profile/:username", async (req, res) => {
           "userStats.0.weight": req.body.weight,
           "userStats.0.foodPref": req.body.foodPref,
           "userStats.0.foodRes": req.body.foodRes,
-          "userStats.0.workoutPref": req.body.workoutPref,
-          "userStats.0.workoutRes": req.body.workoutRes,
+          // "userStats.0.workoutPref": req.body.workoutPref,
+          // "userStats.0.workoutRes": req.body.workoutRes,
         },
       },
 
@@ -921,8 +921,8 @@ app.get("/userStats", async (req, res) => {
       goal: user.userStats[0].goal,
       foodPref: user.userStats[0].foodPref,
       foodRes: user.userStats[0].foodRes,
-      workoutPref: user.userStats[0].workoutPref,
-      workoutRes: user.userStats[0].workoutRes,
+      // workoutPref: user.userStats[0].workoutPref,
+      // workoutRes: user.userStats[0].workoutRes,
     });
   } catch (e) {
     console.log(e);
