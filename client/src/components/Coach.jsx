@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
+import pfpPlaceholder from "../img/placeholder-profile.png";
+
 
 // The chat message code that displays the chat history
 const ChatMessage = ({ message }) => {
@@ -12,8 +14,6 @@ const ChatMessage = ({ message }) => {
 
   useEffect(() => {
     async function getUserAvatar() {
-      // Make a request to your MongoDB database to get the user's avatar URL
-      // Assign the avatar URL to the 'userAvatar' state variable
       const response = await fetch(`http://localhost:5050/coachPic/${username}`);
       const data = await response.json();
       console.log(data);
@@ -70,9 +70,9 @@ const ChatMessage = ({ message }) => {
       <div
         className={`${styles.userAvatar} ${styles.userAvatarImage}`}
         style={{
-          backgroundImage: userAvatar ? `url(${userAvatar})` : "",
+          backgroundImage: userAvatar ? `url(${userAvatar})` : `url(${pfpPlaceholder})`,
           // If there is no avatar, use a white background
-          backgroundColor: userAvatar ? "" : "white", 
+          // backgroundColor: userAvatar ? "" : "white", 
         }}
       ></div>
       <div className={`${styles.message} ${styles.userMessage}`}>
