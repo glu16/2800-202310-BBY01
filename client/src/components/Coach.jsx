@@ -5,6 +5,23 @@ import styles from "../css/coach.module.css";
 
 // The chat message code that displays the chat history
 const ChatMessage = ({ message }) => {
+
+  const [userAvatar, setUserAvatar] = useState("");
+
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    async function getUserAvatar() {
+      // Make a request to your MongoDB database to get the user's avatar URL
+      // Assign the avatar URL to the 'userAvatar' state variable
+      const response = await fetch(`http://localhost:5050/coachPic/${username}`);
+      const data = await response.json();
+      console.log(data);
+      setUserAvatar(JSON.stringify(data));
+    }
+
+    getUserAvatar();
+  });
   
   const greetings = useSpring({
     opacity: 1,
@@ -42,14 +59,25 @@ const ChatMessage = ({ message }) => {
     );
   }
 
+
   return (
-    <animated.div className={`${styles.chatMessageContainer} ${styles.userContainer}`} style={greetings}>
+    <animated.div
+      className={`${styles.chatMessageContainer} ${
+        styles.userContainer
+      }`}
+      style={greetings}
+    >
       <div
-        className={`avatar ${message.user === "gpt" && "AI"} ${
-          styles.userAvatar
-        }`}
+        className={`${styles.userAvatar} ${styles.userAvatarImage}`}
+        style={{
+          backgroundImage: userAvatar ? `url(${userAvatar})` : "",
+          // If there is no avatar, use a white background
+          backgroundColor: userAvatar ? "" : "white", 
+        }}
       ></div>
-      <div className={`${styles.message} ${styles.userMessage}`}>{message.message}</div>
+      <div className={`${styles.message} ${styles.userMessage}`}>
+        {message.message}
+      </div>
     </animated.div>
   );
 };

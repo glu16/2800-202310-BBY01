@@ -65,6 +65,24 @@ app.get("/getFromUser/:email", async (req, res) => {
   }
 });
 
+app.get("/coachPic/:username", async (req, res) => {
+  // THE USER'S EMAIL
+  const userID = req.params.username;
+
+  try {
+    // FINDS THE USER BY EMAIL
+    const user = await User.findOne({ username: userID });
+    if (!user) {
+      return res.status(400).send("Email not registered" + userID);
+    }
+    //REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
+    const item = user.imageURL;
+    res.json(item);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 // RETRIEVES THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
   // THE USER'S USERNAME
