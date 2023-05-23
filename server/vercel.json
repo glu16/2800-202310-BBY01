@@ -16,7 +16,13 @@
     "silent": true
   },
   "cron": {
-    "version": 1,
+    "version": 2,
+    "builds": [
+      {
+        "src": "updateStreaks.js",
+        "use": "@vercel/node"
+      }
+    ],
     "jobs": [
       {
         "name": "updateStreaks",
