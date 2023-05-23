@@ -58,7 +58,7 @@ getDoneToday();
 // GET USER'S SEX FOR MODAL PICTURES
 var sex = "male";
 async function getSex() {
-  var response = await fetch(`http://localhost:${port}/getSex/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/getSex/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -548,7 +548,7 @@ const Streak = () => {
   async function getStreak() {
     try {
       const response = await fetch(
-        `http://localhost:${port}/streak/${username}`,
+        `https://healthify-server.vercel.app/streak/${username}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
