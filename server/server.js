@@ -1,6 +1,6 @@
 /* 
-A LARGE MARJORITY OF THIS CODE THAT HOOKS UP OPENAI
-TO THE FONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
+A LARGE MAJORITY OF THIS CODE THAT HOOKS UP OPENAI
+TO THE FRONTEND WAS TAKEN FROM THE FOLLOWING YOUTUBE VIDEO
 https://www.youtube.com/watch?v=qwM23_kF4v4
 */
 
@@ -42,29 +42,7 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
 
-/*  
-GENERIC TEMPLATE FOR GETTING DATA FROM USER
-COPY THIS CODE DON'T OVERWRITE IT
-CHANGE URL TO SOMETHING ELSE
-*/
-app.get("/getFromUser/:email", async (req, res) => {
-  // THE USER'S EMAIL
-  const userID = req.params.email;
-
-  try {
-    // FINDS THE USER BY EMAIL
-    const user = await User.findOne({ email: userID });
-    if (!user) {
-      return res.status(400).send("Email not registered" + userID);
-    }
-    //REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
-    const item = user.REPLACE_ME;
-    res.json(item);
-  } catch (e) {
-    console.log(e);
-  }
-});
-
+/*****************GENERAL USE FOR USER DATA RETRIEVAL********************/
 // RETRIEVES THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
   // THE USER'S USERNAME
@@ -91,41 +69,11 @@ app.get("/users/:username", async (req, res) => {
   }
 });
 
-// ADDS THE CHALLENGE POINTS TO THE USER'S POINTS IN THE DATABASE
-app.put("/users/:username", async (req, res) => {
-  const { username } = req.params;
-  const { points } = req.body;
-  try {
-    // FIND THE USER BY USERNAME
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(404).json({ error: "User not found" });
-    }
-
-    // GET THE CURRENT POINTS FROM THE USER
-    const currentPoints = user.points;
-
-    // ADD THE CHALLENGE POINTS TO THE USER'S CURRENT POINTS
-    const updatedPoints = currentPoints + points;
-
-    // UPDATE THE USER'S POINTS
-    user.points = updatedPoints;
-
-    // SAVE THE CHANGES
-    await user.save();
-
-    res.json({ message: "User points updated successfully" });
-  } catch (error) {
-    console.error("Error occurred while updating user points:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-});
-
 /**********LEADERBOARD ROUTES************/
 // RETRIEVES ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { username: 1, points: 1, _id: 1, imageURL: 1});
+    const users = await User.find({}, { username: 1, points: 1, _id: 1, imageURL: 1 });
     res.send(users);
   } catch (error) {
     console.log(error);
@@ -587,7 +535,7 @@ app.get("/coach/:username", async (req, res) => {
 });
 
 // THE CURRENT AI IN THE COACH TAB
-app.post("/", async (req, res) => {
+app.post("/coach", async (req, res) => {
   const { message } = req.body;
   console.log(message);
 
@@ -1007,38 +955,9 @@ app.put("/diet/:username", async (req, res) => {
   generateDiet();
 });
 
-// RETRIEVES THE USER'S USER STATS
-app.get("/userStats", async (req, res) => {
-  // THE USER'S USERNAME
-  const userID = req.params.username;
-  try {
-    // FIND THE USER BY USERNAME
-    // DEFAULT USERNAME IS "ndurano" UNTIL FIX
-    const user = await User.findOne({ username: "ndurano" });
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.send({
-      sex: user.userStats[0].sex,
-      age: user.userStats[0].age,
-      height: user.userStats[0].height,
-      weight: user.userStats[0].weight,
-      activityLevel: user.userStats[0].activityLevel,
-      goal: user.userStats[0].goal,
-      foodPref: user.userStats[0].foodPref,
-      foodRes: user.userStats[0].foodRes,
-      workoutPref: user.userStats[0].workoutPref,
-      workoutRes: user.userStats[0].workoutRes,
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
 /*********************END OF DIET ROUTES********************/
 
-/*********************HOME ROUTES***********************/
+/*********************HOME/CHALLENGES ROUTES***********************/
 // VARIABLES TO CHECK IF THE CURRENT DATE IS
 // THE SAME AS THE DATE WHEN THE TIP WAS SELECTED
 let selectedTip = null;
@@ -1197,6 +1116,36 @@ app.delete("/home/challenges/:username/:challengeId", async (req, res) => {
   } catch (error) {
     console.error("Error occurred while removing challenge:", error);
     return res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// ADDS THE CHALLENGE POINTS TO THE USER'S POINTS IN THE DATABASE
+app.put("/users/:username", async (req, res) => {
+  const { username } = req.params;
+  const { points } = req.body;
+  try {
+    // FIND THE USER BY USERNAME
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // GET THE CURRENT POINTS FROM THE USER
+    const currentPoints = user.points;
+
+    // ADD THE CHALLENGE POINTS TO THE USER'S CURRENT POINTS
+    const updatedPoints = currentPoints + points;
+
+    // UPDATE THE USER'S POINTS
+    user.points = updatedPoints;
+
+    // SAVE THE CHANGES
+    await user.save();
+
+    res.json({ message: "User points updated successfully" });
+  } catch (error) {
+    console.error("Error occurred while updating user points:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

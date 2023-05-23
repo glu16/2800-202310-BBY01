@@ -68,16 +68,6 @@ async function getSex() {
 }
 getSex();
 
-// FUNCTION GETS USERSTATS FIELD FROM DATABASE
-// async function getUserStats() {
-//   var response = await fetch(`http://localhost:${port}/userStats/${username}`, {
-//     method: "GET",
-//     headers: { "Content-Type": "application/json" },
-//   });
-//   var data = await response.json();
-//   console.log(data);
-// }
-
 // TEMPORARY TEST FUNCTION FOR CRON-JOB UPDATE USER STREAKS AT MIDNIGHT
 function updateStreaks() {
   console.log("button working");
