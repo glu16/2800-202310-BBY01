@@ -5,11 +5,13 @@ import "../css/main.css";
 import styles from "../css/about.module.css";
 
 const About = () => {
+  // Visual text animation effects
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 500,
   });
+  // End of visual effects
 
   return (
     <div

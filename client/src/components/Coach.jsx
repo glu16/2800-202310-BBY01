@@ -1,24 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
+import pfpPlaceholder from "../img/placeholder-profile.png";
+
 
 // The chat message code that displays the chat history
 const ChatMessage = ({ message }) => {
+
+  const [userAvatar, setUserAvatar] = useState("");
+
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    async function getUserAvatar() {
+      const response = await fetch(`http://localhost:5050/coachPic/${username}`);
+      const data = await response.json();
+      console.log(data);
+      setUserAvatar(JSON.stringify(data));
+    }
+
+    getUserAvatar();
+  });
+  
+  const greetings = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 330,
+  });
+  // End of visual effects
   if (!message || typeof message.message !== "string") {
     return null;
   }
   const lines = message.message.split("\n");
 
-  if (lines.length > 1) {
+  if (message.user === "gpt") {
     return (
-      <div className={styles.chatMessageContainer}>
+      <animated.div className={styles.chatMessageContainer} style={greetings}>
         <div
           className={`avatar ${message.user === "gpt" && "AI"} ${
             styles.gptAvatar
           }`}
         ></div>
-        <ul className={`${styles.message}`}>
+        <ul className={`${styles.message} ${styles.coachMessage}`}>
           {lines.map((line, index) => {
             if (line.includes("Day")) {
               return (
@@ -31,38 +55,36 @@ const ChatMessage = ({ message }) => {
             }
           })}
         </ul>
-      </div>
+      </animated.div>
     );
   }
 
+
   return (
-    <div className={styles.chatMessageContainer}>
+    <animated.div
+      className={`${styles.chatMessageContainer} ${
+        styles.userContainer
+      }`}
+      style={greetings}
+    >
       <div
-        className={`avatar ${message.user === "gpt" && "AI"} ${
-          styles.userAvatar
-        }`}
+        className={`${styles.userAvatar} ${styles.userAvatarImage}`}
+        style={{
+          backgroundImage: userAvatar ? `url(${userAvatar})` : `url(${pfpPlaceholder})`,
+          // If there is no avatar, use a white background
+          // backgroundColor: userAvatar ? "" : "white", 
+        }}
       ></div>
-      <div className={styles.message}>{message.message}</div>
-    </div>
+      <div className={`${styles.message} ${styles.userMessage}`}>
+        {message.message}
+      </div>
+    </animated.div>
   );
 };
 // End of chat message code
 
 const Coach = () => {
-  // Visual effects
-  const [scrollPos, setScrollPos] = useState(0);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollPos(window.scrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
@@ -73,6 +95,7 @@ const Coach = () => {
 
   const [input, setInput] = useState("");
   const [chatLog, setChatLog] = useState([]);
+  const chatLogRef = useRef(null);
 
   // This code gets the chat log from the database and displays it
   useEffect(
@@ -235,11 +258,15 @@ const Coach = () => {
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
     await sendChatLog("gpt", data.message);
   }
+
+  useEffect(() => {
+    chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
+  }, [chatLog]);
   // End of code that handles user and gpt interaction
 
   return (
     <div className={styles.coach}>
-      <div className={styles.chatLogContainer}>
+      <div className={styles.chatLogContainer} ref={chatLogRef}>
         <animated.h1 className={styles.coachTitle} style={greetings}>
           Welcome to your AI Coach!
           <a

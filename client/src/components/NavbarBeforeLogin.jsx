@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import "../css/navfooter.css";
 
 function NavbarBeforeLogin() {
+  // useState hook variables for opening the navbar
   const [isNavOpen, setIsNavOpen] = useState(false);
 
+  // Click event handler to close the toggle menu dropdown
   const handleNavClose = () => {
     setIsNavOpen(false);
   };

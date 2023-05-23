@@ -2,8 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 import styles from "../css/leaderboard.module.css";
+import { useSpring, animated } from "react-spring";
+import pfpPlaceholder from "../img/placeholder-profile.png";
 
 const Leaderboard = () => {
+  // Visual page animation effects
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+  // End of visual effects
+
   // Retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
@@ -63,7 +73,6 @@ const Leaderboard = () => {
       console.error(error);
     }
   };
-
   // useEffect hook to fetchFriends
   useEffect(() => {
     fetchFriends();
@@ -375,13 +384,13 @@ const Leaderboard = () => {
             {sortedUsers.map((user, index) => (
               <tr key={user._id}>
                 <td>{index + 1}</td>
-                <td>
+                <td className={`${styles.names}`}>
                   {" "}
                   <a
                     className={styles.userNameLink}
                     onClick={() => handleUserClick(user)}
                   >
-                    {user.username}
+                    <img src={user.imageURL || pfpPlaceholder}/>{" "} {user.username}
                   </a>
                 </td>
                 <td>{user.points}</td>
@@ -405,7 +414,7 @@ const Leaderboard = () => {
             {sortedFriends.map((friend, index) => (
               <tr key={friend._id}>
                 <td>{index + 1}</td>
-                <td>{friend.username}</td>
+                <td className={styles.names}> <img src={friend.imageURL || pfpPlaceholder}/> {" "} {friend.username}</td>
                 <td>{friend.points}</td>
               </tr>
             ))}
@@ -418,8 +427,9 @@ const Leaderboard = () => {
 
   return (
     <div className={styles.cardWrapper}>
-      <div
+      <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.ranksCard}`}
+        style={fadeIn}
       >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
@@ -453,7 +463,7 @@ const Leaderboard = () => {
             {renderLeaderboard()}
           </div>
         </div>
-      </div>
+      </animated.div>
       {/* Render the FriendRequestModal */}
       {showModal && <AddFriendModal />}
       {/* Render the InfoModal */}

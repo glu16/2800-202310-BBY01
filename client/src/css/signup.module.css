@@ -8,6 +8,7 @@
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
+  /* overflow: auto; */
 }
 
 #signup {
@@ -16,7 +17,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 40px 40px 40px;
+  padding: 0px 40px 0px 40px;
 }
 
 #signup > input {
@@ -130,4 +131,8 @@
   body {
     height: auto;
   }
+.signupCard{
+  scale: 80%;
+}
+
 }

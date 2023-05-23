@@ -65,6 +65,24 @@ app.get("/getFromUser/:email", async (req, res) => {
   }
 });
 
+app.get("/coachPic/:username", async (req, res) => {
+  // THE USER'S EMAIL
+  const userID = req.params.username;
+
+  try {
+    // FINDS THE USER BY EMAIL
+    const user = await User.findOne({ username: userID });
+    if (!user) {
+      return res.status(400).send("Email not registered" + userID);
+    }
+    //REPLACE 'REPLACE_ME' WITH KEY OF DATA YOU WANT TO GET
+    const item = user.imageURL;
+    res.json(item);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 // RETRIEVES THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
   // THE USER'S USERNAME
@@ -124,7 +142,7 @@ app.put("/users/:username", async (req, res) => {
 // RETRIEVES ALL THE USERS IN THE DATABASE
 app.get("/leaderboard/users", async (req, res) => {
   try {
-    const users = await User.find({}, { username: 1, points: 1, _id: 1 });
+    const users = await User.find({}, { username: 1, points: 1, _id: 1, imageURL: 1});
     res.send(users);
   } catch (error) {
     console.log(error);
@@ -166,6 +184,7 @@ app.get("/leaderboard/:username", async (req, res) => {
           username: friendUser.username,
           points: friendPoints,
           _id: friendUser._id,
+          imageURL: friendUser.imageURL,
         };
       })
     );
@@ -189,7 +208,7 @@ app.get("/settings/:username", async (req, res) => {
       res.status(404).send("User not found");
     }
     const settings = user.notificationSettings[0];
-    if (!settings){
+    if (!settings) {
       res.send({
         dietReminders: false,
         fitnessReminders: false,
@@ -197,15 +216,13 @@ app.get("/settings/:username", async (req, res) => {
         challengeReminders: false,
       });
     } else {
-    res.send({
-      dietReminders: settings.dietReminders,
-      fitnessReminders: settings.fitnessReminders,
-      leaderboardReminders: settings.leaderboardReminders,
-      challengeReminders: settings.challengeReminders,
-      
-    });
-  }
-    
+      res.send({
+        dietReminders: settings.dietReminders,
+        fitnessReminders: settings.fitnessReminders,
+        leaderboardReminders: settings.leaderboardReminders,
+        challengeReminders: settings.challengeReminders,
+      });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -315,14 +332,12 @@ app.get("/profile/:username", async (req, res) => {
     const { username } = req.params;
     // FIND THE LOGGED IN USER BY USERNAME
     const user = await User.findOne({ username });
-    // THROW ERROR IF NOT THE USER
+    // THROW AN ERROR IF THE USER IS NOT FOUND
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-
     // RETRIEVE THE CHALLENGES ARRAY
     const { challenges } = user;
-
     // RETRIEVE THE CHALLENGES ARRAY BASED ON THE CHALLENGE IDs
     const challengeDocuments = await Challenges.find(
       { _id: { $in: challenges.map((challenge) => challenge.challengeId) } },
@@ -437,6 +452,10 @@ app.post("/profile/:username", async (req, res) => {
           "userStats.0.age": req.body.age,
           "userStats.0.height": req.body.height,
           "userStats.0.weight": req.body.weight,
+          "userStats.0.foodPref": req.body.foodPref,
+          "userStats.0.foodRes": req.body.foodRes,
+          "userStats.0.workoutPref": req.body.workoutPref,
+          "userStats.0.workoutRes": req.body.workoutRes,
         },
       },
 
@@ -727,6 +746,23 @@ app.get("/fitness/:username", async (req, res) => {
   }
 });
 
+// GET THE USER'S SEX FOR MODAL IMAGES
+app.get("/getSex/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    var sex = JSON.stringify(user.userStats[0].sex)
+    res.send(sex);
+    // console.log(`Sent ${userID}'s sex: ${sex}`);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send user's sex." });
+  }
+});
+
+
 // RETRIEVES THE DIET PLAN FOR THE USER
 app.get("/diet/:username", async (req, res) => {
   const userID = req.params.username;
@@ -871,7 +907,7 @@ app.get("/userStats", async (req, res) => {
   const userID = req.params.username;
   try {
     // FIND THE USER BY USERNAME
-    // DEFAULT USERNAME IS "ndurano" UNTILL FIX
+    // DEFAULT USERNAME IS "ndurano" UNTIL FIX
     const user = await User.findOne({ username: "ndurano" });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -883,6 +919,10 @@ app.get("/userStats", async (req, res) => {
       weight: user.userStats[0].weight,
       activityLevel: user.userStats[0].activityLevel,
       goal: user.userStats[0].goal,
+      foodPref: user.userStats[0].foodPref,
+      foodRes: user.userStats[0].foodRes,
+      workoutPref: user.userStats[0].workoutPref,
+      workoutRes: user.userStats[0].workoutRes,
     });
   } catch (e) {
     console.log(e);
@@ -946,10 +986,12 @@ app.get("/home/challenges/:username", async (req, res) => {
     const currentMinute = currentDate.getMinutes();
 
     if (
-      challengesCache.lastUpdated === null ||
-      (currentDayOfWeek === 0 && currentHour === 0 && currentMinute < 5) ||
-      (currentDayOfWeek === 6 && currentHour === 23 && currentMinute >= 55) ||
-      isCacheExpired(challengesCache.lastUpdated)
+      (currentDayOfWeek === 0 &&
+        currentHour === 0 &&
+        currentMinute >= 0 &&
+        currentMinute < 5) ||
+      isCacheExpired(challengesCache.lastUpdated) ||
+      !challengesCache.data
     ) {
       // RANDOMIZES THE 3 CHALLENGES FROM THE COLLECTION
       const challenges = await Challenges.aggregate([
@@ -1089,7 +1131,7 @@ app.post("/fitness/:username", async (req, res) => {
       { username: userID },
       {
         // INCREMENT currentStreak AND daysDone FIELD BY 1 AND award 100 points
-        $inc: { currentStreak: 1, daysDone: 1 , points: 100},
+        $inc: { currentStreak: 1, daysDone: 1, points: 100 },
         // SET doneToday TO true
         $set: { doneToday: true },
       },
@@ -1102,7 +1144,7 @@ app.post("/fitness/:username", async (req, res) => {
     // COMPARE currentStreak WITH longestStreak AND UPDATE longestStreak IF NECESSARY
     if (user.currentStreak > user.longestStreak) {
       user.longestStreak = user.currentStreak;
-      // aware extra 50 points if new streak 
+      // aware extra 50 points if new streak
       user.points = user.points + 50;
       await user.save();
       console.log(`${userID} has a new longestStreak: ${user.longestStreak}`);

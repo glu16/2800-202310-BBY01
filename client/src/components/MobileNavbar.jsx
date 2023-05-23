@@ -4,12 +4,15 @@ import { Link } from "react-router-dom";
 import "../css/navfooter.css";
 
 function MobileNavbar() {
+  // useState hook variables for opening the navbar
   const [isNavOpen, setIsNavOpen] = useState(false);
 
+  // Click event handler to close the toggle menu dropdown
   const handleNavClose = () => {
     setIsNavOpen(false);
   };
 
+  // Removes the user's token and logs them out
   function logout() {
     sessionStorage.removeItem("token");
     window.location.href = "/index";

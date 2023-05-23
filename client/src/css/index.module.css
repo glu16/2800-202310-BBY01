@@ -7,7 +7,6 @@
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
-  overflow: hidden;
 }
 
 .indexBtn {
@@ -107,6 +106,8 @@
 
   .indexCard {
     margin-left: 0px;
+    margin-top: 10px;
+    scale: 90%;
   }
 
   .indexTitle {

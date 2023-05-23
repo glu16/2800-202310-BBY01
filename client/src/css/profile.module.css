@@ -4,17 +4,59 @@
   margin: 0;
 }
 
-.editProfileButton {
+.buttonContainer {
+  display: flex;
+  justify-content: center;
   margin-top: 10px;
-  margin-bottom: 16px;
-  background-color: rgb(92, 208, 216);
-  border-color: rgb(92, 208, 216);
 }
 
-.editProfileButton:hover {
+.challengesHeader {
+  color: rgb(92, 208, 216);
+  background-color: #474747;
+  margin-top: 6px;
+}
+
+.challengeItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.clearBtn {
+  margin: 0px 0px 10px 0px;
+  background-color: hsl(184, 61%, 40%);
+  border: none;
+}
+
+.editProfileBtn {
+  margin-top: 10px;
+  margin-bottom: 16px;
+  background-color: hsl(184, 61%, 40%);
+  border: none;
+}
+
+.saveProfileBtn {
+  background-color: hsl(184, 61%, 40%);
+  border: none;
+}
+
+.clearBtn:hover,
+.editProfileBtn:hover,
+.saveProfileBtn:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
   color: black;
-  background-color: hsl(184, 62%, 73%);
-  border-color: hsl(184, 62%, 73%);
+}
+
+.clearBtn:active,
+.clearBtn:focus,
+.editProfileBtn:active,
+.editProfileBtn:focus,
+.saveProfileBtn:active,
+.saveProfileBtn:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
 .cardContainer {
@@ -23,9 +65,41 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 80px;
 }
 
-.challengeBody {
+.challengeInnerCard {
+  flex: 1;
+  width: 90%;
+  max-height: 400px;
+  margin: 20px;
+  border-radius: 10px;
+  background-color: #474747;
+  overflow: auto;
+  position: relative;
+}
+
+.currentChallenges {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.challengeBackground {
+  background-color: gray;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  width: 90%;
+  height: 80px;
+  margin: 10px;
+}
+
+.challengeDesc {
+  color: white;
+  margin-top: 8px;
+}
+
+.challengePoints {
   color: white;
 }
 
@@ -33,7 +107,7 @@
   flex: 1;
   min-height: 742px;
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin-top: 160px;
   margin-right: 80px;
   margin-left: 40px;
@@ -56,6 +130,7 @@
   overflow: auto;
   position: relative;
 }
+
 .errorMessage {
   color: red;
   font-size: 9pt;
@@ -81,7 +156,7 @@
   color: white;
   margin-top: 10px;
   width: 90%;
-  background-color:gray;
+  background-color: gray;
   border-radius: 10px;
 }
 
@@ -117,14 +192,23 @@
 }
 
 .modalBtn {
-  background-color: rgb(92, 208, 216);
-  border-color: rgb(92, 208, 216);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: hsl(184, 61%, 40%);
+  border: none;
 }
 
 .modalBtn:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
   color: black;
-  background-color: hsl(184, 62%, 73%);
-  border-color: hsl(184, 62%, 73%);
+}
+
+.modalBtn:active,
+.modalBtn:focus {
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
 .profileCard {
@@ -141,6 +225,7 @@
   justify-content: center;
   align-items: center;
   background-color: #2b2b2b;
+  transition: 0.2s;
 }
 
 .profileInnerCard {
@@ -172,19 +257,43 @@
 }
 
 .profileImage:hover {
- animation: profileBorder 6s infinite;
- /* transition: 0.2s; */
+  animation: profileBorder 6s infinite;
+  /* transition: 0.2s; */
 }
 
 @keyframes profileBorder {
-  0% {border-color: hsl(184, 61%, 60%); box-shadow: 0 0 0px 0px rgb(92, 208, 216);}
-  14% {border-color: hsl(184, 61%, 70%); box-shadow: 0 0 2px 1px #5cd0d8}
-  28% {border-color: hsl(175, 55%, 80%);box-shadow: 0 0 4px 2px #5cd0d8}
-  42% {border-color: hsl(175, 55%, 90%);box-shadow: 0 0 8px 3px #5cd0d8}
-  56% {border-color: hsl(175, 55%, 80%);box-shadow: 0 0 12px 4px #5cd0d8}
-  70% {border-color: hsl(175, 55%, 70%);box-shadow: 0 0 8px 3px #5cd0d8}
-  84% {border-color: hsl(175, 55%, 60%); box-shadow: 0 0 4px 2px rgb(92, 208, 216);}
-  100% {border-color: hsl(175, 55%, 50%); box-shadow: 0 0 2px 1px rgb(92, 208, 216);}
+  0% {
+    border-color: hsl(184, 61%, 60%);
+    box-shadow: 0 0 0px 0px rgb(92, 208, 216);
+  }
+  14% {
+    border-color: hsl(184, 61%, 70%);
+    box-shadow: 0 0 2px 1px #5cd0d8;
+  }
+  28% {
+    border-color: hsl(175, 55%, 80%);
+    box-shadow: 0 0 4px 2px #5cd0d8;
+  }
+  42% {
+    border-color: hsl(175, 55%, 90%);
+    box-shadow: 0 0 8px 3px #5cd0d8;
+  }
+  56% {
+    border-color: hsl(175, 55%, 80%);
+    box-shadow: 0 0 12px 4px #5cd0d8;
+  }
+  70% {
+    border-color: hsl(175, 55%, 70%);
+    box-shadow: 0 0 8px 3px #5cd0d8;
+  }
+  84% {
+    border-color: hsl(175, 55%, 60%);
+    box-shadow: 0 0 4px 2px rgb(92, 208, 216);
+  }
+  100% {
+    border-color: hsl(175, 55%, 50%);
+    box-shadow: 0 0 2px 1px rgb(92, 208, 216);
+  }
 }
 
 .profileImage img {
@@ -192,7 +301,6 @@
   width: 150px;
   height: 150px;
   object-fit: cover;
-  
 }
 
 .profileImage label {
@@ -235,11 +343,31 @@
   html,
   body {
     height: auto;
+    margin-bottom: 40px;
+  }
+
+  .profileBody {
+    height: 100%;
+    width: 100%;
+    margin-bottom: 40px;
   }
 
   .cardContainer {
     flex-direction: column;
     margin-top: 60px;
+  }
+
+  .challengeBackground {
+    background-color: gray;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    width: 90%;
+    margin: 10px;
+  }
+
+  .challengeDesc,
+  .challengePoints {
+    color: white;
   }
 
   .profileCard,

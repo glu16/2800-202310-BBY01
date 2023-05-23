@@ -6,12 +6,14 @@ import { Link } from "react-router-dom";
 import styles from "../css/password.module.css";
 
 function ChangePassword() {
+  // useState hook variables for users to change their password
   const [data, setData] = useState({
     email: "",
     newPassword: "",
   });
   const [error, setError] = useState("");
 
+  // Allows the user to change their password
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -26,6 +28,7 @@ function ChangePassword() {
     }
   };
 
+  // Saves the user's inputted information
   const handleChange = ({ currentTarget: input }) => {
     setData({ ...data, [input.name]: input.value });
   };
