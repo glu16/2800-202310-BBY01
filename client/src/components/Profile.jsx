@@ -505,6 +505,16 @@ const Profile = ({ username }) => {
   }, [localStorage.getItem("username")]);
   // End of user's challenges retrieval
 
+  // useState hook variables to add challenges
+  const [userChallenges, setUserChallenges] = useState([]);
+
+  // useEffect hook to get logged in user's challenge's from localstorage
+  useEffect(() => {
+    // Get user challenges from localstorage on component mount
+    const challenges = getUserChallengesFromStorage();
+    setUserChallenges(challenges);
+  }, []);
+
   // Function to get user challenges from localstorage
   function getUserChallengesFromStorage() {
     const userChallengesString = localStorage.getItem("userChallenges");
@@ -513,6 +523,79 @@ const Profile = ({ username }) => {
     }
     return [];
   }
+
+  // Function to set user challenges in localStorage
+  function setUserChallengesInStorage(userChallenges) {
+    localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
+  }
+
+  // useState hook variables to apply the points
+  const [userPoints, setUserPoints] = useState(0);
+
+  // Function to handle completing a challenge
+  const handleCompleteChallenge = async (challengeId, points) => {
+    try {
+      console.log("handleDoneClick called with challengeId:", challengeId);
+      console.log("Points:", points);
+      console.log("User's current points balance:", userPoints);
+
+      // Adds the challenge points to the user's points balanace in the database
+      await axios.put(
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        { points: points, challengeId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Remove the challenge from the user's "challenges" array
+      setUserChallenges((prevUserChallenges) =>
+        prevUserChallenges.filter((id) => id !== challengeId)
+      );
+
+      // Remove the challenge from the user's "challenges" array in the database
+      await axios.delete(
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
+          "username"
+        )}/${challengeId}`
+      );
+
+      // Remove the challenge from localStorage
+      const storedChallenges = getUserChallengesFromStorage();
+      const updatedChallenges = storedChallenges.filter(
+        (id) => id !== challengeId
+      );
+      localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
+
+      console.log("Challenge completed and points added!");
+      window.alert("Challenge completed and points added!");
+    } catch (error) {
+      console.error("Error occurred while completing challenge:", error);
+    }
+    fetchUserData();
+  };
+
+  // useState hook variables for the completed challenges
+  const [completedChallenges, setCompletedChallenges] = useState([]);
+
+  // Click event handler for completing a challenge
+  const handleDoneClick = (challengeId, points) => {
+    // Update the user's points in the database
+    handleCompleteChallenge(challengeId, points);
+
+    // Add the completed challenge to the completedChallenges array
+    setCompletedChallenges((prevCompletedChallenges) => [
+      ...prevCompletedChallenges,
+      challengeId,
+    ]);
+
+    // Remove the completed challenge from the challenges array
+    setChallenges((prevChallenges) =>
+      prevChallenges.filter((challenge) => challenge._id !== challengeId)
+    );
+  };
 
   // Function to remove the challenge
   const handleRemoveChallenge = async (challengeId) => {
@@ -656,6 +739,15 @@ const Profile = ({ username }) => {
                         </h6>
                       </div>
                       <div className={styles.buttonContainer}>
+                        <button
+                          id={`doneButton_${challenge._id}`}
+                          className={`btn btn-success ${styles.challengeBtn}`}
+                          onClick={() => {
+                            handleDoneClick(challenge._id, challenge.points);
+                          }}
+                        >
+                          Done
+                        </button>
                         <button
                           className={`btn btn-primary ${styles.clearBtn}`}
                           onClick={() => handleRemoveChallenge(challenge._id)}
@@ -876,7 +968,9 @@ const Profile = ({ username }) => {
                     <option value="None">None</option>
                     <option value="Gluten-Free">Gluten-Free</option>
                     <option value="Wheat Allergy">Wheat Allergy</option>
-                    <option value="Lactose Intolerant">Lactose Intolerant</option>
+                    <option value="Lactose Intolerant">
+                      Lactose Intolerant
+                    </option>
                     <option value="Fish Allergy">Fish Allergy</option>
                     <option value="Kosher">Kosher</option>
                     <option value="Shellfish Allergy">Shellfish Allergy</option>
