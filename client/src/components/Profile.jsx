@@ -508,25 +508,20 @@ const Profile = ({ username }) => {
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
 
-  // useEffect hook to get logged in user's challenge's from localstorage
+  // useEffect hook to get logged in user's challenge's from localStorage
   useEffect(() => {
     // Get user challenges from localstorage on component mount
     const challenges = getUserChallengesFromStorage();
     setUserChallenges(challenges);
   }, []);
 
-  // Function to get user challenges from localstorage
+  // Function to get user challenges from localStorage
   function getUserChallengesFromStorage() {
     const userChallengesString = localStorage.getItem("userChallenges");
     if (userChallengesString) {
       return JSON.parse(userChallengesString);
     }
     return [];
-  }
-
-  // Function to set user challenges in localStorage
-  function setUserChallengesInStorage(userChallenges) {
-    localStorage.setItem("userChallenges", JSON.stringify(userChallenges));
   }
 
   // useState hook variables to apply the points
@@ -539,7 +534,7 @@ const Profile = ({ username }) => {
       console.log("Points:", points);
       console.log("User's current points balance:", userPoints);
 
-      // Adds the challenge points to the user's points balanace in the database
+      // Adds the challenge points to the user's points balance in the database
       await axios.put(
         `http://localhost:5050/users/${localStorage.getItem("username")}`,
         { points: points, challengeId },
@@ -577,19 +572,10 @@ const Profile = ({ username }) => {
     fetchUserData();
   };
 
-  // useState hook variables for the completed challenges
-  const [completedChallenges, setCompletedChallenges] = useState([]);
-
   // Click event handler for completing a challenge
   const handleDoneClick = (challengeId, points) => {
     // Update the user's points in the database
     handleCompleteChallenge(challengeId, points);
-
-    // Add the completed challenge to the completedChallenges array
-    setCompletedChallenges((prevCompletedChallenges) => [
-      ...prevCompletedChallenges,
-      challengeId,
-    ]);
 
     // Remove the completed challenge from the challenges array
     setChallenges((prevChallenges) =>
