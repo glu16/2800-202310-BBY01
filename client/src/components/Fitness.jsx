@@ -234,6 +234,10 @@ function Workout({ handleOpenModal }) {
   const handleDecrementDays = () => {
     setDaysToAdd(daysToAdd - 1);
   }
+
+  const handleToToday = () => {
+    setDaysToAdd(0);
+  }
   
   useEffect(() => {
     async function fetchData() {
@@ -281,14 +285,14 @@ function Workout({ handleOpenModal }) {
                   if (key == today) {
                     return (
                       <div key={index} className={styles.day}>
-                        <h3>Today, {key}:</h3> Rest day
+                        <h5>Today, {key}:</h5> Rest day
                       </div>
                     );
                     // if page is not today
                   } else {
                     return (
                       <div key={index} className={styles.day}>
-                        <h3>{key}:</h3> Rest day
+                        <h5>{key}:</h5> Rest day
                       </div>
                     );
                   }
@@ -302,7 +306,7 @@ function Workout({ handleOpenModal }) {
                 if (key == today) {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3>Today, {key}</h3>
+                      <h5>Today, {key}</h5>
                       {renderExerciseToday(obj[key])}
                     </div>
                   );
@@ -310,7 +314,7 @@ function Workout({ handleOpenModal }) {
                 } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <h3>{key}</h3>
+                      <h5>{key}</h5>
                       {renderExercise(obj[key])}
                     </div>
                   );
@@ -452,14 +456,16 @@ function Workout({ handleOpenModal }) {
   return (
     <div>
       <h2>{username}'s 7-Day Workout</h2>
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className="btn btn-info btn-arrow-left">
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-info ${styles.paginationButton}`}>
         {/* left arrow */}
         &larr; 
       </button>
-      <button className="btn btn-info"> 
+
+      <button onClick={handleToToday} className={`btn btn-info ${styles.paginationButton}`}> 
         Today
       </button>
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className="btn btn-info btn-arrow-right">
+
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn btn-info ${styles.paginationButton}`}>
         {/* right arrow */}
         &rarr;
       </button>
@@ -772,7 +778,7 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleWorkoutFormVisibility} className="btn btn-info">
+      <button onClick={toggleWorkoutFormVisibility} className={`btn btn-info ${styles.paginationButton}`}>
         {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
       </button>
 
@@ -811,7 +817,7 @@ const Fitness = () => {
           <label className="btn btn-outline-info" htmlFor="core">Core</label>
           <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
           <label className="btn btn-outline-info" htmlFor="glutes">Glutes</label>
-          <p>Select muscle groups you want to focus on</p>
+          <p>Select muscle group(s) you want to focus on</p>
 
           <br />
 
