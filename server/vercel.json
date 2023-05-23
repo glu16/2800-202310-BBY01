@@ -14,21 +14,5 @@
   ],
   "github": {
     "silent": true
-  },
-  "cron": {
-    "version": 2,
-    "builds": [
-      {
-        "src": "updateStreaks.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "jobs": [
-      {
-        "name": "updateStreaks",
-        "command": "node updateStreaks.js",
-        "schedule": "0 0 * * *"
-      }
-    ]
   }
 }
