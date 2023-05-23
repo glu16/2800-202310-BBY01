@@ -14,7 +14,7 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:${port}/fitness/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/fitness/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -32,7 +32,7 @@ async function getWorkout() {
 var firstName;
 var lastName;
 async function getName() {
-  var response = await fetch(`http://localhost:${port}/getName/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/getName/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -46,7 +46,7 @@ getName();
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
-  var response = await fetch(`http://localhost:${port}/doneToday/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/doneToday/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -58,7 +58,7 @@ getDoneToday();
 // GET USER'S SEX FOR MODAL PICTURES
 var sex = "male";
 async function getSex() {
-  var response = await fetch(`http://localhost:${port}/getSex/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/getSex/${username}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
@@ -70,7 +70,7 @@ getSex();
 // TEMPORARY TEST FUNCTION FOR CRON-JOB UPDATE USER STREAKS AT MIDNIGHT
 function updateStreaks() {
   console.log("button working");
-  fetch(`http://localhost:${port}/updateStreaks/`, {
+  fetch(`https://healthify-server.vercel.app/updateStreaks/`, {
     method: "POST",
   });
 }
@@ -540,7 +540,7 @@ const Streak = () => {
   async function getStreak() {
     try {
       const response = await fetch(
-        `http://localhost:${port}/streak/${username}`,
+        `https://healthify-server.vercel.app/streak/${username}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -658,7 +658,7 @@ const Fitness = () => {
 
     // call server.js app.put method
     const response = await fetch(
-      `http://localhost:${port}/fitness/${username}`,
+      `https://healthify-server.vercel.app/fitness/${username}`,
       {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
