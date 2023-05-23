@@ -22,8 +22,14 @@
   align-items: center;
 }
 
+.challengeBtn {
+  margin: 0px 6px 10px 0px;
+  background-color: hsl(184, 61%, 40%);
+  border: none;
+}
+
 .clearBtn {
-  margin: 0px 0px 10px 0px;
+  margin: 0px 0px 10px 6px;
   background-color: hsl(184, 61%, 40%);
   border: none;
 }
@@ -40,6 +46,7 @@
   border: none;
 }
 
+.challengeBtn:hover,
 .clearBtn:hover,
 .editProfileBtn:hover,
 .saveProfileBtn:hover {
@@ -49,6 +56,8 @@
   color: black;
 }
 
+.challengeBtn:active,
+.challengeBtn:focus,
 .clearBtn:active,
 .clearBtn:focus,
 .editProfileBtn:active,
@@ -71,7 +80,7 @@
 .challengeInnerCard {
   flex: 1;
   width: 90%;
-  max-height: 400px;
+  max-height: 350px;
   margin: 20px;
   border-radius: 10px;
   background-color: #474747;
@@ -123,7 +132,7 @@
 .friendsInnerCard {
   flex: 1;
   width: 90%;
-  max-height: 400px;
+  max-height: 350px;
   margin: 20px;
   border-radius: 10px;
   background-color: #474747;

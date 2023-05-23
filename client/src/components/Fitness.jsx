@@ -359,12 +359,14 @@ function Workout({ handleOpenModal }) {
                   }
                 )}
 
+                <div className={styles.helpButtonsContainer}>
                 {/* this opens up images for the exercise */}
                 <button
                   onClick={handleOpenModal}
                   className={`btn btn-primary  ${styles.exerciseButtons}`}>
                   Help
                 </button>
+              </div>
               </div>
             );
           });
@@ -694,6 +696,7 @@ const Fitness = () => {
         // replace whitespaces with underscore and tolowercase as per image naming convention
         modalExercise.replace(/\s/g, "_").toLowerCase() +
         `.gif`;
+        console.log(source);
     }
 
     // Styling for changing the React-Modal overlay; overlayClassName was not working as intended

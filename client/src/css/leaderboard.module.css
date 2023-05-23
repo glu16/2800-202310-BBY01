@@ -3,8 +3,9 @@ table {
   border-collapse: collapse;
   margin-top: 12px;
   border-radius: 4px;
-  overflow: hidden;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  max-height: 900px;
+  overflow: hidden;
 }
 
 tr {
@@ -113,6 +114,7 @@ td img {
   height: 100%;
   width: 100%;
   border-radius: 10px;
+  margin-bottom: 80px;
   text-align: center;
   background-color: #2b2b2b;
 }

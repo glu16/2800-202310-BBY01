@@ -77,8 +77,8 @@ const Profile = ({ username }) => {
         weight: response.data.userStats[0].weight,
         foodPref: response.data.userStats[0].foodPref,
         foodRes: response.data.userStats[0].foodRes,
-        workoutPref: response.data.userStats[0].workoutPref,
-        workoutRes: response.data.userStats[0].workoutRes,
+        // workoutPref: response.data.userStats[0].workoutPref,
+        // workoutRes: response.data.userStats[0].workoutRes,
       }));
     } catch (error) {
       console.error(error.response.data);
@@ -101,8 +101,8 @@ const Profile = ({ username }) => {
     weight: "",
     foodPref: "",
     foodRes: "",
-    workoutPref: "",
-    workoutRes: "",
+    // workoutPref: "",
+    // workoutRes: "",
   });
 
   // useState hook variables for displaying the edit modal
@@ -505,7 +505,17 @@ const Profile = ({ username }) => {
   }, [localStorage.getItem("username")]);
   // End of user's challenges retrieval
 
-  // Function to get user challenges from localstorage
+  // useState hook variables to add challenges
+  const [userChallenges, setUserChallenges] = useState([]);
+
+  // useEffect hook to get logged in user's challenge's from localStorage
+  useEffect(() => {
+    // Get user challenges from localstorage on component mount
+    const challenges = getUserChallengesFromStorage();
+    setUserChallenges(challenges);
+  }, []);
+
+  // Function to get user challenges from localStorage
   function getUserChallengesFromStorage() {
     const userChallengesString = localStorage.getItem("userChallenges");
     if (userChallengesString) {
@@ -513,6 +523,65 @@ const Profile = ({ username }) => {
     }
     return [];
   }
+
+  // useState hook variables to apply the points
+  const [userPoints, setUserPoints] = useState(0);
+
+  // Function to handle completing a challenge
+  const handleCompleteChallenge = async (challengeId, points) => {
+    try {
+      console.log("handleDoneClick called with challengeId:", challengeId);
+      console.log("Points:", points);
+      console.log("User's current points balance:", userPoints);
+
+      // Adds the challenge points to the user's points balance in the database
+      await axios.put(
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        { points: points, challengeId },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      // Remove the challenge from the user's "challenges" array
+      setUserChallenges((prevUserChallenges) =>
+        prevUserChallenges.filter((id) => id !== challengeId)
+      );
+
+      // Remove the challenge from the user's "challenges" array in the database
+      await axios.delete(
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
+          "username"
+        )}/${challengeId}`
+      );
+
+      // Remove the challenge from localStorage
+      const storedChallenges = getUserChallengesFromStorage();
+      const updatedChallenges = storedChallenges.filter(
+        (id) => id !== challengeId
+      );
+      localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
+
+      console.log("Challenge completed and points added!");
+      window.alert("Challenge completed and points added!");
+    } catch (error) {
+      console.error("Error occurred while completing challenge:", error);
+    }
+    fetchUserData();
+  };
+
+  // Click event handler for completing a challenge
+  const handleDoneClick = (challengeId, points) => {
+    // Update the user's points in the database
+    handleCompleteChallenge(challengeId, points);
+
+    // Remove the completed challenge from the challenges array
+    setChallenges((prevChallenges) =>
+      prevChallenges.filter((challenge) => challenge._id !== challengeId)
+    );
+  };
 
   // Function to remove the challenge
   const handleRemoveChallenge = async (challengeId) => {
@@ -656,6 +725,15 @@ const Profile = ({ username }) => {
                         </h6>
                       </div>
                       <div className={styles.buttonContainer}>
+                        <button
+                          id={`doneButton_${challenge._id}`}
+                          className={`btn btn-success ${styles.challengeBtn}`}
+                          onClick={() => {
+                            handleDoneClick(challenge._id, challenge.points);
+                          }}
+                        >
+                          Done
+                        </button>
                         <button
                           className={`btn btn-primary ${styles.clearBtn}`}
                           onClick={() => handleRemoveChallenge(challenge._id)}
@@ -849,14 +927,22 @@ const Profile = ({ username }) => {
                   >
                     Food Preferences
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
+                  <select
+                    className="form-select"
                     id="foodPrefInput"
                     name="foodPref"
                     value={data.foodPref}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select an option</option>
+                    <option value="None">None</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Pescatarian">Pescatarian</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Paleo">Paleo</option>
+                    <option value="Keto">Keto</option>
+                  </select>
                 </div>
                 <div className="mb-3">
                   <label
@@ -876,7 +962,9 @@ const Profile = ({ username }) => {
                     <option value="None">None</option>
                     <option value="Gluten-Free">Gluten-Free</option>
                     <option value="Wheat Allergy">Wheat Allergy</option>
-                    <option value="Lactose Intolerant">Lactose Intolerant</option>
+                    <option value="Lactose Intolerant">
+                      Lactose Intolerant
+                    </option>
                     <option value="Fish Allergy">Fish Allergy</option>
                     <option value="Kosher">Kosher</option>
                     <option value="Shellfish Allergy">Shellfish Allergy</option>
@@ -884,7 +972,7 @@ const Profile = ({ username }) => {
                     <option value="Soy Allergy">Soy Allergy</option>
                   </select>
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                   <label
                     htmlFor="workoutPrefInput"
                     className={`form-label ${styles.formLabel}`}
@@ -915,7 +1003,7 @@ const Profile = ({ username }) => {
                     value={data.workoutRes}
                     onChange={handleChange}
                   />
-                </div>
+                </div> */}
                 <div className="modal-footer">
                   <button
                     type="button"

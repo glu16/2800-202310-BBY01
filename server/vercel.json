@@ -15,10 +15,14 @@
   "github": {
     "silent": true
   },
-  "crons": [
-    {
-      "path": "/api/cron",
-      "schedule": "0 10 * * *"
-    }
-  ]
+  "cron": {
+    "version": 1,
+    "jobs": [
+      {
+        "name": "updateStreaks",
+        "command": "node updateStreaks.js",
+        "schedule": "0 0 * * *"
+      }
+    ]
+  }
 }

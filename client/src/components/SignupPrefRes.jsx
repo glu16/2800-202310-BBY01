@@ -8,8 +8,8 @@ function SignupPrefRes() {
   const [data, setData] = useState({
     foodPreferences: "",
     dietaryRestrictions: "",
-    workoutPreferences: "",
-    workoutRestrictions: "",
+    // workoutPreferences: "",
+    // workoutRestrictions: "",
   });
 
   const [error, setError] = useState("");
@@ -247,7 +247,7 @@ function SignupPrefRes() {
               </label>
             </div>
           </div>
-          <label htmlFor="workoutPreferences"></label>
+          {/* <label htmlFor="workoutPreferences"></label>
           <input
             type="text"
             id="workoutPreferences"
@@ -279,7 +279,7 @@ function SignupPrefRes() {
             className={`${styles.inputLabel}`}
           >
             <span className={`${styles.inputName}`}>Workout Restrictions</span>
-          </label>
+          </label> */}
 
           <input
             type="submit"

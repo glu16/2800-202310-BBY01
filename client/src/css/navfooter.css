@@ -1,8 +1,10 @@
-/* Navbar CSS */
-
 img {
   width: 100%;
   height: 75px;
+}
+
+#logout {
+  right: 0;
 }
 
 .custom-dropdown-menu {
@@ -44,10 +46,6 @@ img {
 
 .material-symbols-outlined {
   display: block !important;
-}
-
-#logout {
-  right: 0;
 }
 
 @media (max-width: 767px){
