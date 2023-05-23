@@ -428,14 +428,14 @@ function Workout({ handleOpenModal }) {
   // return for Workout()
   return (
     <div>
-      <h2>{username}'s 7-Day Workout</h2>
+      {/* <h2>{username}'s 7-Day Workout</h2> */}
+      <button onClick={handleToToday} className={`btn btn-info ${styles.paginationButton}`}> 
+        Today
+      </button>
+      
       <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-info ${styles.paginationButton}`}>
         {/* left arrow */}
         &larr; 
-      </button>
-
-      <button onClick={handleToToday} className={`btn btn-info ${styles.paginationButton}`}> 
-        Today
       </button>
 
       <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn btn-info ${styles.paginationButton}`}>
@@ -536,7 +536,7 @@ const Streak = () => {
 
   return (
     <div id="streakContainer" className={styles.streakContainer}>
-      <h2>{username}'s Workout Stats</h2>
+      
       <p>
           <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
           &nbsp; {doneTodayMessage} 
@@ -737,6 +737,7 @@ const Fitness = () => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
     >
+      <h2>{username}'s Workout Plan</h2>
       
       {/* <form id="updateStreaks" onSubmit={updateStreaks}>
         <button type="submit">Test Cron Job</button>
