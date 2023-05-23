@@ -1,10 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import axios from "axios";
 
 import styles from "../css/calendar.module.css";
 
 const Calendar = () => {
+  const [events, setEvents] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("")
+      .then((response) => {
+        const plans = response.data;
+
+        // Formatting for the calendar
+        const calendarEvents = plans.map((plan) => ({
+          title: plan.title,
+          date: plan.date,
+        }));
+
+        setEvents(calendarEvents);
+      })
+      .catch((error) => {
+        console.error("Error retrieving plans:", error);
+      });
+  }, []);
+
   return (
     <div className={styles.calendarBody}>
       <div
@@ -13,15 +35,14 @@ const Calendar = () => {
         <div className={`${styles.calendarCard}`}>
           <div className="card-body">
             <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.calendarTitle}>Welcome to the Calendar Page</h1>
+              <h1 className={styles.calendarTitle}>
+                Welcome to the Calendar Page
+              </h1>
               <div className={styles.calendar}>
                 <FullCalendar
                   plugins={[dayGridPlugin]}
                   initialView="dayGridMonth"
-                  events={[
-                    { title: "Gym Day", date: "2023-05-05" },
-                    { title: "Gym Day", date: "2023-05-08" },
-                  ]}
+                  events={events}
                 />
               </div>
             </div>
