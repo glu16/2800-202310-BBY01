@@ -359,12 +359,14 @@ function Workout({ handleOpenModal }) {
                   }
                 )}
 
+                <div className={styles.helpButtonsContainer}>
                 {/* this opens up images for the exercise */}
                 <button
                   onClick={handleOpenModal}
                   className={`btn btn-primary  ${styles.exerciseButtons}`}>
                   Help
                 </button>
+              </div>
               </div>
             );
           });
