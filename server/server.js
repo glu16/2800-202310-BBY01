@@ -1088,6 +1088,28 @@ app.delete("/profile/:friendId", async (req, res) => {
 
 /**********END OF PROFILE ROUTES************/
 
+/********************CALENDAR ROUTES*********************/
+// RETRIEVES THE WORKOUT PLAN FOR THE USER
+app.get("/calendar/:username", async (req, res) => {
+  const userID = req.params.username;
+  try {
+    const user = await User.findOne({ username: userID });
+    // IF WORKOUTS EMPTY IE.NEW USER
+    if (user.workouts.length == 0) {
+      res.send("empty");
+      // SENDS FIRST WORKOUT IN WORKOUTS
+    } else {
+      res.send(user.workouts[0]);
+    }
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: "Internal server error. Couldn't send workout plan." });
+  }
+});
+/*****************END OF CALENDAR ROUTES*****************/
+
 /**********SETTINGS ROUTES************/
 // RETRIEVES USER'S NOTIFICATION SETTINGS FROM DATABASE
 app.get("/settings/:username", async (req, res) => {

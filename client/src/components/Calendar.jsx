@@ -10,11 +10,11 @@ const Calendar = () => {
 
   useEffect(() => {
     axios
-      .get("")
+      .get(`https://healthify-server.vercel.app/calendar/${localStorage.getItem("username")}`)
       .then((response) => {
         const plans = response.data;
 
-        // Formatting for the calendar
+        // Map function to display the plans on the calendar
         const calendarEvents = plans.map((plan) => ({
           title: plan.title,
           date: plan.date,
