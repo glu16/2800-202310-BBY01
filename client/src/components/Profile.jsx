@@ -927,14 +927,22 @@ const Profile = ({ username }) => {
                   >
                     Food Preferences
                   </label>
-                  <input
-                    type="text"
-                    className="form-control"
+                  <select
+                    className="form-select"
                     id="foodPrefInput"
                     name="foodPref"
                     value={data.foodPref}
                     onChange={handleChange}
-                  />
+                  >
+                    <option value="">Select an option</option>
+                    <option value="None">None</option>
+                    <option value="Vegetarian">Vegetarian</option>
+                    <option value="Vegan">Vegan</option>
+                    <option value="Pescatarian">Pescatarian</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Paleo">Paleo</option>
+                    <option value="Keto">Keto</option>
+                  </select>
                 </div>
                 <div className="mb-3">
                   <label
