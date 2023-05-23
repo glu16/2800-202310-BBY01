@@ -16,8 +16,9 @@
 }
 
 .indexBtn:hover {
-  background-color: #95a4a9;
+  background-color: #e8e3dd;
   border: 1px solid #2b2b2b;
+  color: black;
 }
 
 .indexBtn:active {
