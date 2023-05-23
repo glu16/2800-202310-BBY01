@@ -485,10 +485,33 @@ app.post("/signupPrefRes/:username", async (req, res) => {
 
 /*********************COACH/CHAT ROUTES********************/
 // STORES USER'S CHAT HISTORY TO THE DATABASE
-app.put("/history/:username", async (req, res) => {
-  // THE USER'S EMAIL
+// RETRIEVES THE USER'S CHAT HISTORY FROM THE DATABASE
+app.get("/coach/:username", async (req, res) => {
+  // THE USER'S USERNAME
   const userID = req.params.username;
-  // USERS CHAT HITORY
+
+  try {
+    // FINDS THE USER BY USERNAME
+    const user = await User.findOne({ username: userID });
+    if (!user) {
+      return res.status(400).send("Username not registered: " + userID);
+    }
+    // GETS THE USER'S CHAT HISTORY
+    const messages = user.messages;
+    // STORES THE USER'S CHAT HISTORY
+    const chatHistory = messages;
+    // SENDS THE USER'S CHAT HISTORY
+    res.json(chatHistory);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
+// UPDATES USER CHATLOG IN DATABASE
+app.put("/history/:username", async (req, res) => {
+  // THE USER'S USERNAME
+  const userID = req.params.username;
+  // USERS CHAT HISTORY
   const updatedUserData = req.body;
 
   try {
@@ -509,28 +532,6 @@ app.put("/history/:username", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Internal server error" });
-  }
-});
-
-// RETRIEVES THE USER'S CHAT HISTORY FROM THE DATABASE
-app.get("/coach/:username", async (req, res) => {
-  // THE USER'S EMAIL
-  const userID = req.params.username;
-
-  try {
-    // FINDS THE USER BY USERNAME
-    const user = await User.findOne({ username: userID });
-    if (!user) {
-      return res.status(400).send("Username not registered: " + userID);
-    }
-    // GETS THE USER'S CHAT HISTORY
-    const messages = user.messages;
-    // STORES THE USER'S CHAT HISTORY
-    const chatHistory = messages;
-    // SENDS THE USER'S CHAT HISTORY
-    res.json(chatHistory);
-  } catch (e) {
-    console.log(e);
   }
 });
 
