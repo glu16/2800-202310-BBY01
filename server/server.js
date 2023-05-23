@@ -983,8 +983,8 @@ app.post("/profile/:username", async (req, res) => {
           "userStats.0.weight": req.body.weight,
           foodPref: req.body.foodPref,
           foodRes: req.body.foodRes,
-          workoutPref: req.body.workoutPref,
-          workoutRes: req.body.workoutRes,
+          // workoutPref: req.body.workoutPref,
+          // workoutRes: req.body.workoutRes,
         },
       },
 
