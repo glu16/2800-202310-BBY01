@@ -107,7 +107,7 @@
   top: 83px;
   left: 68px;
   /* display: none; */
-  /* z-index: 1; */
+  z-index: 1;
 }
 
 .newPlan {
@@ -166,7 +166,7 @@
 
 .exerciseBtnToday {
   position: absolute;
-  left: 30%;
+  right: 30%;
   top: 30px;
   z-index: 1;
 }
@@ -307,7 +307,7 @@ input[type="radio"]:active + .checkboxLabel {
   }
 
   .exerciseBtnToday {
-    left: 28%;
+    right: 28%;
   }
 
   .exerciseBtn1 {
@@ -373,7 +373,7 @@ input[type="radio"]:active + .checkboxLabel {
   }
 
   .exerciseBtnToday {
-    left: 28%;
+    right: 28%;
   }
 
   .exerciseBtn1 {
@@ -459,6 +459,7 @@ input[type="radio"]:active + .checkboxLabel {
 
   .exerciseBtnToday {
     left: 21%;
+    right: unset;
   }
 
   .exerciseBtn1 {
@@ -544,6 +545,8 @@ input[type="radio"]:active + .checkboxLabel {
 
   .exerciseBtnToday {
     left: 16%;
+    right: unset;
+
   }
 
   .exerciseBtn1 {
@@ -627,6 +630,8 @@ input[type="radio"]:active + .checkboxLabel {
 
   .exerciseBtnToday {
     left: 8%;
+    right: unset;
+
   }
 
   .exerciseBtn1 {
@@ -765,6 +770,8 @@ input[type="radio"]:active + .checkboxLabel {
   .exerciseBtnToday {
     left: 17%;
     margin: 0 auto;
+    right: unset;
+
   }
 
   .exerciseBtn1 {
