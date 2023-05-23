@@ -14,62 +14,15 @@
   color: white;
 }
 
-@media (max-width: 767px) {
-  html,
-  body {
-    height: auto;
-    margin-bottom: 80px;
-  }
-  
-  .fitnessContainer {
-    height: 100%;
-    max-width: 1000px;
-    border-radius: 10px;
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin: auto;
-    margin-top: 80px;
-  }
-}
-
-
-.container-fluid {
-  /* Sets dropdown of navbar to be same colour as actual navbar */
-  background-color: inherit;
-}
-
-.title {
-  text-align: center;
-  margin-top: 20px;
-  font-weight: bold;
-  color: black;
-}
-
 .day {
-  /* border: 2px solid black ; */
   border-radius: 10px;
 }
 
 .anExercise {
-  /* border: 2px solid grey ; */
   border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
   margin-bottom: 10px;
   padding-bottom: 5px;
-}
-
-
-.aKey {
-  /* border: 2px dashed green ;
-  border-radius: 10px; */
-}
-
-.streakContainer {
-  /* border: 2px solid red ;
-  border-radius: 10px; */
 }
 
 .doneTodaySymbol {
@@ -84,24 +37,15 @@
   padding: none;
   height: 100px;
 }
-.graphs {
-  /* display: flex; */
-}
 
 .workoutForm {
-  /* border: 2px solid blue;
-  border-radius: 10px; */
-  /* display: none; */
+  border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
+  margin: 10px;
 }
 
 .exerciseButtonsContainer {
-  /* display: inline-flex; */
   justify-content: center;
-}
-
-.completeAllButton {
-
 }
 
 .modalButton {
@@ -118,25 +62,57 @@
   margin: 5px;
 }
 
+.paginationButton:disabled {
+  background-color: grey;
+  color: white;
+  border: none;
+  margin: 5px;
+}
+
 .modal {
   display: flex;
   flex-direction: column;
-  height: 500px;
-  width: 500px;
+  align-items: center;
+  height: 350px;
+  width: 350px;
   position: fixed;
-  top: 30%;
-  left: 30%;
-  background-color: #2b2b2b;
-  border: 2px solid green;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 20%;
+  background-color: hsl(0, 0%, 30%);
+  border-radius: 10px;
 }
 
 .modalImage {
-  height: 200px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
+  border-radius: 10px;
 }
 
 .hidden {
   display: none;
 }
+
+
+/* ////////// MEDIA QUERIES /////////////////// */
+
+/* phones */
+@media (width <= 721px) {
+  
+}
+
+/* tablets & computers */
+@media (width > 721px) {
+  
+  /* multiple column grids */
+  .exercisesContainer {
+    display: flex;
+  }
+  .exercisesContainer > * {
+    margin: 5px;
+  }
+}
+
+
 
 

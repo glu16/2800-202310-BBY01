@@ -307,7 +307,9 @@ function Workout({ handleOpenModal }) {
                   return (
                     <div key={index} className={styles.day}>
                       <h5>Today, {key}</h5>
-                      {renderExerciseToday(obj[key])}
+                      <div className={styles.exercisesContainer}>
+                        {renderExerciseToday(obj[key])}
+                      </div>
                     </div>
                   );
                 // if page is not today
@@ -315,7 +317,9 @@ function Workout({ handleOpenModal }) {
                   return (
                     <div key={index} className={styles.day}>
                       <h5>{key}</h5>
-                      {renderExercise(obj[key])}
+                      <div className={styles.exercisesContainer}>
+                        {renderExercise(obj[key])}
+                      </div>
                     </div>
                   );
                 }
@@ -469,9 +473,11 @@ function Workout({ handleOpenModal }) {
         {/* right arrow */}
         &rarr;
       </button>
-      <div className="d-flex align-items-center text-center justify-content-center row">
+
+      <div>
         {workout}
       </div>
+
     </div>
   );
 }
@@ -496,8 +502,8 @@ const CompleteExercisesButton = () => {
   };
   return (
     <div onClick={handleClick}>
-      <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"></input>
-      <label className="form-check-label" for="flexSwitchCheckDefault">&nbsp;Done!</label>
+      <input className="form-check-input" type="checkbox"></input>
+      <label className="form-check-label">&nbsp;Done!</label>
   </div>
   );
 };
@@ -549,6 +555,7 @@ const Streak = () => {
   }
 
   var percentDaysDone = 100 * daysDone / (daysDone + daysMissed);
+  percentDaysDone = Math.floor(percentDaysDone);
   // to prevent NaN error dividing 0
   if (daysDone + daysMissed == 0) {
     percentDaysDone = 0;
@@ -670,7 +677,7 @@ const Fitness = () => {
         className = {styles.modal}
       >
         <strong>{modalExercise}</strong>
-        <small>{source}</small>
+        {/* <small>{source}</small> */}
         <img className={styles.modalImage} 
         src={source}
         alt="No image avaiable for this exercise." />
@@ -845,18 +852,18 @@ const Fitness = () => {
           </p>
         </form>
       </div>
-      
-
 
         <Workout workout={workout} handleOpenModal={handleOpenModal} />
-      {showModal && (
-        <ExerciseModal
-          isOpen={showModal}
-          onRequestClose={handleCloseModal}
-          modalExercise={modalExercise}
-          sex = {sex}
-          />
-      )}
+
+        {showModal && (
+          <ExerciseModal
+            isOpen={showModal}
+            onRequestClose={handleCloseModal}
+            modalExercise={modalExercise}
+            sex = {sex}
+            />
+        )}
+
       <button id="completeAllButton" className="completeAllButton btn btn-success"
         onClick={completeAllExercises} 
         disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
