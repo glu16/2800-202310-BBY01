@@ -10,7 +10,7 @@ const username = localStorage.getItem("username");
 
 var diet;
 async function getDiet() {
-  var response = await fetch(`http://localhost:5050/diet/${username}`, {
+  var response = await fetch(`https://healthify-server.vercel.app/diet/${username}`, {
     method: "GET",
     headers: {"Content-Type": "application/json"},
   });
@@ -254,7 +254,7 @@ const DietPlan = () => {
 
     const data = {[mealKey]: diet};
     const response = await fetch(
-      `http://localhost:5050/diet/${localStorage.getItem("username")}`,
+      `https://healthify-server.vercel.app/diet/${localStorage.getItem("username")}`,
       {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
