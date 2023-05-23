@@ -79,12 +79,12 @@ getSex();
 // }
 
 // TEMPORARY TEST FUNCTION FOR CRON-JOB UPDATE USER STREAKS AT MIDNIGHT
-function updateStreaks() {
-  console.log("button working");
-  fetch(`http://localhost:${port}/updateStreaks/`, {
-    method: "POST",
-  })
-}
+// function updateStreaks() {
+//   console.log("button working");
+//   fetch(`http://localhost:${port}/updateStreaks/`, {
+//     method: "POST",
+//   })
+// }
 
 
 // BAR CHART GRAPH 
@@ -116,6 +116,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
   const svgSize = 180; // Adjust the size of the SVG container
   const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
   const fontSize = 20; // Adjust the font size of the label
+  const viewBoxHeight = svgSize / 2; // Adjust the viewBox height
   let color;
   if (percentDaysDone >= 66) {
     color = 'green';
@@ -130,7 +131,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
   }
   return (
     <div className={styles.graph}>
-      <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
+      <svg viewBox={`0 0 ${svgSize} ${svgSize} ${viewBoxHeight}`} width={svgSize} height={svgSize}>
         <VictoryPie
           standalone={false}
           width={svgSize}
@@ -151,7 +152,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={`${percentDaysDone}%`}
-          style={{ fontSize: 20, fill: 'white' }} 
+          style={{ fontSize: fontSize, fill: 'white' }} 
         />
       </svg>
       <p>Workout Completion Rate</p>
@@ -167,7 +168,8 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
   ];
   const svgSize = 180; // Adjust the size of the SVG container
   const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
-  const fontSize = 20; // Adjust the font size of the label
+  const fontSize = 16; // Adjust the font size of the label
+  const viewBoxHeight = svgSize / 2; // Adjust the viewBox height
   let color;
   if (percentStreak == 100) {
     color = 'green';
@@ -182,7 +184,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
   }
   return (
     <div className={styles.graph}>
-      <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
+      <svg viewBox={`0 0 ${svgSize} ${svgSize} ${viewBoxHeight}`} width={svgSize} height={svgSize}>
         <VictoryPie
           standalone={false}
           width={svgSize}
@@ -203,7 +205,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={` ${currentStreak} / ${longestStreak} \n days`}
-          style={{ fontSize: 16, fill: 'white'}}
+          style={{ fontSize: fontSize, fill: 'white'}}
         />
       </svg>
       <p>Current vs Longest Streak</p>

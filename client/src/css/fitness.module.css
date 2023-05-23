@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   margin: auto;
-  margin-top: 160px;
+  margin-top: 10px;
   margin-bottom: 60px;
   background-color: #2b2b2b;
   color: white;
@@ -108,6 +108,10 @@
 
 /* tablets & computers */
 @media (width > 721px) {
+
+  .fitnessContainer {
+    margin-top: 100px;
+  }
   
   /* multiple column grids */
   .exercisesContainer {
