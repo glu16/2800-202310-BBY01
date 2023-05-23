@@ -1169,11 +1169,8 @@ app.post("/updateStreaks", async (req, res) => {
     // FIND ALL USERS AND ITERATE THROUGH THEM
     const users = await User.find();
     for (const user of users) {
-      if (user.doneToday) {
-        // IF THE USER COMPLETED A WORKOUT TODAY, INCREMENT daysDone
-        user.daysDone++;
-      } else {
-        // IF THE USER DID NOT COMPLETE A WORKOUT TODAY, UPDATE currentStreak AND daysMissed
+      // IF THE USER DID NOT COMPLETE A WORKOUT TODAY, UPDATE currentStreak AND daysMissed
+      if (!user.doneToday) {
         user.currentStreak = 0;
         user.daysMissed++;
       }

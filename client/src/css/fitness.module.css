@@ -1,6 +1,6 @@
 .fitnessContainer {
   height: 100%;
-  max-width: 1000px;
+  width: 90vw;
   border-radius: 10px;
   display: flex;
   text-align: center;
@@ -9,7 +9,7 @@
   align-items: center;
   margin: auto;
   margin-top: 160px;
-
+  margin-bottom: 60px;
   background-color: #2b2b2b;
   color: white;
 }
@@ -46,6 +46,11 @@
 
 .exerciseButtonsContainer {
   justify-content: center;
+}
+
+.completeAllButton:disabled {
+  background-color: grey;
+  border: grey;
 }
 
 .modalButton {
@@ -106,10 +111,14 @@
   
   /* multiple column grids */
   .exercisesContainer {
-    display: flex;
+    width: 85vw;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 10px;
   }
-  .exercisesContainer > * {
-    margin: 5px;
+
+  .graphs {
+    display: flex;
   }
 }
 

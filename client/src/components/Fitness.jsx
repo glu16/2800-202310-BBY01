@@ -124,6 +124,10 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
   } else {
     color = 'red';
   }
+  let colornull = 'transparent'
+  if (percentDaysDone == 0) {
+    colornull = 'whitesmoke'
+  }
   return (
     <div className={styles.graph}>
       <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
@@ -137,7 +141,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           labels={() => null}
           style={{
             data: {
-              fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
+              fill: ({ datum }) => (datum.x === 1 ? color : colornull),
             },
           }}
         />
@@ -172,6 +176,10 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
   } else {
     color = 'red';
   }
+  let colornull = 'transparent'
+  if (currentStreak == 0) {
+    colornull = 'whitesmoke'
+  }
   return (
     <div className={styles.graph}>
       <svg viewBox={`0 0 ${svgSize} ${svgSize}`} width={svgSize} height={svgSize}>
@@ -185,7 +193,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           labels={() => null}
           style={{
             data: {
-              fill: ({ datum }) => (datum.x === 1 ? color : 'transparent'),
+              fill: ({ datum }) => (datum.x === 1 ? color : colornull),
             },
           }}
         />
@@ -773,20 +781,32 @@ const Fitness = () => {
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
     >
-      {/* <form id="getUserStats" onSubmit={getUserStats}>
-        <input type="hidden" name="username" value={username}></input>
-        <button type="submit">Test Get User Stats</button>
-      </form> */}
       
       {/* <form id="updateStreaks" onSubmit={updateStreaks}>
         <button type="submit">Test Cron Job</button>
       </form> */}
 
-
       <Streak />
 
+      <Workout workout={workout} handleOpenModal={handleOpenModal} />
+
+      {showModal && (
+        <ExerciseModal
+          isOpen={showModal}
+          onRequestClose={handleCloseModal}
+          modalExercise={modalExercise}
+          sex = {sex}
+          />
+      )}
+
+      <button id="completeAllButton" className={`btn btn-success ${styles.completeAllButton}`}
+        onClick={completeAllExercises} 
+        disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
+        >Mark ALL exercises complete!
+      </button>
+
       <button onClick={toggleWorkoutFormVisibility} className={`btn btn-info ${styles.paginationButton}`}>
-        {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create New Workout Plan'}
+        {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create A New Workout Plan'}
       </button>
 
       <div
@@ -852,23 +872,6 @@ const Fitness = () => {
           </p>
         </form>
       </div>
-
-        <Workout workout={workout} handleOpenModal={handleOpenModal} />
-
-        {showModal && (
-          <ExerciseModal
-            isOpen={showModal}
-            onRequestClose={handleCloseModal}
-            modalExercise={modalExercise}
-            sex = {sex}
-            />
-        )}
-
-      <button id="completeAllButton" className="completeAllButton btn btn-success"
-        onClick={completeAllExercises} 
-        disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
-        >Mark ALL exercises complete!
-      </button>
       
     </div>
   );
