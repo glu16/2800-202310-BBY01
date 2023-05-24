@@ -29,6 +29,21 @@
   margin: 10px;
 }
 
+.streakContainer {
+  display: flex;
+  justify-content: row;
+}
+
+.doneContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 130px;
+  margin-right: 20px;
+  margin-top: 30px;
+}
+
 .doneTodaySymbol {
   width: 50px;
   height: 50px;
@@ -40,12 +55,44 @@
   margin: none;
   padding: none;
   height: 100px;
+  width: 100px;
+}
+
+#addWorkout {
+  margin: 10px;
 }
 
 .workoutForm {
   border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
   margin: 10px;
+}
+
+.formButtons {
+  background-color: hsl(184, 61%, 40%);
+  border: none;
+  margin: 3px;
+}
+
+.formButtons:hover {
+  color: white;
+  background-color: hsl(184, 61%, 77%);
+}
+
+input[type="radio"]:checked + .formButtons {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
+input[type="checkbox"]:checked + .formButtons {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
+input[type="checkbox"]:active + .formButtons,
+input[type="checkbox"]:focus + .formButtons {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
 }
 
 .exerciseButtonsContainer {
@@ -64,11 +111,29 @@
   margin: 5px;
 }
 
+.modalButton:hover,
+.modalButton:active,
+.modalButton:focus {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
+}
+
 .paginationButton {
   background-color: hsl(183.87deg 60.78% 40%);
   color: white;
   border: none;
   margin: 5px;
+}
+
+.paginationButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
+}
+
+.paginationButton:active,
+.paginationButton:focus {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
 }
 
 .paginationButton:disabled {
@@ -106,8 +171,32 @@
 /* ////////// MEDIA QUERIES /////////////////// */
 
 /* phones */
-@media (width <= 721px) {
-  
+@media (width <= 767px) {
+  .fitnessContainer {
+    margin-bottom: 130px;
+  }
+
+  .exercisesContainer {
+    width: 300px;
+  }
+
+  .doneContainer {
+    justify-content: flex-start;
+    align-items: center;
+    margin: 20px 10px 10px 10px;
+    font-size: 10pt;
+    max-width: 120px;
+  }
+
+  .doneTodaySymbol {
+    margin-top: 10px;
+    margin-bottom: 24px;
+  }
+
+  .graphs p {
+    font-size: 10pt;
+    max-width: 110px;
+  }
 }
 
 /* tablets & computers */
@@ -125,6 +214,9 @@
     grid-gap: 10px;
   }
 
+  .graph {
+    margin: 0 20px 0 20px;
+  }
   .graphs {
     display: flex;
   }
