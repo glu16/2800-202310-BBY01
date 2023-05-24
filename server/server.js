@@ -42,10 +42,13 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
 
-// TARGETS THE CORS POLICY FOR FITNESS
-app.use(cors({
-  origin: 'http://localhost:3000',
-}));
+// ENABLE CORS FOR ALL ROUTES
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
 
 /*****************GENERAL USE FOR USER DATA RETRIEVAL********************/
 // RETRIEVES THE USER'S DATA FROM THE DATABASE
