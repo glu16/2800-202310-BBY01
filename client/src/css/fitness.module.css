@@ -36,7 +36,7 @@
   margin: 10px;
 }
 
-.streakContainer{
+.streakContainer {
   display: flex;
   justify-content: row;
 }
@@ -78,8 +78,8 @@
   width: 100px;
 }
 
-#addWorkout{
- margin: 10px;
+#addWorkout {
+  margin: 10px;
 }
 
 .workoutForm {
@@ -88,15 +88,15 @@
   margin: 10px;
 }
 
-.formButtons{
-  background-color:hsl(184, 61%, 40%);
+.formButtons {
+  background-color: hsl(184, 61%, 40%);
   border: none;
   margin: 3px;
 }
 
-.formButtons:hover{
-    color: white;
-    background-color:hsl(184, 61%, 77%);
+.formButtons:hover {
+  color: white;
+  background-color: hsl(184, 61%, 77%);
 }
 
 input[type="radio"]:checked + .formButtons {
@@ -135,7 +135,9 @@ input[type="checkbox"]:focus + .formButtons {
   margin: 5px;
 }
 
-.modalButton:hover, .modalButton:active, .modalButton:focus {
+.modalButton:hover,
+.modalButton:active,
+.modalButton:focus {
   background-color: hsl(184, 61%, 60%);
   color: black;
 }
@@ -152,7 +154,8 @@ input[type="checkbox"]:focus + .formButtons {
   color: black;
 }
 
-.paginationButton:active, .paginationButton:focus {
+.paginationButton:active,
+.paginationButton:focus {
   background-color: hsl(184, 61%, 60%);
   color: black;
 }
@@ -163,7 +166,6 @@ input[type="checkbox"]:focus + .formButtons {
   border: none;
   margin: 5px;
 }
-
 
 .modal {
   display: flex;
@@ -201,9 +203,9 @@ input[type="checkbox"]:focus + .formButtons {
 @media (width <= 767px) {
   .fitnessContainer {
     margin-bottom: 130px;
-  } 
+  }
 
-  .exercisesContainer{
+  .exercisesContainer {
     width: 300px;
   }
 
@@ -214,17 +216,16 @@ input[type="checkbox"]:focus + .formButtons {
     font-size: 10pt;
     max-width: 120px;
   }
-  
-  .doneTodaySymbol{
+
+  .doneTodaySymbol {
     margin-top: 10px;
     margin-bottom: 24px;
   }
-  
+
   .graphs p {
     font-size: 10pt;
     max-width: 110px;
   }
-
 }
 
 /* tablets & computers */
@@ -241,7 +242,7 @@ input[type="checkbox"]:focus + .formButtons {
     grid-gap: 10px;
   }
 
-  .graph{
+  .graph {
     margin: 0 20px 0 20px;
   }
   .graphs {
