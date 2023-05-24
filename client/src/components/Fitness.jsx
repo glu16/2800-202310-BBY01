@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {useState, useEffect, useRef} from "react";
 import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
 import {useSpring, animated} from "react-spring";
-import { VictoryPie, VictoryLabel } from "victory";
+import {VictoryPie, VictoryLabel} from "victory";
 import axios from "axios";
 
 // import server hosting port
@@ -18,7 +18,7 @@ async function getWorkout() {
     `https://healthify-server.vercel.app/fitness/${username}`,
     {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     }
   );
   var data = await response.json();
@@ -39,7 +39,7 @@ async function getName() {
     `https://healthify-server.vercel.app/getName/${username}`,
     {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     }
   );
   var data = await response.json();
@@ -56,7 +56,7 @@ async function getDoneToday() {
     `https://healthify-server.vercel.app/doneToday/${username}`,
     {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     }
   );
   var data = await response.json();
@@ -71,7 +71,7 @@ async function getSex() {
     `https://healthify-server.vercel.app/getSex/${username}`,
     {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: {"Content-Type": "application/json"},
     }
   );
   var data = await response.json();
@@ -96,9 +96,12 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
   }
   return (
     <div className={styles.graph}>
-      <svg className={styles.fitnessSVG}
-      // view= x, y, width, height
-        viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+      <svg
+        className={styles.fitnessSVG}
+        // view= x, y, width, height
+        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+          svgSize / 1.7
+        }`}
         width={svgSize}
         height={svgSize}
       >
@@ -130,62 +133,64 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
   );
 };
 
-const CircleStreak = ({ currentStreak, longestStreak }) => {
+const CircleStreak = ({currentStreak, longestStreak}) => {
   const percentStreak = (100 * currentStreak) / longestStreak;
   const data = [
-    { x: 1, y: percentStreak },
-    { x: 2, y: 100 - percentStreak },
+    {x: 1, y: percentStreak},
+    {x: 2, y: 100 - percentStreak},
   ];
   const svgSize = 150; // Adjust the size of the SVG container
-    const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
-    const fontSize = 20; // Adjust the font size of the label
-    let color;
-    if (percentStreak == 100) {
-      color = "green";
-    } else if (percentStreak >= 50) {
-      color = "yellow";
-    } else {
-      color = "red";
-    }
-    return (
-      <div className={styles.graph}>
-   <svg className={styles.fitnessSVG}
+  const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
+  const fontSize = 20; // Adjust the font size of the label
+  let color;
+  if (percentStreak == 100) {
+    color = "green";
+  } else if (percentStreak >= 50) {
+    color = "yellow";
+  } else {
+    color = "red";
+  }
+  return (
+    <div className={styles.graph}>
+      <svg
+        className={styles.fitnessSVG}
         // view= x, y, width, height
-          viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+          svgSize / 1.7
+        }`}
+        width={svgSize}
+        height={svgSize}
+      >
+        <VictoryPie
+          standalone={false}
           width={svgSize}
           height={svgSize}
-        >
-          <VictoryPie
-            standalone={false}
-            width={svgSize}
-            height={svgSize}
-            data={data}
-            innerRadius={radius - 10}
-            cornerRadius={25}
-            labels={() => null}
-            style={{
-              data: {
-                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
-              },
-            }}
-          />
-          <VictoryLabel
-            textAnchor="middle"
-            verticalAnchor="middle"
-            x={svgSize / 2}
-            y={svgSize / 2}
-            text={` ${currentStreak} / ${longestStreak} \n days`}
-            style={{fontSize: 16, fill: "white"}}
-          />
-        </svg>
-        <p>Current vs Longest Streak</p>
-      </div>
-    );
-  };
+          data={data}
+          innerRadius={radius - 10}
+          cornerRadius={25}
+          labels={() => null}
+          style={{
+            data: {
+              fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+            },
+          }}
+        />
+        <VictoryLabel
+          textAnchor="middle"
+          verticalAnchor="middle"
+          x={svgSize / 2}
+          y={svgSize / 2}
+          text={` ${currentStreak} / ${longestStreak} \n days`}
+          style={{fontSize: 16, fill: "white"}}
+        />
+      </svg>
+      <p>Current vs Longest Streak</p>
+    </div>
+  );
+};
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
-function Workout({ handleOpenModal }) {
-
+function Workout({handleOpenModal}) {
   const fadeIn = useSpring({
     opacity: 1,
     from: {opacity: 0},
@@ -260,7 +265,11 @@ function Workout({ handleOpenModal }) {
                   // if this page is today
                   if (key == today) {
                     return (
-                      <animated.div key={index} className={styles.day} style={fadeIn}>
+                      <animated.div
+                        key={index}
+                        className={styles.day}
+                        style={fadeIn}
+                      >
                         <h5>Today, {key}:</h5> Rest day
                       </animated.div>
                     );
@@ -350,7 +359,8 @@ function Workout({ handleOpenModal }) {
                 <div className={styles.exerciseButtonsContainer}>
                   <button
                     onClick={handleOpenModal}
-                    className={`btn btn-info ${styles.modalButton}`}>
+                    className={`btn btn-info ${styles.modalButton}`}
+                  >
                     Help
                   </button>
                 </div>
@@ -381,7 +391,8 @@ function Workout({ handleOpenModal }) {
                         backgroundSize: "100% 100%",
                       }
                     : null
-                }>
+                }
+              >
                 {Object.entries(exerciseObj[exerciseKey]).map(
                   ([detailKey, detailValue]) => {
                     if (detailKey == "name") {
@@ -413,7 +424,8 @@ function Workout({ handleOpenModal }) {
                   {/* this opens up images for the exercise */}
                   <button
                     onClick={handleOpenModal}
-                    className={`btn btn-info ${styles.modalButton}`}>
+                    className={`btn btn-info ${styles.modalButton}`}
+                  >
                     Help
                   </button>
 
@@ -467,14 +479,16 @@ function Workout({ handleOpenModal }) {
       <button
         onClick={handleToToday}
         disabled={daysToAdd == 0}
-        className={`btn btn-info ${styles.paginationButton}`}>
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
         Today
       </button>
 
       <button
         onClick={handleDecrementDays}
         disabled={dayOfWorkoutPlan <= 0}
-        className={`btn btn-info ${styles.paginationButton}`}>
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
         {/* left arrow */}
         <span className="material-symbols-outlined">chevron_left</span>
       </button>
@@ -482,7 +496,8 @@ function Workout({ handleOpenModal }) {
       <button
         onClick={handleIncrementDays}
         disabled={dayOfWorkoutPlan >= 6}
-        className={`btn btn-info ${styles.paginationButton}`}>
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
         {/* right arrow */}
         <span className="material-symbols-outlined">chevron_right</span>
       </button>
@@ -515,7 +530,9 @@ const CompleteExercisesButton = () => {
   return (
     <div onClick={handleClick}>
       <input className="form-check-input" type="checkbox"></input>
-      <label className={`form-check-label ${styles.doneButton}`}>&nbsp;Done!</label>
+      <label className={`form-check-label ${styles.doneButton}`}>
+        &nbsp;Done!
+      </label>
     </div>
   );
 };
@@ -531,7 +548,8 @@ const Streak = () => {
   async function getStreak() {
     try {
       const response = await axios.get(
-        `https://healthify-server.vercel.app/streak/${username}`);
+        `https://healthify-server.vercel.app/streak/${username}`
+      );
       setCurrentStreak(response.data.currentStreak);
       setLongestStreak(response.data.longestStreak);
       setDoneToday(response.data.doneToday);
@@ -593,13 +611,12 @@ const Streak = () => {
 
 // PAGE RENDER COMPONENT
 const Fitness = () => {
-  
- // Text animation
- const fadeIn = useSpring({
-  opacity: 1,
-  from: {opacity: 0},
-  delay: 300,
-});
+  // Text animation
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: {opacity: 0},
+    delay: 300,
+  });
 
   const [isWorkoutFormVisible, setWorkoutFormVisible] = useState(false);
   const toggleWorkoutFormVisibility = () => {
@@ -647,7 +664,7 @@ const Fitness = () => {
       `https://healthify-server.vercel.app/fitness/${username}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       }
     );
@@ -663,7 +680,7 @@ const Fitness = () => {
     window.location.reload();
   }
 
-  const ExerciseModal = ({ isOpen, onRequestClose, modalExercise, sex }) => {
+  const ExerciseModal = ({isOpen, onRequestClose, modalExercise, sex}) => {
     //Overlay styling for the modal
     const overlayStyles = {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -686,8 +703,9 @@ const Fitness = () => {
         contentLabel="Image Popup"
         appElement={document.getElementById("root")}
         ariaHideApp={false}
-        style={{ overlay: overlayStyles }}
-        className={styles.modal}>
+        style={{overlay: overlayStyles}}
+        className={styles.modal}
+      >
         <strong>{modalExercise}</strong>
         {/* <small>{source}</small> */}
         <img
@@ -789,7 +807,9 @@ const Fitness = () => {
   // return for Fitness()
   return (
     <animated.div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`} style={fadeIn}>
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
+      style={fadeIn}
+    >
       <h2>{username}'s Workout Plan</h2>
 
       {/* <form id="updateStreaks" onSubmit={updateStreaks}>
@@ -809,7 +829,8 @@ const Fitness = () => {
 
       <button
         onClick={toggleWorkoutFormVisibility}
-        className={`btn btn-info ${styles.paginationButton}`}>
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
         {isWorkoutFormVisible
           ? "Hide Create Workout Plan Form"
           : "Create A New Workout Plan"}
@@ -819,7 +840,8 @@ const Fitness = () => {
         id="workoutForm"
         className={`${styles.workoutForm} ${
           isWorkoutFormVisible ? "" : styles.hidden
-        }`}>
+        }`}
+      >
         <form id={styles.addWorkout} onSubmit={addWorkoutToUser}>
           {/* SEND USERNAME FOR DATABASE SEARCH */}
           <input type="hidden" name="username" value={username}></input>
@@ -831,8 +853,12 @@ const Fitness = () => {
             id="beginnerOption"
             name="intensity"
             value="beginner"
-            className="btn-check"></input>
-          <label htmlFor="beginnerOption" className={`btn btn-info ${styles.formButtons}`}>
+            className="btn-check"
+          ></input>
+          <label
+            htmlFor="beginnerOption"
+            className={`btn btn-info ${styles.formButtons}`}
+          >
             Beginner
           </label>
           <input
@@ -841,8 +867,12 @@ const Fitness = () => {
             name="intensity"
             value="intermediate"
             className="btn-check"
-            defaultChecked={true}></input>
-          <label htmlFor="intermediateOption" className={`btn btn-info ${styles.formButtons}`}>
+            defaultChecked={true}
+          ></input>
+          <label
+            htmlFor="intermediateOption"
+            className={`btn btn-info ${styles.formButtons}`}
+          >
             Intermediate
           </label>
           <input
@@ -850,8 +880,12 @@ const Fitness = () => {
             id="expertOption"
             name="intensity"
             value="expert"
-            className="btn-check"></input>
-          <label htmlFor="expertOption" className={`btn btn-info ${styles.formButtons}`}>
+            className="btn-check"
+          ></input>
+          <label
+            htmlFor="expertOption"
+            className={`btn btn-info ${styles.formButtons}`}
+          >
             Expert
           </label>
           <p>Select desired intensity level</p>
@@ -863,56 +897,84 @@ const Fitness = () => {
             type="checkbox"
             name="arms"
             className="btn-check"
-            id="arms"></input>
-          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="arms">
+            id="arms"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="arms"
+          >
             Arms
           </label>
           <input
             type="checkbox"
             name="legs"
             className="btn-check"
-            id="legs"></input>
-          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="legs">
+            id="legs"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="legs"
+          >
             Legs
           </label>
           <input
             type="checkbox"
             name="chest"
             className="btn-check"
-            id="chest"></input>
-          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="chest">
+            id="chest"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="chest"
+          >
             Chest
           </label>
           <input
             type="checkbox"
             name="back"
             className="btn-check"
-            id="back"></input>
-          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="back">
+            id="back"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="back"
+          >
             Back
           </label>
           <input
             type="checkbox"
             name="shoulders"
             className="btn-check"
-            id="shoulders"></input>
-          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="shoulders">
+            id="shoulders"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="shoulders"
+          >
             Shoulders
           </label>
           <input
             type="checkbox"
             name="core"
             className="btn-check"
-            id="core"></input>
-          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="core">
+            id="core"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="core"
+          >
             Core
           </label>
           <input
             type="checkbox"
             name="glutes"
             className="btn-check"
-            id="glutes"></input>
-          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="glutes">
+            id="glutes"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="glutes"
+          >
             Glutes
           </label>
           <p>Select muscle group(s) you want to focus on</p>
@@ -923,7 +985,8 @@ const Fitness = () => {
           <button
             type="submit"
             className={`btn btn-info ${styles.formButtons}`}
-            disabled={isFormSubmitting}>
+            disabled={isFormSubmitting}
+          >
             {isFormSubmitting ? (
               <div>
                 <p>Generating...</p>
@@ -952,10 +1015,10 @@ const Fitness = () => {
         onClick={completeAllExercises}
         disabled={
           numberOfExercises !== 0 || completeAllExercisesClicked || doneToday
-        }>
+        }
+      >
         Mark ALL exercises complete!
       </button>
-
     </animated.div>
   );
 };
