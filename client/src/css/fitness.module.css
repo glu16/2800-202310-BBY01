@@ -46,7 +46,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 120px;
+  max-width: 130px;
   margin-right: 20px;
   margin-top: 30px;
 }
@@ -212,7 +212,7 @@ input[type="checkbox"]:focus + .formButtons {
     align-items: center;
     margin: 20px 10px 10px 10px;
     font-size: 10pt;
-    /* scale: 80%; */
+    max-width: 120px;
   }
   
   .doneTodaySymbol{
