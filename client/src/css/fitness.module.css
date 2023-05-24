@@ -29,17 +29,35 @@
   margin: 10px;
 }
 
+.streakContainer{
+  display: flex;
+  justify-content: row;
+}
+
+.doneContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 120px;
+}
+
 .doneTodaySymbol {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
 }
 
 .graph {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: none;
-  padding: none;
+  margin: 0 40px 0 40px;
+  height: 150px;
+}
+
+.fitnessSVG {
   height: 100px;
+  width: 100px;
 }
 
 .workoutForm {
@@ -82,14 +100,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 350px;
-  width: 350px;
+  /* justify-content: space-around; */
+  height: 400px;
+  width: 400px;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   top: 20%;
   background-color: hsl(0, 0%, 30%);
   border-radius: 10px;
+  color: white;
+  font-size: 20pt;
+}
+
+.modal > strong {
+  margin: 10px 0 15px 0;
 }
 
 .modalImage {
@@ -102,21 +127,18 @@
   display: none;
 }
 
-
 /* ////////// MEDIA QUERIES /////////////////// */
 
 /* phones */
 @media (width <= 721px) {
-  
 }
 
 /* tablets & computers */
 @media (width > 721px) {
-
   .fitnessContainer {
     margin-top: 160px;
   }
-  
+
   /* multiple column grids */
   .exercisesContainer {
     width: 85vw;
@@ -127,9 +149,6 @@
 
   .graphs {
     display: flex;
+    justify-content: space-around;
   }
 }
-
-
-
-
