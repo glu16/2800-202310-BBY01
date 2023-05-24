@@ -11,7 +11,7 @@ const port = "5050";
 // used to identify user for database modification
 const username = localStorage.getItem("username");
 
-// FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
+// FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT
 var workout;
 async function getWorkout() {
   var response = await fetch(
@@ -64,7 +64,6 @@ async function getDoneToday() {
 }
 getDoneToday();
 
-
 // GET USER'S SEX FOR MODAL PICTURES
 var sex = "male";
 async function getSex() {
@@ -80,27 +79,20 @@ async function getSex() {
 }
 getSex();
 
-
-const CirclePercentDaysDone = ({ percentDaysDone }) => {
+const CirclePercentDaysDone = ({percentDaysDone}) => {
   const data = [
-    { x: 1, y: percentDaysDone },
-    { x: 2, y: 100 - percentDaysDone },
+    {x: 1, y: percentDaysDone},
+    {x: 2, y: 100 - percentDaysDone},
   ];
-  const svgSize = 180; // Adjust the size of the SVG container
-  const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
-  const fontSize = 20; // Adjust the font size of the label
-  const viewBoxHeight = svgSize / 2; // Adjust the viewBox height
+  const svgSize = 150; // Adjust the size of the SVG container
+  const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
   let color;
   if (percentDaysDone >= 66) {
-    color = 'green';
+    color = "green";
   } else if (percentDaysDone >= 33) {
-    color = 'yellow';
+    color = "yellow";
   } else {
-    color = 'red';
-  }
-  let colornull = 'transparent'
-  if (percentDaysDone == 0) {
-    colornull = 'whitesmoke'
+    color = "red";
   }
   return (
     <div className={styles.graph}>
@@ -123,7 +115,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           labels={() => null}
           style={{
             data: {
-              fill: ({ datum }) => (datum.x === 1 ? color : colornull),
+              fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
             },
           }}
         />
@@ -133,7 +125,7 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={`${percentDaysDone}%`}
-          style={{ fontSize: fontSize, fill: 'white' }} 
+          style={{fontSize: 20, fill: "white"}}
         />
       </svg>
       <p>Workout Completion Rate</p>
@@ -197,7 +189,6 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
   );
 };
 
-
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
 function Workout({handleOpenModal}) {
   const fadeIn = useSpring({
@@ -210,7 +201,7 @@ function Workout({handleOpenModal}) {
 
   // passed to modal
   const [modalExercise, setModalExercise] = useState("");
- 
+
   // use the today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
@@ -232,43 +223,34 @@ function Workout({handleOpenModal}) {
 
   const handleDecrementDays = () => {
     setDaysToAdd(daysToAdd - 1);
-  }
+  };
 
   const handleToToday = () => {
     setDaysToAdd(0);
-  }
-  
+  };
+
   useEffect(() => {
     async function fetchData() {
-
-      
-
       // workoutData == the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
 
       // handles if workout field is empty
       if (workoutData === "empty") {
         setWorkout("No workout available");
-
       } else {
+        function renderNestedObject(obj) {
+          // check if current object is a nested object, recursively render its properties
+          if (typeof obj === "object" && obj !== null) {
+            return Object.keys(obj).map((key, index) => {
+              // check if key matches date so only render the one day on the page
+              if (key == date) {
+                // tracks number of exercises on page, used for complete exercse buttons
+                // using browser local storage because state variables not too disfunctional with so many sub-components
+                let numOfExercises = Object.keys(workoutData[date]).length;
+                localStorage.setItem("numberOfExercises", numOfExercises);
 
-       function renderNestedObject(obj) {
-
-        // check if current object is a nested object, recursively render its properties
-        if (typeof obj === 'object' && obj !== null) {
-          
-          return Object.keys(obj).map((key, index) => {
-            
-            // check if key matches date so only render the one day on the page
-            if (key == date) {
-
-              // tracks number of exercises on page, used for complete exercse buttons
-              // using browser local storage because state variables not too disfunctional with so many sub-components
-              let numOfExercises = Object.keys(workoutData[date]).length;
-              localStorage.setItem('numberOfExercises', numOfExercises);
-
-              // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
-              setDayOfWorkoutPlan(index);
+                // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
+                setDayOfWorkoutPlan(index);
 
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
@@ -289,7 +271,7 @@ function Workout({handleOpenModal}) {
                         style={fadeIn}
                       >
                         <h5>Today, {key}:</h5> Rest day
-                      </div>
+                      </animated.div>
                     );
                     // if page is not today
                   } else {
@@ -300,66 +282,78 @@ function Workout({handleOpenModal}) {
                     );
                   }
 
-              // sends the day title ex. Thursday, May 11, 2023:
-              } else {
-                // use this to check if current page is today to render title card
-                let options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-                let today = new Date().toLocaleDateString('en-US', options);
-                // if this page is today
-                if (key == today) {
-                  return (
-                    <div key={index} className={styles.day}>
-                      <h5>Today, {key}</h5>
-                      <div className={styles.exercisesContainer}>
-                        {renderExerciseToday(obj[key])}
-                      </div>
-                    </div>
-                  );
-                // if page is not today
+                  // sends the day title ex. Thursday, May 11, 2023:
                 } else {
-                  return (
-                    <div key={index} className={styles.day}>
-                      <h5>{key}</h5>
-                      <div className={styles.exercisesContainer}>
-                        {renderExercise(obj[key])}
+                  // use this to check if current page is today to render title card
+                  let options = {
+                    weekday: "long",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  };
+                  let today = new Date().toLocaleDateString("en-US", options);
+                  // if this page is today
+                  if (key == today) {
+                    return (
+                      <div key={index} className={styles.day}>
+                        <h5>Today, {key}</h5>
+                        <div className={styles.exercisesContainer}>
+                          {renderExerciseToday(obj[key])}
+                        </div>
                       </div>
-                    </div>
-                  );
+                    );
+                    // if page is not today
+                  } else {
+                    return (
+                      <div key={index} className={styles.day}>
+                        <h5>{key}</h5>
+                        <div className={styles.exercisesContainer}>
+                          {renderExercise(obj[key])}
+                        </div>
+                      </div>
+                    );
+                  }
                 }
-              }
-            // return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
-            } else {
-              return null;
-            }
-          });
-        }
-        return obj;
-      }
-    
-      // for the sublevel exercise object inside day object
-      function renderExercise(exerciseObj) {
-
-        return Object.keys(exerciseObj).map((exerciseKey, index) => {
-          return (
-            <div key={index} className={styles.anExercise}>
-            {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
-
-              if (detailKey == "name") {
-                return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
-              } else if (detailKey == "setsAndReps") {
-                return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-              } else if (detailKey == "calories") {
-                return (
-                  <div key={detailKey} className={styles.aKey}>
-                    Calories: {detailValue}
-                  </div>
-                );
-              // shouldn't be any other option currently
+                // return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
               } else {
-                return; 
+                return null;
               }
-            })}
+            });
+          }
+          return obj;
+        }
 
+        // for the sublevel exercise object inside day object
+        function renderExercise(exerciseObj) {
+          return Object.keys(exerciseObj).map((exerciseKey, index) => {
+            return (
+              <div key={index} className={styles.anExercise}>
+                {Object.entries(exerciseObj[exerciseKey]).map(
+                  ([detailKey, detailValue]) => {
+                    if (detailKey == "name") {
+                      return (
+                        <strong key={detailKey} className={styles.aKey}>
+                          {detailValue}
+                        </strong>
+                      );
+                    } else if (detailKey == "setsAndReps") {
+                      return (
+                        <div key={detailKey} className={styles.aKey}>
+                          {detailValue}
+                        </div>
+                      );
+                    } else if (detailKey == "calories") {
+                      return (
+                        <div key={detailKey} className={styles.aKey}>
+                          Calories: {detailValue}
+                        </div>
+                      );
+                      // shouldn't be any other option currently
+                    } else {
+                      return;
+                    }
+                  }
+                )}
 
                 {/* this opens up images for the exercise */}
                 <div className={styles.exerciseButtonsContainer}>
@@ -435,20 +429,16 @@ function Workout({handleOpenModal}) {
                     Help
                   </button>
 
-              {/* button to mark task completed */}
-              <CompleteExercisesButton />
-            </div>
+                  {/* button to mark task completed */}
+                  <CompleteExercisesButton />
+                </div>
+              </div>
+            );
+          });
+        }
 
-
-          </div>
-
-          );
-        });
-      }
-      
-
-      // recursively go through the nested json object that is workoutData
-      setWorkout(renderNestedObject(workoutData));
+        // recursively go through the nested json object that is workoutData
+        setWorkout(renderNestedObject(workoutData));
 
         function assignVariables(data, variablePrefix = "") {
           for (const key in data) {
@@ -500,7 +490,7 @@ function Workout({handleOpenModal}) {
         className={`btn btn-info ${styles.paginationButton}`}
       >
         {/* left arrow */}
-        &larr; 
+        <span className="material-symbols-outlined">chevron_left</span>
       </button>
 
       <button
@@ -509,13 +499,10 @@ function Workout({handleOpenModal}) {
         className={`btn btn-info ${styles.paginationButton}`}
       >
         {/* right arrow */}
-        &rarr;
+        <span className="material-symbols-outlined">chevron_right</span>
       </button>
 
-      <div>
-        {workout}
-      </div>
-
+      <div>{workout}</div>
     </div>
   );
 }
@@ -527,16 +514,18 @@ const CompleteExercisesButton = () => {
   const handleClick = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
-      let numberOfExercises = parseInt(localStorage.getItem('numberOfExercises'));
+      let numberOfExercises = parseInt(
+        localStorage.getItem("numberOfExercises")
+      );
       numberOfExercises--;
-      localStorage.setItem('numberOfExercises', numberOfExercises);
+      localStorage.setItem("numberOfExercises", numberOfExercises);
     } else {
-      let numberOfExercises = parseInt(localStorage.getItem('numberOfExercises'));
+      let numberOfExercises = parseInt(
+        localStorage.getItem("numberOfExercises")
+      );
       numberOfExercises++;
-      localStorage.setItem('numberOfExercises', numberOfExercises);
+      localStorage.setItem("numberOfExercises", numberOfExercises);
     }
-
-
   };
   return (
     <div onClick={handleClick}>
@@ -547,7 +536,6 @@ const CompleteExercisesButton = () => {
     </div>
   );
 };
-
 
 // GET AND DISPLAY STREAK AND STATS
 const Streak = () => {
@@ -569,7 +557,7 @@ const Streak = () => {
       setDaysMissed(response.data.daysMissed);
     } catch (error) {
       // Handle any errors that occur during the fetch
-      console.error('Error fetching streak:', error);
+      console.error("Error fetching streak:", error);
     }
   }
   useEffect(() => {
@@ -585,42 +573,41 @@ const Streak = () => {
   var doneTodaySymbol;
   var doneTodayMessage;
   if (doneToday) {
-    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png'
-    doneTodayMessage = 'Today Completed!'
+    doneTodaySymbol =
+      "https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png";
+    doneTodayMessage = "Today Completed!";
   } else {
-    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/04/logo-excel-rouge.png'
-    doneTodayMessage = 'Today not yet done'
+    doneTodaySymbol =
+      "https://res.cloudinary.com/dqhi5isl1/image/upload/v1684885670/675px-White_X_in_red_background2_l79org.png";
+    doneTodayMessage = "Today not yet done";
   }
 
-  var percentDaysDone = 100 * daysDone / (daysDone + daysMissed);
+  var percentDaysDone = (100 * daysDone) / (daysDone + daysMissed);
   percentDaysDone = Math.floor(percentDaysDone);
   // to prevent NaN error dividing 0
   if (daysDone + daysMissed == 0) {
     percentDaysDone = 0;
   }
 
-
   return (
     <div id="streakContainer" className={styles.streakContainer}>
-      
-      <p>
-          <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
-          &nbsp; {doneTodayMessage} 
-      </p>
+      <div className={styles.doneContainer}>
+        <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
+        {doneTodayMessage}
+      </div>
 
       {/* <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} /> */}
 
       <div id="graphs" className={styles.graphs}>
         <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
-        &nbsp; &nbsp; 
-        <CircleStreak currentStreak={currentStreak} longestStreak={longestStreak} />
+        <CircleStreak
+          currentStreak={currentStreak}
+          longestStreak={longestStreak}
+        />
       </div>
-
     </div>
   );
 };
-
-
 
 // PAGE RENDER COMPONENT
 const Fitness = () => {
@@ -635,7 +622,7 @@ const Fitness = () => {
   const toggleWorkoutFormVisibility = () => {
     setWorkoutFormVisible(!isWorkoutFormVisible);
   };
-  
+
   // used to disable button after clicking until current execution is finished
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
@@ -645,8 +632,8 @@ const Fitness = () => {
 
     // store form variables
     var muscleGroups = Array.from(event.target.elements)
-    .filter((element) => element.type === 'checkbox' && element.checked)
-    .map((element) => element.name);
+      .filter((element) => element.type === "checkbox" && element.checked)
+      .map((element) => element.name);
     if (muscleGroups.length == 0) {
       muscleGroups = ["all"];
     }
@@ -674,7 +661,7 @@ const Fitness = () => {
 
     // call server.js app.put method
     const response = await fetch(
-      `http://localhost:5050/fitness/${username}`,
+      `https://healthify-server.vercel.app/fitness/${username}`,
       {
         method: "PUT",
         headers: {"Content-Type": "application/json"},
@@ -683,9 +670,9 @@ const Fitness = () => {
     );
     const updatedUser = await response.json();
     console.log(
-      "New workout " 
-        + JSON.stringify(updatedUser.workouts) 
-        + ` added to ${username}  `
+      "New workout " +
+        JSON.stringify(updatedUser.workouts) +
+        ` added to ${username}  `
     );
     // re-enable button after finishing code
     setFormSubmitting(false);
@@ -702,10 +689,11 @@ const Fitness = () => {
     var source = "ModalExercise";
     if (modalExercise) {
       // img source is url to the dev branch folder of exercise images
-      source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${sex}/`
-      // replace whitespaces with underscore and tolowercase as per image naming convention
-      + modalExercise.replace(/\s/g, "_").toLowerCase()
-      + `.gif`
+      source =
+        `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${sex}/` +
+        // replace whitespaces with underscore and tolowercase as per image naming convention
+        modalExercise.replace(/\s/g, "_").toLowerCase() +
+        `.gif`;
     }
 
     return (
@@ -720,11 +708,11 @@ const Fitness = () => {
       >
         <strong>{modalExercise}</strong>
         {/* <small>{source}</small> */}
-        <img className={styles.modalImage} 
-        src={source}
-        alt="No image avaiable for this exercise." />
-
-
+        <img
+          className={styles.modalImage}
+          src={source}
+          alt="No image avaiable for this exercise."
+        />
       </Modal>
     );
   };
@@ -734,7 +722,8 @@ const Fitness = () => {
 
   const handleOpenModal = (event) => {
     // get the name of the exercise via html structure then send it to modal
-    const strongElement = event.target.parentElement.parentElement.firstElementChild.textContent;
+    const strongElement =
+      event.target.parentElement.parentElement.firstElementChild.textContent;
     setModalExercise(strongElement);
     // makes modal appear
     setShowModal(true);
@@ -744,16 +733,16 @@ const Fitness = () => {
     setShowModal(false);
   };
 
-
   // For completeAllExercises button
   const [numberOfExercises, setNumberOfExercises] = useState(99);
-  const [completeAllExercisesClicked, setCompleteAllExercisesClicked] = useState(false);
+  const [completeAllExercisesClicked, setCompleteAllExercisesClicked] =
+    useState(false);
   useEffect(() => {
-    const storedValue = localStorage.getItem('numberOfExercises');
-      setNumberOfExercises(Number(storedValue));
+    const storedValue = localStorage.getItem("numberOfExercises");
+    setNumberOfExercises(Number(storedValue));
   }, []);
   useEffect(() => {
-    localStorage.setItem('numberOfExercises', numberOfExercises);
+    localStorage.setItem("numberOfExercises", numberOfExercises);
   }, [numberOfExercises]);
 
   // COMPLETE ALL EXERCISES BUTTON SHOULD CALL TWO SERVER METHODS
@@ -765,25 +754,28 @@ const Fitness = () => {
 
     // incriment the user field: streak
     try {
-      const response = await fetch(`http://localhost:${port}/fitness/${username}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username, // Replace with the actual username
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:${port}/fitness/${username}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username, // Replace with the actual username
+          }),
+        }
+      );
 
       if (response.ok) {
         // Field update successful
-        console.log('Field updated successfully!');
+        console.log("Field updated successfully!");
       } else {
         // Field update failed
-        console.log('Field update failed!');
+        console.log("Field update failed!");
       }
     } catch (error) {
-      console.log('Error updating field:', error);
+      console.log("Error updating field:", error);
     }
 
     // reload page to rerender everything
@@ -793,22 +785,24 @@ const Fitness = () => {
   };
 
   // Pseudo-event listener for when numberOfExercises is modified
-  const prevNumberOfExercisesRef = useRef(localStorage.getItem('numberOfExercises'));
+  const prevNumberOfExercisesRef = useRef(
+    localStorage.getItem("numberOfExercises")
+  );
   useEffect(() => {
     const checkLocalStorage = () => {
-      const currentNumberOfExercises = localStorage.getItem('numberOfExercises');
+      const currentNumberOfExercises =
+        localStorage.getItem("numberOfExercises");
       if (currentNumberOfExercises !== prevNumberOfExercisesRef.current) {
         // console.log('numberOfExercises has been modified:', currentNumberOfExercises);
         prevNumberOfExercisesRef.current = currentNumberOfExercises;
         setNumberOfExercises(Number(currentNumberOfExercises)); // Trigger re-render
       }
     };
-    const interval = setInterval(checkLocalStorage, 1000); 
+    const interval = setInterval(checkLocalStorage, 1000);
     return () => {
       clearInterval(interval);
     };
   }, []);
-
 
   // return for Fitness()
   return (
@@ -817,22 +811,20 @@ const Fitness = () => {
       style={fadeIn}
     >
       <h2>{username}'s Workout Plan</h2>
-      
+
       {/* <form id="updateStreaks" onSubmit={updateStreaks}>
         <button type="submit">Test Cron Job</button>
       </form> */}
 
       <Streak />
 
-      <Workout workout={workout} handleOpenModal={handleOpenModal} />
-
       {showModal && (
         <ExerciseModal
           isOpen={showModal}
           onRequestClose={handleCloseModal}
           modalExercise={modalExercise}
-          sex = {sex}
-          />
+          sex={sex}
+        />
       )}
 
       <button
@@ -999,7 +991,9 @@ const Fitness = () => {
               <div>
                 <p>Generating...</p>
                 {/* Bootstrap loadinng circle */}
-                <div id="processing" className="spinner-border" role="status"><span className="sr-only">Loading...</span></div>
+                <div id="processing" className="spinner-border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </div>
               </div>
             ) : (
               "Create new workout plan"

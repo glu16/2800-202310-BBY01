@@ -29,6 +29,10 @@
   margin: 10px;
 }
 
+.fitnessSVG{
+  height: 120px;
+  width: 120px;
+}
 .streakContainer {
   display: flex;
   justify-content: row;
