@@ -42,6 +42,11 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
 
+// TARGETS THE CORS POLICY FOR FITNESS
+app.use(cors({
+  origin: 'https://healthify-app.vercel.app/fitness',
+}));
+
 /*****************GENERAL USE FOR USER DATA RETRIEVAL********************/
 // RETRIEVES THE USER'S DATA FROM THE DATABASE
 app.get("/users/:username", async (req, res) => {
