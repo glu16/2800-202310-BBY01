@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
 import pfpPlaceholder from "../img/placeholder-profile.png";
+import axios from "axios";
 
 
 // The chat message code that displays the chat history
@@ -14,10 +15,8 @@ const ChatMessage = ({ message }) => {
 
   useEffect(() => {
     async function getUserAvatar() {
-      const response = await fetch(`http://localhost:5050/coachPic/${username}`);
-      const data = await response.json();
-      // console.log(data);
-      setUserAvatar(JSON.stringify(data));
+      const response = await axios.get(`http://localhost:5050/coachPic/${username}`);
+      setUserAvatar(response.data);
     }
 
     getUserAvatar();

@@ -17,7 +17,6 @@ async function getWorkout() {
   var response = await axios.get(
     `http://localhost:5050/fitness/${username}`
   );
-  console.log(response.data)
   // check if workouts is empty
   if (response.data === "empty") {
     return "empty";
@@ -28,13 +27,13 @@ async function getWorkout() {
 }
 
 // FUNCTION TO GET USER'S NAME FOR EASTER EGG
-var firstName;
+var firstName = "";
 async function getName() {
   var response = await axios.get(
     `http://localhost:5050/getName/${username}`
   );
   firstName = response.data.firstName;
-
+return firstName;
 }
 getName();
 
@@ -613,7 +612,7 @@ const Fitness = () => {
       return;
     }
     setFormSubmitting(true);
-
+    await axios.put(`http://localhost:${port}/fitness/${username}`)
     // re-enable button after finishing code
     setFormSubmitting(false);
     // reload page so new workout is displayed
