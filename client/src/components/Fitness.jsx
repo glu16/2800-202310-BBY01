@@ -515,7 +515,7 @@ const CompleteExercisesButton = () => {
   return (
     <div onClick={handleClick}>
       <input className="form-check-input" type="checkbox"></input>
-      <label className="form-check-label">&nbsp;Done!</label>
+      <label className={`form-check-label ${styles.doneButton}`}>&nbsp;Done!</label>
     </div>
   );
 };
@@ -798,8 +798,6 @@ const Fitness = () => {
 
       <Streak />
 
-      <Workout workout={workout} handleOpenModal={handleOpenModal} />
-
       {showModal && (
         <ExerciseModal
           isOpen={showModal}
@@ -808,16 +806,6 @@ const Fitness = () => {
           sex={sex}
         />
       )}
-
-      <button
-        id="completeAllButton"
-        className={`btn btn-success ${styles.completeAllButton}`}
-        onClick={completeAllExercises}
-        disabled={
-          numberOfExercises !== 0 || completeAllExercisesClicked || doneToday
-        }>
-        Mark ALL exercises complete!
-      </button>
 
       <button
         onClick={toggleWorkoutFormVisibility}
@@ -832,7 +820,7 @@ const Fitness = () => {
         className={`${styles.workoutForm} ${
           isWorkoutFormVisible ? "" : styles.hidden
         }`}>
-        <form id="addWorkout" onSubmit={addWorkoutToUser}>
+        <form id={styles.addWorkout} onSubmit={addWorkoutToUser}>
           {/* SEND USERNAME FOR DATABASE SEARCH */}
           <input type="hidden" name="username" value={username}></input>
 
@@ -956,6 +944,18 @@ const Fitness = () => {
           </p>
         </form>
       </div>
+      <Workout workout={workout} handleOpenModal={handleOpenModal} />
+
+      <button
+        id="completeAllButton"
+        className={`btn btn-success ${styles.completeAllButton}`}
+        onClick={completeAllExercises}
+        disabled={
+          numberOfExercises !== 0 || completeAllExercisesClicked || doneToday
+        }>
+        Mark ALL exercises complete!
+      </button>
+
     </animated.div>
   );
 };

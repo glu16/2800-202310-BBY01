@@ -25,7 +25,6 @@
 .anExercise {
   border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
-  margin-bottom: 10px;
   padding: 5px;
   min-height: 300px;
   display: flex;
@@ -49,16 +48,22 @@
   align-items: center;
   max-width: 120px;
   margin-right: 20px;
+  margin-top: 30px;
 }
 
 .doneTodaySymbol {
   width: 40px;
   height: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 25px;
+}
+
+.doneLabel {
+  pointer-events: none;
 }
 
 .graphs {
   display: flex;
+  height: 140px;
 }
 
 .graph {
@@ -71,6 +76,10 @@
 .fitnessSVG {
   height: 100px;
   width: 100px;
+}
+
+#addWorkout{
+ margin: 10px;
 }
 
 .workoutForm {
@@ -100,8 +109,18 @@ input[type="checkbox"]:checked + .formButtons {
   background-color: rgb(92, 208, 216);
 }
 
+input[type="checkbox"]:active + .formButtons,
+input[type="checkbox"]:focus + .formButtons {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
 .exerciseButtonsContainer {
   justify-content: center;
+}
+
+.completeAllButton {
+  margin: 20px 0;
 }
 
 .completeAllButton:disabled {
@@ -116,7 +135,7 @@ input[type="checkbox"]:checked + .formButtons {
   margin: 5px;
 }
 
-.modalButton:hover {
+.modalButton:hover, .modalButton:active, .modalButton:focus {
   background-color: hsl(184, 61%, 60%);
   color: black;
 }
@@ -145,11 +164,11 @@ input[type="checkbox"]:checked + .formButtons {
   margin: 5px;
 }
 
+
 .modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: space-around; */
   height: 400px;
   width: 400px;
   position: fixed;
@@ -176,7 +195,7 @@ input[type="checkbox"]:checked + .formButtons {
   display: none;
 }
 
-/* ////////// MEDIA QUERIES /////////////////// */
+/*  MEDIA QUERIES  */
 
 /* phones */
 @media (width <= 767px) {
@@ -191,12 +210,14 @@ input[type="checkbox"]:checked + .formButtons {
   .doneContainer {
     justify-content: flex-start;
     align-items: center;
-    margin: 0 auto;
-    scale: 80%;
+    margin: 20px 10px 10px 10px;
+    font-size: 10pt;
+    /* scale: 80%; */
   }
   
   .doneTodaySymbol{
     margin-top: 10px;
+    margin-bottom: 24px;
   }
   
   .graphs p {
