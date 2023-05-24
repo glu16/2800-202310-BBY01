@@ -15,7 +15,7 @@ const username = localStorage.getItem("username");
 var workout;
 async function getWorkout() {
   var response = await fetch(
-    `https://healthify-server.vercel.app/fitness/${username}`,
+    `http://localhost:5050/fitness/${username}`,
     {
       method: "GET",
       headers: {"Content-Type": "application/json"},
@@ -36,7 +36,7 @@ var firstName;
 var lastName;
 async function getName() {
   var response = await fetch(
-    `https://healthify-server.vercel.app/getName/${username}`,
+    `http://localhost:5050/getName/${username}`,
     {
       method: "GET",
       headers: {"Content-Type": "application/json"},
@@ -53,7 +53,7 @@ getName();
 var doneToday = false;
 async function getDoneToday() {
   var response = await fetch(
-    `https://healthify-server.vercel.app/doneToday/${username}`,
+    `http://localhost:5050/doneToday/${username}`,
     {
       method: "GET",
       headers: {"Content-Type": "application/json"},
@@ -68,7 +68,7 @@ getDoneToday();
 var sex = "male";
 async function getSex() {
   var response = await fetch(
-    `https://healthify-server.vercel.app/getSex/${username}`,
+    `http://localhost:5050/getSex/${username}`,
     {
       method: "GET",
       headers: {"Content-Type": "application/json"},
@@ -548,7 +548,7 @@ const Streak = () => {
   async function getStreak() {
     try {
       const response = await axios.get(
-        `https://healthify-server.vercel.app/streak/${username}`
+        `http://localhost:5050/streak/${username}`
       );
       setCurrentStreak(response.data.currentStreak);
       setLongestStreak(response.data.longestStreak);
@@ -661,7 +661,7 @@ const Fitness = () => {
 
     // call server.js app.put method
     const response = await fetch(
-      `https://healthify-server.vercel.app/fitness/${username}`,
+      `http://localhost:5050/fitness/${username}`,
       {
         method: "PUT",
         headers: {"Content-Type": "application/json"},

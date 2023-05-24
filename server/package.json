@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "proxy": "https://healthify-server.vercel.app",
+  "proxy": "http://localhost:5050",
   "description": "",
   "main": "index.js",
   "scripts": {

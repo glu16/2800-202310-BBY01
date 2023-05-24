@@ -205,6 +205,10 @@ input[type="checkbox"]:focus + .formButtons {
     margin-bottom: 130px;
   }
 
+  .anExercise{
+    margin-top: 20px;
+  }
+
   .exercisesContainer {
     width: 300px;
   }
