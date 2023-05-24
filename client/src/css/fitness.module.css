@@ -14,6 +14,10 @@
   color: white;
 }
 
+.fitnessContainer > h2 {
+  margin-top: 20px;
+}
+
 .day {
   border-radius: 10px;
 }
@@ -23,6 +27,10 @@
   background-color: hsl(0, 0%, 30%);
   margin-bottom: 10px;
   padding: 5px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .anExercise > * {
@@ -40,18 +48,23 @@
   justify-content: center;
   align-items: center;
   max-width: 120px;
+  margin-right: 20px;
 }
 
 .doneTodaySymbol {
   width: 40px;
   height: 40px;
+  margin-bottom: 10px;
+}
+
+.graphs {
+  display: flex;
 }
 
 .graph {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 40px 0 40px;
   height: 150px;
 }
 
@@ -66,6 +79,27 @@
   margin: 10px;
 }
 
+.formButtons{
+  background-color:hsl(184, 61%, 40%);
+  border: none;
+  margin: 3px;
+}
+
+.formButtons:hover{
+    color: white;
+    background-color:hsl(184, 61%, 77%);
+}
+
+input[type="radio"]:checked + .formButtons {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
+input[type="checkbox"]:checked + .formButtons {
+  border-color: rgb(92, 208, 216);
+  background-color: rgb(92, 208, 216);
+}
+
 .exerciseButtonsContainer {
   justify-content: center;
 }
@@ -76,17 +110,32 @@
 }
 
 .modalButton {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: none;
   margin: 5px;
 }
 
+.modalButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
+}
+
 .paginationButton {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: none;
   margin: 5px;
+}
+
+.paginationButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
+}
+
+.paginationButton:active, .paginationButton:focus {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
 }
 
 .paginationButton:disabled {
@@ -130,11 +179,35 @@
 /* ////////// MEDIA QUERIES /////////////////// */
 
 /* phones */
-@media (width <= 721px) {
+@media (width <= 767px) {
+  .fitnessContainer {
+    margin-bottom: 130px;
+  } 
+
+  .exercisesContainer{
+    width: 300px;
+  }
+
+  .doneContainer {
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 auto;
+    scale: 80%;
+  }
+  
+  .doneTodaySymbol{
+    margin-top: 10px;
+  }
+  
+  .graphs p {
+    font-size: 10pt;
+    max-width: 110px;
+  }
+
 }
 
 /* tablets & computers */
-@media (width > 721px) {
+@media (width > 767px) {
   .fitnessContainer {
     margin-top: 160px;
   }
@@ -147,8 +220,10 @@
     grid-gap: 10px;
   }
 
+  .graph{
+    margin: 0 20px 0 20px;
+  }
   .graphs {
-    display: flex;
     justify-content: space-around;
   }
 }

@@ -828,7 +828,7 @@ const Fitness = () => {
             name="intensity"
             value="beginner"
             className="btn-check"></input>
-          <label htmlFor="beginnerOption" className="btn btn-outline-info">
+          <label htmlFor="beginnerOption" className={`btn btn-info ${styles.formButtons}`}>
             Beginner
           </label>
           <input
@@ -838,7 +838,7 @@ const Fitness = () => {
             value="intermediate"
             className="btn-check"
             defaultChecked={true}></input>
-          <label htmlFor="intermediateOption" className="btn btn-outline-info">
+          <label htmlFor="intermediateOption" className={`btn btn-info ${styles.formButtons}`}>
             Intermediate
           </label>
           <input
@@ -847,7 +847,7 @@ const Fitness = () => {
             name="intensity"
             value="expert"
             className="btn-check"></input>
-          <label htmlFor="expertOption" className="btn btn-outline-info">
+          <label htmlFor="expertOption" className={`btn btn-info ${styles.formButtons}`}>
             Expert
           </label>
           <p>Select desired intensity level</p>
@@ -860,7 +860,7 @@ const Fitness = () => {
             name="arms"
             className="btn-check"
             id="arms"></input>
-          <label className="btn btn-outline-info" htmlFor="arms">
+          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="arms">
             Arms
           </label>
           <input
@@ -868,7 +868,7 @@ const Fitness = () => {
             name="legs"
             className="btn-check"
             id="legs"></input>
-          <label className="btn btn-outline-info" htmlFor="legs">
+          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="legs">
             Legs
           </label>
           <input
@@ -876,7 +876,7 @@ const Fitness = () => {
             name="chest"
             className="btn-check"
             id="chest"></input>
-          <label className="btn btn-outline-info" htmlFor="chest">
+          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="chest">
             Chest
           </label>
           <input
@@ -884,7 +884,7 @@ const Fitness = () => {
             name="back"
             className="btn-check"
             id="back"></input>
-          <label className="btn btn-outline-info" htmlFor="back">
+          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="back">
             Back
           </label>
           <input
@@ -892,7 +892,7 @@ const Fitness = () => {
             name="shoulders"
             className="btn-check"
             id="shoulders"></input>
-          <label className="btn btn-outline-info" htmlFor="shoulders">
+          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="shoulders">
             Shoulders
           </label>
           <input
@@ -900,7 +900,7 @@ const Fitness = () => {
             name="core"
             className="btn-check"
             id="core"></input>
-          <label className="btn btn-outline-info" htmlFor="core">
+          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="core">
             Core
           </label>
           <input
@@ -908,7 +908,7 @@ const Fitness = () => {
             name="glutes"
             className="btn-check"
             id="glutes"></input>
-          <label className="btn btn-outline-info" htmlFor="glutes">
+          <label className={`btn btn-info ${styles.formButtons}`} htmlFor="glutes">
             Glutes
           </label>
           <p>Select muscle group(s) you want to focus on</p>
@@ -918,7 +918,7 @@ const Fitness = () => {
           {/* button displays different text if clicked or not clicked */}
           <button
             type="submit"
-            className="btn btn-success"
+            className={`btn btn-info ${styles.formButtons}`}
             disabled={isFormSubmitting}>
             {isFormSubmitting ? (
               <div>
