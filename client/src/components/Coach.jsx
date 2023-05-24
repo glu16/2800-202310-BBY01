@@ -3,6 +3,7 @@ import { useSpring, animated } from "react-spring";
 
 import styles from "../css/coach.module.css";
 import pfpPlaceholder from "../img/placeholder-profile.png";
+import axios from "axios";
 
 
 // The chat message code that displays the chat history
