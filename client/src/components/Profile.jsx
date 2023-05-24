@@ -536,7 +536,7 @@ const Profile = ({ username }) => {
 
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
-        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        `https://healthify-server.vercel.app/users/${localStorage.getItem("username")}`,
         { points: points, challengeId },
         {
           headers: {
@@ -552,7 +552,7 @@ const Profile = ({ username }) => {
 
       // Remove the challenge from the user's "challenges" array in the database
       await axios.delete(
-        `http://localhost:5050/home/challenges/${localStorage.getItem(
+        `https://healthify-server.vercel.app/home/challenges/${localStorage.getItem(
           "username"
         )}/${challengeId}`
       );
