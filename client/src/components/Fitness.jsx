@@ -509,7 +509,6 @@ function Workout({handleOpenModal}) {
 
 // FOR THE TASK COMPLETION BUTTONS
 const CompleteExercisesButton = ({index}) => {
-  console.log(index)
   const [isChecked, setIsChecked] = useState(false);
 
   const handleClick = () => {
@@ -670,11 +669,11 @@ const Fitness = () => {
       }
     );
     const updatedUser = await response.json();
-    console.log(
-      "New workout " +
-        JSON.stringify(updatedUser.workouts) +
-        ` added to ${username}  `
-    );
+    // console.log(
+    //   "New workout " +
+    //     JSON.stringify(updatedUser.workouts) +
+    //     ` added to ${username}  `
+    // );
     // re-enable button after finishing code
     setFormSubmitting(false);
     // reload page so new workout is displayed
@@ -770,7 +769,7 @@ const Fitness = () => {
 
       if (response.ok) {
         // Field update successful
-        console.log("Field updated successfully!");
+        // console.log("Field updated successfully!");
       } else {
         // Field update failed
         console.log("Field update failed!");

@@ -22,7 +22,7 @@ const Home = () => {
           }
         );
         const username = response.data.username;
-        console.log("Logged in user's name:", username);
+        // console.log("Logged in user's name:", username);
       } catch (error) {
         console.error(error.message);
       }
@@ -60,7 +60,7 @@ const Home = () => {
       } else {
         // Assigns the object containing today's exercise to the variable
         const exercisesForToday = response.data[date];
-        console.log(exercisesForToday);
+        // console.log(exercisesForToday);
 
         /* Gets array containing keys of the object. The map() function
         then iterates over each key to create the exerciseDetailsArray */
@@ -291,8 +291,8 @@ const Home = () => {
         }
       );
       const {firstName, points} = response.data;
-      console.log(firstName);
-      console.log(points);
+      // console.log(firstName);
+      // console.log(points);
       setUserName(firstName);
       setUserPoints(points);
     } catch (error) {
@@ -369,8 +369,8 @@ const Home = () => {
         )}`,
         {challengeId, challenge, points}
       );
-      console.log("Response:", response.data);
-      console.log("Challenge added:", challenge);
+      // console.log("Response:", response.data);
+      // console.log("Challenge added:", challenge);
 
       setUserChallenges((prevUserChallenges) => [
         ...prevUserChallenges,
@@ -441,9 +441,9 @@ const Home = () => {
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
-      console.log("handleDoneClick called with challengeId:", challengeId);
-      console.log("Points:", points);
-      console.log("User's current points balance:", userPoints);
+      // console.log("handleDoneClick called with challengeId:", challengeId);
+      // console.log("Points:", points);
+      // console.log("User's current points balance:", userPoints);
 
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
@@ -475,7 +475,7 @@ const Home = () => {
       );
       localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
 
-      console.log("Challenge completed and points added!");
+      // console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);

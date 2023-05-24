@@ -27,7 +27,7 @@ const Leaderboard = () => {
           }
         );
         const username = response.data.username;
-        console.log("Logged in user's name:", username);
+        // console.log("Logged in user's name:", username);
         // localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
@@ -67,7 +67,7 @@ const Leaderboard = () => {
       const response = await axios.get(
         `http://localhost:5050/leaderboard/${localStorage.getItem("username")}`
       );
-      console.log(response.data);
+      // console.log(response.data);
       setFriends(response.data);
     } catch (error) {
       console.error(error);
@@ -167,8 +167,8 @@ const Leaderboard = () => {
   const addFriend = async (friendUsername) => {
     try {
       const username = localStorage.getItem("username");
-      console.log("Specified user's name:", friendUsername);
-      console.log("Logged in user's name:", username);
+      // console.log("Specified user's name:", friendUsername);
+      // console.log("Logged in user's name:", username);
 
       if (friendUsername === username) {
         window.alert("Cannot add yourself as a friend.");
@@ -183,7 +183,7 @@ const Leaderboard = () => {
           }
         );
       }
-      console.log("Done!");
+      // console.log("Done!");
       fetchFriends();
       closeModal();
     } catch (error) {

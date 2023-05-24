@@ -16,7 +16,7 @@ const ChatMessage = ({ message }) => {
     async function getUserAvatar() {
       const response = await fetch(`http://localhost:5050/coachPic/${username}`);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       setUserAvatar(JSON.stringify(data));
     }
 
@@ -111,7 +111,7 @@ const Coach = () => {
           }
         );
         const data3 = await response.json();
-        console.log(data3);
+        // console.log(data3);
         const messages = data3
           .map((item) => {
             return item.messages.split().map((message) => ({
@@ -252,8 +252,8 @@ const Coach = () => {
     });
 
     const data = await response.json();
-    console.log(input);
-    console.log(data);
+    // console.log(input);
+    // console.log(data);
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
     await sendChatLog("gpt", data.message);
