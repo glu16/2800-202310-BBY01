@@ -14,6 +14,10 @@
   color: white;
 }
 
+.fitnessContainer > h2 {
+  margin-top: 20px;
+}
+
 .day {
   border-radius: 10px;
 }
@@ -21,18 +25,17 @@
 .anExercise {
   border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
-  margin-bottom: 10px;
   padding: 5px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .anExercise > * {
   margin: 10px;
 }
 
-.fitnessSVG{
-  height: 120px;
-  width: 120px;
-}
 .streakContainer {
   display: flex;
   justify-content: row;
@@ -49,15 +52,28 @@
 }
 
 .doneTodaySymbol {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 25px;
+}
+
+.doneLabel {
+  pointer-events: none;
+}
+
+.graphs {
+  display: flex;
+  height: 140px;
 }
 
 .graph {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: none;
-  padding: none;
+  height: 150px;
+}
+
+.fitnessSVG {
   height: 100px;
   width: 100px;
 }
@@ -103,13 +119,17 @@ input[type="checkbox"]:focus + .formButtons {
   justify-content: center;
 }
 
+.completeAllButton {
+  margin: 20px 0;
+}
+
 .completeAllButton:disabled {
   background-color: grey;
   border: grey;
 }
 
 .modalButton {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: none;
   margin: 5px;
@@ -123,7 +143,7 @@ input[type="checkbox"]:focus + .formButtons {
 }
 
 .paginationButton {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: none;
   margin: 5px;
@@ -151,14 +171,20 @@ input[type="checkbox"]:focus + .formButtons {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 350px;
-  width: 350px;
+  height: 400px;
+  width: 400px;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   top: 20%;
   background-color: hsl(0, 0%, 30%);
   border-radius: 10px;
+  color: white;
+  font-size: 20pt;
+}
+
+.modal > strong {
+  margin: 10px 0 15px 0;
 }
 
 .modalImage {
@@ -171,8 +197,7 @@ input[type="checkbox"]:focus + .formButtons {
   display: none;
 }
 
-
-/* ////////// MEDIA QUERIES /////////////////// */
+/*  MEDIA QUERIES  */
 
 /* phones */
 @media (width <= 767px) {
@@ -204,12 +229,11 @@ input[type="checkbox"]:focus + .formButtons {
 }
 
 /* tablets & computers */
-@media (width > 721px) {
-
+@media (width > 767px) {
   .fitnessContainer {
     margin-top: 160px;
   }
-  
+
   /* multiple column grids */
   .exercisesContainer {
     width: 85vw;
@@ -222,10 +246,6 @@ input[type="checkbox"]:focus + .formButtons {
     margin: 0 20px 0 20px;
   }
   .graphs {
-    display: flex;
+    justify-content: space-around;
   }
 }
-
-
-
-
