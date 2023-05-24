@@ -105,7 +105,7 @@ const Home = () => {
     }
     return (
       <div className={styles.graph}>
-        <svg
+        <svg className={styles.homeSVG}
         // view= x, y, width, height
           viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
           width={svgSize}
@@ -158,7 +158,7 @@ const Home = () => {
     }
     return (
       <div className={styles.graph}>
-  <svg
+   <svg className={styles.homeSVG}
         // view= x, y, width, height
           viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
           width={svgSize}
@@ -204,7 +204,7 @@ const Home = () => {
       const username = localStorage.getItem("username");
       try {
         const response = await axios.get(`https://healthify-server.vercel.app/streak/${username}`);
-        
+
         setCurrentStreak(response.data.currentStreak);
         setLongestStreak(response.data.longestStreak);
         setDoneToday(response.data.doneToday);
