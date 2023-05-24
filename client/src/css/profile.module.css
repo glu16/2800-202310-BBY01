@@ -14,7 +14,19 @@
   color: rgb(92, 208, 216);
   background-color: #474747;
   margin-top: 6px;
+  width: 100%;
+  align-items: stretch;
+  position: sticky;
+  top: 0;
 }
+
+.challengesHeader > h1 {
+  color: rgb(92, 208, 216);
+  min-height: 48px;
+  margin: 5px 0;
+  padding-top: 2px;
+}
+
 
 .challengeItem {
   display: flex;

@@ -27,7 +27,7 @@ const Profile = ({ username }) => {
           }
         );
         const username = response.data.username;
-        console.log("Logged in user's name:", username);
+        // console.log("Logged in user's name:", username);
       } catch (error) {
         console.error(error.message);
       }
@@ -132,27 +132,27 @@ const Profile = ({ username }) => {
   const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
-    console.log(input.files[0]);
+    // console.log(input.files[0]);
   };
 
   // Executes the image upload to store the URL in the database
   const handleImageUpload = async () => {
     try {
       let imageURL = "";
-      console.log(image);
+      // console.log(image);
       if (image) {
-        console.log("Inside image upload");
-        console.log(image);
+        // console.log("Inside image upload");
+        // console.log(image);
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "healthify-app");
-        console.log(formData);
+        // console.log(formData);
         const dataRes = await axios.post(
           "https://api.cloudinary.com/v1_1/dqhi5isl1/image/upload",
           formData
         );
         imageURL = dataRes.data.url;
-        console.log("******" + imageURL);
+        // console.log("******" + imageURL);
 
         const submitPost = {
           image: imageURL,
@@ -259,7 +259,7 @@ const Profile = ({ username }) => {
       !heightValid ||
       !weightValid
     ) {
-      console.log(error);
+      // console.log(error);
       return;
     }
 
@@ -271,7 +271,6 @@ const Profile = ({ username }) => {
 
       // Updates localStorage with newly entered username
       localStorage.setItem("username", data.username);
-      console.log(data.age);
       setShowModal(true);
       setShowAlert(true);
       fetchUserData();
@@ -292,7 +291,7 @@ const Profile = ({ username }) => {
       const response = await axios.get(
         `http://localhost:5050/leaderboard/${localStorage.getItem("username")}`
       );
-      console.log(response.data);
+      // console.log(response.data);
       setFriends(response.data);
     } catch (error) {
       console.error(error);
@@ -386,8 +385,8 @@ const Profile = ({ username }) => {
   const deleteFriend = async (friendId) => {
     try {
       const username = localStorage.getItem("username");
-      console.log("Friend's ID:", friendId);
-      console.log("Logged in user's ID", username);
+      // console.log("Friend's ID:", friendId);
+      // console.log("Logged in user's ID", username);
 
       await axios.delete(`http://localhost:5050/profile/${friendId}`, {
         data: {
@@ -395,7 +394,7 @@ const Profile = ({ username }) => {
         },
       });
 
-      console.log("Friend removed successfully!");
+      // console.log("Friend removed successfully!");
       closeModal();
     } catch (error) {
       console.error(error);
@@ -490,11 +489,11 @@ const Profile = ({ username }) => {
   useEffect(() => {
     const fetchChallenges = async () => {
       try {
-        console.log("Logged in user's name:", localStorage.getItem("username"));
+        // console.log("Logged in user's name:", localStorage.getItem("username"));
         const response = await axios.get(
           `http://localhost:5050/profile/${localStorage.getItem("username")}`
         );
-        console.log(response.data);
+        // console.log(response.data);
         setChallenges(response.data);
       } catch (error) {
         console.error(error);
@@ -530,9 +529,9 @@ const Profile = ({ username }) => {
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
-      console.log("handleDoneClick called with challengeId:", challengeId);
-      console.log("Points:", points);
-      console.log("User's current points balance:", userPoints);
+      // console.log("handleDoneClick called with challengeId:", challengeId);
+      // console.log("Points:", points);
+      // console.log("User's current points balance:", userPoints);
 
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
@@ -564,7 +563,7 @@ const Profile = ({ username }) => {
       );
       localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
 
-      console.log("Challenge completed and points added!");
+      // console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);
@@ -708,8 +707,8 @@ const Profile = ({ username }) => {
             <div
               className={`d-flex flex-column align-items-center text-center ${styles.friendsList}`}
             >
-              <div>
-                <h1 className={styles.challengesHeader}>Active Challenges</h1>
+              <div className={styles.challengesHeader}>
+                <h1>Active Challenges</h1>
               </div>
 
               {challenges.length > 0 ? (
