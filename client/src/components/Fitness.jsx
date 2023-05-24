@@ -14,65 +14,47 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT
 var workout;
 async function getWorkout() {
-  var response = await fetch(
-    `http://localhost:5050/fitness/${username}`,
-    {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-    }
+  var response = await axios.get(
+    `http://localhost:5050/fitness/${username}`
   );
-  var data = await response.json();
+  console.log(response.data)
   // check if workouts is empty
-  if (data === "empty") {
+  if (response.data === "empty") {
     return "empty";
   } else {
-    workout = data;
-    return data;
+    workout = response.data;
+    return response.data;
   }
 }
 
 // FUNCTION TO GET USER'S NAME FOR EASTER EGG
 var firstName;
 async function getName() {
-  var response = await fetch(
-    `http://localhost:5050/getName/${username}`,
-    {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-    }
+  var response = await axios.get(
+    `http://localhost:5050/getName/${username}`
   );
-  var data = await response.json();
-  firstName = data.firstName;
+  firstName = response.data.firstName;
+
 }
 getName();
 
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
-  var response = await fetch(
-    `http://localhost:5050/doneToday/${username}`,
-    {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-    }
+  var response = await axios.get(
+    `http://localhost:5050/doneToday/${username}`
   );
-  var data = await response.json();
-  doneToday = data;
+  doneToday = response.data;
 }
 getDoneToday();
 
 // GET USER'S SEX FOR MODAL PICTURES
 var sex = "male";
 async function getSex() {
-  var response = await fetch(
-    `http://localhost:5050/getSex/${username}`,
-    {
-      method: "GET",
-      headers: {"Content-Type": "application/json"},
-    }
+  var response = await axios.get(
+    `http://localhost:5050/getSex/${username}`
   );
-  var data = await response.json();
-  sex = data.toLowerCase();
+  sex = response.data.toLowerCase();
 }
 getSex();
 
@@ -712,18 +694,7 @@ const Fitness = () => {
 
     // incriment the user field: streak
     try {
-      const response = await fetch(
-        `http://localhost:${port}/fitness/${username}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username, // Replace with the actual username
-          }),
-        }
-      );
+      const response = await axios.post(`http://localhost:${port}/fitness/${username}`);
 
       if (response.ok) {
         // Field update successful
@@ -735,9 +706,6 @@ const Fitness = () => {
     } catch (error) {
       console.log("Error updating field:", error);
     }
-
-    // reload page to rerender everything
-    window.location.reload();
 
     // console.log("All exercises complete! Bottom");
   };
