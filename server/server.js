@@ -1085,7 +1085,6 @@ app.delete("/profile/:friendId", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
 /**********END OF PROFILE ROUTES************/
 
 /**********SETTINGS ROUTES************/
