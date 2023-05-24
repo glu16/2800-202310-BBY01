@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
-import { ProgressBar } from "react-step-progress-bar";
+import React, {useState, useEffect} from "react";
+import {useSpring, animated} from "react-spring";
+import {ProgressBar} from "react-step-progress-bar";
 import axios from "axios";
-import { addScaleCorrector, Reorder } from "framer-motion";
+import {Reorder} from "framer-motion";
+import {VictoryPie, VictoryLabel} from "victory";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
@@ -13,7 +14,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `https://healthify-server.vercel.app/users/${localStorage.getItem("username")}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -47,7 +48,7 @@ const Home = () => {
   async function fetchExercises() {
     try {
       const response = await axios.get(
-        `https://healthify-server.vercel.app/fitness/${localStorage.getItem("username")}`,
+        `http://localhost:5050/fitness/${localStorage.getItem("username")}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -87,10 +88,198 @@ const Home = () => {
   const [items, setItems] = useState(["rest day"]);
   // End of fetchExercises function
 
+  const CirclePercentDaysDone = ({percentDaysDone}) => {
+    const data = [
+      {x: 1, y: percentDaysDone},
+      {x: 2, y: 100 - percentDaysDone},
+    ];
+    const svgSize = 150; // Adjust the size of the SVG container
+    const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
+    let color;
+    if (percentDaysDone >= 66) {
+      color = "green";
+    } else if (percentDaysDone >= 33) {
+      color = "yellow";
+    } else {
+      color = "red";
+    }
+    return (
+      <div className={styles.graph}>
+        <svg
+        // view= x, y, width, height
+          viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+          width={svgSize}
+          height={svgSize}
+        >
+          <VictoryPie
+            standalone={false}
+            width={svgSize}
+            height={svgSize}
+            data={data}
+            innerRadius={radius - 10}
+            cornerRadius={25}
+            labels={() => null}
+            style={{
+              data: {
+                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+              },
+            }}
+          />
+          <VictoryLabel
+            textAnchor="middle"
+            verticalAnchor="middle"
+            x={svgSize / 2}
+            y={svgSize / 2}
+            text={`${percentDaysDone}%`}
+            style={{fontSize: 20, fill: "white"}}
+          />
+        </svg>
+        <p>Workout Completion Rate</p>
+      </div>
+    );
+  };
+
+  const CircleStreak = ({currentStreak, longestStreak}) => {
+    const percentStreak = (100 * currentStreak) / longestStreak;
+    const data = [
+      {x: 1, y: percentStreak},
+      {x: 2, y: 100 - percentStreak},
+    ];
+    const svgSize = 150; // Adjust the size of the SVG container
+    const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
+    const fontSize = 20; // Adjust the font size of the label
+    let color;
+    if (percentStreak == 100) {
+      color = "green";
+    } else if (percentStreak >= 50) {
+      color = "yellow";
+    } else {
+      color = "red";
+    }
+    return (
+      <div className={styles.graph}>
+  <svg
+        // view= x, y, width, height
+          viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+          width={svgSize}
+          height={svgSize}
+        >
+          <VictoryPie
+            standalone={false}
+            width={svgSize}
+            height={svgSize}
+            data={data}
+            innerRadius={radius - 10}
+            cornerRadius={25}
+            labels={() => null}
+            style={{
+              data: {
+                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+              },
+            }}
+          />
+          <VictoryLabel
+            textAnchor="middle"
+            verticalAnchor="middle"
+            x={svgSize / 2}
+            y={svgSize / 2}
+            text={` ${currentStreak} / ${longestStreak} \n days`}
+            style={{fontSize: 16, fill: "white"}}
+          />
+        </svg>
+        <p>Current vs Longest Streak</p>
+      </div>
+    );
+  };
+
+  // GET AND DISPLAY STREAK AND STATS
+  const Streak = () => {
+    const [currentStreak, setCurrentStreak] = useState(null);
+    const [longestStreak, setLongestStreak] = useState(null);
+    const [doneToday, setDoneToday] = useState(null);
+    const [daysDone, setDaysDone] = useState(null);
+    const [daysMissed, setDaysMissed] = useState(null);
+    // FUNCTION GETS USER STREAK STATS FROM DATABASE
+    async function getStreak() {
+      const username = localStorage.getItem("username");
+      try {
+        const response = await fetch(
+          `https://healthify-server.vercel.app/streak/${username}`,
+          {
+            method: "GET",
+            headers: {"Content-Type": "application/json"},
+          }
+        );
+        const data = await response.json();
+        setCurrentStreak(data.currentStreak);
+        setLongestStreak(data.longestStreak);
+        setDoneToday(data.doneToday);
+        setDaysDone(data.daysDone);
+        setDaysMissed(data.daysMissed);
+      } catch (error) {
+        // Handle any errors that occur during the fetch
+        console.error("Error fetching streak:", error);
+      }
+    }
+    useEffect(() => {
+      getStreak();
+    }, []); // Empty dependency array ensures the effect runs only once, similar to componentDidMount
+
+    // Render loading state if streak data is not yet available
+    if (currentStreak === null || longestStreak === null) {
+      return <div>Loading streak...</div>;
+    }
+
+    // set which symbol via url to display if today's workout is done or not
+    var doneTodaySymbol;
+    var doneTodayMessage;
+    if (doneToday) {
+      doneTodaySymbol =
+        "https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png";
+      doneTodayMessage = "Exercises for today completed!";
+    } else {
+      doneTodaySymbol =
+        "https://res.cloudinary.com/dqhi5isl1/image/upload/v1684885670/675px-White_X_in_red_background2_l79org.png";
+      doneTodayMessage = "Exercises not completed";
+    }
+
+    var percentDaysDone = Math.floor((100 * daysDone) / (daysDone + daysMissed));
+    // to prevent NaN error dividing 0
+    if (daysDone + daysMissed == 0) {
+      percentDaysDone = 0;
+    }
+
+    return (
+      <div id="streakContainer" className={styles.streakContainer}>
+        <div className={styles.doneContainer}>
+          <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
+          <p>{doneTodayMessage}</p>
+        </div>
+
+        {/* <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} /> */}
+
+          <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
+          <CircleStreak
+            currentStreak={currentStreak}
+            longestStreak={longestStreak}
+          />
+
+
+        {/* Current streak: {currentStreak} 
+      <br />
+      Longest streak: {longestStreak} 
+      <br />
+      Days completed: {daysDone}
+      <br />
+      Days missed: {daysMissed} */}
+      </div>
+    );
+  };
+
   // Text animation
   const greetings = useSpring({
     opacity: 1,
-    from: { opacity: 0 },
+    from: {opacity: 0},
     delay: 300,
   });
 
@@ -100,14 +289,14 @@ const Home = () => {
   async function fetchUserData() {
     try {
       const response = await axios.get(
-        `https://healthify-server.vercel.app/users/${localStorage.getItem("username")}`,
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         }
       );
-      const { firstName, points } = response.data;
+      const {firstName, points} = response.data;
       console.log(firstName);
       console.log(points);
       setUserName(firstName);
@@ -137,7 +326,7 @@ const Home = () => {
         if (storedDate === currentDate && storedTip) {
           setTip(storedTip);
         } else {
-          const response = await axios.get("https://healthify-server.vercel.app/home/tips");
+          const response = await axios.get("http://localhost:5050/home/tips");
           const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);
@@ -160,7 +349,7 @@ const Home = () => {
     try {
       const username = localStorage.getItem("username");
       const response = await axios.get(
-        `https://healthify-server.vercel.app/home/challenges/${username}`
+        `http://localhost:5050/home/challenges/${username}`
       );
       setChallenges(response.data);
     } catch (error) {
@@ -181,10 +370,10 @@ const Home = () => {
   const addChallenge = async (challengeId, challenge, points) => {
     try {
       const response = await axios.post(
-        `https://healthify-server.vercel.app/home/challenges/${localStorage.getItem(
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
           "username"
         )}`,
-        { challengeId, challenge, points }
+        {challengeId, challenge, points}
       );
       console.log("Response:", response.data);
       console.log("Challenge added:", challenge);
@@ -264,8 +453,8 @@ const Home = () => {
 
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
-        `https://healthify-server.vercel.app/users/${localStorage.getItem("username")}`,
-        { points: points, challengeId },
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        {points: points, challengeId},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -280,7 +469,7 @@ const Home = () => {
 
       // Remove the challenge from the user's "challenges" array in the database
       await axios.delete(
-        `https://healthify-server.vercel.app/home/challenges/${localStorage.getItem(
+        `http://localhost:5050/home/challenges/${localStorage.getItem(
           "username"
         )}/${challengeId}`
       );
@@ -335,7 +524,8 @@ const Home = () => {
     <div className={`row justify-content- ${styles.cardWrapper}`}>
       <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.homeCard}`}
-        style={greetings}>
+        style={greetings}
+      >
         <div className="card-body">
           <div className="d-flex flex-column align-items-center text-center">
             <animated.h1 className={styles.homeHeader} style={greetings}>
@@ -352,7 +542,8 @@ const Home = () => {
       </animated.div>
       <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.challengeCard}`}
-        style={greetings}>
+        style={greetings}
+      >
         <animated.div className="card-body" style={greetings}>
           <div className={styles.challengeInnerCard}>
             <h1 className={styles.challengeHeader} style={greetings}>
@@ -376,7 +567,8 @@ const Home = () => {
                         className={`btn btn-success ${styles.challengeBtn}`}
                         onClick={() => {
                           handleDoneClick(challenge._id, challenge.points);
-                        }}>
+                        }}
+                      >
                         Done
                       </button>
                     ) : (
@@ -384,7 +576,8 @@ const Home = () => {
                         className={`btn btn-primary ${styles.challengeBtn}`}
                         onClick={() =>
                           handleAddChallenge(challenge._id, challenge.points)
-                        }>
+                        }
+                      >
                         Add Challenge
                       </button>
                     )}
@@ -403,7 +596,8 @@ const Home = () => {
 
       <animated.div
         className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.diet}`}
-        style={greetings}>
+        style={greetings}
+      >
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
@@ -414,32 +608,25 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleDietProgressChange(25)}>
+            onClick={() => handleDietProgressChange(25)}
+          >
             Update Progress
           </button>
         </div>
       </animated.div>
       <animated.div
         className={`col-md mx-md-3 h-100 ${styles.progressCard} ${styles.fitness}`}
-        style={greetings}>
+        style={greetings}
+      >
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
-          <div className={styles.progressBarContainer}>
-            <ProgressBar
-              percent={fitnessProgress}
-              filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
-            />
-          </div>
-          <button
-            className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleFitnessProgressChange(25)}>
-            Update Progress
-          </button>
+            <Streak/>
         </div>
       </animated.div>
       <animated.div
         className={`d-flex justify-content-center align-items-center h-100 ${styles.progressCard} ${styles.draggableList}`}
-        style={greetings}>
+        style={greetings}
+      >
         <animated.div className={styles.progressInnerCard} style={greetings}>
           <Reorder.Group onReorder={setItems} values={items}>
             <p className={styles.exerciseDate}>Exercises for {date}</p>
