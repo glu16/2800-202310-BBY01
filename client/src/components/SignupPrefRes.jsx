@@ -18,7 +18,7 @@ function SignupPrefRes() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = `http://localhost:5050/signupPrefRes/${localStorage.getItem(
+      const url = `https://healthify-enxj.onrender.com/signupPrefRes/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
@@ -32,7 +32,7 @@ function SignupPrefRes() {
       // Generates and stores the user's workout plan
       const data2 = { [workoutKey]: workout };
       const workoutRequest = fetch(
-        `http://localhost:5050/fitness/${localStorage.getItem("username")}`,
+        `https://healthify-enxj.onrender.com/fitness/${localStorage.getItem("username")}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -46,7 +46,7 @@ function SignupPrefRes() {
       // Generates and stores the user's diet plan
       const data3 = { [mealKey]: diet };
       const dietRequest = fetch(
-        `http://localhost:5050/diet/${localStorage.getItem("username")}`,
+        `https://healthify-enxj.onrender.com/diet/${localStorage.getItem("username")}`,
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

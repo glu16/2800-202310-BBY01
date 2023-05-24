@@ -27,7 +27,7 @@ const Settings = () => {
     try {
       const username = localStorage.getItem("username");
       await axios.post(
-        `http://localhost:5050/settings/${username}`,
+        `https://healthify-enxj.onrender.com/settings/${username}`,
         notificationSettings
       );
     } catch (error) {
@@ -44,7 +44,7 @@ const Settings = () => {
     try {
       const username = localStorage.getItem("username");
       const response = await axios.get(
-        `http://localhost:5050/settings/${username}`
+        `https://healthify-enxj.onrender.com/settings/${username}`
       );
 
       // Sets retrieved settings as initial values for attributes of notifcationSettings

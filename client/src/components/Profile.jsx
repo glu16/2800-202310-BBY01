@@ -19,7 +19,7 @@ const Profile = ({ username }) => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `http://localhost:5050/users/${localStorage.getItem("username")}`,
+          `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,7 +57,7 @@ const Profile = ({ username }) => {
   async function fetchUserData() {
     try {
       const response = await axios.get(
-        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -158,7 +158,7 @@ const Profile = ({ username }) => {
           image: imageURL,
         };
         await axios.post(
-          `http://localhost:5050/pfp/${localStorage.getItem("username")}`,
+          `https://healthify-enxj.onrender.com/pfp/${localStorage.getItem("username")}`,
           submitPost
         );
       } else {
@@ -264,7 +264,7 @@ const Profile = ({ username }) => {
     }
 
     try {
-      const url = `http://localhost:5050/profile/${localStorage.getItem(
+      const url = `https://healthify-enxj.onrender.com/profile/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);
@@ -289,7 +289,7 @@ const Profile = ({ username }) => {
   const fetchFriends = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5050/leaderboard/${localStorage.getItem("username")}`
+        `https://healthify-enxj.onrender.com/leaderboard/${localStorage.getItem("username")}`
       );
       // console.log(response.data);
       setFriends(response.data);
@@ -388,7 +388,7 @@ const Profile = ({ username }) => {
       // console.log("Friend's ID:", friendId);
       // console.log("Logged in user's ID", username);
 
-      await axios.delete(`http://localhost:5050/profile/${friendId}`, {
+      await axios.delete(`https://healthify-enxj.onrender.com/profile/${friendId}`, {
         data: {
           username: username,
         },
@@ -491,7 +491,7 @@ const Profile = ({ username }) => {
       try {
         // console.log("Logged in user's name:", localStorage.getItem("username"));
         const response = await axios.get(
-          `http://localhost:5050/profile/${localStorage.getItem("username")}`
+          `https://healthify-enxj.onrender.com/profile/${localStorage.getItem("username")}`
         );
         // console.log(response.data);
         setChallenges(response.data);
@@ -535,7 +535,7 @@ const Profile = ({ username }) => {
 
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
-        `http://localhost:5050/users/${localStorage.getItem("username")}`,
+        `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
         { points: points, challengeId },
         {
           headers: {
@@ -551,7 +551,7 @@ const Profile = ({ username }) => {
 
       // Remove the challenge from the user's "challenges" array in the database
       await axios.delete(
-        `http://localhost:5050/home/challenges/${localStorage.getItem(
+        `https://healthify-enxj.onrender.com/home/challenges/${localStorage.getItem(
           "username"
         )}/${challengeId}`
       );
@@ -586,7 +586,7 @@ const Profile = ({ username }) => {
   const handleRemoveChallenge = async (challengeId) => {
     try {
       await axios.delete(
-        `http://localhost:5050/home/challenges/${localStorage.getItem(
+        `https://healthify-enxj.onrender.com/home/challenges/${localStorage.getItem(
           "username"
         )}/${challengeId}`
       );

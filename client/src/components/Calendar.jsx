@@ -14,7 +14,7 @@ const Calendar = () => {
     async function fetchWorkout() {
       try {
         const response = await fetch(
-          `http://localhost:5050/fitness/${localStorage.getItem(
+          `https://healthify-enxj.onrender.com/fitness/${localStorage.getItem(
             "username"
           )}`
         );

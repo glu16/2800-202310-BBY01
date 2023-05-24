@@ -22,7 +22,7 @@ function SignupDetails() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = `http://localhost:5050/signupdetails/${localStorage.getItem(
+      const url = `https://healthify-enxj.onrender.com/signupdetails/${localStorage.getItem(
         "username"
       )}`;
       const { data: res } = await axios.post(url, data);

@@ -10,7 +10,7 @@ import axios from "axios";
 const username = localStorage.getItem("username");
 
 async function getDiet() {
-  var response = await axios.get(`http://localhost:5050/diet/${username}`);
+  var response = await axios.get(`https://healthify-enxj.onrender.com/diet/${username}`);
   // check if diets are empty
   if (response.data === "empty") {
     return "empty";
@@ -234,7 +234,7 @@ const DietPlan = () => {
 
     const data = {[mealKey]: diet};
     await axios.put(
-      `http://localhost:5050/diet/${localStorage.getItem("username")}`
+      `https://healthify-enxj.onrender.com/diet/${localStorage.getItem("username")}`
     );
 
     // re-enable button after finishing code

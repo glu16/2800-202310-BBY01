@@ -15,7 +15,7 @@ const username = localStorage.getItem("username");
 var workout;
 async function getWorkout() {
   var response = await axios.get(
-    `http://localhost:5050/fitness/${username}`
+    `https://healthify-enxj.onrender.com/fitness/${username}`
   );
   console.log(response.data)
   // check if workouts is empty
@@ -31,7 +31,7 @@ async function getWorkout() {
 var firstName;
 async function getName() {
   var response = await axios.get(
-    `http://localhost:5050/getName/${username}`
+    `https://healthify-enxj.onrender.com/getName/${username}`
   );
   firstName = response.data.firstName;
 
@@ -42,7 +42,7 @@ getName();
 var doneToday = false;
 async function getDoneToday() {
   var response = await axios.get(
-    `http://localhost:5050/doneToday/${username}`
+    `https://healthify-enxj.onrender.com/doneToday/${username}`
   );
   doneToday = response.data;
 }
@@ -52,7 +52,7 @@ getDoneToday();
 var sex = "male";
 async function getSex() {
   var response = await axios.get(
-    `http://localhost:5050/getSex/${username}`
+    `https://healthify-enxj.onrender.com/getSex/${username}`
   );
   sex = response.data.toLowerCase();
 }
@@ -518,7 +518,7 @@ const Streak = () => {
   async function getStreak() {
     try {
       const response = await axios.get(
-        `http://localhost:5050/streak/${username}`
+        `https://healthify-enxj.onrender.com/streak/${username}`
       );
       setCurrentStreak(response.data.currentStreak);
       setLongestStreak(response.data.longestStreak);
