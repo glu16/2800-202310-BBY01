@@ -14,7 +14,7 @@ const Calendar = () => {
     async function fetchWorkout() {
       try {
         const response = await fetch(
-          `https://healthify-server.vercel.app/fitness/${localStorage.getItem(
+          `http://localhost:5050/fitness/${localStorage.getItem(
             "username"
           )}`
         );

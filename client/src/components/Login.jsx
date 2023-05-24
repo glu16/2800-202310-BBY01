@@ -20,7 +20,7 @@ function Login({ setToken }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const url = "https://healthify-server.vercel.app/api/auth";
+      const url = "http://localhost:5050/api/auth";
       const { data: res } = await axios.post(url, data);
       setToken(res.data.token);
       localStorage.setItem("email", res.data.userEmail)

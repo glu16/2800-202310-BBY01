@@ -203,7 +203,7 @@ const Home = () => {
     async function getStreak() {
       const username = localStorage.getItem("username");
       try {
-        const response = await axios.get(`https://healthify-server.vercel.app/streak/${username}`);
+        const response = await axios.get(`http://localhost:5050/streak/${username}`);
 
         setCurrentStreak(response.data.currentStreak);
         setLongestStreak(response.data.longestStreak);
