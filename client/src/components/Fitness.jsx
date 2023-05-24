@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from "react";
 import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
-import { VictoryPie, VictoryLabel } from 'victory';
+import {useSpring, animated} from "react-spring";
+import {VictoryPie, VictoryLabel} from "victory";
+import axios from "axios";
 
 // import server hosting port
 const port = "5050";
@@ -12,10 +14,13 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
 var workout;
 async function getWorkout() {
-  var response = await fetch(`http://localhost:5050/fitness/${username}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  var response = await fetch(
+    `https://healthify-server.vercel.app/fitness/${username}`,
+    {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }
+  );
   var data = await response.json();
   // check if workouts is empty
   if (data == "empty") {
@@ -30,10 +35,13 @@ async function getWorkout() {
 var firstName;
 var lastName;
 async function getName() {
-  var response = await fetch(`http://localhost:5050/getName/${username}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  var response = await fetch(
+    `https://healthify-server.vercel.app/getName/${username}`,
+    {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }
+  );
   var data = await response.json();
   firstName = data.firstName;
   lastName = data.lastName;
@@ -44,10 +52,13 @@ getName();
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
-  var response = await fetch(`http://localhost:5050/doneToday/${username}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  var response = await fetch(
+    `https://healthify-server.vercel.app/doneToday/${username}`,
+    {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }
+  );
   var data = await response.json();
   doneToday = data;
 }
@@ -57,10 +68,13 @@ getDoneToday();
 // GET USER'S SEX FOR MODAL PICTURES
 var sex = "male";
 async function getSex() {
-  var response = await fetch(`http://localhost:5050/getSex/${username}`, {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  });
+  var response = await fetch(
+    `https://healthify-server.vercel.app/getSex/${username}`,
+    {
+      method: "GET",
+      headers: {"Content-Type": "application/json"},
+    }
+  );
   var data = await response.json();
   sex = data.toLowerCase();
 }
@@ -90,7 +104,15 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
   }
   return (
     <div className={styles.graph}>
-      <svg viewBox={`0 0 ${svgSize} ${svgSize} ${viewBoxHeight}`} width={svgSize} height={svgSize}>
+      <svg
+        className={styles.fitnessSVG}
+        // view= x, y, width, height
+        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+          svgSize / 1.7
+        }`}
+        width={svgSize}
+        height={svgSize}
+      >
         <VictoryPie
           standalone={false}
           width={svgSize}
@@ -119,31 +141,34 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
   );
 };
 
-const CircleStreak = ({ currentStreak, longestStreak }) => {
-  const percentStreak = 100 * currentStreak / longestStreak;
+const CircleStreak = ({currentStreak, longestStreak}) => {
+  const percentStreak = (100 * currentStreak) / longestStreak;
   const data = [
-    { x: 1, y: percentStreak },
-    { x: 2, y: 100 - percentStreak },
+    {x: 1, y: percentStreak},
+    {x: 2, y: 100 - percentStreak},
   ];
-  const svgSize = 180; // Adjust the size of the SVG container
-  const radius = (svgSize - 100) / 2; // Adjust the radius of the circle
-  const fontSize = 16; // Adjust the font size of the label
-  const viewBoxHeight = svgSize / 2; // Adjust the viewBox height
+  const svgSize = 150; // Adjust the size of the SVG container
+  const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
+  const fontSize = 20; // Adjust the font size of the label
   let color;
   if (percentStreak == 100) {
-    color = 'green';
+    color = "green";
   } else if (percentStreak >= 50) {
-    color = 'yellow';
+    color = "yellow";
   } else {
-    color = 'red';
-  }
-  let colornull = 'transparent'
-  if (currentStreak == 0) {
-    colornull = 'whitesmoke'
+    color = "red";
   }
   return (
     <div className={styles.graph}>
-      <svg viewBox={`0 0 ${svgSize} ${svgSize} ${viewBoxHeight}`} width={svgSize} height={svgSize}>
+      <svg
+        className={styles.fitnessSVG}
+        // view= x, y, width, height
+        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+          svgSize / 1.7
+        }`}
+        width={svgSize}
+        height={svgSize}
+      >
         <VictoryPie
           standalone={false}
           width={svgSize}
@@ -154,7 +179,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           labels={() => null}
           style={{
             data: {
-              fill: ({ datum }) => (datum.x === 1 ? color : colornull),
+              fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
             },
           }}
         />
@@ -164,7 +189,7 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={` ${currentStreak} / ${longestStreak} \n days`}
-          style={{ fontSize: fontSize, fill: 'white'}}
+          style={{fontSize: 16, fill: "white"}}
         />
       </svg>
       <p>Current vs Longest Streak</p>
@@ -174,7 +199,12 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
 
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
-function Workout({ handleOpenModal }) {
+function Workout({handleOpenModal}) {
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: {opacity: 0},
+    delay: 300,
+  });
 
   const [workout, setWorkout] = useState(null);
 
@@ -253,7 +283,11 @@ function Workout({ handleOpenModal }) {
                   // if this page is today
                   if (key == today) {
                     return (
-                      <div key={index} className={styles.day}>
+                      <animated.div
+                        key={index}
+                        className={styles.day}
+                        style={fadeIn}
+                      >
                         <h5>Today, {key}:</h5> Rest day
                       </div>
                     );
@@ -327,56 +361,79 @@ function Workout({ handleOpenModal }) {
             })}
 
 
-            {/* this opens up images for the exercise */}
-            <div className={styles.exerciseButtonsContainer}>
-            <button onClick={handleOpenModal} className={`btn btn-info ${styles.modalButton}`}>Help</button>
-            </div>
-          </div>
+                {/* this opens up images for the exercise */}
+                <div className={styles.exerciseButtonsContainer}>
+                  <button
+                    onClick={handleOpenModal}
+                    className={`btn btn-info ${styles.modalButton}`}
+                  >
+                    Help
+                  </button>
+                </div>
+              </div>
+            );
+          });
+        }
 
-          );
-        });
-      }
+        // for the sublevel exercise object inside day object
+        function renderExerciseToday(exerciseObj) {
+          // EASTER EGG Stuff
+          const isSaitama = firstName.toLowerCase() == "saitama";
 
-      // for the sublevel exercise object inside day object
-      function renderExerciseToday(exerciseObj) {
-        
-
-
-        // EASTER EGG Stuff
-        const isSaitama = firstName.toLowerCase() == "saitama";
-        
-        return Object.keys(exerciseObj).map((exerciseKey, index) => {
-          return (
-            // EASTER EGG STUFF
-            <div
-            key={index}
-            className={`${styles.anExercise} ${isSaitama ? styles.saitamaStyle : ""}`}
-            style={isSaitama ? { backgroundImage: "url('https://staticg.sportskeeda.com/editor/2022/04/8e856-16505616347217-1920.jpg')", opacity: 1, backgroundSize: "100% 100%" } : null}
-            >
-
-              {Object.entries(exerciseObj[exerciseKey]).map(([detailKey, detailValue]) => {
-
-                if (detailKey == "name") {
-                  return <strong key={detailKey} className={styles.aKey}>{detailValue}</strong>;
-                } else if (detailKey == "setsAndReps") {
-                  return <div key={detailKey} className={styles.aKey}>{detailValue}</div>;
-                } else if (detailKey == "calories") {
-                  return (
-                    <div key={detailKey} className={styles.aKey}>
-                      Calories: {detailValue}
-                    </div>
-                  );
-                // shouldn't be any other option currently
-                } else {
-                  return; 
+          return Object.keys(exerciseObj).map((exerciseKey, index) => {
+            return (
+              // EASTER EGG STUFF
+              <div
+                key={index}
+                className={`${styles.anExercise} ${
+                  isSaitama ? styles.saitamaStyle : ""
+                }`}
+                style={
+                  isSaitama
+                    ? {
+                        backgroundImage:
+                          "url('https://staticg.sportskeeda.com/editor/2022/04/8e856-16505616347217-1920.jpg')",
+                        opacity: 1,
+                        backgroundSize: "100% 100%",
+                      }
+                    : null
                 }
-              })
-            }
+              >
+                {Object.entries(exerciseObj[exerciseKey]).map(
+                  ([detailKey, detailValue]) => {
+                    if (detailKey == "name") {
+                      return (
+                        <strong key={detailKey} className={styles.aKey}>
+                          {detailValue}
+                        </strong>
+                      );
+                    } else if (detailKey == "setsAndReps") {
+                      return (
+                        <div key={detailKey} className={styles.aKey}>
+                          {detailValue}
+                        </div>
+                      );
+                    } else if (detailKey == "calories") {
+                      return (
+                        <div key={detailKey} className={styles.aKey}>
+                          Calories: {detailValue}
+                        </div>
+                      );
+                      // shouldn't be any other option currently
+                    } else {
+                      return;
+                    }
+                  }
+                )}
 
-
-            <div className={styles.exerciseButtonsContainer}>
-              {/* this opens up images for the exercise */}
-              <button onClick={handleOpenModal} className={`btn btn-info ${styles.modalButton}`}>Help</button>
+                <div className={styles.exerciseButtonsContainer}>
+                  {/* this opens up images for the exercise */}
+                  <button
+                    onClick={handleOpenModal}
+                    className={`btn btn-info ${styles.modalButton}`}
+                  >
+                    Help
+                  </button>
 
               {/* button to mark task completed */}
               <CompleteExercisesButton />
@@ -429,16 +486,28 @@ function Workout({ handleOpenModal }) {
   return (
     <div>
       {/* <h2>{username}'s 7-Day Workout</h2> */}
-      <button onClick={handleToToday} className={`btn btn-info ${styles.paginationButton}`}> 
+      <button
+        onClick={handleToToday}
+        disabled={daysToAdd == 0}
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
         Today
       </button>
-      
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-info ${styles.paginationButton}`}>
+
+      <button
+        onClick={handleDecrementDays}
+        disabled={dayOfWorkoutPlan <= 0}
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
         {/* left arrow */}
         &larr; 
       </button>
 
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn btn-info ${styles.paginationButton}`}>
+      <button
+        onClick={handleIncrementDays}
+        disabled={dayOfWorkoutPlan >= 6}
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
         {/* right arrow */}
         &rarr;
       </button>
@@ -472,8 +541,10 @@ const CompleteExercisesButton = () => {
   return (
     <div onClick={handleClick}>
       <input className="form-check-input" type="checkbox"></input>
-      <label className="form-check-label">&nbsp;Done!</label>
-  </div>
+      <label className={`form-check-label ${styles.doneButton}`}>
+        &nbsp;Done!
+      </label>
+    </div>
   );
 };
 
@@ -488,19 +559,14 @@ const Streak = () => {
   // FUNCTION GETS USER STREAK STATS FROM DATABASE
   async function getStreak() {
     try {
-      const response = await fetch(
-        `http://localhost:5050/streak/${username}`,
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
+      const response = await axios.get(
+        `https://healthify-server.vercel.app/streak/${username}`
       );
-      const data = await response.json();
-      setCurrentStreak(data.currentStreak);
-      setLongestStreak(data.longestStreak);
-      setDoneToday(data.doneToday);
-      setDaysDone(data.daysDone);
-      setDaysMissed(data.daysMissed);
+      setCurrentStreak(response.data.currentStreak);
+      setLongestStreak(response.data.longestStreak);
+      setDoneToday(response.data.doneToday);
+      setDaysDone(response.data.daysDone);
+      setDaysMissed(response.data.daysMissed);
     } catch (error) {
       // Handle any errors that occur during the fetch
       console.error('Error fetching streak:', error);
@@ -558,6 +624,12 @@ const Streak = () => {
 
 // PAGE RENDER COMPONENT
 const Fitness = () => {
+  // Text animation
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: {opacity: 0},
+    delay: 300,
+  });
 
   const [isWorkoutFormVisible, setWorkoutFormVisible] = useState(false);
   const toggleWorkoutFormVisibility = () => {
@@ -605,7 +677,7 @@ const Fitness = () => {
       `http://localhost:5050/fitness/${username}`,
       {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data),
       }
     );
@@ -621,8 +693,13 @@ const Fitness = () => {
     window.location.reload();
   }
 
-  const ExerciseModal = ({ isOpen, onRequestClose, modalExercise, sex }) => {
-    var source = "ModalExercise"
+  const ExerciseModal = ({isOpen, onRequestClose, modalExercise, sex}) => {
+    //Overlay styling for the modal
+    const overlayStyles = {
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    };
+
+    var source = "ModalExercise";
     if (modalExercise) {
       // img source is url to the dev branch folder of exercise images
       source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${sex}/`
@@ -638,7 +715,8 @@ const Fitness = () => {
         contentLabel="Image Popup"
         appElement={document.getElementById("root")}
         ariaHideApp={false}
-        className = {styles.modal}
+        style={{overlay: overlayStyles}}
+        className={styles.modal}
       >
         <strong>{modalExercise}</strong>
         {/* <small>{source}</small> */}
@@ -734,8 +812,9 @@ const Fitness = () => {
 
   // return for Fitness()
   return (
-    <div
+    <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
+      style={fadeIn}
     >
       <h2>{username}'s Workout Plan</h2>
       
@@ -756,51 +835,156 @@ const Fitness = () => {
           />
       )}
 
-      <button id="completeAllButton" className={`btn btn-success ${styles.completeAllButton}`}
-        onClick={completeAllExercises} 
-        disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
-        >Mark ALL exercises complete!
-      </button>
-
-      <button onClick={toggleWorkoutFormVisibility} className={`btn btn-info ${styles.paginationButton}`}>
-        {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create A New Workout Plan'}
+      <button
+        onClick={toggleWorkoutFormVisibility}
+        className={`btn btn-info ${styles.paginationButton}`}
+      >
+        {isWorkoutFormVisible
+          ? "Hide Create Workout Plan Form"
+          : "Create A New Workout Plan"}
       </button>
 
       <div
         id="workoutForm"
-        className={`${styles.workoutForm} ${isWorkoutFormVisible ? '' : styles.hidden}`}
+        className={`${styles.workoutForm} ${
+          isWorkoutFormVisible ? "" : styles.hidden
+        }`}
       >
-        <form id="addWorkout" onSubmit={addWorkoutToUser}>
+        <form id={styles.addWorkout} onSubmit={addWorkoutToUser}>
           {/* SEND USERNAME FOR DATABASE SEARCH */}
           <input type="hidden" name="username" value={username}></input>
 
           {/* SEND INTENSITY FOR WORKOUT GENERATION */}
-          
-          <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
-          <label htmlFor="beginnerOption" className="btn btn-outline-info">Beginner</label>
-          <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
-          <label htmlFor="intermediateOption" className="btn btn-outline-info">Intermediate</label>
-          <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
-          <label htmlFor="expertOption" className="btn btn-outline-info">Expert</label>
+
+          <input
+            type="radio"
+            id="beginnerOption"
+            name="intensity"
+            value="beginner"
+            className="btn-check"
+          ></input>
+          <label
+            htmlFor="beginnerOption"
+            className={`btn btn-info ${styles.formButtons}`}
+          >
+            Beginner
+          </label>
+          <input
+            type="radio"
+            id="intermediateOption"
+            name="intensity"
+            value="intermediate"
+            className="btn-check"
+            defaultChecked={true}
+          ></input>
+          <label
+            htmlFor="intermediateOption"
+            className={`btn btn-info ${styles.formButtons}`}
+          >
+            Intermediate
+          </label>
+          <input
+            type="radio"
+            id="expertOption"
+            name="intensity"
+            value="expert"
+            className="btn-check"
+          ></input>
+          <label
+            htmlFor="expertOption"
+            className={`btn btn-info ${styles.formButtons}`}
+          >
+            Expert
+          </label>
           <p>Select desired intensity level</p>
           <br />
 
           {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
-          
-          <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
-          <label className="btn btn-outline-info" htmlFor="arms">Arms</label>
-          <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
-          <label className="btn btn-outline-info" htmlFor="legs">Legs</label>
-          <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
-          <label className="btn btn-outline-info" htmlFor="chest">Chest</label>
-          <input type="checkbox" name="back" className="btn-check" id="back"></input>
-          <label className="btn btn-outline-info" htmlFor="back">Back</label>
-          <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
-          <label className="btn btn-outline-info" htmlFor="shoulders">Shoulders</label>
-          <input type="checkbox" name="core" className="btn-check" id="core"></input>
-          <label className="btn btn-outline-info" htmlFor="core">Core</label>
-          <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
-          <label className="btn btn-outline-info" htmlFor="glutes">Glutes</label>
+
+          <input
+            type="checkbox"
+            name="arms"
+            className="btn-check"
+            id="arms"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="arms"
+          >
+            Arms
+          </label>
+          <input
+            type="checkbox"
+            name="legs"
+            className="btn-check"
+            id="legs"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="legs"
+          >
+            Legs
+          </label>
+          <input
+            type="checkbox"
+            name="chest"
+            className="btn-check"
+            id="chest"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="chest"
+          >
+            Chest
+          </label>
+          <input
+            type="checkbox"
+            name="back"
+            className="btn-check"
+            id="back"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="back"
+          >
+            Back
+          </label>
+          <input
+            type="checkbox"
+            name="shoulders"
+            className="btn-check"
+            id="shoulders"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="shoulders"
+          >
+            Shoulders
+          </label>
+          <input
+            type="checkbox"
+            name="core"
+            className="btn-check"
+            id="core"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="core"
+          >
+            Core
+          </label>
+          <input
+            type="checkbox"
+            name="glutes"
+            className="btn-check"
+            id="glutes"
+          ></input>
+          <label
+            className={`btn btn-info ${styles.formButtons}`}
+            htmlFor="glutes"
+          >
+            Glutes
+          </label>
           <p>Select muscle group(s) you want to focus on</p>
 
           <br />
@@ -808,7 +992,7 @@ const Fitness = () => {
           {/* button displays different text if clicked or not clicked */}
           <button
             type="submit"
-            className="btn btn-success"
+            className={`btn btn-info ${styles.formButtons}`}
             disabled={isFormSubmitting}
           >
             {isFormSubmitting ? (
@@ -829,8 +1013,19 @@ const Fitness = () => {
           </p>
         </form>
       </div>
-      
-    </div>
+      <Workout workout={workout} handleOpenModal={handleOpenModal} />
+
+      <button
+        id="completeAllButton"
+        className={`btn btn-success ${styles.completeAllButton}`}
+        onClick={completeAllExercises}
+        disabled={
+          numberOfExercises !== 0 || completeAllExercisesClicked || doneToday
+        }
+      >
+        Mark ALL exercises complete!
+      </button>
+    </animated.div>
   );
 };
 
