@@ -65,6 +65,7 @@
 }
 
 .loginRedirect {
+  margin-top: 15px;
   color: white;
 }
 
@@ -99,7 +100,11 @@
   display: inline-block;
 }
 .emailPlaceholder{
-  right: 110px;
+  right: 120px;
+}
+
+.passwordPlaceholder {
+  right: 105px;
 }
 
 .inputLabel{

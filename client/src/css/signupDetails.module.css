@@ -96,13 +96,17 @@ input[type="radio"]:checked {
   color: gray;
   position: relative;
   bottom: 48px;
-  right: 100px;
+  right: 96px;
   transition: 0.2s;
   display: inline-block;
 }
 
 .agePlaceholder {
-  right: 128px;
+  right: 126px;
+}
+
+.heightPlaceholder {
+  right: 101px;
 }
 
 .inputLabel{
