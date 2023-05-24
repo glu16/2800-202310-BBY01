@@ -177,7 +177,6 @@ svg {
 .draggableList li {
   border-radius: 10px;
   margin: 30px 70px;
-  /* width: 100%; */
   padding: 15px 18px;
   position: relative;
   background: white;
@@ -205,7 +204,7 @@ svg {
     justify-content: center;
     align-items: center;
     margin: auto;
-    margin-top: 80px;
+    margin-top: 50px;
     margin-bottom: 100px;
   }
 }

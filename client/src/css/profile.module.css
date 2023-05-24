@@ -178,7 +178,6 @@
 }
 
 .icon {
-  /* margin-top: 4px; */
   margin-left: 10px;
 }
 
@@ -247,7 +246,6 @@
 
 .profileHeader {
   color: rgb(92, 208, 216);
-  /* font-size: 17pt; */
 }
 
 .profileItem {
@@ -363,7 +361,7 @@
 
   .cardContainer {
     flex-direction: column;
-    margin-top: 60px;
+    margin-top: 40px;
   }
 
   .challengeBackground {

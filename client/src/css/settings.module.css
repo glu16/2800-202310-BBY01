@@ -88,6 +88,16 @@
 }
 
 @media (max-width: 767px) {
+  .settingsContainer {
+    height: 100%;
+    padding-top: 50px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+  }
+
   .settings label {
     font-size: 1.05rem;
     margin-bottom: 10px;

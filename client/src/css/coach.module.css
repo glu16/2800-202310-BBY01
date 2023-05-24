@@ -86,7 +86,6 @@ ul {
 }
 
 .userAvatar {
-  /* background-color: white; */
   margin-right: 10px;
   align-self: flex-start;
   width: 40px;
@@ -184,7 +183,7 @@ ul {
   .chatLogContainer {
     padding: 24px;
     padding-bottom: 4rem;
-    margin-top: 100px;
+    margin-top: 80px;
     margin-bottom: 50px;
     height: 70vh;
     color: white;
