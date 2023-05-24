@@ -61,6 +61,14 @@ function Diet() {
     async function fetchData() {
       const dietData = await getDiet();
 
+      const options = {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      };
+      let today = new Date().toLocaleDateString("en-US", options);
+
       if (dietData === "empty") {
         setDiet("No workout available"); // Set default value
       } else {
@@ -81,13 +89,23 @@ function Diet() {
                   );
                   // sends the day title ex. Thursday, May 11, 2023:
                 } else {
+                   // if this page is today
+                   if (key == today) {
+                    return (
+                      <div key={index} className={styles.day}>
+                        <strong className={styles.date}><h5>Today, {key}</h5></strong>
+                          {renderDiet(obj[key])}
+                      </div>
+                    );
+                    } else {
                   return (
                     <div key={index} className={styles.day}>
-                      <strong className={styles.date}>{key}</strong>
+                      <strong className={styles.date}><h5>{key}</h5></strong>
                       {renderDiet(obj[key])}
                     </div>
                   );
                 }
+              }
               } else {
                 return null;
               }
@@ -159,11 +177,6 @@ function Diet() {
 
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
-
-  const handleExerciseClick = (exercise) => {
-    setSelectedDiet(exercise);
-    setShowModal(true);
-  };
 
   const handleCloseModal = () => {
     setShowModal(false);

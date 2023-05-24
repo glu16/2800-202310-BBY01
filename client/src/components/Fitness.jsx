@@ -23,7 +23,7 @@ async function getWorkout() {
   );
   var data = await response.json();
   // check if workouts is empty
-  if (data == "empty") {
+  if (data === "empty") {
     return "empty";
   } else {
     workout = data;
@@ -33,7 +33,6 @@ async function getWorkout() {
 
 // FUNCTION TO GET USER'S NAME FOR EASTER EGG
 var firstName;
-var lastName;
 async function getName() {
   var response = await fetch(
     `http://localhost:5050/getName/${username}`,
@@ -44,8 +43,6 @@ async function getName() {
   );
   var data = await response.json();
   firstName = data.firstName;
-  lastName = data.lastName;
-  // return [firstName, lastName];
 }
 getName();
 
@@ -141,9 +138,8 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
   ];
   const svgSize = 150; // Adjust the size of the SVG container
   const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
-  const fontSize = 20; // Adjust the font size of the label
   let color;
-  if (percentStreak == 100) {
+  if (percentStreak === 100) {
     color = "green";
   } else if (percentStreak >= 50) {
     color = "yellow";
@@ -199,9 +195,6 @@ function Workout({handleOpenModal}) {
 
   const [workout, setWorkout] = useState(null);
 
-  // passed to modal
-  const [modalExercise, setModalExercise] = useState("");
-
   // use the today variable to determine which day of workout is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
@@ -231,7 +224,18 @@ function Workout({handleOpenModal}) {
 
   useEffect(() => {
     async function fetchData() {
-      // workoutData == the first workout plan object from the user database field workouts
+
+         // use this to check if current page is today to render title card
+         const options = {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+          year: "numeric",
+        };
+        const today = new Date().toLocaleDateString("en-US", options);
+        // if this page is today
+      
+      // workoutData === the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
 
       // handles if workout field is empty
@@ -243,7 +247,7 @@ function Workout({handleOpenModal}) {
           if (typeof obj === "object" && obj !== null) {
             return Object.keys(obj).map((key, index) => {
               // check if key matches date so only render the one day on the page
-              if (key == date) {
+              if (key === date) {
                 // tracks number of exercises on page, used for complete exercse buttons
                 // using browser local storage because state variables not too disfunctional with so many sub-components
                 let numOfExercises = Object.keys(workoutData[date]).length;
@@ -254,16 +258,8 @@ function Workout({handleOpenModal}) {
 
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
-                  // use this to check if current page is today to render title card
-                  let options = {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  };
-                  let today = new Date().toLocaleDateString("en-US", options);
-                  // if this page is today
-                  if (key == today) {
+               
+                  if (key === today) {
                     return (
                       <animated.div
                         key={index}
@@ -284,16 +280,8 @@ function Workout({handleOpenModal}) {
 
                   // sends the day title ex. Thursday, May 11, 2023:
                 } else {
-                  // use this to check if current page is today to render title card
-                  let options = {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  };
-                  let today = new Date().toLocaleDateString("en-US", options);
                   // if this page is today
-                  if (key == today) {
+                  if (key === today) {
                     return (
                       <div key={index} className={styles.day}>
                         <h5>Today, {key}</h5>
@@ -330,19 +318,19 @@ function Workout({handleOpenModal}) {
               <div key={index} className={styles.anExercise}>
                 {Object.entries(exerciseObj[exerciseKey]).map(
                   ([detailKey, detailValue]) => {
-                    if (detailKey == "name") {
+                    if (detailKey === "name") {
                       return (
                         <strong key={detailKey} className={styles.aKey}>
                           {detailValue}
                         </strong>
                       );
-                    } else if (detailKey == "setsAndReps") {
+                    } else if (detailKey === "setsAndReps") {
                       return (
                         <div key={detailKey} className={styles.aKey}>
                           {detailValue}
                         </div>
                       );
-                    } else if (detailKey == "calories") {
+                    } else if (detailKey === "calories") {
                       return (
                         <div key={detailKey} className={styles.aKey}>
                           Calories: {detailValue}
@@ -372,7 +360,7 @@ function Workout({handleOpenModal}) {
         // for the sublevel exercise object inside day object
         function renderExerciseToday(exerciseObj) {
           // EASTER EGG Stuff
-          const isSaitama = firstName.toLowerCase() == "saitama";
+          const isSaitama = firstName.toLowerCase() === "saitama";
 
           return Object.keys(exerciseObj).map((exerciseKey, index) => {
             return (
@@ -395,19 +383,19 @@ function Workout({handleOpenModal}) {
               >
                 {Object.entries(exerciseObj[exerciseKey]).map(
                   ([detailKey, detailValue]) => {
-                    if (detailKey == "name") {
+                    if (detailKey === "name") {
                       return (
                         <strong key={detailKey} className={styles.aKey}>
                           {detailValue}
                         </strong>
                       );
-                    } else if (detailKey == "setsAndReps") {
+                    } else if (detailKey === "setsAndReps") {
                       return (
                         <div key={detailKey} className={styles.aKey}>
                           {detailValue}
                         </div>
                       );
-                    } else if (detailKey == "calories") {
+                    } else if (detailKey === "calories") {
                       return (
                         <div key={detailKey} className={styles.aKey}>
                           Calories: {detailValue}
@@ -478,7 +466,7 @@ function Workout({handleOpenModal}) {
       {/* <h2>{username}'s 7-Day Workout</h2> */}
       <button
         onClick={handleToToday}
-        disabled={daysToAdd == 0}
+        disabled={daysToAdd === 0}
         className={`btn btn-info ${styles.paginationButton}`}
       >
         Today
@@ -585,14 +573,14 @@ const Streak = () => {
   var percentDaysDone = (100 * daysDone) / (daysDone + daysMissed);
   percentDaysDone = Math.floor(percentDaysDone);
   // to prevent NaN error dividing 0
-  if (daysDone + daysMissed == 0) {
+  if (daysDone + daysMissed === 0) {
     percentDaysDone = 0;
   }
 
   return (
     <div id="streakContainer" className={styles.streakContainer}>
       <div className={styles.doneContainer}>
-        <img src={doneTodaySymbol} className={styles.doneTodaySymbol}></img>
+        <img src={doneTodaySymbol} className={styles.doneTodaySymbol} alt="Done today symbol"></img>
         {doneTodayMessage}
       </div>
 
@@ -634,10 +622,9 @@ const Fitness = () => {
     var muscleGroups = Array.from(event.target.elements)
       .filter((element) => element.type === "checkbox" && element.checked)
       .map((element) => element.name);
-    if (muscleGroups.length == 0) {
+    if (muscleGroups.length === 0) {
       muscleGroups = ["all"];
     }
-    var level = event.target.intensity.value;
 
     // ignore form submission if already submitting
     if (isFormSubmitting) {
@@ -645,30 +632,6 @@ const Fitness = () => {
     }
     setFormSubmitting(true);
 
-    // key to store individual workout
-    const today = new Date().toISOString().slice(0, 10);
-    const workoutKey = "workout_" + today;
-    // workout to write into user database, will generate with server side call to workouts.js
-    const workout = {};
-
-    // data we are sending to server.js via app.put
-    const data = {
-      workoutKey,
-      workout,
-      muscleGroups,
-      level,
-    };
-
-    // call server.js app.put method
-    const response = await fetch(
-      `http://localhost:5050/fitness/${username}`,
-      {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data),
-      }
-    );
-    const updatedUser = await response.json();
     // console.log(
     //   "New workout " +
     //     JSON.stringify(updatedUser.workouts) +
