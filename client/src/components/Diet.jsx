@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import styles from "../css/diet.module.css";
 import { useSpring, animated } from "react-spring";
+import axios from "axios";
 
 // This is literally the same as Fitness.jsx but with different variable names
 // Might need an update
@@ -9,16 +10,12 @@ import { useSpring, animated } from "react-spring";
 const username = localStorage.getItem("username");
 
 async function getDiet() {
-  var response = await fetch(`http://localhost:5050/diet/${username}`, {
-    method: "GET",
-    headers: {"Content-Type": "application/json"},
-  });
-  var data = await response.json();
-  // check if workouts is empty
-  if (data === "empty") {
+  var response = await axios.get(`http://localhost:5050/diet/${username}`);
+  // check if diets are empty
+  if (response.data === "empty") {
     return "empty";
   } else {
-    return data;
+    return response.data;
   }
 }
 
@@ -236,21 +233,10 @@ const DietPlan = () => {
     const diet = {};
 
     const data = {[mealKey]: diet};
-    const response = await fetch(
-      `http://localhost:5050/diet/${localStorage.getItem("username")}`,
-      {
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data),
-      }
+    await axios.put(
+      `http://localhost:5050/diet/${localStorage.getItem("username")}`
     );
-    const updatedUser = await response.json();
-    console.log(
-      "New workout " +
-        JSON.stringify(updatedUser.diets) +
-        " added to " +
-        username
-    );
+
     // re-enable button after finishing code
     setFormSubmitting(false);
     // reload page so new workout is displayed
