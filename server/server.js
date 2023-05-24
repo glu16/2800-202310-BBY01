@@ -381,6 +381,23 @@ app.get("/coach/:username", async (req, res) => {
   }
 });
 
+// USER PROFILE PICTURE IN COACH TAB
+app.get("/coachPic/:username", async (req, res) => {
+  // THE USER'S EMAIL
+  const userID = req.params.username;
+
+  try {
+    const user = await User.findOne({ username: userID });
+    if (!user) {
+      return res.status(400).send("username not registered" + userID);
+    }
+    const item = user.imageURL;
+    res.json(item);
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 // UPDATES USER CHATLOG IN DATABASE
 app.put("/history/:username", async (req, res) => {
   // THE USER'S USERNAME
