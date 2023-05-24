@@ -430,7 +430,7 @@ function Workout({handleOpenModal}) {
                   </button>
 
                   {/* button to mark task completed */}
-                  <CompleteExercisesButton />
+                  <CompleteExercisesButton index={index}/>
                 </div>
               </div>
             );
@@ -508,7 +508,8 @@ function Workout({handleOpenModal}) {
 }
 
 // FOR THE TASK COMPLETION BUTTONS
-const CompleteExercisesButton = () => {
+const CompleteExercisesButton = ({index}) => {
+  console.log(index)
   const [isChecked, setIsChecked] = useState(false);
 
   const handleClick = () => {
@@ -528,9 +529,9 @@ const CompleteExercisesButton = () => {
     }
   };
   return (
-    <div onClick={handleClick}>
-      <input className="form-check-input" type="checkbox"></input>
-      <label className={`form-check-label ${styles.doneButton}`}>
+    <div>
+      <input className="form-check-input " onClick={handleClick} type="checkbox" name={index} id={`done-${index}`}></input>
+      <label className={`form-check-label ${styles.doneButton}`} htmlFor={`done-${index}`}>
         &nbsp;Done!
       </label>
     </div>
