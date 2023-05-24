@@ -203,19 +203,13 @@ const Home = () => {
     async function getStreak() {
       const username = localStorage.getItem("username");
       try {
-        const response = await fetch(
-          `https://healthify-server.vercel.app/streak/${username}`,
-          {
-            method: "GET",
-            headers: {"Content-Type": "application/json"},
-          }
-        );
-        const data = await response.json();
-        setCurrentStreak(data.currentStreak);
-        setLongestStreak(data.longestStreak);
-        setDoneToday(data.doneToday);
-        setDaysDone(data.daysDone);
-        setDaysMissed(data.daysMissed);
+        const response = await axios.get(`https://healthify-server.vercel.app/streak/${username}`);
+        
+        setCurrentStreak(response.data.currentStreak);
+        setLongestStreak(response.data.longestStreak);
+        setDoneToday(response.data.doneToday);
+        setDaysDone(response.data.daysDone);
+        setDaysMissed(response.data.daysMissed);
       } catch (error) {
         // Handle any errors that occur during the fetch
         console.error("Error fetching streak:", error);
