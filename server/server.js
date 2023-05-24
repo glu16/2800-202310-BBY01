@@ -43,9 +43,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
 
 // TARGETS THE CORS POLICY FOR FITNESS
-app.use(cors({
-  origin: '*',
-}));
+app.use(cors());
 
 /*****************GENERAL USE FOR USER DATA RETRIEVAL********************/
 // RETRIEVES THE USER'S DATA FROM THE DATABASE
