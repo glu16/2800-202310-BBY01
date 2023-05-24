@@ -140,7 +140,7 @@ const Coach = () => {
   */
   async function sendChatLog(user, messages) {
     const username = localStorage.getItem("username");
-    const response = await fetch(`http://localhost:5050/history/${username}`, {
+    await fetch(`http://localhost:5050/history/${username}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -269,12 +269,12 @@ const Coach = () => {
       <div className={styles.chatLogContainer} ref={chatLogRef}>
         <animated.h1 className={styles.coachTitle} style={greetings}>
           Welcome to your AI Coach!
-          <a
+          <span
             className={`${styles.icon} ${styles.infoLink} material-symbols-outlined`}
             onClick={openModal}
           >
             info
-          </a>
+          </span>
         </animated.h1>
         {chatLog.map((message, index) => (
           <ChatMessage key={index} message={message} />

@@ -8,7 +8,6 @@ import { useSpring, animated } from "react-spring";
 // used to identify user for database modification
 const username = localStorage.getItem("username");
 
-var diet;
 async function getDiet() {
   var response = await fetch(`http://localhost:5050/diet/${username}`, {
     method: "GET",
@@ -16,10 +15,9 @@ async function getDiet() {
   });
   var data = await response.json();
   // check if workouts is empty
-  if (data == "empty") {
+  if (data === "empty") {
     return "empty";
   } else {
-    diet = data;
     return data;
   }
 }
@@ -30,8 +28,6 @@ async function getDiet() {
 function Diet() {
 
   const [diet, setDiet] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [selectedDiet, setSelectedDiet] = useState(null);
   const [dayOfMealPlan, setDayOfMealPlan] = useState(0);
 
   // use today variable to determine which day of workout is rendered to display
@@ -78,7 +74,7 @@ function Diet() {
             // if it's a nested object, recursively render its properties
             return Object.keys(obj).map((key, index) => {
               // check if key matches date
-              if (key == date) {
+              if (key === date) {
                 setDayOfMealPlan(index);
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
@@ -90,7 +86,7 @@ function Diet() {
                   // sends the day title ex. Thursday, May 11, 2023:
                 } else {
                    // if this page is today
-                   if (key == today) {
+                   if (key === today) {
                     return (
                       <div key={index} className={styles.day}>
                         <strong className={styles.date}><h5>Today, {key}</h5></strong>
@@ -124,8 +120,8 @@ function Diet() {
                   ([detailKey, detailValue]) => {
                     // don't display detailKey if it is name or setsAndReps
                     if (
-                      detailKey == "Name" ||
-                      detailKey == "Nutritional Info"
+                      detailKey === "Name" ||
+                      detailKey === "Nutritional Info"
                     ) {
                       return (
                         <div key={detailKey} className={``}>
@@ -178,22 +174,18 @@ function Diet() {
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
   return (
     <div>
       <button
         onClick={handleToday}
-        disabled={daysToAdd == 0}
+        disabled={daysToAdd === 0}
         className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtnToday}`}
       >
         {"Today"}
       </button>{" "}
       <button
         onClick={handleDecrementDays}
-        disabled={dayOfMealPlan == 0}
+        disabled={dayOfMealPlan === 0}
         className={`btn btn-primary  ${styles.dietBtn} ${styles.dietBtn1}`}
       >
         <span className="material-symbols-outlined">chevron_left</span>
@@ -209,28 +201,6 @@ function Diet() {
       {/* Add the increment button */}
       <div className="d-flex align-items-center text-center justify-content-center row">
         {diet}
-      </div>
-      {showModal && (
-        <Modal onClose={handleCloseModal}>
-          <h3>{selectedDiet}</h3>
-          {/* Render the details of the selected exercise */}
-          {/* For example: */}
-          <div>{selectedDiet.details.details_values}</div>
-        </Modal>
-      )}
-    </div>
-  );
-}
-
-// Example Modal component
-function Modal({onClose, children}) {
-  return (
-    <div className="modal">
-      <div className="modal-content">
-        <span className="close" onClick={onClose}>
-          &times;
-        </span>
-        {children}
       </div>
     </div>
   );
