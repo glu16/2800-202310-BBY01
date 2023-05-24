@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
+import {useSpring, animated} from "react-spring";
 import { VictoryPie, VictoryLabel } from "victory";
 import axios from "axios";
 
@@ -184,6 +185,13 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
 function Workout({ handleOpenModal }) {
+
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: {opacity: 0},
+    delay: 300,
+  });
+
   const [workout, setWorkout] = useState(null);
 
   // passed to modal
@@ -252,9 +260,9 @@ function Workout({ handleOpenModal }) {
                   // if this page is today
                   if (key == today) {
                     return (
-                      <div key={index} className={styles.day}>
+                      <animated.div key={index} className={styles.day} style={fadeIn}>
                         <h5>Today, {key}:</h5> Rest day
-                      </div>
+                      </animated.div>
                     );
                     // if page is not today
                   } else {
@@ -585,6 +593,14 @@ const Streak = () => {
 
 // PAGE RENDER COMPONENT
 const Fitness = () => {
+  
+ // Text animation
+ const fadeIn = useSpring({
+  opacity: 1,
+  from: {opacity: 0},
+  delay: 300,
+});
+
   const [isWorkoutFormVisible, setWorkoutFormVisible] = useState(false);
   const toggleWorkoutFormVisibility = () => {
     setWorkoutFormVisible(!isWorkoutFormVisible);
@@ -772,8 +788,8 @@ const Fitness = () => {
 
   // return for Fitness()
   return (
-    <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}>
+    <animated.div
+      className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`} style={fadeIn}>
       <h2>{username}'s Workout Plan</h2>
 
       {/* <form id="updateStreaks" onSubmit={updateStreaks}>
@@ -940,7 +956,7 @@ const Fitness = () => {
           </p>
         </form>
       </div>
-    </div>
+    </animated.div>
   );
 };
 
