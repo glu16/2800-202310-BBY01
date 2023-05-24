@@ -1,6 +1,5 @@
 require("dotenv").config();
 
-
 const { Configuration, OpenAIApi } = require("openai");
 const openai = new OpenAIApi(
   new Configuration({
@@ -8,61 +7,65 @@ const openai = new OpenAIApi(
   })
 );
 
-// create progress wheel animation, code src: chatgpt
-const PWD = ["|", "/", "-", "\\"];
-let idx = 0;
-let progressInterval;
-const startProgress = () => {
-  progressInterval = setInterval(() => {
-    process.stdout.write("\r" + PWD[idx++ % PWD.length]);
-  }, 100);
-};
-const stopProgress = () => {
-  clearInterval(progressInterval);
-  process.stdout.clearLine();
-  process.stdout.cursorTo(0);
-};
-
-
-function createPrompt(sex, age, height, weight, activityLevel, goal,foodPref, foodRes) {
-
+function createPrompt(
+  sex,
+  age,
+  height,
+  weight,
+  activityLevel,
+  goal,
+  foodPref,
+  foodRes
+) {
   var inputPrompt = `I am a ${age} year old ${sex} and I am ${height} m tall and weigh ${weight} kilograms.
-My activity level is ${activityLevel} and my goal is to ${goal}. `
-   inputPrompt+= `My restrictions are ${foodRes} and my preferences are ${foodPref}.`
-  inputPrompt += "Give me a 7-day diet plan. "
+My activity level is ${activityLevel} and my goal is to ${goal}. `;
+  inputPrompt += `My restrictions are ${foodRes} and my preferences are ${foodPref}.`;
+  inputPrompt += "Give me a 7-day diet plan. ";
   inputPrompt += "Give me at least five meal options for each day. ";
-  inputPrompt += "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
-  inputPrompt += "Format each meal option like this example sentance: Meal 1: Broccoli and chicken fajitas (Protein: 25g, Carbs: 20g, Fat: 8g) Calories: 270";
+  inputPrompt +=
+    "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
+  inputPrompt +=
+    "Format each meal option like this example sentance: Meal 1: Broccoli and chicken fajitas (Protein: 25g, Carbs: 20g, Fat: 8g) Calories: 270";
 
   console.log("Prompt: \n" + inputPrompt);
 
   return inputPrompt;
 }
 
-
-async function runAI(sex, age, height, weight, activityLevel, goal, foodPref, foodRes) {
-  // start loading animation
+async function runAI(
+  sex,
+  age,
+  height,
+  weight,
+  activityLevel,
+  goal,
+  foodPref,
+  foodRes
+) {
   console.log("Generating diet plan...");
-  startProgress();
 
   // GET INPUTPROMPT
-  var input = await createPrompt(sex, age, height, weight, activityLevel, goal, foodPref, foodRes);
+  var input = await createPrompt(
+    sex,
+    age,
+    height,
+    weight,
+    activityLevel,
+    goal,
+    foodPref,
+    foodRes
+  );
 
   // RUN OPEN AI ON PROMPT
   const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: input }],
     temperature: 0.2,
-  })
-
-  // stop loading animation
-  stopProgress();
+  });
 
   // RETURN PARSED AI RESPONSE
-  return (parseAI(res));
+  return parseAI(res);
 }
-
-
 
 function parseAI(res) {
   var fullResponse;
@@ -175,12 +178,24 @@ function parseAI(res) {
   console.log(dietPlan);
   console.log("...diet plan generated.");
   return JSON.stringify(dietPlan);
-};
-function generate(sex, age, height, weight, activityLevel, goal,foodPref,foodRes, callback) {
-  runAI(sex, age, height, weight, activityLevel, goal,foodPref,foodRes).then((result) => {
-    const newDiet = result;
-    callback(newDiet);
-  });
+}
+function generate(
+  sex,
+  age,
+  height,
+  weight,
+  activityLevel,
+  goal,
+  foodPref,
+  foodRes,
+  callback
+) {
+  runAI(sex, age, height, weight, activityLevel, goal, foodPref, foodRes).then(
+    (result) => {
+      const newDiet = result;
+      callback(newDiet);
+    }
+  );
 }
 module.exports = {
   generate: generate,

@@ -638,6 +638,11 @@ const Fitness = () => {
     window.location.reload();
   }
 
+    // alert message popup for the user
+    const handleClick = () => {
+      window.alert("Generating workout plan... please do not refresh the page!");
+    };
+
   const ExerciseModal = ({isOpen, onRequestClose, modalExercise, sex}) => {
     //Overlay styling for the modal
     const overlayStyles = {
@@ -944,6 +949,7 @@ const Fitness = () => {
             type="submit"
             className={`btn btn-info ${styles.formButtons}`}
             disabled={isFormSubmitting}
+            onClick={handleClick}
           >
             {isFormSubmitting ? (
               <div>

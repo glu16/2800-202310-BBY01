@@ -20,6 +20,8 @@ const Challenges = require("./models/challenges.js");
 const cors = require("cors");
 require("dotenv").config();
 
+const axios = require('axios');
+
 //OPENAI CONFIGURATION
 const configuration = new Configuration({
   organization: process.env.ORG,
@@ -41,6 +43,14 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/passChange", passChangeRouter);
+
+// ENABLES CORS HEADERS
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 /*****************GENERAL USE FOR USER DATA RETRIEVAL********************/
 // RETRIEVES THE USER'S DATA FROM THE DATABASE
