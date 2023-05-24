@@ -167,6 +167,10 @@ input[type="checkbox"]:focus + .formButtons {
   margin: 5px;
 }
 
+.doneButton{
+  pointer-events: none;
+}
+
 .modal {
   display: flex;
   flex-direction: column;

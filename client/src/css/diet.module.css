@@ -40,27 +40,6 @@
   color: black;
 }
 
-.dietBtn1 {
-  position: absolute;
-  left: 37%;
-  top: 135px;
-  z-index: 1;
-}
-
-.dietBtn2 {
-  position: absolute;
-  right: 37%;
-  top: 135px;
-  z-index: 1;
-}
-
-.dietBtnToday {
-  position: absolute;
-  left: 30%;
-  top: 135px;
-  z-index: 1;
-}
-
 .mealCard {
   margin: 10px;
   border-radius: 10px;
@@ -131,11 +110,7 @@
   .dietCard {
     top: 1rem;
   }
-  .dietBtn1,
-  .dietBtn2,
-  .dietBtnToday {
-    position: static;
-  }
+
   .day,
   .day > strong,
   .day div {
@@ -156,12 +131,7 @@
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {
-  .dietBtn1,
-  .dietBtn2,
-  .dietBtnToday {
-    position: static;
-  }
-
+  
   .day,
   .day > strong,
   .day div {
