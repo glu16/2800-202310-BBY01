@@ -3,10 +3,8 @@ import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
 import { VictoryPie, VictoryLabel } from 'victory';
 
-// import server hosting port
-const port = "5050";
-
-// used to identify user for database modification
+// Username variable used to identify user for database interactions
+// Taken from local storage pushed there from login
 const username = localStorage.getItem("username");
 
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
@@ -329,7 +327,7 @@ function Workout({ handleOpenModal }) {
 
             {/* this opens up images for the exercise */}
             <div className={styles.exerciseButtonsContainer}>
-            <button onClick={handleOpenModal} className={`btn btn-info ${styles.modalButton}`}>Help</button>
+            <button onClick={handleOpenModal} className={`btn ${styles.modalButton}`}>Help</button>
             </div>
           </div>
 
@@ -376,7 +374,7 @@ function Workout({ handleOpenModal }) {
 
             <div className={styles.exerciseButtonsContainer}>
               {/* this opens up images for the exercise */}
-              <button onClick={handleOpenModal} className={`btn btn-info ${styles.modalButton}`}>Help</button>
+              <button onClick={handleOpenModal} className={`btn ${styles.modalButton}`}>Help</button>
 
               {/* button to mark task completed */}
               <CompleteExercisesButton />
@@ -429,16 +427,16 @@ function Workout({ handleOpenModal }) {
   return (
     <div>
       {/* <h2>{username}'s 7-Day Workout</h2> */}
-      <button onClick={handleToToday} disabled={dayOfWorkoutPlan == 0} className={`btn btn-info ${styles.paginationButton}`}> 
+      <button onClick={handleToToday} disabled={dayOfWorkoutPlan == 0} className={`btn ${styles.paginationButton}`}> 
         Today
       </button>
       
-      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn btn-info ${styles.paginationButton}`}>
+      <button onClick={handleDecrementDays} disabled={dayOfWorkoutPlan <= 0} className={`btn ${styles.paginationButton}`}>
         {/* left arrow */}
         &larr; 
       </button>
 
-      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn btn-info ${styles.paginationButton}`}>
+      <button onClick={handleIncrementDays} disabled={dayOfWorkoutPlan >= 6} className={`btn ${styles.paginationButton}`}>
         {/* right arrow */}
         &rarr;
       </button>
@@ -571,7 +569,7 @@ const Fitness = () => {
     var muscleGroups = Array.from(event.target.elements)
     .filter((element) => element.type === 'checkbox' && element.checked)
     .map((element) => element.name);
-    console.log(muscleGroups);
+    // console.log(muscleGroups);
     
     if (muscleGroups.length == 0) {
       muscleGroups = ["all"];
@@ -743,7 +741,7 @@ const Fitness = () => {
 
       <Streak />
 
-      <button onClick={toggleWorkoutFormVisibility} className={`btn btn-info ${styles.paginationButton}`}>
+      <button onClick={toggleWorkoutFormVisibility} className={`btn ${styles.paginationButton}`}>
         {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create A New Workout Plan'}
       </button>
 
@@ -758,11 +756,11 @@ const Fitness = () => {
           {/* SEND INTENSITY FOR WORKOUT GENERATION */}
           
           <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
-          <label htmlFor="beginnerOption" className="btn btn-outline-info">Beginner</label>
+          <label htmlFor="beginnerOption" className={`btn ${styles.radioButton}`}>Beginner</label>
           <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
-          <label htmlFor="intermediateOption" className="btn btn-outline-info">Intermediate</label>
+          <label htmlFor="intermediateOption" className={`btn ${styles.radioButton}`}>Intermediate</label>
           <input type="radio" id="expertOption" name="intensity" value="expert" className="btn-check"></input>
-          <label htmlFor="expertOption" className="btn btn-outline-info">Expert</label>
+          <label htmlFor="expertOption" className={`btn ${styles.radioButton}`}>Expert</label>
           <p>Select desired intensity level</p>
           <br />
 
@@ -804,7 +802,7 @@ const Fitness = () => {
           </button>
 
           <p>
-            <small>Generating takes 30-60 seconds</small>
+            <small>Generating takes 1 to 2 minutes</small>
             <br />
             <small>Please DO NOT refresh the page</small>
             <br />
