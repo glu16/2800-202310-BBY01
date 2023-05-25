@@ -1,3 +1,4 @@
+// Import statements
 import React, { useState, useEffect, useRef } from 'react';
 import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
@@ -73,6 +74,7 @@ getSex();
 
 // Function generates a circle graph representing the user's workout stat 'percentDaysDone' 
 //  to be displayed on the page.
+//  Source: Adapted from ChatGPT 
 const CirclePercentDaysDone = ({percentDaysDone}) => {
   const data = [
     {x: 1, y: percentDaysDone},
@@ -88,6 +90,7 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
   } else {
     color = "red";
   }
+  // Return CirclePercentDaysDone component.
   return (
     <div className={styles.graph}>
       <svg
@@ -126,6 +129,7 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
 
 // Function generates a circle graph representing the user's workout stats 'currentStreak' and 'longestStreak'
 //  to be displayed on the page.
+//  Source: Adapted from ChatGPT 
 const CircleStreak = ({currentStreak, longestStreak}) => {
   const percentStreak = (100 * currentStreak) / longestStreak;
   const data = [
@@ -142,6 +146,7 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
   } else {
     color = "red";
   }
+  // Return CircleStreak component.
   return (
     <div className={styles.graph}>
       <svg
@@ -181,60 +186,57 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
 
 // Function parses the user's 7-day workout plan stored in the variable 'workout' 
 //  and displays an individual day's workout on the page.
+// handleOpenModal passed as a prop.
 function Workout({ handleOpenModal }) {
 
   // State variable 'workout' stores the individual day's workout
   const [workout, setWorkout] = useState(null);
 
-  // passed to modal
-  const [modalExercise, setModalExercise] = useState("");
- 
-  // use the today variable to determine which day of workout is rendered to display
+  // This code block calculates today's date to compare it to the workout plan days
+  //  to determine if which day x/7 should be displayed on the page and to navigate between.
+  //  Source: Adapted from ChatGPT 
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
   today.setDate(today.getDate() + daysToAdd);
-  const dateOptions = {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
+  const dateOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric",};
   const date = today.toLocaleDateString("en-CA", dateOptions);
-  // tracks which day x/7 of the weeklong workout plan is today's, going to use this to limit button navigation
   const [dayOfWorkoutPlan, setDayOfWorkoutPlan] = useState(0);
-
-  // for previous day and next day button navigation
-  const handleIncrementDays = () => {
-    setDaysToAdd(daysToAdd + 1);
-  };
-
-  const handleDecrementDays = () => {
-    setDaysToAdd(daysToAdd - 1);
-  }
-
-  const handleToToday = () => {
-    setDaysToAdd(0);
-  }
+    // Handle 'next day' pagination button
+    const handleIncrementDays = () => {
+      setDaysToAdd(daysToAdd + 1);
+    };
+    // Handle 'previous day' pagination button
+    const handleDecrementDays = () => {
+      setDaysToAdd(daysToAdd - 1);
+    }
+    // Handle 'today' pagination button
+    const handleToToday = () => {
+      setDaysToAdd(0);
+    }
+  // End of section
   
+
+  // Create and return the html elements displaying the workout plan
   useEffect(() => {
+
+    // Parse the workout plan data recursivly given that workout plan is a nested JSON object
+    //  Source: Adapted from ChatGPT 
     async function fetchData() {
 
-      
-
-      // workoutData == the first workout plan object from the user database field workouts
+      // Variable 'workoutData' stores the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
 
-      // handles if workout field is empty
-      if (workoutData === "empty") {
-        setWorkout("No workout available");
-
+      // Handles if workout field is empty
+      if (workoutData === "empty") { setWorkout("No workout available");
       } else {
 
-       function renderNestedObject(obj) {
+      // 
+      function renderNestedObject(obj) {
 
         // check if current object is a nested object, recursively render its properties
         if (typeof obj === 'object' && obj !== null) {
           
+          // use .map function to check recursively
           return Object.keys(obj).map((key, index) => {
             
             // check if key matches date so only render the one day on the page
@@ -251,13 +253,9 @@ function Workout({ handleOpenModal }) {
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
                   // use this to check if current page is today to render title card
-                  let options = {
-                    weekday: "long",
-                    month: "long",
-                    day: "numeric",
-                    year: "numeric",
-                  };
+                  let options = { weekday: "long", month: "long", day: "numeric", year: "numeric", };
                   let today = new Date().toLocaleDateString("en-US", options);
+
                   // if this page is today
                   if (key == today) {
                     return (
@@ -265,7 +263,8 @@ function Workout({ handleOpenModal }) {
                         <h5>Today, {key}:</h5> Rest day
                       </div>
                     );
-                    // if page is not today
+
+                  // if page is not today
                   } else {
                     return (
                       <div key={index} className={styles.day}>
@@ -334,11 +333,11 @@ function Workout({ handleOpenModal }) {
               }
             })}
 
-
             {/* this opens up images for the exercise */}
             <div className={styles.exerciseButtonsContainer}>
-            <button onClick={handleOpenModal} className={`btn ${styles.modalButton}`}>Help</button>
+              <button onClick={handleOpenModal} className={`btn ${styles.modalButton}`}>Help</button>
             </div>
+            
           </div>
 
           );
@@ -347,8 +346,6 @@ function Workout({ handleOpenModal }) {
 
       // for the sublevel exercise object inside day object
       function renderExerciseToday(exerciseObj) {
-        
-
 
         // EASTER EGG Stuff
         const isSaitama = firstName.toLowerCase() == "saitama";
@@ -381,8 +378,8 @@ function Workout({ handleOpenModal }) {
               })
             }
 
-
             <div className={styles.exerciseButtonsContainer}>
+
               {/* this opens up images for the exercise */}
               <button onClick={handleOpenModal} className={`btn ${styles.modalButton}`}>Help</button>
               
@@ -390,33 +387,28 @@ function Workout({ handleOpenModal }) {
               <CompleteExercisesButton index={index} />
             </div>
 
-
           </div>
 
           );
         });
       }
-      
 
-      // recursively go through the nested json object that is workoutData
+      // Recursively go through the nested json object that is workoutData.
       setWorkout(renderNestedObject(workoutData));
 
         function assignVariables(data, variablePrefix = "") {
           for (const key in data) {
             const value = data[key];
-            // console.log("value: " + value);
             const variableName = variablePrefix + key;
-            // console.log("variableName: " + variableName);
 
             if (typeof value === "object") {
               assignVariables(value, variableName + "_");
             } else {
               // Assign the value directly
               const variableValue = value;
-              // dynamically generate a new variable with the name of the date and exercise
-              // caution dangerous to use eval
-              // fixed eval error by assigning each variableName the day of the week so only works on max 7-days plan
-              // console.log("variableName: " + variableName + ". key: " + key + ". variableValue: " + variableValue);
+              // Dynamically generate a new variable with the name of the date and exercise!
+              // Caution dangerous to use eval!
+              // Fixed eval error by assigning each variableName the day of the week so only works on max 7-days plan
               eval(
                 `var ${variableName.substring(
                   0,
@@ -459,10 +451,10 @@ function Workout({ handleOpenModal }) {
   );
 }
 
-// FOR THE TASK COMPLETION BUTTONS
+// Component for a button for each exercise to mark it as done.
+//  Each button inc/decrements a local storage value used to enable/disable the completeAllExercises button.
 const CompleteExercisesButton = (props) => {
   const [isChecked, setIsChecked] = useState(false);
-
   const handleClick = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
@@ -474,7 +466,6 @@ const CompleteExercisesButton = (props) => {
       numberOfExercises++;
       localStorage.setItem('numberOfExercises', numberOfExercises);
     }
-
   };
   return (
     <div>
@@ -485,18 +476,18 @@ const CompleteExercisesButton = (props) => {
 };
 
 
-// GET AND DISPLAY STREAK AND STATS
+// Component for a display of the user's workout stats/streak.
 const Streak = () => {
   const [currentStreak, setCurrentStreak] = useState(null);
   const [longestStreak, setLongestStreak] = useState(null);
   const [doneToday, setDoneToday] = useState(null);
   const [daysDone, setDaysDone] = useState(null);
   const [daysMissed, setDaysMissed] = useState(null);
-  // FUNCTION GETS USER STREAK STATS FROM DATABASE
+  
+  // Function retrieves the user information from the database.
   async function getStreak() {
     try {
-      const response = await fetch(
-        `https://healthify-enxj.onrender.com/streak/${username}`,
+      const response = await fetch(`https://healthify-enxj.onrender.com/streak/${username}`,
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
@@ -509,38 +500,37 @@ const Streak = () => {
       setDaysDone(data.daysDone);
       setDaysMissed(data.daysMissed);
     } catch (error) {
-      // Handle any errors that occur during the fetch
       console.error('Error fetching streak:', error);
     }
   }
   useEffect(() => {
     getStreak();
-  }, []); // Empty dependency array ensures the effect runs only once, similar to componentDidMount
+  }, []);
 
-  // Render loading state if streak data is not yet available
+  // Render loading state if streak data is not yet available.
   if (currentStreak === null || longestStreak === null) {
     return <div>Loading streak...</div>;
   }
 
-  // set which symbol via url to display if today's workout is done or not
+  // Set the symbol and message to be displayed representing if user completed today's workout or not.
+  //  Img sources from https://icones.pro
   var doneTodaySymbol;
   var doneTodayMessage;
-  if (doneToday) {
-    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png'
-    doneTodayMessage = 'Today Completed!'
-  } else {
-    doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/04/logo-excel-rouge.png'
-    doneTodayMessage = 'Today not yet done'
-  }
+    if (doneToday) {
+      doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/02/icone-de-tique-ronde-verte.png'
+      doneTodayMessage = 'Today Completed!'
+    } else {
+      doneTodaySymbol = 'https://icones.pro/wp-content/uploads/2021/04/logo-excel-rouge.png'
+      doneTodayMessage = 'Today not yet done'
+    }
 
+  // Calculate percentDaysDone later sent to the circle graphs.
   var percentDaysDone = 100 * daysDone / (daysDone + daysMissed);
   percentDaysDone = Math.floor(percentDaysDone);
-  // to prevent NaN error dividing 0
-  if (daysDone + daysMissed == 0) {
-    percentDaysDone = 0;
-  }
+    // Prevent NaN error dividing 0
+    if (daysDone + daysMissed == 0) { percentDaysDone = 0; }
 
-
+  // Return Streak component.
   return (
     <div className={styles.streakContainer}>
 
@@ -558,46 +548,42 @@ const Streak = () => {
 };
 
 
-
-// PAGE RENDER COMPONENT
+// The Main component for the page.
 const Fitness = () => {
 
+  // Hides the workout form to generate a new workout plan unless user button to open it.
   const [isWorkoutFormVisible, setWorkoutFormVisible] = useState(false);
   const toggleWorkoutFormVisibility = () => {
     setWorkoutFormVisible(!isWorkoutFormVisible);
   };
   
-  // used to disable button after clicking until current execution is finished
+  // Disables the generate new workout plan button after clicking until current execution is finished.
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
-  // function to update user in database with workout plan
+  // Function to update user in database with workout plan.
   async function addWorkoutToUser(event) {
     event.preventDefault();
 
-    // store form variables
+    // Disables the generate new workout plan button after clicking until current execution is finished.
+    if (isFormSubmitting) { return; }
+    setFormSubmitting(true);
+
+    // Use today's date as the key to store the newly generated workout plan in the user's database.
+    const today = new Date().toISOString().slice(0, 10);
+    const workoutKey = "workout_" + today;
+    const workout = {};
+
+    // Get the user-selected muscle groups and intensity level
+    //  Source: Adapted from ChatGPT.
     var muscleGroups = Array.from(event.target.elements)
     .filter((element) => element.type === 'checkbox' && element.checked)
     .map((element) => element.name);
-    // console.log(muscleGroups);
-    
     if (muscleGroups.length == 0) {
       muscleGroups = ["all"];
     }
     var level = event.target.intensity.value;
 
-    // ignore form submission if already submitting
-    if (isFormSubmitting) {
-      return;
-    }
-    setFormSubmitting(true);
-
-    // key to store individual workout
-    const today = new Date().toISOString().slice(0, 10);
-    const workoutKey = "workout_" + today;
-    // workout to write into user database, will generate with server side call to workouts.js
-    const workout = {};
-
-    // data we are sending to server.js via app.put
+    // Store all the client-side data to be sent to workout generation via later app.put call to server.js.
     const data = {
       workoutKey,
       workout,
@@ -605,7 +591,7 @@ const Fitness = () => {
       level,
     };
 
-    // call server.js app.put method
+    // Call server.js app.put method to generate a new workout plan for the user.
     const response = await fetch(
       `https://healthify-enxj.onrender.com/fitness/${username}`,
       {
@@ -614,34 +600,32 @@ const Fitness = () => {
         body: JSON.stringify(data),
       }
     );
-    const updatedUser = await response.json();
-    console.log(
-      "New workout " 
-        + JSON.stringify(updatedUser.workouts) 
-        + ` added to ${username}  `
-    );
     // re-enable button after finishing code
     setFormSubmitting(false);
-    // reload page so new workout is displayed
+    // reload page so the new workout is displayed
     window.location.reload();
   }
 
+
+  // Component for displaying a modal containing an exercise gif.
   const ExerciseModal = ({ isOpen, onRequestClose, modalExercise, sex }) => {
 
-        //Overlay styling for the modal
-        const overlayStyles = {
-          backgroundColor: "rgba(0, 0, 0, 0.5)",
-        };
+    // Overlay styling for the modal.
+    const overlayStyles = {
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    };
 
+    // Get and set the image source to be displayed.
     var source = "ModalExercise"
     if (modalExercise) {
-      // img source is url to the dev branch folder of exercise images
+      // Images are stored in our github dev branch in sex-specific folders.
       source = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${sex}/`
-      // replace whitespaces with underscore and tolowercase as per image naming convention
+      // Replace whitespaces with underscore and tolowercase as per image naming convention
       + modalExercise.replace(/\s/g, "_").toLowerCase()
       + `.gif`
     }
 
+    // Return ExerciseModal component.
     return (
       <Modal
         isOpen={isOpen}
@@ -653,51 +637,54 @@ const Fitness = () => {
         style={{overlay: overlayStyles}}
       >
         <strong>{modalExercise}</strong>
-        {/* <small>{source}</small> */}
         <img className={styles.modalImage} 
         src={source}
-        alt="No image avaiable for this exercise." />
-
-
+        alt="Sorry, no image avaiable for this exercise." 
+        // If no valid image is found, display a default one.
+        onError={(e) => {
+          e.target.onerror = null; // Prevents infinite loop if default image is also not found
+          e.target.src = 'https://media.tenor.com/aYgdn4RqQRMAAAAC/thinking-eye-squinting.gif';
+        }}
+        />
       </Modal>
     );
   };
 
+  // State variables to show a Modal.
   const [showModal, setShowModal] = useState(false);
   const [modalExercise, setModalExercise] = useState(null);
-
+  // Open modal.
   const handleOpenModal = (event) => {
-    // get the name of the exercise via html structure then send it to modal
+    // Get the name of the exercise via html structure then send it to modal.
     const strongElement = event.target.parentElement.parentElement.firstElementChild.textContent;
     setModalExercise(strongElement);
-    // makes modal appear
     setShowModal(true);
   };
-
+  // Close modal.
   const handleCloseModal = () => {
     setShowModal(false);
   };
 
-
-  // For completeAllExercises button
+  // Create the button to completeAllExercises.
   const [numberOfExercises, setNumberOfExercises] = useState(99);
   const [completeAllExercisesClicked, setCompleteAllExercisesClicked] = useState(false);
   useEffect(() => {
     const storedValue = localStorage.getItem('numberOfExercises');
       setNumberOfExercises(Number(storedValue));
   }, []);
+
+  // Check local storage if all exercises on the pages are marked as done, then enable completeAllExercises button.
   useEffect(() => {
     localStorage.setItem('numberOfExercises', numberOfExercises);
   }, [numberOfExercises]);
 
-  // COMPLETE ALL EXERCISES BUTTON SHOULD CALL TWO SERVER METHODS
+  // Clicking completeAllExercisesButton calls server app.post method to update user stats.
   const completeAllExercises = async () => {
-    // console.log("All exercises complete! Top");
 
-    // disable the button after it is clicked
+    // Disable the button after it is clicked.
     setCompleteAllExercisesClicked(true);
 
-    // incriment the user field: streak
+    // Call server.js to incriment the user field 'streak'.
     try {
       const response = await fetch(`https://healthify-enxj.onrender.com/${username}`, {
         method: 'POST',
@@ -705,25 +692,20 @@ const Fitness = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: username, // Replace with the actual username
+          username: username,
         }),
       });
-
       if (response.ok) {
-        // Field update successful
         console.log('Field updated successfully!');
       } else {
-        // Field update failed
         console.log('Field update failed!');
       }
     } catch (error) {
       console.log('Error updating field:', error);
     }
 
-    // reload page to rerender everything
+    // Reload page to rerender everything
     window.location.reload();
-
-    // console.log("All exercises complete! Bottom");
   };
 
   // Pseudo-event listener for when numberOfExercises is modified
@@ -732,7 +714,6 @@ const Fitness = () => {
     const checkLocalStorage = () => {
       const currentNumberOfExercises = localStorage.getItem('numberOfExercises');
       if (currentNumberOfExercises !== prevNumberOfExercisesRef.current) {
-        // console.log('numberOfExercises has been modified:', currentNumberOfExercises);
         prevNumberOfExercisesRef.current = currentNumberOfExercises;
         setNumberOfExercises(Number(currentNumberOfExercises)); // Trigger re-render
       }
@@ -744,33 +725,32 @@ const Fitness = () => {
   }, []);
 
 
-  // return for Fitness()
+  // Return Fitness component.
   return (
-    <div
-      className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
-    >
-      <h2>{username}'s Workout Plan</h2>
+    <div className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}>
       
-      {/* <form id="updateStreaks" onSubmit={updateStreaks}>
-        <button type="submit">Test Cron Job</button>
-      </form> */}
+      {/* Title displaying the user's username. */}
+      <h2>{username}'s Workout Plan</h2>
 
+      {/* Streak Component. */}
       <Streak />
 
+      {/* Button to open form to create a new workout plan. */}
       <button onClick={toggleWorkoutFormVisibility} className={`btn ${styles.paginationButton}`}>
         {isWorkoutFormVisible ? 'Hide Create Workout Plan Form' : 'Create A New Workout Plan'}
       </button>
 
+      {/* Form to generate a new workout plan. */}
       <div
         id="workoutForm"
         className={`${styles.workoutForm} ${isWorkoutFormVisible ? '' : styles.hidden}`}
       >
         <form id="addWorkout" onSubmit={addWorkoutToUser}>
-          {/* SEND USERNAME FOR DATABASE SEARCH */}
+
+          {/* Not displayed, username data to send to workout generation. */}
           <input type="hidden" name="username" value={username}></input>
 
-          {/* SEND INTENSITY FOR WORKOUT GENERATION */}
-          
+          {/* User can choose an intensity level to send to workout generation. */}
           <input type="radio" id="beginnerOption" name="intensity" value="beginner" className="btn-check"></input>
           <label htmlFor="beginnerOption" className={`btn ${styles.radioButton}`}>Beginner</label>
           <input type="radio" id="intermediateOption" name="intensity" value="intermediate" className="btn-check" defaultChecked={true}></input>
@@ -780,8 +760,7 @@ const Fitness = () => {
           <p>Select desired intensity level</p>
           <br />
 
-          {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
-          
+          {/* User can choose muscle groups they want to focus on to send to workout generation.*/}
           <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
           <label className={`btn ${styles.muscleGroupButton}`} htmlFor="arms">Arms</label>
           <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
@@ -800,7 +779,7 @@ const Fitness = () => {
 
           <br />
 
-          {/* button displays different text if clicked or not clicked */}
+          {/* Button to submit form to generate a new workout plan. Displays different text if clicked or not clicked */}
           <button
             type="submit"
             className="btn btn-success"
@@ -817,18 +796,20 @@ const Fitness = () => {
             )}
           </button>
 
-          <p>
+          {/* Disclaimer. */}
+          <p> 
             <small>Generating takes 1 to 2 minutes</small>
             <br />
             <small>Please DO NOT refresh the page</small>
             <br />
-            {/* <small>If you just registered a new account, please wait 1 minute for your new workout to appear</small> */}
           </p>
         </form>
       </div>
 
+      {/* The main content of the page. All exercises for the specific date.*/}
       <Workout workout={workout} handleOpenModal={handleOpenModal} />
 
+      {/* Modal. Only displayed if clicked. */}
       {showModal && (
         <ExerciseModal
           isOpen={showModal}
@@ -838,6 +819,7 @@ const Fitness = () => {
           />
       )}
 
+      {/* Button for user to mark today's workout complete and update database.*/}
       <button id="completeAllButton" className={`btn btn-success ${styles.completeAllButton}`}
         onClick={completeAllExercises} 
         disabled={numberOfExercises !== 0 || completeAllExercisesClicked || doneToday}
