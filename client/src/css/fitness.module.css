@@ -61,7 +61,7 @@
   pointer-events: none;
 }
 
-.graphs {
+.streakContainer {
   display: flex;
   height: 140px;
 }
@@ -78,41 +78,12 @@
   width: 100px;
 }
 
-#addWorkout {
-  margin: 10px;
-}
-
 .workoutForm {
   border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
   margin: 10px;
-}
-
-.formButtons {
-  background-color: hsl(184, 61%, 40%);
-  border: none;
-  margin: 3px;
-}
-
-.formButtons:hover {
-  color: white;
-  background-color: hsl(184, 61%, 77%);
-}
-
-input[type="radio"]:checked + .formButtons {
-  border-color: rgb(92, 208, 216);
-  background-color: rgb(92, 208, 216);
-}
-
-input[type="checkbox"]:checked + .formButtons {
-  border-color: rgb(92, 208, 216);
-  background-color: rgb(92, 208, 216);
-}
-
-input[type="checkbox"]:active + .formButtons,
-input[type="checkbox"]:focus + .formButtons {
-  border-color: rgb(92, 208, 216);
-  background-color: rgb(92, 208, 216);
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .exerciseButtonsContainer {
@@ -120,12 +91,101 @@ input[type="checkbox"]:focus + .formButtons {
 }
 
 .completeAllButton {
-  margin: 20px 0;
+  margin: 17px 0;
+  background-color: hsl(184, 61%, 40%);
+}
+
+.completeAllButton:hover {
+  color: black;
+  background-color: hsl(184, 61%, 70%);
+}
+
+.completeAllButton:focus, .completeAllButton:active {
+  color: black;
+  background-color: hsl(184, 61%, 80%);
 }
 
 .completeAllButton:disabled {
   background-color: grey;
   border: grey;
+}
+
+.muscleGroupButton {
+  background-color: hsl(184, 61%, 40%);
+  color: white;
+  border: solid 2px hsl(184, 61%, 40%);
+  margin: 0 3px;
+}
+
+.muscleGroupButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: solid 2px hsl(184, 61%, 60%);
+}
+
+.muscleGroupButton:focus{
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%) !important;
+  outline: none;
+}
+
+input[type="checkbox"]:checked + .muscleGroupButton {
+  background-color: hsl(184, 61%, 70%) !important; 
+  color: white;
+  border: solid 2px hsl(184, 61%, 70%);
+}
+
+.planButton{
+  background-color: hsl(184, 61%, 40%);
+  border-color:hsl(184, 61%, 40%);
+}
+
+.planButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
+  border-color:hsl(184, 61%, 60%);
+}
+
+.planButton:active{
+  background-color: hsl(184, 61%, 70%);
+  color: black;
+  border-color:hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.planButton:focus{
+  background-color: hsl(184, 61%, 70%);
+  color: black;
+  border-color:hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.planButton:disabled{
+  background-color: hsl(183, 18%, 61%);
+  border-color:hsl(183, 18%, 61%);
+}
+
+
+.doneExerciseButton {
+  background-color: transparent;
+  color: white;
+  border: solid 2px hsl(184, 61%, 40%);
+}
+
+input[type="checkbox"]:checked + .doneExerciseButton {
+  background-color: #5cb85c !important; 
+  color: white;
+  border: solid 2px #5cb85c;
+}
+
+.radioButton {
+  background-color: hsl(184, 61%, 40%);
+  color: white;
+  border: solid 2px hsl(184, 61%, 40%);
+  margin: 10px 5px 5px 5px;
+}
+input[type="radio"]:checked + .radioButton {
+  background-color: hsl(184, 61%, 70%); 
+  color: white;
+  border: solid 2px hsl(184, 61%, 70%);
 }
 
 .modalButton {
@@ -135,12 +195,14 @@ input[type="checkbox"]:focus + .formButtons {
   margin: 5px;
 }
 
-.modalButton:hover,
-.modalButton:active,
+.modalButton:hover {
+  background-color: hsl(184, 61%, 60%);
+}
+
 .modalButton:focus {
   background-color: hsl(184, 61%, 60%);
-  color: black;
 }
+
 
 .paginationButton {
   background-color: hsl(184, 61%, 40%);
@@ -150,14 +212,11 @@ input[type="checkbox"]:focus + .formButtons {
 }
 
 .paginationButton:hover {
-  background-color: hsl(184, 61%, 60%);
-  color: black;
+  background-color: hsl(184, 61%, 70%);
 }
 
-.paginationButton:active,
-.paginationButton:focus {
-  background-color: hsl(184, 61%, 60%);
-  color: black;
+.paginationButton:active {
+  background-color: hsl(184, 61%, 70%);
 }
 
 .paginationButton:disabled {
@@ -179,12 +238,12 @@ input[type="checkbox"]:focus + .formButtons {
   top: 20%;
   background-color: hsl(0, 0%, 30%);
   border-radius: 10px;
-  color: white;
-  font-size: 20pt;
 }
 
 .modal > strong {
-  margin: 10px 0 15px 0;
+  color: white;
+  font-size: 30px;
+  margin-bottom: 20px;
 }
 
 .modalImage {
@@ -197,20 +256,23 @@ input[type="checkbox"]:focus + .formButtons {
   display: none;
 }
 
-/*  MEDIA QUERIES  */
-
-/* phones */
 @media (width <= 767px) {
   .fitnessContainer {
     margin-bottom: 130px;
+    padding: 1rem;
   }
 
-  .anExercise{
+  .anExercise {
     margin-top: 20px;
+  }
+  .widthDiv{
+    width: 100%;
   }
 
   .exercisesContainer {
-    width: 300px;
+    /* width: 300px; */
+    display: flex;
+    flex-direction: column;
   }
 
   .doneContainer {
@@ -226,19 +288,17 @@ input[type="checkbox"]:focus + .formButtons {
     margin-bottom: 24px;
   }
 
-  .graphs p {
+  .streakContainer p {
     font-size: 10pt;
     max-width: 110px;
   }
 }
 
-/* tablets & computers */
 @media (width > 767px) {
   .fitnessContainer {
     margin-top: 160px;
   }
 
-  /* multiple column grids */
   .exercisesContainer {
     width: 85vw;
     display: grid;
@@ -249,7 +309,10 @@ input[type="checkbox"]:focus + .formButtons {
   .graph {
     margin: 0 20px 0 20px;
   }
-  .graphs {
+  
+  .streakContainer {
     justify-content: space-around;
   }
 }
+
+

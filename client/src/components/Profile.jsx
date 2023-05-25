@@ -1,9 +1,12 @@
+// Import statements
 import React, { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
 import axios from "axios";
 
+// CSS module import statement
 import styles from "../css/profile.module.css";
+// Image import statement
 import profile from "../img/placeholder-profile.png";
-import { useSpring, animated } from "react-spring";
 
 const Profile = ({ username }) => {
   // Visual page animation effects
@@ -12,9 +15,9 @@ const Profile = ({ username }) => {
     from: { opacity: 0 },
     delay: 500,
   });
-  // End of visual effects
+  // End of visual page animation effects
 
-  // Retrieves the logged in user's username
+  // useEffect hook retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
       try {
@@ -35,7 +38,7 @@ const Profile = ({ username }) => {
 
     fetchUserName();
   }, []);
-  // End of username retrieval
+  // End of useEffect hook retrieves the logged in user's username
 
   // Retrieves logged in user's data
   const [userInfo, setUserInfo] = useState(null);
@@ -77,8 +80,6 @@ const Profile = ({ username }) => {
         weight: response.data.userStats[0].weight,
         foodPref: response.data.userStats[0].foodPref,
         foodRes: response.data.userStats[0].foodRes,
-        // workoutPref: response.data.userStats[0].workoutPref,
-        // workoutRes: response.data.userStats[0].workoutRes,
       }));
     } catch (error) {
       console.error(error.response.data);
@@ -89,7 +90,7 @@ const Profile = ({ username }) => {
   useEffect(() => {
     fetchUserData();
   }, []);
-  /* End of user data retrieval */
+  // End of useEffect hook to call fetchUserData function
 
   // Allows the user to update their profile
   const [data, setData] = useState({
@@ -101,8 +102,6 @@ const Profile = ({ username }) => {
     weight: "",
     foodPref: "",
     foodRes: "",
-    // workoutPref: "",
-    // workoutRes: "",
   });
 
   // useState hook variables for displaying the edit modal
@@ -111,7 +110,7 @@ const Profile = ({ username }) => {
   // useState hook variables for displaying the alert
   const [showAlert, setShowAlert] = useState(false);
 
-  // Click event handler for saving the profile changes
+  // Handle click event for saving the profile changes
   const handleChange = ({ currentTarget: input }) => {
     // Input is saved into the data array
     setData({ ...data, [input.name]: input.value });
@@ -126,33 +125,27 @@ const Profile = ({ username }) => {
       handleImageUpload();
     }
   }, [image]);
-  // End of image upload
+  // End of useEffect hook to handle image uploads
 
   // Allows the user to change their profile picture
   const handleImageChange = ({ currentTarget: input }) => {
     setPfp(URL.createObjectURL(input.files[0]));
     setImage(input.files[0]);
-    // console.log(input.files[0]);
   };
 
   // Executes the image upload to store the URL in the database
   const handleImageUpload = async () => {
     try {
       let imageURL = "";
-      // console.log(image);
       if (image) {
-        // console.log("Inside image upload");
-        // console.log(image);
         const formData = new FormData();
         formData.append("file", image);
         formData.append("upload_preset", "healthify-app");
-        // console.log(formData);
         const dataRes = await axios.post(
           "https://api.cloudinary.com/v1_1/dqhi5isl1/image/upload",
           formData
         );
         imageURL = dataRes.data.url;
-        // console.log("******" + imageURL);
 
         const submitPost = {
           image: imageURL,
@@ -184,6 +177,7 @@ const Profile = ({ username }) => {
     }
     return () => clearTimeout(timer);
   }, [showAlert]);
+  // End of useEffect hook to close the modal after 3 seconds of saving the changes
 
   // Saves the user's profile changes
   const handleSaveChanges = async (event) => {
@@ -297,11 +291,12 @@ const Profile = ({ username }) => {
       console.error(error);
     }
   };
+
   // useEffect hook for calling fetchFriends
   useEffect(() => {
     fetchFriends();
   }, []);
-  // End of user's friends retrieval
+  // End of useEffect hook for calling fetchFriends
 
   // Sorts the list of friends by alphabetical order
   const sortedFriends = friends.sort((a, b) => {
@@ -401,7 +396,7 @@ const Profile = ({ username }) => {
     }
   };
 
-  // Click event handler
+  // Handle click event
   const handleUserClick = (user) => {
     setSelectedUser(user);
     setShowDeleteModal(true);
@@ -502,7 +497,7 @@ const Profile = ({ username }) => {
 
     fetchChallenges();
   }, [localStorage.getItem("username")]);
-  // End of user's challenges retrieval
+  // End of useEffect hook to retrieve the user's challenges from the database
 
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
@@ -513,6 +508,7 @@ const Profile = ({ username }) => {
     const challenges = getUserChallengesFromStorage();
     setUserChallenges(challenges);
   }, []);
+  // End of useEffect hook to get logged in user's challenge's from localStorage
 
   // Function to get user challenges from localStorage
   function getUserChallengesFromStorage() {
@@ -571,7 +567,7 @@ const Profile = ({ username }) => {
     fetchUserData();
   };
 
-  // Click event handler for completing a challenge
+  // Handle click event for completing a challenge
   const handleDoneClick = (challengeId, points) => {
     // Update the user's points in the database
     handleCompleteChallenge(challengeId, points);
@@ -605,6 +601,7 @@ const Profile = ({ username }) => {
     }
   };
 
+  // Renders Profile.jsx component
   return (
     <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.profileBody}`}
@@ -971,38 +968,6 @@ const Profile = ({ username }) => {
                     <option value="Soy Allergy">Soy Allergy</option>
                   </select>
                 </div>
-                {/* <div className="mb-3">
-                  <label
-                    htmlFor="workoutPrefInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
-                    Workout Preferences
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="workoutPrefInput"
-                    name="workoutPref"
-                    value={data.workoutPref}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div className="mb-3">
-                  <label
-                    htmlFor="workoutResInput"
-                    className={`form-label ${styles.formLabel}`}
-                  >
-                    Workout Restrictions
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="workoutResInput"
-                    name="workoutRes"
-                    value={data.workoutRes}
-                    onChange={handleChange}
-                  />
-                </div> */}
                 <div className="modal-footer">
                   <button
                     type="button"
@@ -1031,6 +996,7 @@ const Profile = ({ username }) => {
       </div>
     </animated.div>
   );
+  // End of Profile.jsx component
 };
 
 export default Profile;

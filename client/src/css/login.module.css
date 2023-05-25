@@ -2,14 +2,12 @@
   height: 100%;
   width: 100%;
   margin: 0;
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
-  /* overflow-y: auto; */
-  /* overflow-x: hidden; */
 }
 
 #login {
@@ -28,14 +26,15 @@
   padding: 10px;
 }
 
-.errorMessage{
-  color: red;
-}
 #loginHeader {
   color: white;
   margin-top: 30px;
   font-size: 30pt;
   font-weight: bold;
+}
+
+.errorMessage {
+  color: red;
 }
 
 .loginCard {
@@ -71,7 +70,7 @@
 }
 
 .signupLink:hover {
- color:rgb(144, 213, 192);
+  color: rgb(144, 213, 192);
 }
 
 .userInput {
@@ -86,7 +85,7 @@
   outline: solid rgb(129, 126, 126) 2px;
 }
 
-.inputName{
+.inputName {
   color: gray;
   position: relative;
   bottom: 35px;
@@ -95,7 +94,7 @@
   display: inline-block;
 }
 
-.inputLabel{
+.inputLabel {
   height: 0;
 }
 

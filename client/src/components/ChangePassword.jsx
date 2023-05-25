@@ -1,8 +1,9 @@
-import React from "react";
-import { useState } from "react";
+// Import statements
+import React, { useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+// CSS module import statement
 import styles from "../css/password.module.css";
 
 function ChangePassword() {
@@ -11,9 +12,11 @@ function ChangePassword() {
     email: "",
     newPassword: "",
   });
+
+  // useState hook variables for throwing errors
   const [error, setError] = useState("");
 
-  // Allows the user to change their password
+  // Function that allows the user to change their password
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -33,6 +36,7 @@ function ChangePassword() {
     setData({ ...data, [input.name]: input.value });
   };
 
+  // Renders ChangePassword.jsx component
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.passwordBody}`}
@@ -85,6 +89,7 @@ function ChangePassword() {
       </div>
     </div>
   );
+  // End of ChangePassword.jsx component
 }
 
 export default ChangePassword;

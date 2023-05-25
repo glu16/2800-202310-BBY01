@@ -1,8 +1,10 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
-import styles from "../css/signupDetails.module.css";
+// Import statements
+import React, { useState } from "react";
 import SignupPrefRes from "./SignupPrefRes";
+import axios from "axios";
+
+// CSS module import statement
+import styles from "../css/signupDetails.module.css";
 
 function SignupDetails() {
   // useState hook variables for users to input their information
@@ -14,8 +16,11 @@ function SignupDetails() {
     activityLevel: "",
     goal: "",
   });
+
+  // useState hook variables for the user's preferences
   const [showPreferences, setShowPreferences] = useState(false);
 
+  // useState hook variables for throwing errors
   const [error, setError] = useState("");
 
   // Allows the user to submit their information to the database
@@ -38,6 +43,7 @@ function SignupDetails() {
     setData({ ...data, [input.name]: input.value });
   };
 
+  // Renders SignupDetails.jsx component
   return (
     <>
       {showPreferences ? (
@@ -95,7 +101,11 @@ function SignupDetails() {
               required
             />
             <label htmlFor="heightInput" className={`${styles.inputLabel}`}>
-              <span className={`${styles.inputName} ${styles.heightPlaceholder}`}>Height (m) </span>
+              <span
+                className={`${styles.inputName} ${styles.heightPlaceholder}`}
+              >
+                Height (m){" "}
+              </span>
             </label>
             <label htmlFor="weight"></label>
             <input
@@ -155,6 +165,7 @@ function SignupDetails() {
       )}
     </>
   );
+  // End of SignupDetails.jsx component
 }
 
 export default SignupDetails;

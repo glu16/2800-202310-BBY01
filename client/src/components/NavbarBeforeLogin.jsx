@@ -1,17 +1,20 @@
+// Import statements
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+// CSS import statement
 import "../css/navfooter.css";
 
 function NavbarBeforeLogin() {
   // useState hook variables for opening the navbar
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  // Click event handler to close the toggle menu dropdown
+  // Handle click event to close the toggle menu dropdown
   const handleNavClose = () => {
     setIsNavOpen(false);
   };
 
+  // Renders NavbarBeforeLogin.jsx component
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
       <div className="container-fluid nav-dropdown">
@@ -46,6 +49,7 @@ function NavbarBeforeLogin() {
       </div>
     </nav>
   );
+  // End of NavbarBeforeLogin.jsx component
 }
 
 export default NavbarBeforeLogin;

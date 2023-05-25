@@ -1,8 +1,11 @@
+// Import statements
 import React, { useEffect, useRef, useState } from "react";
+import { useSpring, animated } from "react-spring";
 import axios from "axios";
 
+// CSS module import statement
 import styles from "../css/leaderboard.module.css";
-import { useSpring, animated } from "react-spring";
+// Image import statement
 import pfpPlaceholder from "../img/placeholder-profile.png";
 
 const Leaderboard = () => {
@@ -12,9 +15,9 @@ const Leaderboard = () => {
     from: { opacity: 0 },
     delay: 500,
   });
-  // End of visual effects
+  // End of visual page animation effects
 
-  // Retrieves the logged in user's username
+  // useEffect hook that retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
       try {
@@ -36,12 +39,12 @@ const Leaderboard = () => {
 
     fetchUserName();
   }, []);
-  // End of username retrieval
+  // End of useEffect hook that retrieves the logged in user's username
 
   // useState hook variable for all the users
   const [users, setUsers] = useState([]);
 
-  // Retrieves users from the database
+  // useEffect hook that retrieves users from the database
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -56,7 +59,7 @@ const Leaderboard = () => {
     };
     fetchUsers();
   }, []);
-  // End of users retrieval
+  // End of useEffect hook that retrieves users from the database
 
   // useState hook variables to display the friends
   const [friends, setFriends] = useState([]);
@@ -191,7 +194,7 @@ const Leaderboard = () => {
     }
   };
 
-  // Click event handler
+  // Handle click event
   const handleUserClick = (user) => {
     if (user.username === "Rick") {
       handleSurpriseUsernameClick();
@@ -272,18 +275,18 @@ const Leaderboard = () => {
   const playerRef = useRef(null);
   const videoId = "dQw4w9WgXcQ";
 
-  // Click event handler for the Easter Egg surprise
+  // Handle click event for the Easter Egg surprise
   const handleSurpriseUsernameClick = () => {
     setShowSurpriseModal(true);
   };
 
-  // Easter Egg surprise modal close handler
+  // Surprise Challenge Easter Egg surprise modal close handler
   const closeSurpriseModal = () => {
     setShowSurpriseModal(false);
     // window.location.reload();
   };
 
-  // Beginning of Easter Egg modal
+  // Beginning of Surprise Challenge Easter Egg modal
   const EasterEggModal = () => {
     let player;
     // Creates a YouTube video API
@@ -312,6 +315,7 @@ const Leaderboard = () => {
     }, []);
     // End of YouTube video API
 
+    // Beginning of Easter Egg modal
     return (
       <div
         className={showSurpriseModal ? "modal fade show" : "modal fade"}
@@ -362,7 +366,7 @@ const Leaderboard = () => {
   // Allows users to switch between global and friend ranks
   const [activeTab, setActiveTab] = useState("global");
 
-  // Click event handler for switching between ranks
+  // Handle click event for switching between ranks
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
@@ -390,7 +394,8 @@ const Leaderboard = () => {
                     className={styles.userNameLink}
                     onClick={() => handleUserClick(user)}
                   >
-                    <img src={user.imageURL || pfpPlaceholder}/>{" "} {user.username}
+                    <img src={user.imageURL || pfpPlaceholder} />{" "}
+                    {user.username}
                   </a>
                 </td>
                 <td>{user.points}</td>
@@ -414,7 +419,11 @@ const Leaderboard = () => {
             {sortedFriends.map((friend, index) => (
               <tr key={friend._id}>
                 <td>{index + 1}</td>
-                <td className={styles.names}> <img src={friend.imageURL || pfpPlaceholder}/> {" "} {friend.username}</td>
+                <td className={styles.names}>
+                  {" "}
+                  <img src={friend.imageURL || pfpPlaceholder} />{" "}
+                  {friend.username}
+                </td>
                 <td>{friend.points}</td>
               </tr>
             ))}
@@ -425,6 +434,7 @@ const Leaderboard = () => {
   };
   // End of global to friend leaderboard switch
 
+  // Renders Leaderboard.jsx component
   return (
     <div className={styles.cardWrapper}>
       <animated.div
@@ -478,6 +488,7 @@ const Leaderboard = () => {
       )}
     </div>
   );
+  // End of Leaderboard.jsx component
 };
 
 export default Leaderboard;

@@ -1,15 +1,18 @@
-import React, {useState, useEffect} from "react";
-import {useSpring, animated} from "react-spring";
-import {ProgressBar} from "react-step-progress-bar";
+// Import statements
+import React, { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
+import { ProgressBar } from "react-step-progress-bar";
+import { Reorder } from "framer-motion";
+import { VictoryPie, VictoryLabel } from "victory";
 import axios from "axios";
-import {Reorder} from "framer-motion";
-import {VictoryPie, VictoryLabel} from "victory";
 
+// CSS for progress bar import statement
 import "react-step-progress-bar/styles.css";
+// CSS module import statement
 import styles from "../css/home.module.css";
 
 const Home = () => {
-  // Retrieves the logged in user's username
+  // useEffect hook that retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
       try {
@@ -30,7 +33,7 @@ const Home = () => {
 
     fetchUserName();
   }, []);
-  // End of username retrieval
+  // End of useEffect hook that retrieves the logged in user's username
 
   // Formatting for date, to be used in toLocaleDateString function
   const dateOptions = {
@@ -88,10 +91,10 @@ const Home = () => {
   const [items, setItems] = useState(["rest day"]);
   // End of fetchExercises function
 
-  const CirclePercentDaysDone = ({percentDaysDone}) => {
+  const CirclePercentDaysDone = ({ percentDaysDone }) => {
     const data = [
-      {x: 1, y: percentDaysDone},
-      {x: 2, y: 100 - percentDaysDone},
+      { x: 1, y: percentDaysDone },
+      { x: 2, y: 100 - percentDaysDone },
     ];
     const svgSize = 150; // Adjust the size of the SVG container
     const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -105,9 +108,12 @@ const Home = () => {
     }
     return (
       <div className={styles.graph}>
-        <svg className={styles.homeSVG}
-        // view= x, y, width, height
-          viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+        <svg
+          className={styles.homeSVG}
+          // view = x, y, width, height
+          viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+            svgSize / 1.7
+          }`}
           width={svgSize}
           height={svgSize}
         >
@@ -121,7 +127,7 @@ const Home = () => {
             labels={() => null}
             style={{
               data: {
-                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+                fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
               },
             }}
           />
@@ -131,7 +137,7 @@ const Home = () => {
             x={svgSize / 2}
             y={svgSize / 2}
             text={`${percentDaysDone}%`}
-            style={{fontSize: 20, fill: "white"}}
+            style={{ fontSize: 20, fill: "white" }}
           />
         </svg>
         <p>Workout Completion Rate</p>
@@ -139,11 +145,11 @@ const Home = () => {
     );
   };
 
-  const CircleStreak = ({currentStreak, longestStreak}) => {
+  const CircleStreak = ({ currentStreak, longestStreak }) => {
     const percentStreak = (100 * currentStreak) / longestStreak;
     const data = [
-      {x: 1, y: percentStreak},
-      {x: 2, y: 100 - percentStreak},
+      { x: 1, y: percentStreak },
+      { x: 2, y: 100 - percentStreak },
     ];
     const svgSize = 150; // Adjust the size of the SVG container
     const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -158,9 +164,12 @@ const Home = () => {
     }
     return (
       <div className={styles.graph}>
-   <svg className={styles.homeSVG}
-        // view= x, y, width, height
-          viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+        <svg
+          className={styles.homeSVG}
+          // view = x, y, width, height
+          viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+            svgSize / 1.7
+          }`}
           width={svgSize}
           height={svgSize}
         >
@@ -174,7 +183,7 @@ const Home = () => {
             labels={() => null}
             style={{
               data: {
-                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+                fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
               },
             }}
           />
@@ -184,7 +193,7 @@ const Home = () => {
             x={svgSize / 2}
             y={svgSize / 2}
             text={` ${currentStreak} / ${longestStreak} \n days`}
-            style={{fontSize: 16, fill: "white"}}
+            style={{ fontSize: 16, fill: "white" }}
           />
         </svg>
         <p>Current vs Longest Streak</p>
@@ -192,14 +201,14 @@ const Home = () => {
     );
   };
 
-  // GET AND DISPLAY STREAK AND STATS
+  // Retrieves the user's streak and stats
   const Streak = () => {
     const [currentStreak, setCurrentStreak] = useState(null);
     const [longestStreak, setLongestStreak] = useState(null);
     const [doneToday, setDoneToday] = useState(null);
     const [daysDone, setDaysDone] = useState(null);
     const [daysMissed, setDaysMissed] = useState(null);
-    // FUNCTION GETS USER STREAK STATS FROM DATABASE
+    // Function that retrieves the user's streak stats from the database
     async function getStreak() {
       const username = localStorage.getItem("username");
       try {
@@ -215,16 +224,14 @@ const Home = () => {
         console.error("Error fetching streak:", error);
       }
     }
-    useEffect(() => {
-      getStreak();
-    }, []); // Empty dependency array ensures the effect runs only once, similar to componentDidMount
+    getStreak();
 
     // Render loading state if streak data is not yet available
     if (currentStreak === null || longestStreak === null) {
       return <div>Loading streak...</div>;
     }
 
-    // set which symbol via url to display if today's workout is done or not
+    // Set which symbol via url to display if today's workout is done or not
     var doneTodaySymbol;
     var doneTodayMessage;
     if (doneToday) {
@@ -237,7 +244,9 @@ const Home = () => {
       doneTodayMessage = "Exercises not completed";
     }
 
-    var percentDaysDone = Math.floor((100 * daysDone) / (daysDone + daysMissed));
+    var percentDaysDone = Math.floor(
+      (100 * daysDone) / (daysDone + daysMissed)
+    );
     // to prevent NaN error dividing 0
     if (daysDone + daysMissed == 0) {
       percentDaysDone = 0;
@@ -252,12 +261,11 @@ const Home = () => {
 
         {/* <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} /> */}
 
-          <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
-          <CircleStreak
-            currentStreak={currentStreak}
-            longestStreak={longestStreak}
-          />
-
+        <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
+        <CircleStreak
+          currentStreak={currentStreak}
+          longestStreak={longestStreak}
+        />
 
         {/* Current streak: {currentStreak} 
       <br />
@@ -270,12 +278,13 @@ const Home = () => {
     );
   };
 
-  // Text animation
+  // Visual text animation effects
   const greetings = useSpring({
     opacity: 1,
-    from: {opacity: 0},
+    from: { opacity: 0 },
     delay: 300,
   });
+  // End of visual text animation effects
 
   // useState hook variables for the username
   const [userName, setUserName] = useState("");
@@ -290,9 +299,7 @@ const Home = () => {
           },
         }
       );
-      const {firstName, points} = response.data;
-      // console.log(firstName);
-      // console.log(points);
+      const { firstName, points } = response.data;
       setUserName(firstName);
       setUserPoints(points);
     } catch (error) {
@@ -304,7 +311,7 @@ const Home = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
-  // End of user name retrieval
+  // End of useEffect hook to retrieve logged in user's name
 
   // useState hook variables for the tips
   const [tip, setTip] = useState("");
@@ -333,7 +340,7 @@ const Home = () => {
 
     fetchTip();
   }, []);
-  // End of tip retrieval
+  // End of useEffect hook that retrieves and displays a random diet or fitness tip from MongoDB
 
   // useState hook variables for the challenges
   const [challenges, setChallenges] = useState([]);
@@ -355,7 +362,7 @@ const Home = () => {
   useEffect(() => {
     fetchChallenges();
   }, []);
-  // End of challenges retrieval
+  // End of useEffect hook to call fetchChallenges function
 
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
@@ -367,7 +374,7 @@ const Home = () => {
         `https://healthify-enxj.onrender.com/home/challenges/${localStorage.getItem(
           "username"
         )}`,
-        {challengeId, challenge, points}
+        { challengeId, challenge, points }
       );
       // console.log("Response:", response.data);
       // console.log("Challenge added:", challenge);
@@ -385,7 +392,7 @@ const Home = () => {
     }
   };
 
-  // Click event handler for adding a challenge
+  // Handle click event for adding a challenge
   const handleAddChallenge = async (challengeId, points) => {
     const challenge = challenges.find(
       (challenge) => challenge._id === challengeId
@@ -441,10 +448,6 @@ const Home = () => {
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
-      // console.log("handleDoneClick called with challengeId:", challengeId);
-      // console.log("Points:", points);
-      // console.log("User's current points balance:", userPoints);
-
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
         `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
@@ -486,7 +489,7 @@ const Home = () => {
   // useState hook variables for the completed challenges
   const [completedChallenges] = useState([]);
 
-  // Click event handler for completing a challenge
+  // Handle click event for completing a challenge
   const handleDoneClick = (challengeId, points) => {
     // Update the user's points in the database
     handleCompleteChallenge(challengeId, points);
@@ -500,15 +503,19 @@ const Home = () => {
   // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
 
-  // Click event handler to increment the diet progress
+  // Handle click event to increment the diet progress
   const handleDietProgressChange = () => {
-    setDietProgress(dietProgress + 25);
+    if (dietProgress < 100) {
+      setDietProgress(dietProgress + 25);
+    } else {
+      return;
+    }
   };
 
   // useState hook variables for the fitness progress
   const [fitnessProgress, setFitnessProgress] = useState(0);
 
-  // Click event handler to increment the fitness progress
+  // Handle click event to increment the fitness progress
   const handleFitnessProgressChange = () => {
     setFitnessProgress(fitnessProgress + 25);
   };
@@ -597,6 +604,7 @@ const Home = () => {
           <div className={styles.progressBarContainer}>
             <ProgressBar
               percent={dietProgress}
+              height="24px"
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
             />
           </div>
@@ -614,7 +622,7 @@ const Home = () => {
       >
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
-            <Streak/>
+          <Streak />
         </div>
       </animated.div>
       <animated.div
@@ -634,7 +642,7 @@ const Home = () => {
       </animated.div>
     </div>
   );
-  // End of Home.jsx component render
+  // End of Home.jsx component
 };
 
 export default Home;

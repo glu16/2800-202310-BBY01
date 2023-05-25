@@ -24,12 +24,11 @@ import Profile from "./components/Profile";
 import Settings from "./components/Settings";
 import useToken from "./components/useToken";
 
-
 function App() {
-  // useState hook variable to set user token
+  // useState hook variables to set user token
   const { token, setToken } = useToken();
 
-  // useState hook variable for mobile view
+  // useState hook variables for mobile view
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 767);
 
   // useEffect hook to check if the screen is in mobile view
@@ -44,6 +43,7 @@ function App() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  // End of useEffect hook to check if the screen is in mobile view
 
   if (!token) {
     return (
@@ -77,7 +77,6 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<Navigate to="/" replace />} />
-
       </Routes>
     </Router>
   );

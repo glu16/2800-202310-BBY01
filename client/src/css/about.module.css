@@ -1,7 +1,7 @@
 .aboutBody {
   height: 100%;
   width: 100%;
-  font-family: 'Quicksand', sans-serif;
+  font-family: "Quicksand", sans-serif;
   background-image: url("../img/abstract.png");
   background-size: cover;
   background-position: center;
@@ -43,11 +43,11 @@
     margin-top: 460px;
     margin-bottom: 40px;
   }
-  
+
   .aboutDescription {
     color: white;
   }
-  
+
   .aboutCard {
     max-width: 1400px;
     border-radius: 10px;

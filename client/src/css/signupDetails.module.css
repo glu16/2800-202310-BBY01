@@ -92,7 +92,7 @@ input[type="radio"]:checked {
   margin: 15px;
 }
 
-.inputName{
+.inputName {
   color: gray;
   position: relative;
   bottom: 48px;
@@ -109,7 +109,7 @@ input[type="radio"]:checked {
   right: 101px;
 }
 
-.inputLabel{
+.inputLabel {
   height: 0;
 }
 

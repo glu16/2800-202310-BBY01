@@ -1,14 +1,16 @@
+// Import statements
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
+// CSS module import statement
 import styles from "../css/calendar.module.css";
 
 const Calendar = () => {
   // useState hook variables for the calendar events
   const [events, setEvents] = useState([]);
 
-  // useEffect hook to retrieve the user's 7-day workout plan 
+  // useEffect hook to retrieve the user's 7-day workout plan
   // from the database and convert them into calendar events
   useEffect(() => {
     async function fetchWorkout() {
@@ -19,10 +21,10 @@ const Calendar = () => {
           )}`
         );
         const data = await response.json();
-
+        // Check if the data is of type "object"
         if (typeof data === "object") {
           const workouts = Object.entries(data);
-
+          // Generate calendar events from the workouts data
           const calendarEvents = workouts.flatMap(([date, exercises]) => {
             const isoDate = new Date(date).toISOString().split("T")[0];
 
@@ -38,13 +40,14 @@ const Calendar = () => {
               classNames: [styles.fullCalendar],
             }));
           });
-          // Create the calendar events
+          // Update the component's state with the calendar events
           setEvents(calendarEvents);
         }
       } catch (error) {
         console.error("Error retrieving workout:", error);
       }
     }
+    // Fetch the workout data when the component mounts
     fetchWorkout();
   }, []);
   // End of workout retrieval
@@ -54,22 +57,21 @@ const Calendar = () => {
     return (
       <div>
         <h3 className={styles.workoutEventTitle}>{eventInfo.event.title}</h3>
-        <p className={styles.workoutEvent}>{eventInfo.event.extendedProps.setsAndReps}</p>
+        <p className={styles.workoutEvent}>
+          {eventInfo.event.extendedProps.setsAndReps}
+        </p>
       </div>
     );
   }
 
+  // Renders Calendar.jsx component
   return (
     <div className={styles.calendarBody}>
-      <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.calendarContainer}`}
-      >
+      <div className={`d-flex justify-content-center align-items-center h-100`}>
         <div className={`${styles.calendarCard}`}>
           <div className="card-body">
             <div className="d-flex flex-column align-items-center text-center">
-              <h1 className={styles.calendarTitle}>
-                Calendar Events
-              </h1>
+              <h1 className={styles.calendarTitle}>Calendar Events</h1>
               <div className={styles.calendar}>
                 <FullCalendar
                   plugins={[dayGridPlugin]}
@@ -85,6 +87,7 @@ const Calendar = () => {
       </div>
     </div>
   );
+  // End of Calendar.jsx component
 };
 
 export default Calendar;

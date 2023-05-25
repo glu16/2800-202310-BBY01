@@ -1,23 +1,26 @@
+// Import statements
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+// CSS import statement
 import "../css/navfooter.css";
 
 function NavbarAfterLogin() {
   // useState hook variables for opening the navbar
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  // Click event handler to close the toggle menu dropdown
+  // Handle click event to close the toggle menu dropdown
   const handleNavClose = () => {
     setIsNavOpen(false);
   };
-  
+
   // Removes the user's token and logs them out
   function logout() {
     sessionStorage.removeItem("token");
     window.location.href = "/index";
   }
 
+  // Renders NavbarAfterLogin.jsx component
   return (
     <nav className="navbar navbar-expand-lg navbar-dark fixed-top">
       <div className="container-fluid nav-dropdown">
@@ -139,6 +142,7 @@ function NavbarAfterLogin() {
       </div>
     </nav>
   );
+  // End of NavbarAfterLogin.jsx component
 }
 
 export default NavbarAfterLogin;

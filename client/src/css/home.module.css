@@ -60,6 +60,7 @@
 .noChallenge {
   color: white;
 }
+
 .homeCard {
   height: 100%;
   width: 100%;
@@ -97,6 +98,7 @@
   text-align: center;
   background-color: #2b2b2b;
   margin-bottom: 30px;
+  min-height: 304px;
 }
 
 .progressInnerCard {
@@ -105,11 +107,20 @@
   background-color: hsl(0, 0%, 30%);
   padding: 20px 0;
   margin: 20px 6px;
+  min-height: 265px;
 }
 
 .progressBarContainer {
+margin: 60px 70px 40px 70px;
+}
+
+.progressBarContainer > {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin: 0 75px;
   margin-top: 20px;
+
 }
 
 .progressBtn {
@@ -131,14 +142,14 @@
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
-.streakContainer{
+.streakContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   color: white;
 }
 
-.doneContainer{
+.doneContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -147,20 +158,21 @@
   margin-top: 12px;
 }
 
-.doneTodaySymbol{
+.doneTodaySymbol {
   height: 50px;
   width: 50px;
   margin-bottom: 23px;
 }
 
-.graph{
+.graph {
   max-width: 120px;
 }
 
-.graphs{
+.graphs {
   display: flex;
   flex-direction: row;
 }
+
 .homeSVG {
   height: 100px;
   width: 100px;

@@ -1,8 +1,9 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
+// Import statements
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
+// CSS module import statement
 import styles from "../css/login.module.css";
 
 function Login({ setToken }) {
@@ -23,7 +24,7 @@ function Login({ setToken }) {
       const url = "https://healthify-enxj.onrender.com/api/auth";
       const { data: res } = await axios.post(url, data);
       setToken(res.data.token);
-      localStorage.setItem("email", res.data.userEmail)
+      localStorage.setItem("email", res.data.userEmail);
       localStorage.setItem("username", data.username);
       window.location = "/";
     } catch (error) {
@@ -38,6 +39,7 @@ function Login({ setToken }) {
     setData({ ...data, [input.name]: input.value });
   };
 
+  // Renders Login.jsx component
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.loginBody}`}
@@ -45,7 +47,6 @@ function Login({ setToken }) {
       <div className={`card-body ${styles.loginCard}`}>
         <h1 id={styles.loginHeader}>Login</h1>
         <form id={styles.login} onSubmit={handleSubmit}>
-          
           <input
             type="text"
             id="username-input"
@@ -56,8 +57,10 @@ function Login({ setToken }) {
             required
             size="30"
           />
-        <label htmlFor="username-input"className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Username</span></label>
-          
+          <label htmlFor="username-input" className={`${styles.inputLabel}`}>
+            <span className={`${styles.inputName}`}>Username</span>
+          </label>
+
           <input
             type="password"
             id="password-input"
@@ -67,7 +70,9 @@ function Login({ setToken }) {
             onChange={handleChange}
             required
           />
-          <label htmlFor="password-input" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Password</span></label>
+          <label htmlFor="password-input" className={`${styles.inputLabel}`}>
+            <span className={`${styles.inputName}`}>Password</span>
+          </label>
           {/* ERROR IS DISPLAYED HERE  */}
           {error && <div className={`${styles.errorMessage}`}>{error}</div>}
 
@@ -94,6 +99,7 @@ function Login({ setToken }) {
       </div>
     </div>
   );
+  // End of Login.jsx component
 }
 
 export default Login;
