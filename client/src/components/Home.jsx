@@ -556,14 +556,6 @@ const Home = () => {
     }
   };
 
-  // useState hook variables for the fitness progress
-  const [fitnessProgress, setFitnessProgress] = useState(0);
-
-  // Handle click event to increment the fitness progress
-  const handleFitnessProgressChange = () => {
-    setFitnessProgress(fitnessProgress + 25);
-  };
-
   // Renders Home.jsx component
   return (
     <div className={`row justify-content- ${styles.cardWrapper}`}>
