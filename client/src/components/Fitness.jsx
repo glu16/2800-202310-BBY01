@@ -643,7 +643,7 @@ const Fitness = () => {
         // If no valid image is found, display a default one.
         onError={(e) => {
           e.target.onerror = null; // Prevents infinite loop if default image is also not found
-          e.target.src = 'https://media.tenor.com/aYgdn4RqQRMAAAAC/thinking-eye-squinting.gif';
+          e.target.src = `https://raw.githubusercontent.com/glu16/2800-202310-BBY01/dev/client/src/img/exercises/${sex}/default.gif`;
         }}
         />
       </Modal>
