@@ -120,12 +120,6 @@ input[type="checkbox"]:checked + label {
   margin: 5px;
 }
 
-.modalButton {
-  background-color: hsl(183.87deg 60.78% 40%);
-  color: white;
-  border: none;
-  margin: 5px;
-}
 
 .modal {
   display: flex;

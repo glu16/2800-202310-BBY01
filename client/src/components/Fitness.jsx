@@ -27,8 +27,7 @@ async function getWorkout() {
 }
 
 // FUNCTION TO GET USER'S NAME FOR EASTER EGG
-var firstName;
-var lastName;
+var firstName = "";
 async function getName() {
   var response = await fetch(`https://healthify-enxj.onrender.com/getName/${username}`, {
     method: "GET",
@@ -36,8 +35,6 @@ async function getName() {
   });
   var data = await response.json();
   firstName = data.firstName;
-  lastName = data.lastName;
-  // return [firstName, lastName];
 }
 getName();
 
@@ -181,7 +178,6 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
 function Workout({ handleOpenModal }) {
 
   const [workout, setWorkout] = useState(null);
-
   // passed to modal
   const [modalExercise, setModalExercise] = useState("");
  

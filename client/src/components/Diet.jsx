@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import styles from "../css/diet.module.css";
-import { useSpring, animated } from "react-spring";
+import {useSpring, animated} from "react-spring";
 import axios from "axios";
 
 // This is literally the same as Fitness.jsx but with different variable names
@@ -19,11 +19,8 @@ async function getDiet() {
   }
 }
 
-
-
 // display user's diet, can't be async
 function Diet() {
-
   const [diet, setDiet] = useState(null);
   const [dayOfMealPlan, setDayOfMealPlan] = useState(0);
 
@@ -82,23 +79,27 @@ function Diet() {
                   );
                   // sends the day title ex. Thursday, May 11, 2023:
                 } else {
-                   // if this page is today
-                   if (key === today) {
+                  // if this page is today
+                  if (key === today) {
                     return (
                       <div key={index} className={styles.day}>
-                        <strong className={styles.date}><h5>Today, {key}</h5></strong>
-                          {renderDiet(obj[key])}
+                        <strong className={styles.date}>
+                          <h5>Today, {key}</h5>
+                        </strong>
+                        {renderDiet(obj[key])}
                       </div>
                     );
-                    } else {
-                  return (
-                    <div key={index} className={styles.day}>
-                      <strong className={styles.date}><h5>{key}</h5></strong>
-                      {renderDiet(obj[key])}
-                    </div>
-                  );
+                  } else {
+                    return (
+                      <div key={index} className={styles.day}>
+                        <strong className={styles.date}>
+                          <h5>{key}</h5>
+                        </strong>
+                        {renderDiet(obj[key])}
+                      </div>
+                    );
+                  }
                 }
-              }
               } else {
                 return null;
               }
@@ -167,7 +168,6 @@ function Diet() {
         assignVariables(dietData);
       }
     }
-
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
@@ -205,10 +205,9 @@ function Diet() {
 
 // page render
 const DietPlan = () => {
-
   const fadeIn = useSpring({
     opacity: 1,
-    from: { opacity: 0 },
+    from: {opacity: 0},
     delay: 330,
   });
   // End of visual effects
