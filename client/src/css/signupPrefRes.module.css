@@ -2,12 +2,12 @@
   margin: 10px;
   min-width: 160px;
   color: white;
-  border-color:rgb(92, 208, 216);
+  border-color: rgb(92, 208, 216);
 }
 
 .checkboxLabel:hover {
   color: white;
-  background-color:hsl(184, 61%, 77%);
+  background-color: hsl(184, 61%, 77%);
 }
 
 .checkboxes {

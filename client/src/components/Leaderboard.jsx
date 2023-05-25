@@ -390,7 +390,8 @@ const Leaderboard = () => {
                     className={styles.userNameLink}
                     onClick={() => handleUserClick(user)}
                   >
-                    <img src={user.imageURL || pfpPlaceholder}/>{" "} {user.username}
+                    <img src={user.imageURL || pfpPlaceholder} />{" "}
+                    {user.username}
                   </a>
                 </td>
                 <td>{user.points}</td>
@@ -414,7 +415,11 @@ const Leaderboard = () => {
             {sortedFriends.map((friend, index) => (
               <tr key={friend._id}>
                 <td>{index + 1}</td>
-                <td className={styles.names}> <img src={friend.imageURL || pfpPlaceholder}/> {" "} {friend.username}</td>
+                <td className={styles.names}>
+                  {" "}
+                  <img src={friend.imageURL || pfpPlaceholder} />{" "}
+                  {friend.username}
+                </td>
                 <td>{friend.points}</td>
               </tr>
             ))}

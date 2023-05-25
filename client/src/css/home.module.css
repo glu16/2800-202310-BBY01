@@ -142,14 +142,14 @@ margin: 60px 70px 40px 70px;
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
-.streakContainer{
+.streakContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   color: white;
 }
 
-.doneContainer{
+.doneContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -158,17 +158,17 @@ margin: 60px 70px 40px 70px;
   margin-top: 12px;
 }
 
-.doneTodaySymbol{
+.doneTodaySymbol {
   height: 50px;
   width: 50px;
   margin-bottom: 23px;
 }
 
-.graph{
+.graph {
   max-width: 120px;
 }
 
-.graphs{
+.graphs {
   display: flex;
   flex-direction: row;
 }

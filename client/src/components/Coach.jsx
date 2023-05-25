@@ -5,23 +5,23 @@ import styles from "../css/coach.module.css";
 import pfpPlaceholder from "../img/placeholder-profile.png";
 import axios from "axios";
 
-
 // The chat message code that displays the chat history
 const ChatMessage = ({ message }) => {
-
   const [userAvatar, setUserAvatar] = useState("");
 
   const username = localStorage.getItem("username");
 
   useEffect(() => {
     async function getUserAvatar() {
-      const response = await axios.get(`http://localhost:5050/coachPic/${username}`);
+      const response = await axios.get(
+        `http://localhost:5050/coachPic/${username}`
+      );
       setUserAvatar(response.data);
     }
 
     getUserAvatar();
   });
-  
+
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
@@ -58,20 +58,19 @@ const ChatMessage = ({ message }) => {
     );
   }
 
-
   return (
     <animated.div
-      className={`${styles.chatMessageContainer} ${
-        styles.userContainer
-      }`}
+      className={`${styles.chatMessageContainer} ${styles.userContainer}`}
       style={greetings}
     >
       <div
         className={`${styles.userAvatar} ${styles.userAvatarImage}`}
         style={{
-          backgroundImage: userAvatar ? `url(${userAvatar})` : `url(${pfpPlaceholder})`,
+          backgroundImage: userAvatar
+            ? `url(${userAvatar})`
+            : `url(${pfpPlaceholder})`,
           // If there is no avatar, use a white background
-          // backgroundColor: userAvatar ? "" : "white", 
+          // backgroundColor: userAvatar ? "" : "white",
         }}
       ></div>
       <div className={`${styles.message} ${styles.userMessage}`}>
@@ -83,7 +82,6 @@ const ChatMessage = ({ message }) => {
 // End of chat message code
 
 const Coach = () => {
-
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },

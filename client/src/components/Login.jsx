@@ -23,7 +23,7 @@ function Login({ setToken }) {
       const url = "http://localhost:5050/api/auth";
       const { data: res } = await axios.post(url, data);
       setToken(res.data.token);
-      localStorage.setItem("email", res.data.userEmail)
+      localStorage.setItem("email", res.data.userEmail);
       localStorage.setItem("username", data.username);
       window.location = "/";
     } catch (error) {
@@ -45,7 +45,6 @@ function Login({ setToken }) {
       <div className={`card-body ${styles.loginCard}`}>
         <h1 id={styles.loginHeader}>Login</h1>
         <form id={styles.login} onSubmit={handleSubmit}>
-          
           <input
             type="text"
             id="username-input"
@@ -56,8 +55,10 @@ function Login({ setToken }) {
             required
             size="30"
           />
-        <label htmlFor="username-input"className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Username</span></label>
-          
+          <label htmlFor="username-input" className={`${styles.inputLabel}`}>
+            <span className={`${styles.inputName}`}>Username</span>
+          </label>
+
           <input
             type="password"
             id="password-input"
@@ -67,7 +68,9 @@ function Login({ setToken }) {
             onChange={handleChange}
             required
           />
-          <label htmlFor="password-input" className={`${styles.inputLabel}`}><span className={`${styles.inputName}`}>Password</span></label>
+          <label htmlFor="password-input" className={`${styles.inputLabel}`}>
+            <span className={`${styles.inputName}`}>Password</span>
+          </label>
           {/* ERROR IS DISPLAYED HERE  */}
           {error && <div className={`${styles.errorMessage}`}>{error}</div>}
 
