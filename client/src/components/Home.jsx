@@ -14,7 +14,7 @@ const Home = () => {
     async function fetchUserName() {
       try {
         const response = await axios.get(
-          `https://healthify-enxj.onrender.com/s/${localStorage.getItem("username")}`,
+          `http://localhost:5050/users/${localStorage.getItem("username")}`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -48,7 +48,7 @@ const Home = () => {
   async function fetchExercises() {
     try {
       const response = await axios.get(
-        `httphttps://healthify-enxj.onrender.com/rage.getItem("username")}`,
+        `http://localhost:5050/fitness/${localStorage.getItem("username")}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -207,7 +207,7 @@ const Home = () => {
     const [daysMissed, setDaysMissed] = useState(null);
     // FUNCTION GETS USER STREAK STATS FROM DATABASE
     async function getStreak() {
-      const usernamehttps://healthify-enxj.onrender.com/
+      const username = localStorage.getItem("username");
       try {
         const response = await axios.get(
           `http://localhost:5050/streak/${username}`
@@ -278,7 +278,6 @@ const Home = () => {
   };
 
   // Text animation
-  
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
@@ -291,7 +290,7 @@ const Home = () => {
   async function fetchUserData() {
     try {
       const response = await axios.get(
-        `http://localhost:5050/userhttps://healthify-enxj.onrender.com/}`,
+        `http://localhost:5050/users/${localStorage.getItem("username")}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -329,7 +328,7 @@ const Home = () => {
           setTip(storedTip);
         } else {
           const response = await axios.get("http://localhost:5050/home/tips");
-   https://healthify-enxj.onrender.com/tip;
+          const newTip = response.data.tip;
           setTip(newTip);
           localStorage.setItem("tipDate", currentDate);
           localStorage.setItem("tip", newTip);
@@ -352,7 +351,8 @@ const Home = () => {
       const username = localStorage.getItem("username");
       const response = await axios.get(
         `http://localhost:5050/home/challenges/${username}`
- https://healthify-enxj.onrender.com/.data);
+      );
+      setChallenges(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -372,7 +372,9 @@ const Home = () => {
     try {
       const response = await axios.post(
         `http://localhost:5050/home/challenges/${localStorage.getItem(
-    https://healthify-enxj.onrender.com/  { challengeId, challenge, points }
+          "username"
+        )}`,
+        { challengeId, challenge, points }
       );
       // console.log("Response:", response.data);
       // console.log("Challenge added:", challenge);
@@ -453,7 +455,8 @@ const Home = () => {
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
         `http://localhost:5050/users/${localStorage.getItem("username")}`,
-        { pohttps://healthify-enxj.onrender.com/ {
+        { points: points, challengeId },
+        {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -469,7 +472,10 @@ const Home = () => {
       await axios.delete(
         `http://localhost:5050/home/challenges/${localStorage.getItem(
           "username"
-       https://healthify-enxj.onrender.com/// Remove the challenge from localStorage
+        )}/${challengeId}`
+      );
+
+      // Remove the challenge from localStorage
       const storedChallenges = getUserChallengesFromStorage();
       const updatedChallenges = storedChallenges.filter(
         (id) => id !== challengeId
