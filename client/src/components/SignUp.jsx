@@ -1,11 +1,11 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
+// Import statements
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SignupDetails from "./SignupDetails";
+import axios from "axios";
 
+// CSS module import statement
 import styles from "../css/signup.module.css";
-import SignupPrefRes from "./SignupPrefRes";
 
 function SignUp({ setToken }) {
   //THE CODE FOR HOOKING UP THE BACKEND WITH THE FRONTEND WAS PRIMARLY FROM THIS VIDEO
@@ -19,7 +19,11 @@ function SignUp({ setToken }) {
     email: "",
     password: "",
   });
+
+  // useState hook variables for the user's details
   const [showDetails, setShowDetails] = useState(false);
+
+  // useState hook variables for throwing errors
   const [error, setError] = useState("");
 
   // Allows the user to create an account
@@ -45,6 +49,7 @@ function SignUp({ setToken }) {
     setData({ ...data, [input.name]: input.value });
   };
 
+  // Renders SignUp.jsx component
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.signupBody}`}
@@ -156,6 +161,7 @@ function SignUp({ setToken }) {
       )}
     </div>
   );
+  // End of SignUp.jsx component
 }
 
 export default SignUp;

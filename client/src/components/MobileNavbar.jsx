@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-// CSS module import statement
+// CSS import statement
 import "../css/navfooter.css";
 
 function MobileNavbar() {
