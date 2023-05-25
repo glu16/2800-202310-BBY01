@@ -91,7 +91,18 @@
 }
 
 .completeAllButton {
-  margin-top: 10px;
+  margin: 17px 0;
+  background-color: hsl(184, 61%, 40%);
+}
+
+.completeAllButton:hover {
+  color: black;
+  background-color: hsl(184, 61%, 70%);
+}
+
+.completeAllButton:focus, .completeAllButton:active {
+  color: black;
+  background-color: hsl(184, 61%, 80%);
 }
 
 .completeAllButton:disabled {
@@ -100,19 +111,62 @@
 }
 
 .muscleGroupButton {
-  background-color: transparent;
+  background-color: hsl(184, 61%, 40%);
   color: white;
-  border: solid 2px hsl(183.87deg 60.78% 40%);
+  border: solid 2px hsl(184, 61%, 40%);
+  margin: 0 3px;
 }
-input[type="checkbox"]:checked + label {
-  background-color: hsl(183.87deg 60.78% 40%) !important; 
+
+.muscleGroupButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: solid 2px hsl(184, 61%, 60%);
+}
+
+.muscleGroupButton:focus{
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%) !important;
+  outline: none;
+}
+
+input[type="checkbox"]:checked + .muscleGroupButton {
+  background-color: hsl(184, 61%, 70%) !important; 
   color: white;
-  border: solid 2px hsl(183.87deg 60.78% 40%);
+  border: solid 2px hsl(184, 61%, 70%);
 }
+
+.planButton{
+  background-color: hsl(184, 61%, 40%);
+  border-color:hsl(184, 61%, 40%);
+}
+
+.planButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  color: black;
+  border-color:hsl(184, 61%, 60%);
+}
+
+.planButton:active{
+  background-color: hsl(184, 61%, 70%);
+  color: black;
+  border-color:hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.planButton:focus{
+  background-color: hsl(184, 61%, 70%);
+  color: black;
+  border-color:hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
+}
+
+.planButton:disabled{
+  background-color: hsl(183, 18%, 61%);
+  border-color:hsl(183, 18%, 61%);
+}
+
 .doneExerciseButton {
   background-color: transparent;
   color: white;
-  border: solid 2px hsl(183.87deg 60.78% 40%);
+  border: solid 2px hsl(184, 61%, 40%);
 }
 input[type="checkbox"]:checked + .doneExerciseButton {
   background-color: #5cb85c !important; 
@@ -120,30 +174,47 @@ input[type="checkbox"]:checked + .doneExerciseButton {
   border: solid 2px #5cb85c;
 }
 
-
 .radioButton {
-  background-color: transparent;
-  color: white !important;
-  border: solid 2px hsl(183.87deg 60.78% 40%);
-}
-input[type="radio"]:checked + label {
-  background-color: hsl(183.87deg 60.78% 40%) !important; 
+  background-color: hsl(184, 61%, 40%);
   color: white;
-  border: solid 2px hsl(183.87deg 60.78% 40%);
+  border: solid 2px hsl(184, 61%, 40%);
+  margin: 10px 5px 5px 5px;
+}
+input[type="radio"]:checked + .radioButton {
+  background-color: hsl(184, 61%, 70%); 
+  color: white;
+  border: solid 2px hsl(184, 61%, 70%);
 }
 
 .modalButton {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: none;
   margin: 5px;
 }
 
+.modalButton:hover {
+  background-color: hsl(184, 61%, 60%);
+}
+
+.modalButton:focus {
+  background-color: hsl(184, 61%, 60%);
+}
+
+
 .paginationButton {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: none;
   margin: 5px;
+}
+
+.paginationButton:hover {
+  background-color: hsl(184, 61%, 70%);
+}
+
+.paginationButton:active {
+  background-color: hsl(184, 61%, 70%);
 }
 
 .paginationButton:disabled {
@@ -153,19 +224,24 @@ input[type="radio"]:checked + label {
   margin: 5px;
 }
 
-
 .modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 350px;
-  width: 350px;
+  height: 400px;
+  width: 400px;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   top: 20%;
   background-color: hsl(0, 0%, 30%);
   border-radius: 10px;
+}
+
+.modal > strong {
+  color: white;
+  font-size: 30px;
+  margin-bottom: 20px;
 }
 
 .modalImage {

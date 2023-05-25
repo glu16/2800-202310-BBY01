@@ -16,10 +16,10 @@
 }
 
 .dietBtn {
-  background-color: hsl(183.87deg 60.78% 40%);
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: none;
-  margin: 5px;
+  margin: 3px;
 }
 
 .dietBtn:hover {

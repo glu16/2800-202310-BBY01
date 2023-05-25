@@ -921,7 +921,7 @@ const Fitness = () => {
           {/* Button to submit form to generate a new workout plan. Displays different text if clicked or not clicked */}
           <button
             type="submit"
-            className="btn btn-success"
+            className={`btn btn-info ${styles.planButton}`}
             disabled={isFormSubmitting}
           >
             {isFormSubmitting ? (
