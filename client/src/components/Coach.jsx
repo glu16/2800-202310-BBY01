@@ -1,12 +1,14 @@
+// Import statements
 import React, { useState, useEffect, useRef } from "react";
 import { useSpring, animated } from "react-spring";
-
-import styles from "../css/coach.module.css";
-import pfpPlaceholder from "../img/placeholder-profile.png";
 import axios from "axios";
 
+// CSS module import statement
+import styles from "../css/coach.module.css";
+// Image import statement
+import pfpPlaceholder from "../img/placeholder-profile.png";
 
-// The chat message code that displays the chat history
+// Function that displays the chat history
 const ChatMessage = ({ message }) => {
 
   const [userAvatar, setUserAvatar] = useState("");
@@ -80,23 +82,30 @@ const ChatMessage = ({ message }) => {
     </animated.div>
   );
 };
-// End of chat message code
+// End of chat history function
 
 const Coach = () => {
-
+  // Visual text animation effects
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 500,
   });
-  // End of visual effects
+  // End of visual text animation effects
+
+  // Username variable for retrieving the logged in user's username
   const username = localStorage.getItem("username");
 
+  // useState hook variables for the user's prompts
   const [input, setInput] = useState("");
+
+  // useState hook variables for the chat history
   const [chatLog, setChatLog] = useState([]);
+
+  // useState hook variable to assign the value to the useRef hook
   const chatLogRef = useRef(null);
 
-  // This code gets the chat log from the database and displays it
+  // useEffect hook that retrieves the chat log from the database and displays it
   useEffect(
     () => {
       async function getChatLog() {
@@ -110,7 +119,6 @@ const Coach = () => {
           }
         );
         const data3 = await response.json();
-        // console.log(data3);
         const messages = data3
           .map((item) => {
             return item.messages.split().map((message) => ({
@@ -127,10 +135,10 @@ const Coach = () => {
     // [username] stops the loop
     [username]
   );
-  // End of code that gets the chat log from the database
+  // End of useEffect hook that retrieves the chat log
 
   /* 
-  Sends the chat lof to the database in the form
+  Sends the chat history to the database in the form
   [
     { user: "me", message: "Some message" },
     { user: "gpt", message: "Some message" },
@@ -150,7 +158,7 @@ const Coach = () => {
       }),
     });
   }
-  // End of code that sends the chat log to the database
+  // End of function that sends the chat log to the database
 
   // useState hook variable for the modal
   const [showModal, setShowModal] = useState(false);
@@ -251,13 +259,12 @@ const Coach = () => {
     });
 
     const data = await response.json();
-    // console.log(input);
-    // console.log(data);
 
     setChatLog([...chatLogNew, { user: "gpt", message: `${data.message}` }]);
     await sendChatLog("gpt", data.message);
   }
 
+  // useEffect hook that enables scrolling
   useEffect(() => {
     chatLogRef.current.scrollTop = chatLogRef.current.scrollHeight;
   }, [chatLog]);

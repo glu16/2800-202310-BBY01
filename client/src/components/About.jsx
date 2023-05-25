@@ -1,7 +1,10 @@
+// Import statements
 import React from "react";
 import { useSpring, animated } from "react-spring";
 
+// CSS import statement
 import "../css/main.css";
+// CSS module import statement
 import styles from "../css/about.module.css";
 
 const About = () => {
@@ -11,7 +14,7 @@ const About = () => {
     from: { opacity: 0 },
     delay: 500,
   });
-  // End of visual effects
+  // End of visual text animation effects
 
   return (
     <div

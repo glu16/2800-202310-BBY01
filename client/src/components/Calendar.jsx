@@ -1,7 +1,9 @@
+// Import statements
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
+// CSS module import statement
 import styles from "../css/calendar.module.css";
 
 const Calendar = () => {
