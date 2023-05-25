@@ -220,7 +220,7 @@ const DietPlan = () => {
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
-    delay: 330,
+    delay: 600,
   });
   // End of visual page animation effects
 
@@ -255,24 +255,19 @@ const DietPlan = () => {
   }
 
   // Handle click event to display an alert message popup for the user
-  const handleClick = () => {
-    window.alert("Generating diet plan... please do not refresh the page!");
-  };
-
   // Renders Diet.jsx component
   return (
     <animated.div className={`${styles.dietContainer}`} style={fadeIn}>
       <div className={`card ${styles.dietCard}`}>
         <div className={`card-body ${styles.fitnessCardBody}`}>
           <div>
-            <form id="addWorkout" onSubmit={addDietToUser}>
-              <h2>Your Diet Plan</h2>
+            <form id="addDiet" onSubmit={addDietToUser}>
+              <h2>{username}'s Diet Plan</h2>
               <input type="hidden" name="userEmail" value={username}></input>
               <button
                 type="submit"
                 className={`btn btn-primary  ${styles.dietBtn}`}
                 disabled={isFormSubmitting}
-                onClick={handleClick}
               >
                 {isFormSubmitting ? (
                   <div className={styles.loading}>
@@ -290,7 +285,7 @@ const DietPlan = () => {
                 )}
               </button>
               <p>
-                <small>Generating takes 30-60 seconds</small>
+                <small>Generating takes 1 to 2 minutes</small>
               </p>
             </form>
           </div>

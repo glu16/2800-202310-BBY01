@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { VictoryPie, VictoryLabel } from "victory";
 import Modal from "react-modal";
+import { useSpring, animated } from "react-spring";
 import axios from "axios";
 
 // CSS module import statement
@@ -607,6 +608,15 @@ const Streak = () => {
 
 // The Main component for the page.
 const Fitness = () => {
+
+    // Visual text animation effects
+    const fadeIn = useSpring({
+      opacity: 1,
+      from: {opacity: 0},
+      delay: 600,
+    });
+    // End of visual text animation effects
+
   // Hides the workout form to generate a new workout plan unless user button to open it.
   const [isWorkoutFormVisible, setWorkoutFormVisible] = useState(false);
   const toggleWorkoutFormVisibility = () => {
@@ -776,8 +786,9 @@ const Fitness = () => {
 
   // Renders Fitness.jsx component
   return (
-    <div
+    <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
+      style={fadeIn}
     >
       {/* Title displaying the user's username. */}
       <h2>{username}'s Workout Plan</h2>
@@ -970,7 +981,7 @@ const Fitness = () => {
       >
         Mark ALL exercises complete!
       </button>
-    </div>
+    </animated.div>
   );
   // End of Fitness.jsx component
 };
