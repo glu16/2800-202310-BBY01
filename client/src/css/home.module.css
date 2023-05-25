@@ -87,7 +87,9 @@
 .diet {
   margin-left: 0 !important;
 }
-
+.calories {
+  color: white;
+}
 .progressHeader {
   text-align: center;
   color: rgb(92, 208, 216);
@@ -111,7 +113,7 @@
 }
 
 .progressBarContainer {
-margin: 60px 70px 40px 70px;
+  margin: 60px 70px 40px 70px;
 }
 
 .progressBarContainer > {
@@ -120,13 +122,16 @@ margin: 60px 70px 40px 70px;
   justify-content: center;
   margin: 0 75px;
   margin-top: 20px;
-
 }
 
 .progressBtn {
   margin-top: 22px;
   background-color: hsl(184, 61%, 40%);
   border: none;
+}
+
+.progressBtn:disabled {
+  background-color: hsl(184, 61%, 40%);
 }
 
 .progressBtn:hover {
