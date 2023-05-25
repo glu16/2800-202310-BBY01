@@ -1,9 +1,9 @@
 // Import statements
-import React, { useState, useEffect } from "react";
-import { useSpring, animated } from "react-spring";
-import { ProgressBar } from "react-step-progress-bar";
-import { Reorder } from "framer-motion";
-import { VictoryPie, VictoryLabel } from "victory";
+import React, {useState, useEffect} from "react";
+import {useSpring, animated} from "react-spring";
+import {ProgressBar} from "react-step-progress-bar";
+import {Reorder} from "framer-motion";
+import {VictoryPie, VictoryLabel} from "victory";
 import axios from "axios";
 
 // CSS for progress bar import statement
@@ -88,13 +88,51 @@ const Home = () => {
   useEffect(() => {
     fetchExercises();
   }, []);
+
   const [items, setItems] = useState(["rest day"]);
   // End of fetchExercises function
 
-  const CirclePercentDaysDone = ({ percentDaysDone }) => {
+  // Stores total number of calories suggested to be consumed
+  const [calories, setCalories] = useState(0);
+
+  // Tracks number of calories consumed
+  const [caloriesConsumed, setCaloriesConsumed] = useState(0);
+
+  async function getDiet() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/diet/${localStorage.getItem("username")}`
+      );
+      if (response === "empty") {
+        return "empty";
+      } else {
+        // Assigns the object containing today's meals to the variable
+        const dietForToday = response.data[date];
+        var caloriesForToday = 0;
+
+        // Sums up the total Calories of all the meals suggested for current day
+        for (let i = 1; i <= 5; i++) {
+          caloriesForToday += Number(dietForToday[`Meal ${i}`].Calories);
+        }
+        // Sets calories variable to contain caloriesForToday
+        setCalories(caloriesForToday);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // useEffect hook to call getDiet function
+  useEffect(() => {
+    getDiet();
+    console.log("Calories for today: " + calories);
+  }, []);
+  // End of getDiet function
+
+  const CirclePercentDaysDone = ({percentDaysDone}) => {
     const data = [
-      { x: 1, y: percentDaysDone },
-      { x: 2, y: 100 - percentDaysDone },
+      {x: 1, y: percentDaysDone},
+      {x: 2, y: 100 - percentDaysDone},
     ];
     const svgSize = 150; // Adjust the size of the SVG container
     const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -127,7 +165,7 @@ const Home = () => {
             labels={() => null}
             style={{
               data: {
-                fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
+                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
               },
             }}
           />
@@ -137,7 +175,7 @@ const Home = () => {
             x={svgSize / 2}
             y={svgSize / 2}
             text={`${percentDaysDone}%`}
-            style={{ fontSize: 20, fill: "white" }}
+            style={{fontSize: 20, fill: "white"}}
           />
         </svg>
         <p>Workout Completion Rate</p>
@@ -145,11 +183,11 @@ const Home = () => {
     );
   };
 
-  const CircleStreak = ({ currentStreak, longestStreak }) => {
+  const CircleStreak = ({currentStreak, longestStreak}) => {
     const percentStreak = (100 * currentStreak) / longestStreak;
     const data = [
-      { x: 1, y: percentStreak },
-      { x: 2, y: 100 - percentStreak },
+      {x: 1, y: percentStreak},
+      {x: 2, y: 100 - percentStreak},
     ];
     const svgSize = 150; // Adjust the size of the SVG container
     const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -183,7 +221,7 @@ const Home = () => {
             labels={() => null}
             style={{
               data: {
-                fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
+                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
               },
             }}
           />
@@ -193,7 +231,7 @@ const Home = () => {
             x={svgSize / 2}
             y={svgSize / 2}
             text={` ${currentStreak} / ${longestStreak} \n days`}
-            style={{ fontSize: 16, fill: "white" }}
+            style={{fontSize: 16, fill: "white"}}
           />
         </svg>
         <p>Current vs Longest Streak</p>
@@ -283,7 +321,7 @@ const Home = () => {
   // Visual text animation effects
   const greetings = useSpring({
     opacity: 1,
-    from: { opacity: 0 },
+    from: {opacity: 0},
     delay: 300,
   });
   // End of visual text animation effects
@@ -301,7 +339,7 @@ const Home = () => {
           },
         }
       );
-      const { firstName, points } = response.data;
+      const {firstName, points} = response.data;
       setUserName(firstName);
       setUserPoints(points);
     } catch (error) {
@@ -376,7 +414,7 @@ const Home = () => {
         `http://localhost:5050/home/challenges/${localStorage.getItem(
           "username"
         )}`,
-        { challengeId, challenge, points }
+        {challengeId, challenge, points}
       );
       // console.log("Response:", response.data);
       // console.log("Challenge added:", challenge);
@@ -453,7 +491,7 @@ const Home = () => {
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
         `http://localhost:5050/users/${localStorage.getItem("username")}`,
-        { points: points, challengeId },
+        {points: points, challengeId},
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -505,21 +543,22 @@ const Home = () => {
   // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
 
+  // localStorage boolean variable to track
+  localStorage.setItem("caloriesMet", false);
   // Handle click event to increment the diet progress
   const handleDietProgressChange = () => {
     if (dietProgress < 100) {
-      setDietProgress(dietProgress + 25);
+      // Updates Calories consumed
+      setCaloriesConsumed(caloriesConsumed + calories / 5);
+      // Updates dietProgress bar
+      setDietProgress(dietProgress + 20);
     } else {
       return;
     }
   };
 
-  // useState hook variables for the fitness progress
-  const [fitnessProgress, setFitnessProgress] = useState(0);
-
-  // Handle click event to increment the fitness progress
-  const handleFitnessProgressChange = () => {
-    setFitnessProgress(fitnessProgress + 25);
+  const handleDietCompletion = () => {
+    localStorage.setItem("caloriesMet", true);
   };
 
   // Renders Home.jsx component
@@ -604,18 +643,32 @@ const Home = () => {
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
+            <span className={styles.calories}>
+              {" "}
+              {caloriesConsumed} / {calories} Calories
+            </span>
             <ProgressBar
               percent={dietProgress}
-              height="24px"
+              height="18px"
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
             />
           </div>
-          <button
-            className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleDietProgressChange(25)}
-          >
-            Update Progress
-          </button>
+          {caloriesConsumed === calories ? (
+            <button
+              className={`btn btn-primary ${styles.progressBtn}`}
+              onClick={() => handleDietCompletion()}
+              disabled={localStorage.getItem("caloriesMet") ? true : false}
+            >
+              Progress complete!
+            </button>
+          ) : (
+            <button
+              className={`btn btn-primary ${styles.progressBtn}`}
+              onClick={() => handleDietProgressChange()}
+            >
+              Update Progress
+            </button>
+          )}
         </div>
       </animated.div>
       <animated.div
