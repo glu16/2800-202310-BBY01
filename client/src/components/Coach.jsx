@@ -270,6 +270,7 @@ const Coach = () => {
   }, [chatLog]);
   // End of code that handles user and gpt interaction
 
+  // Renders Coach.jsx component
   return (
     <div className={styles.coach}>
       <div className={styles.chatLogContainer} ref={chatLogRef}>
@@ -303,6 +304,7 @@ const Coach = () => {
       )}
     </div>
   );
+  // End of Coach.jsx component
 };
 
 export default Coach;

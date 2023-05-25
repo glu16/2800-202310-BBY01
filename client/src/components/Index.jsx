@@ -1,17 +1,23 @@
+// Import statements
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSpring, animated } from "react-spring";
 
+// CSS module import statement
 import styles from "../css/index.module.css";
+// Image import statement
 import image from "../img/robot.png";
 
 const Index = () => {
+  // Visual page animation effects
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     config: { duration: 1000 },
   });
+  // End of visual page animation effects
 
+  // Renders Index.jsx component
   return (
     <div
       className={`row justify-content-between align-items-center h-100 ${styles.indexBody}`}
@@ -51,6 +57,7 @@ const Index = () => {
       </div>
     </div>
   );
+  // End of Index.jsx component
 };
 
 export default Index;

@@ -36,6 +36,7 @@ function ChangePassword() {
     setData({ ...data, [input.name]: input.value });
   };
 
+  // Renders ChangePassword.jsx component
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.passwordBody}`}
@@ -88,6 +89,7 @@ function ChangePassword() {
       </div>
     </div>
   );
+  // End of ChangePassword.jsx component
 }
 
 export default ChangePassword;

@@ -774,7 +774,7 @@ const Fitness = () => {
     };
   }, []);
 
-  // Return Fitness component.
+  // Renders Fitness.jsx component
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
@@ -973,6 +973,7 @@ const Fitness = () => {
       </button>
     </div>
   );
+  // End of Fitness.jsx component
 };
 
 export default Fitness;

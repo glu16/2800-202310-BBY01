@@ -62,6 +62,7 @@ const Calendar = () => {
     );
   }
 
+  // Renders Calendar.jsx component
   return (
     <div className={styles.calendarBody}>
       <div className={`d-flex justify-content-center align-items-center h-100`}>
@@ -84,6 +85,7 @@ const Calendar = () => {
       </div>
     </div>
   );
+  // End of Calendar.jsx component
 };
 
 export default Calendar;

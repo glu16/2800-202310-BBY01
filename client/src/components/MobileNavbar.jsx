@@ -1,13 +1,15 @@
+// Import statements
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
+// CSS module import statement
 import "../css/navfooter.css";
 
 function MobileNavbar() {
   // useState hook variables for opening the navbar
   const [isNavOpen, setIsNavOpen] = useState(false);
 
-  // Click event handler to close the toggle menu dropdown
+  // Handle click event to close the toggle menu dropdown
   const handleNavClose = () => {
     setIsNavOpen(false);
   };
@@ -18,6 +20,7 @@ function MobileNavbar() {
     window.location.href = "/index";
   }
 
+  // Renders MobileNavbar.jsx component
   return (
     <footer className="navbar navbar-expand-lg navbar-dark">
       <div className="container-fluid nav-dropdown">
@@ -101,6 +104,7 @@ function MobileNavbar() {
       </div>
     </footer>
   );
+  // End of MobileNavbar.jsx component
 }
 
 export default MobileNavbar;

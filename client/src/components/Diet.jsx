@@ -259,6 +259,7 @@ const DietPlan = () => {
     window.alert("Generating diet plan... please do not refresh the page!");
   };
 
+  // Renders Diet.jsx component
   return (
     <animated.div className={`${styles.dietContainer}`} style={fadeIn}>
       <div className={`card ${styles.dietCard}`}>
@@ -299,6 +300,7 @@ const DietPlan = () => {
       </div>
     </animated.div>
   );
+  // End of Diet.jsx component
 };
 
 export default DietPlan;

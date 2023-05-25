@@ -1,8 +1,9 @@
-import React from "react";
-import { useState } from "react";
-import axios from "axios";
+// Import statements
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
+// CSS module import statement
 import styles from "../css/login.module.css";
 
 function Login({ setToken }) {
@@ -38,6 +39,7 @@ function Login({ setToken }) {
     setData({ ...data, [input.name]: input.value });
   };
 
+  // Renders Login.jsx component
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.loginBody}`}
@@ -97,6 +99,7 @@ function Login({ setToken }) {
       </div>
     </div>
   );
+  // End of Login.jsx component
 }
 
 export default Login;
