@@ -29,6 +29,11 @@
   margin-top: -20px;
 }
 
+.aboutImg {
+  height: 200px;
+  width: 200px;
+}
+
 @media (max-width: 767px) {
   html,
   body {

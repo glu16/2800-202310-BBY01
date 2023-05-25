@@ -7,6 +7,11 @@ import "../css/main.css";
 // CSS module import statement
 import styles from "../css/about.module.css";
 
+import niko from "../img/niko.png";
+import leroy from "../img/leroy.png";
+import gin from "../img/gin.png";
+import felix from "../img/felix.png";
+
 const About = () => {
   // Visual text animation effects
   const greetings = useSpring({
@@ -48,16 +53,16 @@ const About = () => {
         </h4>
         <div className="row">
           <div className="col-md-3">
-            <img src="" alt="Team Member 1" />
+            <img className={styles.aboutImg} src={niko} alt="Team Member 1" />
           </div>
           <div className="col-md-3">
-            <img src="" alt="Team Member 2" />
+            <img className={styles.aboutImg} src={leroy} alt="Team Member 2" />
           </div>
           <div className="col-md-3">
-            <img src="" alt="Team Member 3" />
+            <img className={styles.aboutImg} src={gin} alt="Team Member 3" />
           </div>
           <div className="col-md-3">
-            <img src="" alt="Team Member 4" />
+            <img className={styles.aboutImg} src={felix} alt="Team Member 4" />
           </div>
         </div>
       </div>
