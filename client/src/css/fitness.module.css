@@ -169,13 +169,26 @@ input[type="checkbox"]:checked + .muscleGroupButton {
 }
 
 .doneExerciseButton {
-  background-color: #008001;
-  color: white;
+  background-color: hsl(120, 100%, 20%);
+  color: black;
+  border: #008001;
+}
+
+.doneExerciseButton:active {
+  box-shadow:hsl(120, 100%, 20%);
+  color: black;
+  border: #008001;
+}
+
+.doneExerciseButton:focus {
+  box-shadow:0 0 3px 2px hsl(120, 100%, 20%);
+  color: black;
   border: #008001;
 }
 
 input[type="checkbox"]:checked + .doneExerciseButton {
-  background-color: hsl(120, 100%, 30%) !important;
+  background-color: hsl(120, 100%, 35%);
+  box-shadow:0 0 3px 2px hsl(120, 100%, 20%);
   color: white;
 }
 
