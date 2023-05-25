@@ -90,6 +90,10 @@
   justify-content: center;
 }
 
+.completeAllButton {
+  margin-top: 10px;
+}
+
 .completeAllButton:disabled {
   background-color: grey;
   border: grey;

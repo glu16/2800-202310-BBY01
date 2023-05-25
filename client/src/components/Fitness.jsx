@@ -3,11 +3,13 @@ import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
 import { VictoryPie, VictoryLabel } from 'victory';
 
-// Username variable used to identify user for database interactions
-// Taken from local storage pushed there from login
+// Username variable used to identify user for database interactions,
+//  taken from local storage pushed there from login.
 const username = localStorage.getItem("username");
 
-// FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT 
+
+// Function retrieves the user's workout plan from the database via a server call
+//  and stores it globally in the variable 'workout'.
 var workout;
 async function getWorkout() {
   var response = await fetch(`https://healthify-enxj.onrender.com/fitness/${username}`, {
@@ -15,7 +17,6 @@ async function getWorkout() {
     headers: { "Content-Type": "application/json" },
   });
   var data = await response.json();
-  // check if workouts is empty
   if (data == "empty") {
     return "empty";
   } else {
@@ -24,7 +25,10 @@ async function getWorkout() {
   }
 }
 
-// FUNCTION TO GET USER'S NAME FOR EASTER EGG
+
+// Function retrieves the user's first name which will be used to identify them for Easter Eggs
+//  and stores it globally in the variable 'firstName'.
+//  Called immediately upon page loading.
 var firstName = "";
 async function getName() {
   var response = await fetch(`https://healthify-enxj.onrender.com/getName/${username}`, {
@@ -36,7 +40,10 @@ async function getName() {
 }
 getName();
 
-// CHECK IF EXERCISE FOR TODAY ALREADY DONE
+
+// Function retrieves the user's status of if they already completed today's workout or not
+//  and stores it globally in the variable 'doneToday'.
+//  Called immediately upon page loading.
 var doneToday = false;
 async function getDoneToday() {
   var response = await fetch(`https://healthify-enxj.onrender.com/doneToday/${username}`, {
@@ -49,7 +56,9 @@ async function getDoneToday() {
 getDoneToday();
 
 
-// GET USER'S SEX FOR MODAL PICTURES
+// Function retrieves the user's sex which is used to filter which exercise gif images are displayed
+//  and stores it globally in the variable 'sex'.
+//  Called immediately upon page loading.
 var sex = "male";
 async function getSex() {
   var response = await fetch(`https://healthify-enxj.onrender.com/getSex/${username}`, {
@@ -62,13 +71,15 @@ async function getSex() {
 getSex();
 
 
+// Function generates a circle graph representing the user's workout stat 'percentDaysDone' 
+//  to be displayed on the page.
 const CirclePercentDaysDone = ({percentDaysDone}) => {
   const data = [
     {x: 1, y: percentDaysDone},
     {x: 2, y: 100 - percentDaysDone},
   ];
-  const svgSize = 150; // Adjust the size of the SVG container
-  const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
+  const svgSize = 150; 
+  const radius = (svgSize - 65) / 2; 
   let color;
   if (percentDaysDone >= 66) {
     color = "green";
@@ -81,10 +92,7 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
     <div className={styles.graph}>
       <svg
         className={styles.fitnessSVG}
-        // view= x, y, width, height
-        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
-          svgSize / 1.7
-        }`}
+        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${ svgSize / 1.7 }`}
         width={svgSize}
         height={svgSize}
       >
@@ -116,14 +124,16 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
   );
 };
 
+// Function generates a circle graph representing the user's workout stats 'currentStreak' and 'longestStreak'
+//  to be displayed on the page.
 const CircleStreak = ({currentStreak, longestStreak}) => {
   const percentStreak = (100 * currentStreak) / longestStreak;
   const data = [
     {x: 1, y: percentStreak},
     {x: 2, y: 100 - percentStreak},
   ];
-  const svgSize = 150; // Adjust the size of the SVG container
-  const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
+  const svgSize = 150; 
+  const radius = (svgSize - 65) / 2; 
   let color;
   if (percentStreak === 100) {
     color = "green";
@@ -136,10 +146,7 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
     <div className={styles.graph}>
       <svg
         className={styles.fitnessSVG}
-        // view= x, y, width, height
-        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
-          svgSize / 1.7
-        }`}
+        viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${ svgSize / 1.7 }`}
         width={svgSize}
         height={svgSize}
       >
@@ -172,10 +179,13 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
 };
 
 
-// PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
+// Function parses the user's 7-day workout plan stored in the variable 'workout' 
+//  and displays an individual day's workout on the page.
 function Workout({ handleOpenModal }) {
 
+  // State variable 'workout' stores the individual day's workout
   const [workout, setWorkout] = useState(null);
+
   // passed to modal
   const [modalExercise, setModalExercise] = useState("");
  
@@ -468,10 +478,9 @@ const CompleteExercisesButton = (props) => {
   };
   return (
     <div>
-      
       <input type="checkbox" className="btn-check" id={`doneExercise${props.index}`}></input>
       <label onClick={handleClick} className={`btn ${styles.doneExerciseButton}`} htmlFor={`doneExercise${props.index}`}>Completed!</label>
-  </div>
+    </div>
   );
 };
 
@@ -618,6 +627,12 @@ const Fitness = () => {
   }
 
   const ExerciseModal = ({ isOpen, onRequestClose, modalExercise, sex }) => {
+
+        //Overlay styling for the modal
+        const overlayStyles = {
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+        };
+
     var source = "ModalExercise"
     if (modalExercise) {
       // img source is url to the dev branch folder of exercise images
@@ -635,6 +650,7 @@ const Fitness = () => {
         appElement={document.getElementById("root")}
         ariaHideApp={false}
         className = {styles.modal}
+        style={{overlay: overlayStyles}}
       >
         <strong>{modalExercise}</strong>
         {/* <small>{source}</small> */}
