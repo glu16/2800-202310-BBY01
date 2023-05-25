@@ -129,13 +129,14 @@
 
 input[type="checkbox"]:checked + .muscleGroupButton {
   background-color: hsl(184, 61%, 70%) !important; 
-  color: white;
+  color: black;
   border: solid 2px hsl(184, 61%, 70%);
 }
 
 .planButton{
   background-color: hsl(184, 61%, 40%);
   border-color:hsl(184, 61%, 40%);
+  color: white;
 }
 
 .planButton:hover {
@@ -184,7 +185,7 @@ input[type="checkbox"]:checked + .doneExerciseButton {
 }
 input[type="radio"]:checked + .radioButton {
   background-color: hsl(184, 61%, 70%); 
-  color: white;
+  color: black;
   border: solid 2px hsl(184, 61%, 70%);
 }
 
