@@ -470,7 +470,7 @@ const CompleteExercisesButton = (props) => {
     <div>
       
       <input type="checkbox" className="btn-check" id={`doneExercise${props.index}`}></input>
-      <label onClick={handleClick} className={`btn ${styles.doneExerciseButton}`} htmlFor={`doneExercise${props.index}`}>Done!</label>
+      <label onClick={handleClick} className={`btn ${styles.doneExerciseButton}`} htmlFor={`doneExercise${props.index}`}>Completed!</label>
   </div>
   );
 };
