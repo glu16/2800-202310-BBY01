@@ -11,7 +11,7 @@ function NavbarAfterLogin() {
   const handleNavClose = () => {
     setIsNavOpen(false);
   };
-  
+
   // Removes the user's token and logs them out
   function logout() {
     sessionStorage.removeItem("token");

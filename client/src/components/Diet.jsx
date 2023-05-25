@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../css/diet.module.css";
-import {useSpring, animated} from "react-spring";
+import { useSpring, animated } from "react-spring";
 import axios from "axios";
 
 // This is literally the same as Fitness.jsx but with different variable names
@@ -156,9 +156,9 @@ function Diet() {
                 variableName + "_"
               );
               // Dynamically stores variable assignments in the 'variables' object
-              variables[variableName] = {...nestedVariables};
+              variables[variableName] = { ...nestedVariables };
             } else {
-              variables[variableName] = {key, value};
+              variables[variableName] = { key, value };
             }
           }
 
@@ -207,7 +207,7 @@ function Diet() {
 const DietPlan = () => {
   const fadeIn = useSpring({
     opacity: 1,
-    from: {opacity: 0},
+    from: { opacity: 0 },
     delay: 330,
   });
   // End of visual effects
@@ -231,7 +231,7 @@ const DietPlan = () => {
     // workout to write into user database, will generate with server side call to workouts.js
     const diet = {};
 
-    const data = {[mealKey]: diet};
+    const data = { [mealKey]: diet };
     await axios.put(
       `http://localhost:5050/diet/${localStorage.getItem("username")}`
     );

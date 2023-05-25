@@ -90,9 +90,8 @@ ul {
   align-self: flex-start;
   width: 40px;
   height: 40px;
-
 }
-.userAvatarImage{
+.userAvatarImage {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -137,7 +136,7 @@ ul {
 
 .userMessage:after {
   content: "";
-  
+
   position: absolute;
   height: 0;
   border-top: 10px solid transparent;
@@ -200,17 +199,17 @@ ul {
     margin-top: 4px;
     margin-right: 60px;
   }
-  
+
   .infoLink {
     color: rgb(92, 208, 216);
     cursor: pointer;
     text-decoration: none;
   }
 
-  .message{
-    font-size: 0.90em;
+  .message {
+    font-size: 0.9em;
   }
-  
+
   .textInputContainer {
     background-color: #d4d4d4;
     padding: 12px;

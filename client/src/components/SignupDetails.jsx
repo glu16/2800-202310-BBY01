@@ -95,7 +95,11 @@ function SignupDetails() {
               required
             />
             <label htmlFor="heightInput" className={`${styles.inputLabel}`}>
-              <span className={`${styles.inputName} ${styles.heightPlaceholder}`}>Height (m) </span>
+              <span
+                className={`${styles.inputName} ${styles.heightPlaceholder}`}
+              >
+                Height (m){" "}
+              </span>
             </label>
             <label htmlFor="weight"></label>
             <input
