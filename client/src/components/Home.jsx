@@ -88,8 +88,46 @@ const Home = () => {
   useEffect(() => {
     fetchExercises();
   }, []);
+
   const [items, setItems] = useState(["rest day"]);
   // End of fetchExercises function
+
+  // Stores total number of calories suggested to be consumed
+  const [calories, setCalories] = useState(0);
+
+  // Tracks number of calories consumed
+  const [caloriesConsumed, setCaloriesConsumed] = useState(0);
+
+  async function getDiet() {
+    try {
+      const response = await axios.get(
+        `http://localhost:5050/diet/${localStorage.getItem("username")}`
+      );
+      if (response === "empty") {
+        return "empty";
+      } else {
+        // Assigns the object containing today's meals to the variable
+        const dietForToday = response.data[date];
+        var caloriesForToday = 0;
+
+        // Sums up the total Calories of all the meals suggested for current day
+        for (let i = 1; i <= 5; i++) {
+          caloriesForToday += Number(dietForToday[`Meal ${i}`].Calories);
+        }
+        // Sets calories variable to contain caloriesForToday
+        setCalories(caloriesForToday);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  // useEffect hook to call getDiet function
+  useEffect(() => {
+    getDiet();
+    console.log("Calories for today: " + calories);
+  }, []);
+  // End of getDiet function
 
   const CirclePercentDaysDone = ({ percentDaysDone }) => {
     const data = [
@@ -508,7 +546,11 @@ const Home = () => {
   // Handle click event to increment the diet progress
   const handleDietProgressChange = () => {
     if (dietProgress < 100) {
-      setDietProgress(dietProgress + 25);
+      
+      // Updates Calories consumed
+      setCaloriesConsumed(caloriesConsumed + calories/5);
+      // Updates dietProgress bar
+      setDietProgress(dietProgress + 20);
     } else {
       return;
     }
@@ -604,6 +646,7 @@ const Home = () => {
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Diet Tracker</h4>
           <div className={styles.progressBarContainer}>
+            <span className={styles.calories}> {caloriesConsumed} / {calories} Calories</span>
             <ProgressBar
               percent={dietProgress}
               height="24px"
@@ -612,7 +655,7 @@ const Home = () => {
           </div>
           <button
             className={`btn btn-primary ${styles.progressBtn}`}
-            onClick={() => handleDietProgressChange(25)}
+            onClick={() => handleDietProgressChange()}
           >
             Update Progress
           </button>
