@@ -259,17 +259,25 @@ input[type="radio"]:checked + .radioButton {
 
 @media (width <= 767px) {
   .fitnessContainer {
-    margin-bottom: 130px;
     padding: 1rem;
   }
 
   .anExercise {
     margin-top: 20px;
+    min-height: 100%;
+  }
+  .anExercise div {
+    margin: 0;
+    padding: 15px;
+    display: block;
   }
   .widthDiv{
     width: 100%;
   }
 
+  .muscles label{
+    margin-top: 5px;
+  }
   .exercisesContainer {
     /* width: 300px; */
     display: flex;

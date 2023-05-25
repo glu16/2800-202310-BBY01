@@ -846,7 +846,7 @@ const Fitness = () => {
           </label>
           <p>Select desired intensity level</p>
           <br />
-
+<div className={styles.muscles}>
           {/* User can choose muscle groups they want to focus on to send to workout generation.*/}
           <input
             type="checkbox"
@@ -915,7 +915,7 @@ const Fitness = () => {
             Glutes
           </label>
           <p>Select muscle group(s) you want to focus on</p>
-
+          </div>
           <br />
 
           {/* Button to submit form to generate a new workout plan. Displays different text if clicked or not clicked */}
