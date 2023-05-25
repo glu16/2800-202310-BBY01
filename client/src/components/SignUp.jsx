@@ -127,7 +127,11 @@ function SignUp({ setToken }) {
               required
             />
             <label htmlFor="password-input" className={`${styles.inputLabel}`}>
-              <span className={`${styles.inputName} ${styles.passwordPlaceholder}`}>Password</span>
+              <span
+                className={`${styles.inputName} ${styles.passwordPlaceholder}`}
+              >
+                Password
+              </span>
             </label>
             {/* ERROR IS DISPLAYED HERE  */}
             {error && <div className={`${styles.errorMessage}`}>{error}</div>}

@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from "react";
-import {useSpring, animated} from "react-spring";
-import {ProgressBar} from "react-step-progress-bar";
+import React, { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
+import { ProgressBar } from "react-step-progress-bar";
 import axios from "axios";
-import {Reorder} from "framer-motion";
-import {VictoryPie, VictoryLabel} from "victory";
+import { Reorder } from "framer-motion";
+import { VictoryPie, VictoryLabel } from "victory";
 
 import "react-step-progress-bar/styles.css";
 import styles from "../css/home.module.css";
@@ -88,10 +88,10 @@ const Home = () => {
   const [items, setItems] = useState(["rest day"]);
   // End of fetchExercises function
 
-  const CirclePercentDaysDone = ({percentDaysDone}) => {
+  const CirclePercentDaysDone = ({ percentDaysDone }) => {
     const data = [
-      {x: 1, y: percentDaysDone},
-      {x: 2, y: 100 - percentDaysDone},
+      { x: 1, y: percentDaysDone },
+      { x: 2, y: 100 - percentDaysDone },
     ];
     const svgSize = 150; // Adjust the size of the SVG container
     const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -105,9 +105,12 @@ const Home = () => {
     }
     return (
       <div className={styles.graph}>
-        <svg className={styles.homeSVG}
-        // view= x, y, width, height
-          viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+        <svg
+          className={styles.homeSVG}
+          // view= x, y, width, height
+          viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+            svgSize / 1.7
+          }`}
           width={svgSize}
           height={svgSize}
         >
@@ -121,7 +124,7 @@ const Home = () => {
             labels={() => null}
             style={{
               data: {
-                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+                fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
               },
             }}
           />
@@ -131,7 +134,7 @@ const Home = () => {
             x={svgSize / 2}
             y={svgSize / 2}
             text={`${percentDaysDone}%`}
-            style={{fontSize: 20, fill: "white"}}
+            style={{ fontSize: 20, fill: "white" }}
           />
         </svg>
         <p>Workout Completion Rate</p>
@@ -139,11 +142,11 @@ const Home = () => {
     );
   };
 
-  const CircleStreak = ({currentStreak, longestStreak}) => {
+  const CircleStreak = ({ currentStreak, longestStreak }) => {
     const percentStreak = (100 * currentStreak) / longestStreak;
     const data = [
-      {x: 1, y: percentStreak},
-      {x: 2, y: 100 - percentStreak},
+      { x: 1, y: percentStreak },
+      { x: 2, y: 100 - percentStreak },
     ];
     const svgSize = 150; // Adjust the size of the SVG container
     const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -158,9 +161,12 @@ const Home = () => {
     }
     return (
       <div className={styles.graph}>
-   <svg className={styles.homeSVG}
-        // view= x, y, width, height
-          viewBox={` ${svgSize/4.3} ${svgSize/5} ${svgSize/1.70} ${svgSize/1.70}`}
+        <svg
+          className={styles.homeSVG}
+          // view= x, y, width, height
+          viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
+            svgSize / 1.7
+          }`}
           width={svgSize}
           height={svgSize}
         >
@@ -174,7 +180,7 @@ const Home = () => {
             labels={() => null}
             style={{
               data: {
-                fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+                fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
               },
             }}
           />
@@ -184,7 +190,7 @@ const Home = () => {
             x={svgSize / 2}
             y={svgSize / 2}
             text={` ${currentStreak} / ${longestStreak} \n days`}
-            style={{fontSize: 16, fill: "white"}}
+            style={{ fontSize: 16, fill: "white" }}
           />
         </svg>
         <p>Current vs Longest Streak</p>
@@ -203,7 +209,9 @@ const Home = () => {
     async function getStreak() {
       const username = localStorage.getItem("username");
       try {
-        const response = await axios.get(`http://localhost:5050/streak/${username}`);
+        const response = await axios.get(
+          `http://localhost:5050/streak/${username}`
+        );
 
         setCurrentStreak(response.data.currentStreak);
         setLongestStreak(response.data.longestStreak);
@@ -237,7 +245,9 @@ const Home = () => {
       doneTodayMessage = "Exercises not completed";
     }
 
-    var percentDaysDone = Math.floor((100 * daysDone) / (daysDone + daysMissed));
+    var percentDaysDone = Math.floor(
+      (100 * daysDone) / (daysDone + daysMissed)
+    );
     // to prevent NaN error dividing 0
     if (daysDone + daysMissed == 0) {
       percentDaysDone = 0;
@@ -252,12 +262,11 @@ const Home = () => {
 
         {/* <MyBarChart currentStreak={currentStreak} longestStreak={longestStreak} /> */}
 
-          <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
-          <CircleStreak
-            currentStreak={currentStreak}
-            longestStreak={longestStreak}
-          />
-
+        <CirclePercentDaysDone percentDaysDone={percentDaysDone} />
+        <CircleStreak
+          currentStreak={currentStreak}
+          longestStreak={longestStreak}
+        />
 
         {/* Current streak: {currentStreak} 
       <br />
@@ -273,7 +282,7 @@ const Home = () => {
   // Text animation
   const greetings = useSpring({
     opacity: 1,
-    from: {opacity: 0},
+    from: { opacity: 0 },
     delay: 300,
   });
 
@@ -290,7 +299,7 @@ const Home = () => {
           },
         }
       );
-      const {firstName, points} = response.data;
+      const { firstName, points } = response.data;
       // console.log(firstName);
       // console.log(points);
       setUserName(firstName);
@@ -367,7 +376,7 @@ const Home = () => {
         `http://localhost:5050/home/challenges/${localStorage.getItem(
           "username"
         )}`,
-        {challengeId, challenge, points}
+        { challengeId, challenge, points }
       );
       // console.log("Response:", response.data);
       // console.log("Challenge added:", challenge);
@@ -448,7 +457,7 @@ const Home = () => {
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
         `http://localhost:5050/users/${localStorage.getItem("username")}`,
-        {points: points, challengeId},
+        { points: points, challengeId },
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -614,7 +623,7 @@ const Home = () => {
       >
         <div className={styles.progressInnerCard}>
           <h4 className={styles.progressHeader}>Fitness Tracker</h4>
-            <Streak/>
+          <Streak />
         </div>
       </animated.div>
       <animated.div

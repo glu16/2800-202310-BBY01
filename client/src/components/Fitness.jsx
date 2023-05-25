@@ -1,8 +1,8 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../css/fitness.module.css";
 import Modal from "react-modal";
-import {useSpring, animated} from "react-spring";
-import {VictoryPie, VictoryLabel} from "victory";
+import { useSpring, animated } from "react-spring";
+import { VictoryPie, VictoryLabel } from "victory";
 import axios from "axios";
 
 // import server hosting port
@@ -14,9 +14,7 @@ const username = localStorage.getItem("username");
 // FUNCTION CALLED TO CONNECT TO DATABASE AND GET FIRST WORKOUT PLAN OBJECT
 var workout;
 async function getWorkout() {
-  var response = await axios.get(
-    `http://localhost:5050/fitness/${username}`
-  );
+  var response = await axios.get(`http://localhost:5050/fitness/${username}`);
   // check if workouts is empty
   if (response.data === "empty") {
     return "empty";
@@ -29,20 +27,16 @@ async function getWorkout() {
 // FUNCTION TO GET USER'S NAME FOR EASTER EGG
 var firstName = "";
 async function getName() {
-  var response = await axios.get(
-    `http://localhost:5050/getName/${username}`
-  );
+  var response = await axios.get(`http://localhost:5050/getName/${username}`);
   firstName = response.data.firstName;
-return firstName;
+  return firstName;
 }
 getName();
 
 // CHECK IF EXERCISE FOR TODAY ALREADY DONE
 var doneToday = false;
 async function getDoneToday() {
-  var response = await axios.get(
-    `http://localhost:5050/doneToday/${username}`
-  );
+  var response = await axios.get(`http://localhost:5050/doneToday/${username}`);
   doneToday = response.data;
 }
 getDoneToday();
@@ -50,17 +44,15 @@ getDoneToday();
 // GET USER'S SEX FOR MODAL PICTURES
 var sex = "male";
 async function getSex() {
-  var response = await axios.get(
-    `http://localhost:5050/getSex/${username}`
-  );
+  var response = await axios.get(`http://localhost:5050/getSex/${username}`);
   sex = response.data.toLowerCase();
 }
 getSex();
 
-const CirclePercentDaysDone = ({percentDaysDone}) => {
+const CirclePercentDaysDone = ({ percentDaysDone }) => {
   const data = [
-    {x: 1, y: percentDaysDone},
-    {x: 2, y: 100 - percentDaysDone},
+    { x: 1, y: percentDaysDone },
+    { x: 2, y: 100 - percentDaysDone },
   ];
   const svgSize = 150; // Adjust the size of the SVG container
   const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -93,7 +85,7 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
           labels={() => null}
           style={{
             data: {
-              fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+              fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
             },
           }}
         />
@@ -103,7 +95,7 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={`${percentDaysDone}%`}
-          style={{fontSize: 20, fill: "white"}}
+          style={{ fontSize: 20, fill: "white" }}
         />
       </svg>
       <p>Workout Completion Rate</p>
@@ -111,11 +103,11 @@ const CirclePercentDaysDone = ({percentDaysDone}) => {
   );
 };
 
-const CircleStreak = ({currentStreak, longestStreak}) => {
+const CircleStreak = ({ currentStreak, longestStreak }) => {
   const percentStreak = (100 * currentStreak) / longestStreak;
   const data = [
-    {x: 1, y: percentStreak},
-    {x: 2, y: 100 - percentStreak},
+    { x: 1, y: percentStreak },
+    { x: 2, y: 100 - percentStreak },
   ];
   const svgSize = 150; // Adjust the size of the SVG container
   const radius = (svgSize - 65) / 2; // Adjust the radius of the circle
@@ -148,7 +140,7 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
           labels={() => null}
           style={{
             data: {
-              fill: ({datum}) => (datum.x === 1 ? color : "transparent"),
+              fill: ({ datum }) => (datum.x === 1 ? color : "transparent"),
             },
           }}
         />
@@ -158,7 +150,7 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
           x={svgSize / 2}
           y={svgSize / 2}
           text={` ${currentStreak} / ${longestStreak} \n days`}
-          style={{fontSize: 16, fill: "white"}}
+          style={{ fontSize: 16, fill: "white" }}
         />
       </svg>
       <p>Current vs Longest Streak</p>
@@ -167,10 +159,10 @@ const CircleStreak = ({currentStreak, longestStreak}) => {
 };
 
 // PARSE AND DISPLAY WORKOUT PLAN FROM DATABASE
-function Workout({handleOpenModal}) {
+function Workout({ handleOpenModal }) {
   const fadeIn = useSpring({
     opacity: 1,
-    from: {opacity: 0},
+    from: { opacity: 0 },
     delay: 300,
   });
 
@@ -205,17 +197,16 @@ function Workout({handleOpenModal}) {
 
   useEffect(() => {
     async function fetchData() {
+      // use this to check if current page is today to render title card
+      const options = {
+        weekday: "long",
+        month: "long",
+        day: "numeric",
+        year: "numeric",
+      };
+      const today = new Date().toLocaleDateString("en-US", options);
+      // if this page is today
 
-         // use this to check if current page is today to render title card
-         const options = {
-          weekday: "long",
-          month: "long",
-          day: "numeric",
-          year: "numeric",
-        };
-        const today = new Date().toLocaleDateString("en-US", options);
-        // if this page is today
-      
       // workoutData === the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
 
@@ -239,7 +230,6 @@ function Workout({handleOpenModal}) {
 
                 // check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
-               
                   if (key === today) {
                     return (
                       <animated.div
@@ -399,7 +389,7 @@ function Workout({handleOpenModal}) {
                   </button>
 
                   {/* button to mark task completed */}
-                  <CompleteExercisesButton index={index}/>
+                  <CompleteExercisesButton index={index} />
                 </div>
               </div>
             );
@@ -477,7 +467,7 @@ function Workout({handleOpenModal}) {
 }
 
 // FOR THE TASK COMPLETION BUTTONS
-const CompleteExercisesButton = ({index}) => {
+const CompleteExercisesButton = ({ index }) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleClick = () => {
@@ -498,8 +488,17 @@ const CompleteExercisesButton = ({index}) => {
   };
   return (
     <div>
-      <input className="form-check-input " onClick={handleClick} type="checkbox" name={index} id={`done-${index}`}></input>
-      <label className={`form-check-label ${styles.doneButton}`} htmlFor={`done-${index}`}>
+      <input
+        className="form-check-input "
+        onClick={handleClick}
+        type="checkbox"
+        name={index}
+        id={`done-${index}`}
+      ></input>
+      <label
+        className={`form-check-label ${styles.doneButton}`}
+        htmlFor={`done-${index}`}
+      >
         &nbsp;Done!
       </label>
     </div>
@@ -561,7 +560,11 @@ const Streak = () => {
   return (
     <div id="streakContainer" className={styles.streakContainer}>
       <div className={styles.doneContainer}>
-        <img src={doneTodaySymbol} className={styles.doneTodaySymbol} alt="Done today symbol"></img>
+        <img
+          src={doneTodaySymbol}
+          className={styles.doneTodaySymbol}
+          alt="Done today symbol"
+        ></img>
         {doneTodayMessage}
       </div>
 
@@ -583,7 +586,7 @@ const Fitness = () => {
   // Text animation
   const fadeIn = useSpring({
     opacity: 1,
-    from: {opacity: 0},
+    from: { opacity: 0 },
     delay: 300,
   });
 
@@ -612,19 +615,19 @@ const Fitness = () => {
       return;
     }
     setFormSubmitting(true);
-    await axios.put(`http://localhost:${port}/fitness/${username}`)
+    await axios.put(`http://localhost:${port}/fitness/${username}`);
     // re-enable button after finishing code
     setFormSubmitting(false);
     // reload page so new workout is displayed
     window.location.reload();
   }
 
-    // alert message popup for the user
-    const handleClick = () => {
-      window.alert("Generating workout plan... please do not refresh the page!");
-    };
+  // alert message popup for the user
+  const handleClick = () => {
+    window.alert("Generating workout plan... please do not refresh the page!");
+  };
 
-  const ExerciseModal = ({isOpen, onRequestClose, modalExercise, sex}) => {
+  const ExerciseModal = ({ isOpen, onRequestClose, modalExercise, sex }) => {
     //Overlay styling for the modal
     const overlayStyles = {
       backgroundColor: "rgba(0, 0, 0, 0.5)",
@@ -647,7 +650,7 @@ const Fitness = () => {
         contentLabel="Image Popup"
         appElement={document.getElementById("root")}
         ariaHideApp={false}
-        style={{overlay: overlayStyles}}
+        style={{ overlay: overlayStyles }}
         className={styles.modal}
       >
         <strong>{modalExercise}</strong>
@@ -698,7 +701,9 @@ const Fitness = () => {
 
     // incriment the user field: streak
     try {
-      const response = await axios.post(`http://localhost:${port}/fitness/${username}`);
+      const response = await axios.post(
+        `http://localhost:${port}/fitness/${username}`
+      );
 
       if (response.ok) {
         // Field update successful

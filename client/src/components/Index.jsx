@@ -13,29 +13,27 @@ const Index = () => {
   });
 
   return (
-    <div className={`row justify-content-between align-items-center h-100 ${styles.indexBody}`}>
+    <div
+      className={`row justify-content-between align-items-center h-100 ${styles.indexBody}`}
+    >
       <div className="col-md-6">
         <div className={`card-body ${styles.indexCard}`}>
           <div className="text-center">
             <h1 className={styles.indexTitle}>Healthify</h1>
             <h4 className={styles.indexDescription}>
               Healthify is a comprehensive fitness and dietary app designed to
-              help users achieve their health goals. Using the power of AI the app provides
-              personalized fitness plans, workout routines, and meal plans based
-              on users' unique needs, preferences, and goals.
+              help users achieve their health goals. Using the power of AI the
+              app provides personalized fitness plans, workout routines, and
+              meal plans based on users' unique needs, preferences, and goals.
             </h4>
             <div className={`button-group`}>
               <Link to="/signup">
-                <button
-                  className={`btn btn-primary btn-lg ${styles.indexBtn}`}
-                >
+                <button className={`btn btn-primary btn-lg ${styles.indexBtn}`}>
                   Sign Up
                 </button>
               </Link>
               <Link to="/login">
-                <button
-                  className={`btn btn-primary btn-lg ${styles.indexBtn}`}
-                >
+                <button className={`btn btn-primary btn-lg ${styles.indexBtn}`}>
                   Log In
                 </button>
               </Link>

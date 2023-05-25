@@ -167,7 +167,7 @@ input[type="checkbox"]:focus + .formButtons {
   margin: 5px;
 }
 
-.doneButton{
+.doneButton {
   pointer-events: none;
 }
 
@@ -209,7 +209,7 @@ input[type="checkbox"]:focus + .formButtons {
     margin-bottom: 130px;
   }
 
-  .anExercise{
+  .anExercise {
     margin-top: 20px;
   }
 
