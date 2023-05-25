@@ -169,7 +169,9 @@ const Profile = ({ username }) => {
       timer = setTimeout(() => {
         setShowAlert(false);
         setShowModal(false);
+        if (document.querySelector(".modal-backdrop") !== null){
         document.querySelector(".modal-backdrop").remove();
+      }
         let body = document.querySelector("body");
         body.classList.remove("modal-open");
         body.removeAttribute("style");
@@ -228,7 +230,7 @@ const Profile = ({ username }) => {
     }
 
     // Height validation
-    if (data["height"] <= 0) {
+    if (data["height"] <= 0 || data["height"] > 3) {
       setError((error) => ({
         ...error,
         height: "Please enter a valid height.",
@@ -237,7 +239,7 @@ const Profile = ({ username }) => {
     }
 
     // Weight validation
-    if (data["weight"] <= 0) {
+    if (data["weight"] <= 0 || data["weight"] > 250) {
       setError((error) => ({
         ...error,
         weight: "Please enter a valid weight.",
