@@ -113,7 +113,7 @@
 }
 
 .progressBarContainer {
-margin: 60px 70px 40px 70px;
+  margin: 60px 70px 40px 70px;
 }
 
 .progressBarContainer > {
@@ -122,7 +122,6 @@ margin: 60px 70px 40px 70px;
   justify-content: center;
   margin: 0 75px;
   margin-top: 20px;
-
 }
 
 .progressBtn {
