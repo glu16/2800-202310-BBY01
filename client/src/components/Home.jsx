@@ -597,6 +597,7 @@ const Home = () => {
           <div className={styles.progressBarContainer}>
             <ProgressBar
               percent={dietProgress}
+              height="24px"
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
             />
           </div>

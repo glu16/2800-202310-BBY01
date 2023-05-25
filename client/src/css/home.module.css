@@ -97,6 +97,7 @@
   text-align: center;
   background-color: #2b2b2b;
   margin-bottom: 30px;
+  min-height: 304px;
 }
 
 .progressInnerCard {
@@ -105,11 +106,21 @@
   background-color: hsl(0, 0%, 30%);
   padding: 20px 0;
   margin: 20px 6px;
+  min-height: 265px;
 }
 
 .progressBarContainer {
+margin: 60px 70px 40px 70px;
+}
+
+.progressBarContainer > {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: center; */
   margin: 0 75px;
   margin-top: 20px;
+
 }
 
 .progressBtn {
