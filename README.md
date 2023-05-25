@@ -47,7 +47,7 @@ IDEs:
 
 Hosting:
 
-![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white)
 
 ## Complete Setup/Installion/Usage
 
@@ -233,7 +233,5 @@ It has the following subfolders:
     ├── package-lock.json                     
     ├── package.json                          
     ├── server.js                             # Main backend file
-    ├── updateStreaks.js                      # CronJob configuration file 
-    ├── vercel.json                           # Vercel JSON build file
     └── workout.js                            # Logic for Fitness page
 ```
