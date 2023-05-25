@@ -285,7 +285,6 @@ const Profile = ({ username }) => {
       const response = await axios.get(
         `https://healthify-enxj.onrender.com/leaderboard/${localStorage.getItem("username")}`
       );
-      // console.log(response.data);
       setFriends(response.data);
     } catch (error) {
       console.error(error);
@@ -380,16 +379,11 @@ const Profile = ({ username }) => {
   const deleteFriend = async (friendId) => {
     try {
       const username = localStorage.getItem("username");
-      // console.log("Friend's ID:", friendId);
-      // console.log("Logged in user's ID", username);
-
-      await axios.delete(`https://healthify-enxj.onrender.com/profile/${friendId}`, {
+      await axios.delete(`http://localhost:5050/profile/${friendId}`, {
         data: {
           username: username,
         },
       });
-
-      // console.log("Friend removed successfully!");
       closeModal();
     } catch (error) {
       console.error(error);
@@ -519,16 +513,9 @@ const Profile = ({ username }) => {
     return [];
   }
 
-  // useState hook variables to apply the points
-  const [userPoints, setUserPoints] = useState(0);
-
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
-      // console.log("handleDoneClick called with challengeId:", challengeId);
-      // console.log("Points:", points);
-      // console.log("User's current points balance:", userPoints);
-
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
         `https://healthify-enxj.onrender.com/users/${localStorage.getItem("username")}`,
@@ -559,7 +546,6 @@ const Profile = ({ username }) => {
       );
       localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
 
-      // console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);
