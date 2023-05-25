@@ -95,7 +95,7 @@
   border: grey;
 }
 
-.checkboxButton {
+.muscleGroupButton {
   background-color: transparent;
   color: white;
   border: solid 2px hsl(183.87deg 60.78% 40%);
@@ -104,6 +104,18 @@ input[type="checkbox"]:checked + label {
   background-color: hsl(183.87deg 60.78% 40%) !important; 
   color: white;
   border: solid 2px hsl(183.87deg 60.78% 40%);
+}
+
+.doneExerciseButton {
+  background-color: transparent;
+  color: white;
+  border: solid 2px hsl(183.87deg 60.78% 40%);
+}
+input.btn-check:checked + label.btn {
+  background-color: red !important;
+  /* background-color: hsl(183.87deg 60.78% 40%) !important; 
+  color: white;
+  border: solid 2px hsl(183.87deg 60.78% 40%); */
 }
 
 .radioButton {

@@ -375,9 +375,9 @@ function Workout({ handleOpenModal }) {
             <div className={styles.exerciseButtonsContainer}>
               {/* this opens up images for the exercise */}
               <button onClick={handleOpenModal} className={`btn ${styles.modalButton}`}>Help</button>
-
+              
               {/* button to mark task completed */}
-              <CompleteExercisesButton />
+              <CompleteExercisesButton index={index} />
             </div>
 
 
@@ -450,7 +450,7 @@ function Workout({ handleOpenModal }) {
 }
 
 // FOR THE TASK COMPLETION BUTTONS
-const CompleteExercisesButton = () => {
+const CompleteExercisesButton = (props) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleClick = () => {
@@ -465,12 +465,12 @@ const CompleteExercisesButton = () => {
       localStorage.setItem('numberOfExercises', numberOfExercises);
     }
 
-
   };
   return (
-    <div onClick={handleClick}>
-      <input className="form-check-input" type="checkbox"></input>
-      <label className="form-check-label">&nbsp;Done!</label>
+    <div>
+      
+      <input type="checkbox" className="btn-check" id={`doneExercise${props.index}`}></input>
+      <label onClick={handleClick} className={`btn ${styles.doneExerciseButton}`} htmlFor={`doneExercise${props.index}`}>Done!</label>
   </div>
   );
 };
@@ -767,19 +767,19 @@ const Fitness = () => {
           {/* SEND MUSCLE GROUPS FOR WORKOUT GENERATION */}
           
           <input type="checkbox" name="arms" className="btn-check" id="arms"></input>
-          <label className={`btn ${styles.checkboxButton}`} htmlFor="arms">Arms</label>
+          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="arms">Arms</label>
           <input type="checkbox" name="legs" className="btn-check" id="legs"></input>
-          <label className={`btn ${styles.checkboxButton}`} htmlFor="legs">Legs</label>
+          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="legs">Legs</label>
           <input type="checkbox" name="chest" className="btn-check" id="chest"></input>
-          <label className={`btn ${styles.checkboxButton}`} htmlFor="chest">Chest</label>
+          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="chest">Chest</label>
           <input type="checkbox" name="back" className="btn-check" id="back"></input>
-          <label className={`btn ${styles.checkboxButton}`} htmlFor="back">Back</label>
+          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="back">Back</label>
           <input type="checkbox" name="shoulders" className="btn-check" id="shoulders"></input>
-          <label className={`btn ${styles.checkboxButton}`} htmlFor="shoulders">Shoulders</label>
+          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="shoulders">Shoulders</label>
           <input type="checkbox" name="core" className="btn-check" id="core"></input>
-          <label className={`btn ${styles.checkboxButton}`} htmlFor="core">Core</label>
+          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="core">Core</label>
           <input type="checkbox" name="glutes" className="btn-check" id="glutes"></input>
-          <label className={`btn ${styles.checkboxButton}`} htmlFor="glutes">Glutes</label>
+          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="glutes">Glutes</label>
           <p>Select muscle group(s) you want to focus on</p>
 
           <br />
