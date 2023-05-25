@@ -54,15 +54,19 @@ const About = () => {
         <div className="row">
           <div className="col-md-3">
             <img className={styles.aboutImg} src={niko} alt="Team Member 1" />
+            <h4 className={styles.aboutImgDesc}>Niko Durano</h4>
           </div>
           <div className="col-md-3">
             <img className={styles.aboutImg} src={leroy} alt="Team Member 2" />
+            <h4 className={styles.aboutImgDesc}>Leroy Lau</h4>
           </div>
           <div className="col-md-3">
             <img className={styles.aboutImg} src={gin} alt="Team Member 3" />
+            <h4 className={styles.aboutImgDesc}>Gin Lu</h4>
           </div>
           <div className="col-md-3">
             <img className={styles.aboutImg} src={felix} alt="Team Member 4" />
+            <h4 className={styles.aboutImgDesc}>Felix Wei</h4>
           </div>
         </div>
       </div>
