@@ -523,6 +523,7 @@ const CompleteExercisesButton = (props) => {
         onClick={handleClick}
         className={`btn ${styles.doneExerciseButton}`}
         htmlFor={`doneExercise${props.index}`}
+        disabled={doneToday}
       >
         Completed!
       </label>

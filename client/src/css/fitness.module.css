@@ -169,7 +169,12 @@ input[type="checkbox"]:checked + .muscleGroupButton {
 }
 
 .doneExerciseButton {
-  background-color: hsl(120, 3%, 40%);
+  background-color: #626262;
+  color: black;
+}
+
+.doneExerciseButton:hover {
+  background-color:#016501 ;
   color: black;
   border: #008000;
 }
