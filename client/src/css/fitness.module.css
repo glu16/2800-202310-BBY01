@@ -169,15 +169,15 @@ input[type="checkbox"]:checked + .muscleGroupButton {
 }
 
 .doneExerciseButton {
-  background-color: hsl(184, 61%, 40%);
+  background-color: #008001;
   color: white;
-  border: solid 2px hsl(184, 61%, 40%);
+  border: #008001;
 }
 
 input[type="checkbox"]:checked + .doneExerciseButton {
-  background-color: #5cb85c !important;
+  background-color: #008001 !important;
   color: white;
-  border: solid 2px #5cb85c;
+  border: solid 2px #008001;
 }
 
 .radioButton {
@@ -186,6 +186,7 @@ input[type="checkbox"]:checked + .doneExerciseButton {
   border: solid 2px hsl(184, 61%, 40%);
   margin: 10px 5px 5px 5px;
 }
+
 input[type="radio"]:checked + .radioButton {
   background-color: hsl(184, 61%, 70%);
   color: black;
