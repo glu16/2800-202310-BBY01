@@ -169,7 +169,9 @@ const Profile = ({ username }) => {
       timer = setTimeout(() => {
         setShowAlert(false);
         setShowModal(false);
+        if (document.querySelector(".modal-backdrop") !== null){
         document.querySelector(".modal-backdrop").remove();
+      }
         let body = document.querySelector("body");
         body.classList.remove("modal-open");
         body.removeAttribute("style");
