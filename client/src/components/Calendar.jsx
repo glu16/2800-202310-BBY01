@@ -62,7 +62,7 @@ const Calendar = () => {
   return (
     <div className={styles.calendarBody}>
       <div
-        className={`d-flex justify-content-center align-items-center h-100 ${styles.calendarContainer}`}
+        className={`d-flex justify-content-center align-items-center h-100`}
       >
         <div className={`${styles.calendarCard}`}>
           <div className="card-body">
