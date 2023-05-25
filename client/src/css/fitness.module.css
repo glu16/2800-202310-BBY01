@@ -175,9 +175,8 @@ input[type="checkbox"]:checked + .muscleGroupButton {
 }
 
 input[type="checkbox"]:checked + .doneExerciseButton {
-  background-color: #008001 !important;
+  background-color: hsl(120, 100%, 30%) !important;
   color: white;
-  border: solid 2px #008001;
 }
 
 .radioButton {

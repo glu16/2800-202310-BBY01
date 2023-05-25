@@ -96,6 +96,8 @@ function SignupDetails() {
               id="heightInput"
               name="height"
               className={`user-input ${styles.userInput}`}
+              min="0"
+              max="4"
               value={0 ? data.weight : null}
               onChange={handleChange}
               required
@@ -113,6 +115,8 @@ function SignupDetails() {
               step="any"
               id="weightInput"
               name="weight"
+              min="10"
+              max="250"
               className={`user-input ${styles.userInput}`}
               value={0 ? data.weight : null}
               onChange={handleChange}

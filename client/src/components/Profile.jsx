@@ -230,7 +230,7 @@ const Profile = ({ username }) => {
     }
 
     // Height validation
-    if (data["height"] <= 0) {
+    if (data["height"] <= 0 || data["height"] > 3) {
       setError((error) => ({
         ...error,
         height: "Please enter a valid height.",
@@ -239,7 +239,7 @@ const Profile = ({ username }) => {
     }
 
     // Weight validation
-    if (data["weight"] <= 0) {
+    if (data["weight"] <= 0 || data["weight"] > 250) {
       setError((error) => ({
         ...error,
         weight: "Please enter a valid weight.",
