@@ -13,6 +13,7 @@ const Calendar = () => {
   // useEffect hook to retrieve the user's 7-day workout plan
   // from the database and convert them into calendar events
   useEffect(() => {
+    // This function was adapted from ChatGPT's recommendations
     async function fetchWorkout() {
       try {
         const response = await fetch(

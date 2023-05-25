@@ -962,8 +962,7 @@ const Fitness = () => {
 
       {/* Button for user to mark today's workout complete and update database.*/}
       <button
-        id="completeAllButton"
-        className={`btn btn-success ${styles.completeAllButton}`}
+        className={`btn ${styles.completeAllButton}`}
         onClick={completeAllExercises}
         disabled={
           numberOfExercises !== 0 || completeAllExercisesClicked || doneToday

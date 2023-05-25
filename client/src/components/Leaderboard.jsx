@@ -30,8 +30,6 @@ const Leaderboard = () => {
           }
         );
         const username = response.data.username;
-        // console.log("Logged in user's name:", username);
-        // localStorage.setItem("username", username);
       } catch (error) {
         console.error(error.message);
       }
@@ -70,12 +68,12 @@ const Leaderboard = () => {
       const response = await axios.get(
         `http://localhost:5050/leaderboard/${localStorage.getItem("username")}`
       );
-      // console.log(response.data);
       setFriends(response.data);
     } catch (error) {
       console.error(error);
     }
   };
+  
   // useEffect hook to fetchFriends
   useEffect(() => {
     fetchFriends();

@@ -96,13 +96,17 @@
 }
 
 .completeAllButton:hover {
+  background-color: hsl(184, 61%, 60%);
+  border: none;
+  outline: none;
   color: black;
-  background-color: hsl(184, 61%, 70%);
 }
 
-.completeAllButton:focus, .completeAllButton:active {
+.completeAllButton:focus,
+.completeAllButton:active {
   color: black;
-  background-color: hsl(184, 61%, 80%);
+  background-color: hsl(184, 61%, 70%);
+  box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
 .completeAllButton:disabled {
@@ -122,57 +126,56 @@
   border: solid 2px hsl(184, 61%, 60%);
 }
 
-.muscleGroupButton:focus{
+.muscleGroupButton:focus {
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%) !important;
   outline: none;
 }
 
 input[type="checkbox"]:checked + .muscleGroupButton {
-  background-color: hsl(184, 61%, 70%) !important; 
+  background-color: hsl(184, 61%, 70%) !important;
   color: black;
   border: solid 2px hsl(184, 61%, 70%);
 }
 
-.planButton{
+.planButton {
   background-color: hsl(184, 61%, 40%);
-  border-color:hsl(184, 61%, 40%);
+  border-color: hsl(184, 61%, 40%);
   color: white;
 }
 
 .planButton:hover {
   background-color: hsl(184, 61%, 60%);
   color: black;
-  border-color:hsl(184, 61%, 60%);
+  border-color: hsl(184, 61%, 60%);
 }
 
-.planButton:active{
+.planButton:active {
   background-color: hsl(184, 61%, 70%);
   color: black;
-  border-color:hsl(184, 61%, 70%);
+  border-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
-.planButton:focus{
+.planButton:focus {
   background-color: hsl(184, 61%, 70%);
   color: black;
-  border-color:hsl(184, 61%, 70%);
+  border-color: hsl(184, 61%, 70%);
   box-shadow: 0px 0px 3px 3px hsl(184, 57%, 28%);
 }
 
-.planButton:disabled{
+.planButton:disabled {
   background-color: hsl(183, 18%, 61%);
-  border-color:hsl(183, 18%, 61%);
+  border-color: hsl(183, 18%, 61%);
 }
-
 
 .doneExerciseButton {
-  background-color: transparent;
+  background-color: hsl(184, 61%, 40%);
   color: white;
   border: solid 2px hsl(184, 61%, 40%);
 }
 
 input[type="checkbox"]:checked + .doneExerciseButton {
-  background-color: #5cb85c !important; 
+  background-color: #5cb85c !important;
   color: white;
   border: solid 2px #5cb85c;
 }
@@ -184,7 +187,7 @@ input[type="checkbox"]:checked + .doneExerciseButton {
   margin: 10px 5px 5px 5px;
 }
 input[type="radio"]:checked + .radioButton {
-  background-color: hsl(184, 61%, 70%); 
+  background-color: hsl(184, 61%, 70%);
   color: black;
   border: solid 2px hsl(184, 61%, 70%);
 }
@@ -203,7 +206,6 @@ input[type="radio"]:checked + .radioButton {
 .modalButton:focus {
   background-color: hsl(184, 61%, 60%);
 }
-
 
 .paginationButton {
   background-color: hsl(184, 61%, 40%);
@@ -266,20 +268,22 @@ input[type="radio"]:checked + .radioButton {
     margin-top: 20px;
     min-height: 100%;
   }
+
   .anExercise div {
     margin: 0;
     padding: 15px;
     display: block;
   }
-  .widthDiv{
+
+  .widthDiv {
     width: 100%;
   }
 
-  .muscles label{
+  .muscles label {
     margin-top: 5px;
   }
+
   .exercisesContainer {
-    /* width: 300px; */
     display: flex;
     flex-direction: column;
   }
@@ -318,10 +322,8 @@ input[type="radio"]:checked + .radioButton {
   .graph {
     margin: 0 20px 0 20px;
   }
-  
+
   .streakContainer {
     justify-content: space-around;
   }
 }
-
-

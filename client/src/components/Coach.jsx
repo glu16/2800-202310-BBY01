@@ -235,7 +235,7 @@ const Coach = () => {
   };
   // End of info modal component
 
-  // The code comes largely from this video
+  // This function's code comes largely from this video
   // https://www.youtube.com/watch?v=qwM23_kF4v4
   async function handleSubmit(event) {
     event.preventDefault();
