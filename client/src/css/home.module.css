@@ -130,6 +130,10 @@
   border: none;
 }
 
+.progressBtn:disabled {
+  background-color: hsl(184, 61%, 40%);
+}
+
 .progressBtn:hover {
   background-color: hsl(184, 61%, 60%);
   border: none;
