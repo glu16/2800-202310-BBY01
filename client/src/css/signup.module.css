@@ -99,6 +99,7 @@
   transition: 0.2s;
   display: inline-block;
 }
+
 .emailPlaceholder {
   right: 120px;
 }
@@ -134,6 +135,7 @@
   body {
     height: auto;
   }
+  
   .signupCard {
     scale: 80%;
   }

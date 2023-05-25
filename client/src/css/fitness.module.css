@@ -104,28 +104,31 @@
   color: white;
   border: solid 2px hsl(183.87deg 60.78% 40%);
 }
+
 input[type="checkbox"]:checked + label {
   background-color: hsl(183.87deg 60.78% 40%) !important; 
   color: white;
   border: solid 2px hsl(183.87deg 60.78% 40%);
 }
+
 .doneExerciseButton {
   background-color: transparent;
   color: white;
   border: solid 2px hsl(183.87deg 60.78% 40%);
 }
+
 input[type="checkbox"]:checked + .doneExerciseButton {
   background-color: #5cb85c !important; 
   color: white;
   border: solid 2px #5cb85c;
 }
 
-
 .radioButton {
   background-color: transparent;
   color: white !important;
   border: solid 2px hsl(183.87deg 60.78% 40%);
 }
+
 input[type="radio"]:checked + label {
   background-color: hsl(183.87deg 60.78% 40%) !important; 
   color: white;
@@ -178,10 +181,6 @@ input[type="radio"]:checked + label {
   display: none;
 }
 
-
-/* ////////// MEDIA QUERIES /////////////////// */
-
-/* phones */
 @media (width <= 767px) {
   .fitnessContainer {
     margin-bottom: 130px;
@@ -195,7 +194,6 @@ input[type="radio"]:checked + label {
     width: 300px;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
   }
 
   .doneContainer {
@@ -217,13 +215,11 @@ input[type="radio"]:checked + label {
   }
 }
 
-/* tablets & computers */
 @media (width > 767px) {
   .fitnessContainer {
     margin-top: 160px;
   }
 
-  /* multiple column grids */
   .exercisesContainer {
     width: 85vw;
     display: grid;
@@ -234,6 +230,7 @@ input[type="radio"]:checked + label {
   .graph {
     margin: 0 20px 0 20px;
   }
+  
   .streakContainer {
     justify-content: space-around;
   }

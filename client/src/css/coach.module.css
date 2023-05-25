@@ -91,11 +91,13 @@ ul {
   width: 40px;
   height: 40px;
 }
+
 .userAvatarImage {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
 }
+
 .gptAvatar {
   background-color: rgb(4, 246, 61);
   width: 40px;

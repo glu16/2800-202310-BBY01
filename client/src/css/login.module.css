@@ -8,8 +8,6 @@
   background-position: center;
   background-repeat: no-repeat;
   position: fixed;
-  /* overflow-y: auto; */
-  /* overflow-x: hidden; */
 }
 
 #login {
@@ -28,14 +26,15 @@
   padding: 10px;
 }
 
-.errorMessage {
-  color: red;
-}
 #loginHeader {
   color: white;
   margin-top: 30px;
   font-size: 30pt;
   font-weight: bold;
+}
+
+.errorMessage {
+  color: red;
 }
 
 .loginCard {
