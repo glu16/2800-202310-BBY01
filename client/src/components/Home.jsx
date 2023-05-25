@@ -223,9 +223,7 @@ const Home = () => {
         console.error("Error fetching streak:", error);
       }
     }
-    useEffect(() => {
-      getStreak();
-    }, []); // Empty dependency array ensures the effect runs only once, similar to componentDidMount
+    getStreak();
 
     // Render loading state if streak data is not yet available
     if (currentStreak === null || longestStreak === null) {
@@ -511,7 +509,11 @@ const Home = () => {
 
   // Click event handler to increment the diet progress
   const handleDietProgressChange = () => {
+    if (dietProgress < 100){
     setDietProgress(dietProgress + 25);
+  } else {
+    return;
+  }
   };
 
   // useState hook variables for the fitness progress
@@ -606,6 +608,7 @@ const Home = () => {
           <div className={styles.progressBarContainer}>
             <ProgressBar
               percent={dietProgress}
+              height="24px"
               filledBackground="linear-gradient(to right, #fefb72, #f0bb31)"
             />
           </div>

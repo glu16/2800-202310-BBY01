@@ -46,9 +46,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 130px;
+  max-width: 150px;
   margin-right: 20px;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .doneTodaySymbol {
@@ -61,7 +61,7 @@
   pointer-events: none;
 }
 
-.graphs {
+.streakContainer {
   display: flex;
   height: 140px;
 }
@@ -78,41 +78,12 @@
   width: 100px;
 }
 
-#addWorkout {
-  margin: 10px;
-}
-
 .workoutForm {
   border-radius: 10px;
   background-color: hsl(0, 0%, 30%);
   margin: 10px;
-}
-
-.formButtons {
-  background-color: hsl(184, 61%, 40%);
-  border: none;
-  margin: 3px;
-}
-
-.formButtons:hover {
-  color: white;
-  background-color: hsl(184, 61%, 77%);
-}
-
-input[type="radio"]:checked + .formButtons {
-  border-color: rgb(92, 208, 216);
-  background-color: rgb(92, 208, 216);
-}
-
-input[type="checkbox"]:checked + .formButtons {
-  border-color: rgb(92, 208, 216);
-  background-color: rgb(92, 208, 216);
-}
-
-input[type="checkbox"]:active + .formButtons,
-input[type="checkbox"]:focus + .formButtons {
-  border-color: rgb(92, 208, 216);
-  background-color: rgb(92, 208, 216);
+  padding-right: 20px;
+  padding-left: 20px;
 }
 
 .exerciseButtonsContainer {
@@ -120,7 +91,7 @@ input[type="checkbox"]:focus + .formButtons {
 }
 
 .completeAllButton {
-  margin: 20px 0;
+  margin-top: 10px;
 }
 
 .completeAllButton:disabled {
@@ -128,36 +99,51 @@ input[type="checkbox"]:focus + .formButtons {
   border: grey;
 }
 
+.muscleGroupButton {
+  background-color: transparent;
+  color: white;
+  border: solid 2px hsl(183.87deg 60.78% 40%);
+}
+input[type="checkbox"]:checked + label {
+  background-color: hsl(183.87deg 60.78% 40%) !important; 
+  color: white;
+  border: solid 2px hsl(183.87deg 60.78% 40%);
+}
+.doneExerciseButton {
+  background-color: transparent;
+  color: white;
+  border: solid 2px hsl(183.87deg 60.78% 40%);
+}
+input[type="checkbox"]:checked + .doneExerciseButton {
+  background-color: #5cb85c !important; 
+  color: white;
+  border: solid 2px #5cb85c;
+}
+
+
+.radioButton {
+  background-color: transparent;
+  color: white !important;
+  border: solid 2px hsl(183.87deg 60.78% 40%);
+}
+input[type="radio"]:checked + label {
+  background-color: hsl(183.87deg 60.78% 40%) !important; 
+  color: white;
+  border: solid 2px hsl(183.87deg 60.78% 40%);
+}
+
 .modalButton {
-  background-color: hsl(184, 61%, 40%);
+  background-color: hsl(183.87deg 60.78% 40%);
   color: white;
   border: none;
   margin: 5px;
-}
-
-.modalButton:hover,
-.modalButton:active,
-.modalButton:focus {
-  background-color: hsl(184, 61%, 60%);
-  color: black;
 }
 
 .paginationButton {
-  background-color: hsl(184, 61%, 40%);
+  background-color: hsl(183.87deg 60.78% 40%);
   color: white;
   border: none;
   margin: 5px;
-}
-
-.paginationButton:hover {
-  background-color: hsl(184, 61%, 60%);
-  color: black;
-}
-
-.paginationButton:active,
-.paginationButton:focus {
-  background-color: hsl(184, 61%, 60%);
-  color: black;
 }
 
 .paginationButton:disabled {
@@ -167,28 +153,19 @@ input[type="checkbox"]:focus + .formButtons {
   margin: 5px;
 }
 
-.doneButton {
-  pointer-events: none;
-}
 
 .modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 400px;
-  width: 400px;
+  height: 350px;
+  width: 350px;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
   top: 20%;
   background-color: hsl(0, 0%, 30%);
   border-radius: 10px;
-  color: white;
-  font-size: 20pt;
-}
-
-.modal > strong {
-  margin: 10px 0 15px 0;
 }
 
 .modalImage {
@@ -201,7 +178,8 @@ input[type="checkbox"]:focus + .formButtons {
   display: none;
 }
 
-/*  MEDIA QUERIES  */
+
+/* ////////// MEDIA QUERIES /////////////////// */
 
 /* phones */
 @media (width <= 767px) {
@@ -215,6 +193,9 @@ input[type="checkbox"]:focus + .formButtons {
 
   .exercisesContainer {
     width: 300px;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
   }
 
   .doneContainer {
@@ -222,7 +203,7 @@ input[type="checkbox"]:focus + .formButtons {
     align-items: center;
     margin: 20px 10px 10px 10px;
     font-size: 10pt;
-    max-width: 120px;
+    max-width: 110px;
   }
 
   .doneTodaySymbol {
@@ -230,7 +211,7 @@ input[type="checkbox"]:focus + .formButtons {
     margin-bottom: 24px;
   }
 
-  .graphs p {
+  .streakContainer p {
     font-size: 10pt;
     max-width: 110px;
   }
@@ -253,7 +234,9 @@ input[type="checkbox"]:focus + .formButtons {
   .graph {
     margin: 0 20px 0 20px;
   }
-  .graphs {
+  .streakContainer {
     justify-content: space-around;
   }
 }
+
+

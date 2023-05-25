@@ -1,12 +1,11 @@
-// make sure you add API_KEY to .env in server folder
-
-// get api key from .env file
+// Get api key from .env file.
+//  ENSURE you add API_KEY to .env in server folder.
 require("dotenv").config();
 
-// import openAIAPI
+// Import openAIAPI.
 const { Configuration, OpenAIApi } = require("openai");
 
-// create "instance" of the ai model to use with API key
+// Create "instance" of the ai model to use with API key.
 const openai = new OpenAIApi(
   new Configuration({
     apiKey: process.env.API_KEY,
@@ -14,42 +13,26 @@ const openai = new OpenAIApi(
 );
 
 // CREATE PROMPT FOR OPENAI TO HANDLE
-function createPrompt(
-  sex1,
-  age1,
-  height1,
-  weight1,
-  activityLevel1,
-  goal1,
-  muscleGroups1,
-  level1
-) {
-  // userStats from database
-  var age = age1;
-  var sex = sex1;
-  var height = height1;
-  var weight = weight1;
-  var activityLevel = activityLevel1;
-  var goal = goal1;
-  // var workoutRestrictions = [];
-  // var workoutPreferences = [];
-
-  // user input from fitness.jsx
-  var muscles = muscleGroups1;
-  var level = level1;
+function createPrompt( 
+  sex, 
+  age, 
+  height, 
+  weight, 
+  activityLevel, 
+  goal, 
+  muscleGroups, 
+  level) {
+  
+  // Static variable but future plans to add this as another user-selected option
   var environment = "indoor"; // indoor, outdoor, either
-  // var equipment = ['bike','gym'];
 
   // ADD USER DETAILS TO PROMPT
   var inputPrompt = "";
   inputPrompt += `I am a ${age} ${sex} ${height} metres tall and weigh ${weight} kilograms. `;
   inputPrompt += `I am ${activityLevel}. My goal is to ${goal}. `;
-  inputPrompt +=
-    `Give me a ${level} level, 7-day workout routine with a focus on the following muscle groups: ` +
-    muscles.join(", ") +
-    ". ";
+  inputPrompt += `Give me a ${level} level, 7-day workout routine with a focus on the following muscle groups: ` 
+    + muscleGroups.join(", ") + ". ";
   inputPrompt += "I only want " + environment + " activities. ";
-  // inputPrompt += "\n In terms of equipment I am limited to " + equipment.join(', ');
 
   // ADD FORMATTING CONSTRAINTS TO PROMPT
   inputPrompt += "Give me at least five exercises for each day. ";
@@ -60,11 +43,7 @@ function createPrompt(
     "Format each day with a number like Day 1 or Day 7. Do not use day names like Monday. ";
   inputPrompt +=
     "Format each exercise with the following structure: exercise name, number of sets and reps, estimated time to complete, and calories burned. ";
-
   console.log("Prompt: \n" + inputPrompt);
-
-  // RUNAI WITH PROMPT
-  // runAI(inputPrompt);
 
   // RETURN inputPrompt
   return inputPrompt;
@@ -81,8 +60,6 @@ async function runAI(
   muscleGroups,
   level
 ) {
-  // start loading animation
-  console.log("Generating workout plan...");
 
   // GET INPUTPROMPT
   var input = await createPrompt(
@@ -97,7 +74,7 @@ async function runAI(
   );
 
   // RUN OPEN AI ON PROMPT
-  //default max tokens = 4096
+  //  default max tokens = 4096
   const res = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
     messages: [{ role: "user", content: input }],
@@ -118,29 +95,26 @@ function parseAI(res) {
     console.error("Error recieving fullResponse:", error);
   }
 
-  //an array of paragraphs, '\n\n' is too inconsistent
+  // an array of paragraphs, '\n\n' is too inconsistent
   var paragraphs;
   try {
     paragraphs = fullResponse.split("Day ");
-    // console.log("paragraphs: " + paragraphs);
   } catch (error) {
     console.error("Error splitting fullResponse into paragraphs:", error);
   }
 
-  // parse and save output as a JSON file
+  // Parse and save output as a JSON file
   var workoutPlan = {};
   try {
     for (let i = 1; i < paragraphs.length; i++) {
-      var day = paragraphs[i].split("\n"); //an array of sentences in this paragraph
+      var day = paragraphs[i].split("\n"); // an array of sentences in this paragraph
       console.log("day: " + day);
       var exercises = {};
       var jAdjusted = 0; // tracks j minus the ones skipped
-      for (let j = 1; j < day.length; j++) {
-        //starting j=1 because 1st line is unwanted
+      for (let j = 1; j < day.length; j++) {   // starting j=1 because 1st line is unwanted
         jAdjusted++;
         // skips empty spaces and last total conclusion paragraph
         if (day[j].length < 3 || day[j].includes("Total")) {
-          // console.log("Skipped j=" + j);
           jAdjusted--;
           continue;
         }
@@ -156,11 +130,9 @@ function parseAI(res) {
             day[j].indexOf(" –") == -1 ? day[j].length : day[j].indexOf(" –"),
             day[j].indexOf(":") == -1 ? day[j].length : day[j].indexOf(":")
           );
-          // console.log(marker);
 
           // slices name out of the prompt using punctuation as marker
           name = day[j].substring(day[j].indexOf(" ") + 1, marker);
-          // console.log("name: " + name);
 
           if (name == null) {
             throw new Error("name is null.");
@@ -185,7 +157,6 @@ function parseAI(res) {
           } else {
             setsAndReps = "n/a";
           }
-          // console.log("setsAndReps: " + setsAndReps);
           if (setsAndReps == null) {
             throw new Error("setsAndReps are null.");
           }
@@ -203,7 +174,6 @@ function parseAI(res) {
               calories = num;
             }
           }
-          // console.log("calories: " + calories);
           if (calories == null) {
             throw new Error("calories is null.");
           }
@@ -211,7 +181,6 @@ function parseAI(res) {
           console.error("Error getting exercise calories: ", error);
           console.log("day[j]: " + JSON.stringify(day[j]));
         }
-        // console.log("name: " + name + ", setsAndReps: " + setsAndReps + ", calories: " + calories);
 
         // catch any invalid exercise and skip adding it
         if (
@@ -233,12 +202,9 @@ function parseAI(res) {
             ["setsAndReps"]: setsAndReps,
             ["calories"]: calories,
           });
-          // console.log("exercises_details: " + exercises_details);
           exercises = Object.assign(exercises, {
-            // ["Exercise" + j] : day[j]
             ["Exercise " + jAdjusted]: exercises_details,
           });
-          // console.log("exercises: " + exercises);
         } catch (error) {
           console.error(
             "Error assigning exercises details to exercise object:",
@@ -255,12 +221,7 @@ function parseAI(res) {
       // assign the day key as today's date + i
       const today = new Date();
       today.setDate(today.getDate() + i - 1);
-      const dateOptions = {
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      };
+      const dateOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
       const date = today.toLocaleDateString("en-CA", dateOptions);
       try {
         workoutPlan = Object.assign(workoutPlan, {
