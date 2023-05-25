@@ -26,7 +26,16 @@
   max-width: 1400px;
   border-radius: 10px;
   text-align: center;
-  margin-top: -20px;
+  margin-top: 160px;
+}
+
+.aboutImg {
+  height: 200px;
+  width: 200px;
+}
+
+.aboutImgDesc {
+  margin-top: 20px;
 }
 
 @media (max-width: 767px) {
@@ -52,6 +61,6 @@
     max-width: 1400px;
     border-radius: 10px;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 900px;
   }
 }
