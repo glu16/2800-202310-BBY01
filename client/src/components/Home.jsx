@@ -1,15 +1,18 @@
+// Import statements
 import React, { useState, useEffect } from "react";
 import { useSpring, animated } from "react-spring";
 import { ProgressBar } from "react-step-progress-bar";
-import axios from "axios";
 import { Reorder } from "framer-motion";
 import { VictoryPie, VictoryLabel } from "victory";
+import axios from "axios";
 
+// CSS for progress bar import statement
 import "react-step-progress-bar/styles.css";
+// CSS module import statement
 import styles from "../css/home.module.css";
 
 const Home = () => {
-  // Retrieves the logged in user's username
+  // useEffect hook that retrieves the logged in user's username
   useEffect(() => {
     async function fetchUserName() {
       try {
@@ -30,7 +33,7 @@ const Home = () => {
 
     fetchUserName();
   }, []);
-  // End of username retrieval
+  // End of useEffect hook that retrieves the logged in user's username
 
   // Formatting for date, to be used in toLocaleDateString function
   const dateOptions = {
@@ -107,7 +110,7 @@ const Home = () => {
       <div className={styles.graph}>
         <svg
           className={styles.homeSVG}
-          // view= x, y, width, height
+          // view = x, y, width, height
           viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
             svgSize / 1.7
           }`}
@@ -163,7 +166,7 @@ const Home = () => {
       <div className={styles.graph}>
         <svg
           className={styles.homeSVG}
-          // view= x, y, width, height
+          // view = x, y, width, height
           viewBox={` ${svgSize / 4.3} ${svgSize / 5} ${svgSize / 1.7} ${
             svgSize / 1.7
           }`}
@@ -198,14 +201,14 @@ const Home = () => {
     );
   };
 
-  // GET AND DISPLAY STREAK AND STATS
+  // Retrieves the user's streak and stats
   const Streak = () => {
     const [currentStreak, setCurrentStreak] = useState(null);
     const [longestStreak, setLongestStreak] = useState(null);
     const [doneToday, setDoneToday] = useState(null);
     const [daysDone, setDaysDone] = useState(null);
     const [daysMissed, setDaysMissed] = useState(null);
-    // FUNCTION GETS USER STREAK STATS FROM DATABASE
+    // Function that retrieves the user's streak stats from the database
     async function getStreak() {
       const username = localStorage.getItem("username");
       try {
@@ -230,7 +233,7 @@ const Home = () => {
       return <div>Loading streak...</div>;
     }
 
-    // set which symbol via url to display if today's workout is done or not
+    // Set which symbol via url to display if today's workout is done or not
     var doneTodaySymbol;
     var doneTodayMessage;
     if (doneToday) {
@@ -277,12 +280,13 @@ const Home = () => {
     );
   };
 
-  // Text animation
+  // Visual text animation effects
   const greetings = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 300,
   });
+  // End of visual text animation effects
 
   // useState hook variables for the username
   const [userName, setUserName] = useState("");
@@ -298,8 +302,6 @@ const Home = () => {
         }
       );
       const { firstName, points } = response.data;
-      // console.log(firstName);
-      // console.log(points);
       setUserName(firstName);
       setUserPoints(points);
     } catch (error) {
@@ -311,7 +313,7 @@ const Home = () => {
   useEffect(() => {
     fetchUserData();
   }, []);
-  // End of user name retrieval
+  // End of useEffect hook to retrieve logged in user's name
 
   // useState hook variables for the tips
   const [tip, setTip] = useState("");
@@ -340,7 +342,7 @@ const Home = () => {
 
     fetchTip();
   }, []);
-  // End of tip retrieval
+  // End of useEffect hook that retrieves and displays a random diet or fitness tip from MongoDB
 
   // useState hook variables for the challenges
   const [challenges, setChallenges] = useState([]);
@@ -362,7 +364,7 @@ const Home = () => {
   useEffect(() => {
     fetchChallenges();
   }, []);
-  // End of challenges retrieval
+  // End of useEffect hook to call fetchChallenges function
 
   // useState hook variables to add challenges
   const [userChallenges, setUserChallenges] = useState([]);
@@ -392,7 +394,7 @@ const Home = () => {
     }
   };
 
-  // Click event handler for adding a challenge
+  // Handle click event for adding a challenge
   const handleAddChallenge = async (challengeId, points) => {
     const challenge = challenges.find(
       (challenge) => challenge._id === challengeId
@@ -448,10 +450,6 @@ const Home = () => {
   // Function to handle completing a challenge
   const handleCompleteChallenge = async (challengeId, points) => {
     try {
-      // console.log("handleDoneClick called with challengeId:", challengeId);
-      // console.log("Points:", points);
-      // console.log("User's current points balance:", userPoints);
-
       // Adds the challenge points to the user's points balance in the database
       await axios.put(
         `http://localhost:5050/users/${localStorage.getItem("username")}`,
@@ -493,7 +491,7 @@ const Home = () => {
   // useState hook variables for the completed challenges
   const [completedChallenges] = useState([]);
 
-  // Click event handler for completing a challenge
+  // Handle click event for completing a challenge
   const handleDoneClick = (challengeId, points) => {
     // Update the user's points in the database
     handleCompleteChallenge(challengeId, points);
@@ -507,19 +505,19 @@ const Home = () => {
   // useState hook variables for the diet progress
   const [dietProgress, setDietProgress] = useState(0);
 
-  // Click event handler to increment the diet progress
+  // Handle click event to increment the diet progress
   const handleDietProgressChange = () => {
-    if (dietProgress < 100){
-    setDietProgress(dietProgress + 25);
-  } else {
-    return;
-  }
+    if (dietProgress < 100) {
+      setDietProgress(dietProgress + 25);
+    } else {
+      return;
+    }
   };
 
   // useState hook variables for the fitness progress
   const [fitnessProgress, setFitnessProgress] = useState(0);
 
-  // Click event handler to increment the fitness progress
+  // Handle click event to increment the fitness progress
   const handleFitnessProgressChange = () => {
     setFitnessProgress(fitnessProgress + 25);
   };
@@ -646,7 +644,7 @@ const Home = () => {
       </animated.div>
     </div>
   );
-  // End of Home.jsx component render
+  // End of Home.jsx component
 };
 
 export default Home;

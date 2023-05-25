@@ -1,17 +1,17 @@
 // Import statements
 import React, { useState, useEffect, useRef } from "react";
-import styles from "../css/fitness.module.css";
-import Modal from "react-modal";
-import { useSpring, animated } from "react-spring";
 import { VictoryPie, VictoryLabel } from "victory";
+import Modal from "react-modal";
 import axios from "axios";
 
-// Username variable used to identify user for database interactions,
-//  taken from local storage pushed there from login.
+// CSS module import statement
+import styles from "../css/fitness.module.css";
+
+// Username variable for retrieving the logged in user's username
 const username = localStorage.getItem("username");
 
 // Function retrieves the user's workout plan from the database via a server call
-//  and stores it globally in the variable 'workout'.
+// and stores it globally in the variable 'workout'.
 var workout;
 async function getWorkout() {
   var response = await axios.get(
@@ -27,8 +27,8 @@ async function getWorkout() {
 }
 
 // Function retrieves the user's first name which will be used to identify them for Easter Eggs
-//  and stores it globally in the variable 'firstName'.
-//  Called immediately upon page loading.
+// and stores it globally in the variable 'firstName'.
+// Called immediately upon page loading.
 var firstName = "";
 async function getName() {
   var response = await axios.get(
@@ -40,8 +40,8 @@ async function getName() {
 getName();
 
 // Function retrieves the user's status of if they already completed today's workout or not
-//  and stores it globally in the variable 'doneToday'.
-//  Called immediately upon page loading.
+// and stores it globally in the variable 'doneToday'.
+// Called immediately upon page loading.
 var doneToday = false;
 async function getDoneToday() {
   var response = await axios.get(
@@ -52,8 +52,8 @@ async function getDoneToday() {
 getDoneToday();
 
 // Function retrieves the user's sex which is used to filter which exercise gif images are displayed
-//  and stores it globally in the variable 'sex'.
-//  Called immediately upon page loading.
+// and stores it globally in the variable 'sex'.
+// Called immediately upon page loading.
 var sex = "male";
 async function getSex() {
   var response = await axios.get(
@@ -64,8 +64,8 @@ async function getSex() {
 getSex();
 
 // Function generates a circle graph representing the user's workout stat 'percentDaysDone'
-//  to be displayed on the page.
-//  Source: Adapted from ChatGPT
+// to be displayed on the page.
+// Source: Adapted from ChatGPT
 const CirclePercentDaysDone = ({ percentDaysDone }) => {
   const data = [
     { x: 1, y: percentDaysDone },
@@ -121,8 +121,8 @@ const CirclePercentDaysDone = ({ percentDaysDone }) => {
 };
 
 // Function generates a circle graph representing the user's workout stats 'currentStreak' and 'longestStreak'
-//  to be displayed on the page.
-//  Source: Adapted from ChatGPT
+// to be displayed on the page.
+// Source: Adapted from ChatGPT
 const CircleStreak = ({ currentStreak, longestStreak }) => {
   const percentStreak = (100 * currentStreak) / longestStreak;
   const data = [
@@ -179,15 +179,15 @@ const CircleStreak = ({ currentStreak, longestStreak }) => {
 };
 
 // Function parses the user's 7-day workout plan stored in the variable 'workout'
-//  and displays an individual day's workout on the page.
+// and displays an individual day's workout on the page.
 // handleOpenModal passed as a prop.
 function Workout({ handleOpenModal }) {
   // State variable 'workout' stores the individual day's workout
   const [workout, setWorkout] = useState(null);
 
   // This code block calculates today's date to compare it to the workout plan days
-  //  to determine if which day x/7 should be displayed on the page and to navigate between.
-  //  Source: Adapted from ChatGPT
+  // to determine if which day x/7 should be displayed on the page and to navigate between.
+  // Source: Adapted from ChatGPT
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
   today.setDate(today.getDate() + daysToAdd);
@@ -216,7 +216,7 @@ function Workout({ handleOpenModal }) {
   // Create and return the html elements displaying the workout plan
   useEffect(() => {
     // Parse the workout plan data recursivly given that workout plan is a nested JSON object
-    //  Source: Adapted from ChatGPT
+    // Source: Adapted from ChatGPT
     async function fetchData() {
       // Variable 'workoutData' stores the first workout plan object from the user database field workouts
       const workoutData = await getWorkout();
@@ -227,23 +227,23 @@ function Workout({ handleOpenModal }) {
       } else {
         //
         function renderNestedObject(obj) {
-          // check if current object is a nested object, recursively render its properties
+          // Check if current object is a nested object, recursively render its properties
           if (typeof obj === "object" && obj !== null) {
-            // use .map function to check recursively
+            // Use map() function to check recursively
             return Object.keys(obj).map((key, index) => {
-              // check if key matches date so only render the one day on the page
+              // Check if key matches date so only render the one day on the page
               if (key == date) {
-                // tracks number of exercises on page, used for complete exercse buttons
+                // Tracks number of exercises on page, used for complete exercse buttons
                 // using browser local storage because state variables not too disfunctional with so many sub-components
                 let numOfExercises = Object.keys(workoutData[date]).length;
                 localStorage.setItem("numberOfExercises", numOfExercises);
 
-                // sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
+                // Sets the dayOfWorkoutPlan equal to the index of the today's workout in the workoutPlan in database
                 setDayOfWorkoutPlan(index);
 
-                // check if empty rest day
+                // Check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
-                  // use this to check if current page is today to render title card
+                  // Use this to check if current page is today to render title card
                   let options = {
                     weekday: "long",
                     month: "long",
@@ -252,7 +252,7 @@ function Workout({ handleOpenModal }) {
                   };
                   let today = new Date().toLocaleDateString("en-US", options);
 
-                  // if this page is today
+                  // If this page is today
                   if (key == today) {
                     return (
                       <div key={index} className={styles.day}>
@@ -260,7 +260,7 @@ function Workout({ handleOpenModal }) {
                       </div>
                     );
 
-                    // if page is not today
+                    // If page is not today
                   } else {
                     return (
                       <div key={index} className={styles.day}>
@@ -269,9 +269,9 @@ function Workout({ handleOpenModal }) {
                     );
                   }
 
-                  // sends the day title ex. Thursday, May 11, 2023:
+                  // Sends the day title ex. Thursday, May 11, 2023:
                 } else {
-                  // use this to check if current page is today to render title card
+                  // Use this to check if current page is today to render title card
                   let options = {
                     weekday: "long",
                     month: "long",
@@ -289,7 +289,7 @@ function Workout({ handleOpenModal }) {
                         </div>
                       </div>
                     );
-                    // if page is not today
+                    // If page is not today
                   } else {
                     return (
                       <div key={index} className={styles.day}>
@@ -301,7 +301,7 @@ function Workout({ handleOpenModal }) {
                     );
                   }
                 }
-                // return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
+                // Return nothing if this workout-day-object does not match the desired day (current day + daysToAdd)
               } else {
                 return null;
               }
@@ -310,7 +310,7 @@ function Workout({ handleOpenModal }) {
           return obj;
         }
 
-        // for the sublevel exercise object inside day object
+        // For the sublevel exercise object inside day object
         function renderExercise(exerciseObj) {
           return Object.keys(exerciseObj).map((exerciseKey, index) => {
             return (
@@ -335,14 +335,14 @@ function Workout({ handleOpenModal }) {
                           Calories: {detailValue}
                         </div>
                       );
-                      // shouldn't be any other option currently
+                      // Shouldn't be any other option currently
                     } else {
                       return;
                     }
                   }
                 )}
 
-                {/* this opens up images for the exercise */}
+                {/* Opens up an image for the specified exercise */}
                 <div className={styles.exerciseButtonsContainer}>
                   <button
                     onClick={handleOpenModal}
@@ -356,14 +356,14 @@ function Workout({ handleOpenModal }) {
           });
         }
 
-        // for the sublevel exercise object inside day object
+        // For the sublevel exercise object inside day object
         function renderExerciseToday(exerciseObj) {
-          // EASTER EGG Stuff
+          // Surprise Challenge Easter Egg
           const isSaitama = firstName.toLowerCase() == "saitama";
 
           return Object.keys(exerciseObj).map((exerciseKey, index) => {
             return (
-              // EASTER EGG STUFF
+              // Surprise Challenge Easter Egg
               <div
                 key={index}
                 className={`${styles.anExercise} ${
@@ -400,7 +400,7 @@ function Workout({ handleOpenModal }) {
                           Calories: {detailValue}
                         </div>
                       );
-                      // shouldn't be any other option currently
+                      // Shouldn't be any other option currently
                     } else {
                       return;
                     }
@@ -408,7 +408,7 @@ function Workout({ handleOpenModal }) {
                 )}
 
                 <div className={styles.exerciseButtonsContainer}>
-                  {/* this opens up images for the exercise */}
+                  {/* Opens up an image for the specified exercise */}
                   <button
                     onClick={handleOpenModal}
                     className={`btn btn-info ${styles.modalButton}`}
@@ -416,7 +416,7 @@ function Workout({ handleOpenModal }) {
                     Help
                   </button>
 
-                  {/* button to mark task completed */}
+                  {/* Render button to mark task as completed */}
                   <CompleteExercisesButton index={index} />
                 </div>
               </div>
@@ -456,7 +456,7 @@ function Workout({ handleOpenModal }) {
     fetchData();
   }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
 
-  // return for Workout()
+  // Return for Workout()
   return (
     <div>
       {/* <h2>{username}'s 7-Day Workout</h2> */}
@@ -473,7 +473,7 @@ function Workout({ handleOpenModal }) {
         disabled={dayOfWorkoutPlan <= 0}
         className={`btn ${styles.paginationButton}`}
       >
-        {/* left arrow */}
+        {/* Left arrow */}
         <span className="material-symbols-outlined">chevron_left</span>
       </button>
 
@@ -482,7 +482,7 @@ function Workout({ handleOpenModal }) {
         disabled={dayOfWorkoutPlan >= 6}
         className={`btn ${styles.paginationButton}`}
       >
-        {/* right arrow */}
+        {/* Right arrow */}
         <span className="material-symbols-outlined">chevron_right</span>
       </button>
 
@@ -492,7 +492,7 @@ function Workout({ handleOpenModal }) {
 }
 
 // Component for a button for each exercise to mark it as done.
-//  Each button inc/decrements a local storage value used to enable/disable the completeAllExercises button.
+// Each button inc/decrements a local storage value used to enable/disable the completeAllExercises button.
 const CompleteExercisesButton = (props) => {
   const [isChecked, setIsChecked] = useState(false);
   const handleClick = () => {
@@ -562,7 +562,7 @@ const Streak = () => {
   }
 
   // Set the symbol and message to be displayed representing if user completed today's workout or not.
-  //  Img sources from https://icones.pro
+  // Images from https://icones.pro
   var doneTodaySymbol;
   var doneTodayMessage;
   if (doneToday) {
@@ -632,7 +632,7 @@ const Fitness = () => {
     const workout = {};
 
     // Get the user-selected muscle groups and intensity level
-    //  Source: Adapted from ChatGPT.
+    // Source: Adapted from ChatGPT.
     var muscleGroups = Array.from(event.target.elements)
       .filter((element) => element.type === "checkbox" && element.checked)
       .map((element) => element.name);
@@ -651,9 +651,9 @@ const Fitness = () => {
 
     // Call server.js app.put method to generate a new workout plan for the user.
     await axios.put(`https://healthify-enxj.onrender.com/fitness/${username}`);
-    // re-enable button after finishing code
+    // Re-enable button after finishing code
     setFormSubmitting(false);
-    // reload page so the new workout is displayed
+    // Reload page so the new workout is displayed
     window.location.reload();
   }
 
@@ -701,7 +701,7 @@ const Fitness = () => {
     );
   };
 
-  // State variables to show a Modal.
+  // useState hook variables to show the modal.
   const [showModal, setShowModal] = useState(false);
   const [modalExercise, setModalExercise] = useState(null);
   // Open modal.
@@ -712,7 +712,7 @@ const Fitness = () => {
     setModalExercise(strongElement);
     setShowModal(true);
   };
-  // Close modal.
+  // Handle click event to close the modal.
   const handleCloseModal = () => {
     setShowModal(false);
   };
@@ -726,7 +726,7 @@ const Fitness = () => {
     setNumberOfExercises(Number(storedValue));
   }, []);
 
-  // Check local storage if all exercises on the pages are marked as done, then enable completeAllExercises button.
+  // Check localStorage if all exercises on the pages are marked as done, then enable completeAllExercises button.
   useEffect(() => {
     localStorage.setItem("numberOfExercises", numberOfExercises);
   }, [numberOfExercises]);
@@ -736,7 +736,7 @@ const Fitness = () => {
     // Disable the button after it is clicked.
     setCompleteAllExercisesClicked(true);
 
-    // Call server.js to incriment the user field 'streak'.
+    // Call server.js to increment the user field 'streak'.
     try {
       const response = await axios.post(
         `https://healthify-enxj.onrender.com/fitness/${username}`
@@ -774,7 +774,7 @@ const Fitness = () => {
     };
   }, []);
 
-  // Return Fitness component.
+  // Renders Fitness.jsx component
   return (
     <div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.fitnessContainer}`}
@@ -973,6 +973,7 @@ const Fitness = () => {
       </button>
     </div>
   );
+  // End of Fitness.jsx component
 };
 
 export default Fitness;

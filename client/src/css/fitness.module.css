@@ -163,11 +163,13 @@ input[type="checkbox"]:checked + .muscleGroupButton {
   border-color:hsl(183, 18%, 61%);
 }
 
+
 .doneExerciseButton {
   background-color: transparent;
   color: white;
   border: solid 2px hsl(184, 61%, 40%);
 }
+
 input[type="checkbox"]:checked + .doneExerciseButton {
   background-color: #5cb85c !important; 
   color: white;
@@ -254,10 +256,6 @@ input[type="radio"]:checked + .radioButton {
   display: none;
 }
 
-
-/* ////////// MEDIA QUERIES /////////////////// */
-
-/* phones */
 @media (width <= 767px) {
   .fitnessContainer {
     margin-bottom: 130px;
@@ -271,7 +269,6 @@ input[type="radio"]:checked + .radioButton {
     width: 300px;
     display: flex;
     flex-direction: column;
-    /* align-items: center; */
   }
 
   .doneContainer {
@@ -293,13 +290,11 @@ input[type="radio"]:checked + .radioButton {
   }
 }
 
-/* tablets & computers */
 @media (width > 767px) {
   .fitnessContainer {
     margin-top: 160px;
   }
 
-  /* multiple column grids */
   .exercisesContainer {
     width: 85vw;
     display: grid;
@@ -310,6 +305,7 @@ input[type="radio"]:checked + .radioButton {
   .graph {
     margin: 0 20px 0 20px;
   }
+  
   .streakContainer {
     justify-content: space-around;
   }

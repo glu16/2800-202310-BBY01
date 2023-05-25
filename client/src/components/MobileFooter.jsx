@@ -1,9 +1,12 @@
+// Import statements
 import React from "react";
 import { Link } from "react-router-dom";
 
+// CSS import statement
 import "../css/navfooter.css";
 
 function MobileFooter() {
+  // Renders MobileFooter.jsx component
   return (
     <footer className="footer navbar-expand-lg navbar-dark fixed-bottom">
       <ul className="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row justify-content-between">
@@ -40,6 +43,7 @@ function MobileFooter() {
       </ul>
     </footer>
   );
+  // End of MobileFooter.jsx component
 }
 
 export default MobileFooter;

@@ -1,8 +1,10 @@
+// Import statements
 import React, { useState, useEffect } from "react";
+import { useSpring, animated } from "react-spring";
 import axios from "axios";
 
+// CSS module import statement
 import styles from "../css/settings.module.css";
-import { useSpring, animated } from "react-spring";
 
 const Settings = () => {
   // Visual page animation effects
@@ -11,7 +13,7 @@ const Settings = () => {
     from: { opacity: 0 },
     delay: 500,
   });
-  // End of visual effects
+  // End of visual page animation effects
 
   // useState hook variables for the notification settings
   const [notificationSettings, setNotificationSettings] = useState({
@@ -65,6 +67,7 @@ const Settings = () => {
   }, []);
   // End of user's notifications retrieval
 
+  // Renders Settings.jsx component
   return (
     <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.settingsContainer}`}
@@ -181,6 +184,7 @@ const Settings = () => {
       </div>
     </animated.div>
   );
+  // End of Settings.jsx component
 };
 
 export default Settings;

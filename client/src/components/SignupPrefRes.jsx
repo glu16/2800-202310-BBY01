@@ -1,6 +1,8 @@
-import React from "react";
-import { useState } from "react";
+// Import statements
+import React, { useState } from "react";
 import axios from "axios";
+
+// CSS module import statement
 import styles from "../css/signupPrefRes.module.css";
 
 function SignupPrefRes() {
@@ -12,6 +14,7 @@ function SignupPrefRes() {
     // workoutRestrictions: "",
   });
 
+  // useState hook variables for throwing errors
   const [error, setError] = useState("");
 
   // Allows the user to submit their information to the database
@@ -102,6 +105,7 @@ function SignupPrefRes() {
     }
   };
 
+  // Renders SignupPrefRes.jsx component
   return (
     <>
       <div className={`card-body ${styles.signupCard}`}>
@@ -247,40 +251,6 @@ function SignupPrefRes() {
               </label>
             </div>
           </div>
-          {/* <label htmlFor="workoutPreferences"></label>
-          <input
-            type="text"
-            id="workoutPreferences"
-            name="workoutPreferences"
-            className={`user-input ${styles.userInput}`}
-            value={0 ? data.weight : null}
-            onChange={handleChange}
-            required
-          />
-          <label
-            htmlFor="workoutPreferences"
-            className={`${styles.inputLabel}`}
-          >
-            <span className={`${styles.inputName}`}>Workout Preferences</span>
-          </label>
-
-          <label htmlFor="workoutRestrictions"></label>
-          <input
-            type="text"
-            id="workoutRestrictions"
-            name="workoutRestrictions"
-            className={`user-input ${styles.userInput}`}
-            value={0 ? data.weight : null}
-            onChange={handleChange}
-            required
-          />
-          <label
-            htmlFor="workoutRestrictions"
-            className={`${styles.inputLabel}`}
-          >
-            <span className={`${styles.inputName}`}>Workout Restrictions</span>
-          </label> */}
-
           <input
             type="submit"
             id={styles.submitBtn}
@@ -291,6 +261,7 @@ function SignupPrefRes() {
       </div>
     </>
   );
+  // End of SignupPrefRes.jsx
 }
 
 export default SignupPrefRes;

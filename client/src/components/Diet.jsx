@@ -1,17 +1,18 @@
+// Import statements
 import React, { useState, useEffect } from "react";
-import styles from "../css/diet.module.css";
 import { useSpring, animated } from "react-spring";
 import axios from "axios";
 
-// This is literally the same as Fitness.jsx but with different variable names
-// Might need an update
+// CSS module import statement
+import styles from "../css/diet.module.css";
 
-// used to identify user for database modification
+// Username variable for retrieving the logged in user's username
 const username = localStorage.getItem("username");
 
+// Function to retrieve the user's diet plan from the database
 async function getDiet() {
   var response = await axios.get(`http://localhost:5050/diet/${username}`);
-  // check if diets are empty
+  // Check if diet plan is empty
   if (response.data === "empty") {
     return "empty";
   } else {
@@ -19,15 +20,16 @@ async function getDiet() {
   }
 }
 
-// display user's diet, can't be async
+// Function to display the user's diet plan, can't be async
 function Diet() {
   const [diet, setDiet] = useState(null);
   const [dayOfMealPlan, setDayOfMealPlan] = useState(0);
 
-  // use today variable to determine which day of workout is rendered to display
+  // Use today's variable to determine which day of diet is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
   today.setDate(today.getDate() + daysToAdd);
+  // Format the date to a specific format
   const dateOptions = {
     weekday: "long",
     year: "numeric",
@@ -35,51 +37,59 @@ function Diet() {
     day: "numeric",
   };
   const date = today.toLocaleDateString("en-CA", dateOptions);
-  // console.log(date);
 
+  // Handle click event to show today's diet plan
   const handleToday = () => {
     setDaysToAdd(0);
   };
+
+  // Handle click event to increment the days of the diet plan
   const handleIncrementDays = () => {
-    setDaysToAdd(daysToAdd + 1); // Increment daysToAdd by 1
-  };
-  const handleDecrementDays = () => {
-    setDaysToAdd(daysToAdd - 1); // Decrement daysToAdd by 1
+    setDaysToAdd(daysToAdd + 1);
   };
 
+  // Handle click event to decrement the days of the diet plan
+  const handleDecrementDays = () => {
+    setDaysToAdd(daysToAdd - 1);
+  };
+
+  // useEffect hook that retrieves the data for the diet plan
   useEffect(() => {
     async function fetchData() {
       const dietData = await getDiet();
 
+      // Format options for displaying today's date
       const options = {
         weekday: "long",
         month: "long",
         day: "numeric",
         year: "numeric",
       };
+
+      // Get today's date in the desired format
       let today = new Date().toLocaleDateString("en-US", options);
 
       if (dietData === "empty") {
-        setDiet("No workout available"); // Set default value
+        setDiet("No diet plan available.");
       } else {
         function renderNestedObject(obj) {
-          // check if the object is a nested object
+          // Check if the object is a nested object
           if (typeof obj === "object" && obj !== null) {
-            // if it's a nested object, recursively render its properties
+            // If it's a nested object, recursively render its properties
             return Object.keys(obj).map((key, index) => {
-              // check if key matches date
+              // Check if key matches date
               if (key === date) {
                 setDayOfMealPlan(index);
-                // check if empty rest day
+                // Check if empty rest day
                 if (Object.keys(obj[key]).length === 0) {
                   return (
                     <div key={index} className={styles.day}>
                       <strong>{key}:</strong> Rest day
                     </div>
                   );
-                  // sends the day title ex. Thursday, May 11, 2023:
+                  // Sends the date (ex. Thursday, May 11, 2023)
                 } else {
-                  // if this page is today
+                  // If this page is today
                   if (key === today) {
                     return (
                       <div key={index} className={styles.day}>
@@ -108,7 +118,7 @@ function Diet() {
           return obj;
         }
 
-        // for the sublevel exercise object inside day object
+        // Function that renders the diet object for a specific day
         function renderDiet(dietObj) {
           return Object.keys(dietObj).map((dietKey, index) => {
             return (
@@ -116,7 +126,7 @@ function Diet() {
                 <strong className={styles.aDietTitle}>{dietKey}</strong>{" "}
                 {Object.entries(dietObj[dietKey]).map(
                   ([detailKey, detailValue]) => {
-                    // don't display detailKey if it is name or setsAndReps
+                    // Don't display detailKey if it's "Name" or "Nutritional Info"
                     if (
                       detailKey === "Name" ||
                       detailKey === "Nutritional Info"
@@ -169,7 +179,8 @@ function Diet() {
       }
     }
     fetchData();
-  }, [daysToAdd]); // Trigger useEffect whenever daysToAdd changes
+  }, [daysToAdd]);
+  // End of useEffect hook that retrieves the data for the diet plan
 
   return (
     <div>
@@ -203,32 +214,33 @@ function Diet() {
   );
 }
 
-// page render
+// Renders the page
 const DietPlan = () => {
+  // Visual page animation effects
   const fadeIn = useSpring({
     opacity: 1,
     from: { opacity: 0 },
     delay: 330,
   });
-  // End of visual effects
+  // End of visual page animation effects
 
-  // used to disable button after clicking until current execution is finished
+  // useState hook variables for the form submission
   const [isFormSubmitting, setFormSubmitting] = useState(false);
 
-  // function to update user in database with workout plan
+  // Function to update user in database with diet plan
   async function addDietToUser(event) {
     event.preventDefault();
 
-    // ignore form submission if already submitting
+    // Ignore form submission if already submitting
     if (isFormSubmitting) {
       return;
     }
     setFormSubmitting(true);
 
-    // key to store individual workout
+    // Key to store individual workout
     const today = new Date().toISOString().slice(0, 10);
     const mealKey = "meal_" + today;
-    // workout to write into user database, will generate with server side call to workouts.js
+    // Diet plan to write into user database, will generate with server side call to diet.js
     const diet = {};
 
     const data = { [mealKey]: diet };
@@ -236,17 +248,18 @@ const DietPlan = () => {
       `http://localhost:5050/diet/${localStorage.getItem("username")}`
     );
 
-    // re-enable button after finishing code
+    // Re-enable button after finishing code
     setFormSubmitting(false);
-    // reload page so new workout is displayed
+    // Reload page so new diet plan is displayed
     window.location.reload();
   }
 
-  // alert message popup for the user
+  // Handle click event to display an alert message popup for the user
   const handleClick = () => {
     window.alert("Generating diet plan... please do not refresh the page!");
   };
 
+  // Renders Diet.jsx component
   return (
     <animated.div className={`${styles.dietContainer}`} style={fadeIn}>
       <div className={`card ${styles.dietCard}`}>
@@ -287,6 +300,7 @@ const DietPlan = () => {
       </div>
     </animated.div>
   );
+  // End of Diet.jsx component
 };
 
 export default DietPlan;
