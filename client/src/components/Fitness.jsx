@@ -458,7 +458,7 @@ function Workout({ handleOpenModal }) {
 
   // Return for Workout()
   return (
-    <div>
+    <div className={styles.widthDiv}>
       {/* <h2>{username}'s 7-Day Workout</h2> */}
       <button
         onClick={handleToToday}
