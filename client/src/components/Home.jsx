@@ -101,7 +101,7 @@ const Home = () => {
   async function getDiet() {
     try {
       const response = await axios.get(
-        `http://localhost:5050/diet/${localStorage.getItem("username")}`
+        `https://healthify-enxj.onrender.com/diet/${localStorage.getItem("username")}`
       );
       if (response === "empty") {
         return "empty";

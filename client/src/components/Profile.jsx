@@ -381,7 +381,7 @@ const Profile = ({ username }) => {
   const deleteFriend = async (friendId) => {
     try {
       const username = localStorage.getItem("username");
-      await axios.delete(`http://localhost:5050/profile/${friendId}`, {
+      await axios.delete(`https://healthify-enxj.onrender.com/profile/${friendId}`, {
         data: {
           username: username,
         },
