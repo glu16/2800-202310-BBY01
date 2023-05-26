@@ -45,12 +45,16 @@ getName();
 // Called immediately upon page loading.
 var doneToday = false;
 async function getDoneToday() {
-  var response = await axios.get(
-    `https://healthify-enxj.onrender.com/doneToday/${username}`
-  );
-  doneToday = response.data;
+  try {
+    var response = await axios.get(
+      `https://healthify-enxj.onrender.com/doneToday/${username}`
+    );
+    doneToday = response.data;
+    return doneToday;
+  } catch (error) {
+    console.log(error);
+  }
 }
-getDoneToday();
 
 // Function retrieves the user's sex which is used to filter which exercise gif images are displayed
 // and stores it globally in the variable 'sex'.
@@ -498,6 +502,20 @@ function Workout({ handleOpenModal }) {
 // Each button inc/decrements a local storage value used to enable/disable the completeAllExercises button.
 const CompleteExercisesButton = (props) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [exercisesDone, setExercisesDone] = useState(false);
+
+  useEffect(() => {
+    async function fetchDoneToday(){
+      try{
+        const result = await getDoneToday();
+        setExercisesDone(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchDoneToday();
+  }, []);
+
   const handleClick = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
@@ -520,14 +538,15 @@ const CompleteExercisesButton = (props) => {
         type="checkbox"
         className="btn-check"
         id={`doneExercise${props.index}`}
+        disabled={exercisesDone}
       ></input>
       <label
         onClick={handleClick}
         className={`btn ${styles.doneExerciseButton}`}
         htmlFor={`doneExercise${props.index}`}
-        disabled={doneToday}
+        disabled={exercisesDone}
       >
-        Completed!
+        {isChecked || exercisesDone ? "Completed!" : "Complete"}
       </label>
     </div>
   );
@@ -987,7 +1006,7 @@ const Fitness = () => {
           numberOfExercises !== 0 || completeAllExercisesClicked || doneToday
         }
       >
-        Mark ALL exercises complete!
+        All exercises completed!
       </button>
     </animated.div>
   );

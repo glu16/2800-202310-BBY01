@@ -64,7 +64,9 @@ const Home = () => {
         // Assigns the object containing today's exercise to the variable
         const exercisesForToday = response.data[date];
         // console.log(exercisesForToday);
-
+        if (exercisesForToday === undefined) {
+          return;
+        }
         /* Gets array containing keys of the object. The map() function
         then iterates over each key to create the exerciseDetailsArray */
         const exerciseDetailsArray = Object.keys(exercisesForToday).map(
@@ -109,7 +111,9 @@ const Home = () => {
         // Assigns the object containing today's meals to the variable
         const dietForToday = response.data[date];
         var caloriesForToday = 0;
-
+        if (dietForToday === undefined) {
+          return;
+        }
         // Sums up the total Calories of all the meals suggested for current day
         for (let i = 1; i <= 5; i++) {
           caloriesForToday += Number(dietForToday[`Meal ${i}`].Calories);
