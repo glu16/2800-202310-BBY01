@@ -121,6 +121,20 @@ Throughtout the development of this app we used ChatGPT to troubleshoot various 
 <br>
 <br>
 
+##  Credits, References, and Licenses
+
+Exercise gif source: https://www.inspireusafoundation.org, https://fitnessprogramer.com/
+<br>
+Development of the AI Coach uses code mainly from this video: https://www.youtube.com/watch?v=qwM23_kF4v4
+<br>
+MERN authentication uses code mainly from this video: https://www.youtube.com/watch?v=HGgyd1bYWsE
+<br>
+Creating prompt completion sets and fine-tuning AI (no longer used) uses code mainly from these videos:https://www.youtube.com/watch?v=3EdEw4gyr-s, https://www.youtube.com/watch?v=Sb7U32kXMB0 
+
+
+<br>
+<br>
+
 ## Contact Information
   llau65@my.bcit.ca
   fwei13@my.bcit.ca
