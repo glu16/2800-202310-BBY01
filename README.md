@@ -100,14 +100,13 @@ Instructions:
 - Access the Calendar page to see upcoming events for the week.
 - Customize your notification preferences on the Settings page according to your preferences.
 
-
 ## The Use of AI
 
 This project focused on the capabilites and limitations of AI when used for health and fitness. In our app, we used OpenAI's ChatGPT 3.5 to generate a fitness and diet plan that takes into consideration the user's preferences and goals. We also used ChatGPT 3.5 to create an AI Coach who will help the user with any questions they may have.
 
-In our app we used AI to create data sets by asking ChatGPT to create a script that would generate prompt and completion JSON files from Kaggle data sets. These JSON files would then be converted into JSONL files that were used to fine-tune our AI.
+In our app we used AI to create datasets by asking ChatGPT to create a script that would generate prompts and complete JSON files from Kaggle datasets. These JSON files would then be converted into JSONL files that were used to fine-tune our AI.
 
-During this project we encountered various limitations with AI. The main limitations of the AI is having it generate consistent replies and the cost of fine-tuning. When the AI generates a fitness plan there are gifs which show how to do the workout. These gifs correspond to the name of the exercise, which the AI generates. The problem arises when the AI has different names for the same exercise, and when this happens there is a chance that no gif will be pulled for the workout because it is under a different name. We overcame this by having the same gif under different names, but this creates a lot of redundancies. The other limitation is the cost of fine-tuning the AI. Originally we used OpenAI's Davinci-3 and had 1800 prompts, which we wanted to use to train the AI. However, due to cost limitations we had to limit this to 500 prompts. Because of this limitation, the capabilites of the AI were limitied to these prompts and was not able to answer anything that it wasn't trained for. We decided that it was more cost effective to upgrade from Davinci-3 to ChatGPT 3.5.
+During this project we encountered various limitations with AI. The main limitations of the AI is having it generate consistent replies and the cost of fine-tuning. When the AI generates a fitness plan there are gifs which show how to do the workout. These gifs correspond to the name of the exercise, which the AI generates. The problem arises when the AI has different names for the same exercise, and when this happens there is a chance that no gif will be pulled for the workout because it is under a different name. We overcame this by having the same gif under different names, but this creates redundancy. The other limitation is the cost of fine-tuning the AI. Originally we used OpenAI's Davinci-3 and had 1800 prompts, which we wanted to use to train the AI. However, due to cost limitations we had to limit this to 500 prompts. Because of this limitation, the capabilites of the AI were limited to these prompts and was not able to answer anything that it wasn't trained for. We decided that it was more cost effective to upgrade from Davinci-3 to ChatGPT 3.5.
 
 Throughtout the development of this app we used ChatGPT to troubleshoot various errors and fix various bugs. We also used it to create prompts and completion sets to fine-tune our AI features.
 
@@ -121,28 +120,25 @@ Throughtout the development of this app we used ChatGPT to troubleshoot various 
 <br>
 <br>
 
-##  Credits, References, and Licenses
+## Credits, References & Licenses
 
-Exercise gif source: https://www.inspireusafoundation.org, https://fitnessprogramer.com/
-<br>
-Development of the AI Coach uses code mainly from this video: https://www.youtube.com/watch?v=qwM23_kF4v4
-<br>
-MERN authentication uses code mainly from this video: https://www.youtube.com/watch?v=HGgyd1bYWsE
-<br>
-Creating prompt completion sets and fine-tuning AI (no longer used) uses code mainly from these videos:https://www.youtube.com/watch?v=3EdEw4gyr-s, https://www.youtube.com/watch?v=Sb7U32kXMB0 
+- Exercise gifs source: https://www.inspireusafoundation.org, https://fitnessprogramer.com
 
+- Development of the AI Coach uses code mainly from this video: https://www.youtube.com/watch?v=qwM23_kF4v4
 
-<br>
-<br>
+- MERN authentication uses code mainly from this video: https://www.youtube.com/watch?v=HGgyd1bYWsE
+
+- Creating prompt completion sets and fine-tuning AI (no longer used) uses code mainly from these videos: https://www.youtube.com/watch?v=3EdEw4gyr-s, https://www.youtube.com/watch?v=Sb7U32kXMB0
 
 ## Contact Information
-  llau65@my.bcit.ca
-  fwei13@my.bcit.ca
-  glu23@my.bcit.ca
-  ndurano@my.bcit.ca
 
-<br>
-<br>
+- ndurano@my.bcit.ca
+
+- llau65@my.bcit.ca
+
+- glu23@my.bcit.ca
+
+- fwei13@my.bcit.ca
 
 ## Contents of Folder
 
@@ -158,33 +154,33 @@ Creating prompt completion sets and fine-tuning AI (no longer used) uses code ma
 It has the following subfolders:
 ├── client/                                   # Client-side files
 │   ├── public/                               # Static React files
-│   │   ├── favicon.ico 
+│   │   ├── favicon.ico
 │   │   ├── index.html
 │   │   ├── manifest.json
 │   │   └── robots.txt
-│   │  
+│   │
 │   └── src/                                  # Source code
 │       ├── components/
-│       │   ├── About.jsx 
-│       │   ├── Calendar.jsx 
-│       │   ├── ChangePassword.jsx 
-│       │   ├── Coach.jsx 
-│       │   ├── Diet.jsx 
-│       │   ├── Fitness.jsx 
-│       │   ├── Home.jsx 
-│       │   ├── Index.jsx 
-│       │   ├── Leaderboard.jsx 
-│       │   ├── Login.jsx 
-│       │   ├── MobileFooter.jsx 
-│       │   ├── MobileNavbar.jsx 
-│       │   ├── NavbarAfterLogin.jsx 
+│       │   ├── About.jsx
+│       │   ├── Calendar.jsx
+│       │   ├── ChangePassword.jsx
+│       │   ├── Coach.jsx
+│       │   ├── Diet.jsx
+│       │   ├── Fitness.jsx
+│       │   ├── Home.jsx
+│       │   ├── Index.jsx
+│       │   ├── Leaderboard.jsx
+│       │   ├── Login.jsx
+│       │   ├── MobileFooter.jsx
+│       │   ├── MobileNavbar.jsx
+│       │   ├── NavbarAfterLogin.jsx
 │       │   ├── NavbarBeforeLogin.jsx
-│       │   ├── Profile.jsx 
-│       │   ├── Settings.jsx 
-│       │   ├── SignUp.jsx 
-│       │   ├── SignupDetails.jsx 
-│       │   ├── SignupPrefRes.jsx 
-│       │   └── useToken.js 
+│       │   ├── Profile.jsx
+│       │   ├── Settings.jsx
+│       │   ├── SignUp.jsx
+│       │   ├── SignupDetails.jsx
+│       │   ├── SignupPrefRes.jsx
+│       │   └── useToken.js
 │       │
 │       ├── css/
 │       │   ├── about.module.css
@@ -212,9 +208,11 @@ It has the following subfolders:
 │       │   │   └── sources.txt
 │       │   │
 │       │   ├── abstract.png
-│       │   ├── Arnold.png
-│       │   ├── fitness.png
+│       │   ├── felix.png
+│       │   ├── gin.png
+│       │   ├── leroy.png
 │       │   ├── logo.svg
+│       │   ├── niko.png
 │       │   ├── placeholder-profile.png
 │       │   ├── robot.png
 │       │   └── terminator.jpg
@@ -234,7 +232,7 @@ It has the following subfolders:
     │   ├── trainData_prepared.jsonl
     │   └── trainData.jsonl
     │
-    ├── models/                               # Schema Files 
+    ├── models/                               # Schema Files
     │   ├── challenges.js
     │   ├── tips.js
     │   └── users.js
@@ -253,7 +251,7 @@ It has the following subfolders:
     │   │   ├── FoodNutrition2.json
     │   │   └── readme.txt
     │   │
-    │   ├── DietPlans.py                      # Python scripts 
+    │   ├── DietPlans.py                      # Python scripts
     │   ├── Fitness.py
     │   ├── FoodNutrition.py
     │   └── FoodNutrition2.py
@@ -263,10 +261,10 @@ It has the following subfolders:
     │   ├── passChange.js
     │   └── users.js
     │
-    ├── database.js                           # Connection to the database            
+    ├── database.js                           # Connection to the database
     ├── diet.js                               # Logic for Diet page
-    ├── package-lock.json                     
-    ├── package.json                          
+    ├── package-lock.json
+    ├── package.json
     ├── server.js                             # Main backend file
     └── workout.js                            # Logic for Fitness page
 ```
