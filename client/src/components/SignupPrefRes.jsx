@@ -123,7 +123,7 @@ function SignupPrefRes() {
             onChange={handleChange}
             required
           >
-            <option disabled>Food Preferences</option>
+            <option disabled value="None">Food Preferences</option>
             <option value="Vegetarian">Vegetarian</option>
             <option value="Vegan">Vegan</option>
             <option value="Pescatarian">Pescatarian</option>

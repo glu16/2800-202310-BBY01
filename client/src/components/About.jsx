@@ -6,13 +6,21 @@ import { useSpring, animated } from "react-spring";
 import "../css/main.css";
 // CSS module import statement
 import styles from "../css/about.module.css";
-
+// Image import statements
 import niko from "../img/niko.png";
 import leroy from "../img/leroy.png";
 import gin from "../img/gin.png";
 import felix from "../img/felix.png";
 
 const About = () => {
+  // Visual page animation effects
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+  // End of visual page animation effects
+
   // Visual text animation effects
   const greetings = useSpring({
     opacity: 1,
@@ -23,8 +31,9 @@ const About = () => {
 
   // Renders About.jsx component
   return (
-    <div
+    <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.aboutBody}`}
+      style={fadeIn}
     >
       <div className={`card-body ${styles.aboutCard}`}>
         <animated.h1 className={styles.aboutHeader} style={greetings}>
@@ -54,23 +63,23 @@ const About = () => {
         <div className="row">
           <div className="col-md-3">
             <img className={styles.aboutImg} src={niko} alt="Team Member 1" />
-            <h4 className={styles.aboutImgDesc}>Niko Durano</h4>
+            <h5 className={styles.aboutImgDesc}>Niko Durano</h5>
           </div>
           <div className="col-md-3">
             <img className={styles.aboutImg} src={leroy} alt="Team Member 2" />
-            <h4 className={styles.aboutImgDesc}>Leroy Lau</h4>
+            <h5 className={styles.aboutImgDesc}>Leroy Lau</h5>
           </div>
           <div className="col-md-3">
             <img className={styles.aboutImg} src={gin} alt="Team Member 3" />
-            <h4 className={styles.aboutImgDesc}>Gin Lu</h4>
+            <h5 className={styles.aboutImgDesc}>Gin Lu</h5>
           </div>
           <div className="col-md-3">
             <img className={styles.aboutImg} src={felix} alt="Team Member 4" />
-            <h4 className={styles.aboutImgDesc}>Felix Wei</h4>
+            <h5 className={styles.aboutImgDesc}>Felix Wei</h5>
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
   // End of About.jsx component
 };

@@ -1,5 +1,6 @@
 // Import statements
 import React, { useEffect, useState } from "react";
+import { useSpring, animated } from "react-spring";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 
@@ -7,6 +8,14 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import styles from "../css/calendar.module.css";
 
 const Calendar = () => {
+  // Visual page animation effects
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+  // End of visual page animation effects
+
   // useState hook variables for the calendar events
   const [events, setEvents] = useState([]);
 
@@ -67,7 +76,7 @@ const Calendar = () => {
 
   // Renders Calendar.jsx component
   return (
-    <div className={styles.calendarBody}>
+    <animated.div className={styles.calendarBody} style={fadeIn}>
       <div className={`d-flex justify-content-center align-items-center h-100`}>
         <div className={`${styles.calendarCard}`}>
           <div className="card-body">
@@ -86,7 +95,7 @@ const Calendar = () => {
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
   // End of Calendar.jsx component
 };

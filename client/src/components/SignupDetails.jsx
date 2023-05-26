@@ -153,7 +153,7 @@ function SignupDetails() {
               onChange={handleChange}
             >
               <option disabled>Fitness Goals</option>
-              <option value="Losing weight">Losing weight</option>
+              <option value="Lose weight">Losing weight</option>
               <option value="Gain muscle">Gain muscle</option>
               <option value="Maintain Figure">Maintain figure</option>
             </select>

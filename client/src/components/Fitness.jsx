@@ -45,12 +45,16 @@ getName();
 // Called immediately upon page loading.
 var doneToday = false;
 async function getDoneToday() {
-  var response = await axios.get(
-    `https://healthify-enxj.onrender.com/doneToday/${username}`
-  );
-  doneToday = response.data;
+  try {
+    var response = await axios.get(
+      `https://healthify-enxj.onrender.com/doneToday/${username}`
+    );
+    doneToday = response.data;
+    return doneToday;
+  } catch (error) {
+    console.log(error);
+  }
 }
-getDoneToday();
 
 // Function retrieves the user's sex which is used to filter which exercise gif images are displayed
 // and stores it globally in the variable 'sex'.
@@ -191,14 +195,16 @@ function Workout({ handleOpenModal }) {
   // Source: Adapted from ChatGPT
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
-  today.setDate(today.getDate() + daysToAdd);
+  const pstOptions = { timeZone: "America/Los_Angeles" };
+  const pstToday = new Date(today.toLocaleString("en-US", pstOptions));
+  pstToday.setDate(today.getDate() + daysToAdd);
   const dateOptions = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
-  const date = today.toLocaleDateString("en-CA", dateOptions);
+  const date = pstToday.toLocaleDateString("en-CA", dateOptions);
   const [dayOfWorkoutPlan, setDayOfWorkoutPlan] = useState(0);
   // Handle 'next day' pagination button
   const handleIncrementDays = () => {
@@ -496,6 +502,20 @@ function Workout({ handleOpenModal }) {
 // Each button inc/decrements a local storage value used to enable/disable the completeAllExercises button.
 const CompleteExercisesButton = (props) => {
   const [isChecked, setIsChecked] = useState(false);
+  const [exercisesDone, setExercisesDone] = useState(false);
+
+  useEffect(() => {
+    async function fetchDoneToday(){
+      try{
+        const result = await getDoneToday();
+        setExercisesDone(result);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchDoneToday();
+  }, []);
+
   const handleClick = () => {
     setIsChecked(!isChecked);
     if (!isChecked) {
@@ -518,14 +538,15 @@ const CompleteExercisesButton = (props) => {
         type="checkbox"
         className="btn-check"
         id={`doneExercise${props.index}`}
+        disabled={exercisesDone}
       ></input>
       <label
         onClick={handleClick}
         className={`btn ${styles.doneExerciseButton}`}
         htmlFor={`doneExercise${props.index}`}
-        disabled={doneToday}
+        disabled={exercisesDone}
       >
-        Completed!
+        {isChecked || exercisesDone ? "Completed!" : "Complete"}
       </label>
     </div>
   );
@@ -609,14 +630,13 @@ const Streak = () => {
 
 // The Main component for the page.
 const Fitness = () => {
-
-    // Visual text animation effects
-    const fadeIn = useSpring({
-      opacity: 1,
-      from: {opacity: 0},
-      delay: 600,
-    });
-    // End of visual text animation effects
+  // Visual text animation effects
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 600,
+  });
+  // End of visual text animation effects
 
   // Hides the workout form to generate a new workout plan unless user button to open it.
   const [isWorkoutFormVisible, setWorkoutFormVisible] = useState(false);
@@ -638,8 +658,8 @@ const Fitness = () => {
     setFormSubmitting(true);
 
     // Use today's date as the key to store the newly generated workout plan in the user's database.
-    const today = new Date().toISOString().slice(0, 10);
-    const workoutKey = "workout_" + today;
+    const pstDateString = new Date().toISOString().slice(0, 10);
+    const workoutKey = "workout_" + pstDateString;
     const workout = {};
 
     // Get the user-selected muscle groups and intensity level
@@ -858,75 +878,81 @@ const Fitness = () => {
           </label>
           <p>Select desired intensity level</p>
           <br />
-<div className={styles.muscles}>
-          {/* User can choose muscle groups they want to focus on to send to workout generation.*/}
-          <input
-            type="checkbox"
-            name="arms"
-            className="btn-check"
-            id="arms"
-          ></input>
-          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="arms">
-            Arms
-          </label>
-          <input
-            type="checkbox"
-            name="legs"
-            className="btn-check"
-            id="legs"
-          ></input>
-          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="legs">
-            Legs
-          </label>
-          <input
-            type="checkbox"
-            name="chest"
-            className="btn-check"
-            id="chest"
-          ></input>
-          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="chest">
-            Chest
-          </label>
-          <input
-            type="checkbox"
-            name="back"
-            className="btn-check"
-            id="back"
-          ></input>
-          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="back">
-            Back
-          </label>
-          <input
-            type="checkbox"
-            name="shoulders"
-            className="btn-check"
-            id="shoulders"
-          ></input>
-          <label
-            className={`btn ${styles.muscleGroupButton}`}
-            htmlFor="shoulders"
-          >
-            Shoulders
-          </label>
-          <input
-            type="checkbox"
-            name="core"
-            className="btn-check"
-            id="core"
-          ></input>
-          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="core">
-            Core
-          </label>
-          <input
-            type="checkbox"
-            name="glutes"
-            className="btn-check"
-            id="glutes"
-          ></input>
-          <label className={`btn ${styles.muscleGroupButton}`} htmlFor="glutes">
-            Glutes
-          </label>
-          <p>Select muscle group(s) you want to focus on</p>
+          <div className={styles.muscles}>
+            {/* User can choose muscle groups they want to focus on to send to workout generation.*/}
+            <input
+              type="checkbox"
+              name="arms"
+              className="btn-check"
+              id="arms"
+            ></input>
+            <label className={`btn ${styles.muscleGroupButton}`} htmlFor="arms">
+              Arms
+            </label>
+            <input
+              type="checkbox"
+              name="legs"
+              className="btn-check"
+              id="legs"
+            ></input>
+            <label className={`btn ${styles.muscleGroupButton}`} htmlFor="legs">
+              Legs
+            </label>
+            <input
+              type="checkbox"
+              name="chest"
+              className="btn-check"
+              id="chest"
+            ></input>
+            <label
+              className={`btn ${styles.muscleGroupButton}`}
+              htmlFor="chest"
+            >
+              Chest
+            </label>
+            <input
+              type="checkbox"
+              name="back"
+              className="btn-check"
+              id="back"
+            ></input>
+            <label className={`btn ${styles.muscleGroupButton}`} htmlFor="back">
+              Back
+            </label>
+            <input
+              type="checkbox"
+              name="shoulders"
+              className="btn-check"
+              id="shoulders"
+            ></input>
+            <label
+              className={`btn ${styles.muscleGroupButton}`}
+              htmlFor="shoulders"
+            >
+              Shoulders
+            </label>
+            <input
+              type="checkbox"
+              name="core"
+              className="btn-check"
+              id="core"
+            ></input>
+            <label className={`btn ${styles.muscleGroupButton}`} htmlFor="core">
+              Core
+            </label>
+            <input
+              type="checkbox"
+              name="glutes"
+              className="btn-check"
+              id="glutes"
+            ></input>
+            <label
+              className={`btn ${styles.muscleGroupButton}`}
+              htmlFor="glutes"
+            >
+              Glutes
+            </label>
+            <p>Select muscle group(s) you want to focus on</p>
           </div>
           <br />
 
@@ -980,7 +1006,7 @@ const Fitness = () => {
           numberOfExercises !== 0 || completeAllExercisesClicked || doneToday
         }
       >
-        Mark ALL exercises complete!
+        All exercises completed!
       </button>
     </animated.div>
   );
