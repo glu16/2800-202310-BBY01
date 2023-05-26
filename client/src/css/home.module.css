@@ -87,9 +87,11 @@
 .diet {
   margin-left: 0 !important;
 }
+
 .calories {
   color: white;
 }
+
 .progressHeader {
   text-align: center;
   color: rgb(92, 208, 216);
@@ -125,7 +127,6 @@
 }
 
 .progressBtn {
-  margin-top: 22px;
   background-color: hsl(184, 61%, 40%);
   border: none;
 }

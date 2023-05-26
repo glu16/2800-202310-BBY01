@@ -26,12 +26,12 @@
   max-width: 1400px;
   border-radius: 10px;
   text-align: center;
-  margin-top: 160px;
+  margin-top: 110px;
 }
 
 .aboutImg {
-  height: 200px;
-  width: 200px;
+  height: 150px;
+  width: 150px;
 }
 
 .aboutImgDesc {
@@ -61,6 +61,6 @@
     max-width: 1400px;
     border-radius: 10px;
     text-align: center;
-    margin-top: 900px;
+    margin-top: 700px;
   }
 }

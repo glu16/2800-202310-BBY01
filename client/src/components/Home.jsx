@@ -518,7 +518,6 @@ const Home = () => {
       );
       localStorage.setItem("userChallenges", JSON.stringify(updatedChallenges));
 
-      // console.log("Challenge completed and points added!");
       window.alert("Challenge completed and points added!");
     } catch (error) {
       console.error("Error occurred while completing challenge:", error);
