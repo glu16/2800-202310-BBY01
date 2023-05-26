@@ -191,14 +191,16 @@ function Workout({ handleOpenModal }) {
   // Source: Adapted from ChatGPT
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
-  today.setDate(today.getDate() + daysToAdd);
+  const pstOptions = { timeZone: 'America/Los_Angeles'};
+  const pstToday = new Data(today.toLocaleString('en-US', pstOptions))
+  pstToday.setDate(today.getDate() + daysToAdd);
   const dateOptions = {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
   };
-  const date = today.toLocaleDateString("en-CA", dateOptions);
+  const date = pstToday.toLocaleDateString("en-CA", dateOptions);
   const [dayOfWorkoutPlan, setDayOfWorkoutPlan] = useState(0);
   // Handle 'next day' pagination button
   const handleIncrementDays = () => {
@@ -638,8 +640,8 @@ const Fitness = () => {
     setFormSubmitting(true);
 
     // Use today's date as the key to store the newly generated workout plan in the user's database.
-    const today = new Date().toISOString().slice(0, 10);
-    const workoutKey = "workout_" + today;
+    const pstDateString = new Date().toISOString().slice(0, 10);
+    const workoutKey = "workout_" + pstDateString;
     const workout = {};
 
     // Get the user-selected muscle groups and intensity level

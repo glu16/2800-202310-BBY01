@@ -220,7 +220,9 @@ function parseAI(res) {
 
       // assign the day key as today's date + i
       const today = new Date();
-      today.setDate(today.getDate() + i - 1);
+      const pstOptions = { timeZone: 'America/Los_Angeles'};
+      const pstToday = new Data(today.toLocaleString('en-US', pstOptions))
+      pstToday.setDate(today.getDate() + i - 1);
       const dateOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
       const date = today.toLocaleDateString("en-CA", dateOptions);
       try {

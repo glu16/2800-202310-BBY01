@@ -6,7 +6,7 @@ import { useSpring, animated } from "react-spring";
 import "../css/main.css";
 // CSS module import statement
 import styles from "../css/about.module.css";
-
+// Image import statements
 import niko from "../img/niko.png";
 import leroy from "../img/leroy.png";
 import gin from "../img/gin.png";
