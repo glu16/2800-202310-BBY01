@@ -13,16 +13,16 @@ const openai = new OpenAIApi(
 );
 
 // CREATE PROMPT FOR OPENAI TO HANDLE
-function createPrompt( 
-  sex, 
-  age, 
-  height, 
-  weight, 
-  activityLevel, 
-  goal, 
-  muscleGroups, 
-  level) {
-  
+function createPrompt(
+  sex,
+  age,
+  height,
+  weight,
+  activityLevel,
+  goal,
+  muscleGroups,
+  level
+) {
   // Static variable but future plans to add this as another user-selected option
   var environment = "indoor"; // indoor, outdoor, either
 
@@ -30,8 +30,10 @@ function createPrompt(
   var inputPrompt = "";
   inputPrompt += `I am a ${age} ${sex} ${height} metres tall and weigh ${weight} kilograms. `;
   inputPrompt += `I am ${activityLevel}. My goal is to ${goal}. `;
-  inputPrompt += `Give me a ${level} level, 7-day workout routine with a focus on the following muscle groups: ` 
-    + muscleGroups.join(", ") + ". ";
+  inputPrompt +=
+    `Give me a ${level} level, 7-day workout routine with a focus on the following muscle groups: ` +
+    muscleGroups.join(", ") +
+    ". ";
   inputPrompt += "I only want " + environment + " activities. ";
 
   // ADD FORMATTING CONSTRAINTS TO PROMPT
@@ -60,7 +62,6 @@ async function runAI(
   muscleGroups,
   level
 ) {
-
   // GET INPUTPROMPT
   var input = await createPrompt(
     sex,
@@ -111,7 +112,8 @@ function parseAI(res) {
       console.log("day: " + day);
       var exercises = {};
       var jAdjusted = 0; // tracks j minus the ones skipped
-      for (let j = 1; j < day.length; j++) {   // starting j=1 because 1st line is unwanted
+      for (let j = 1; j < day.length; j++) {
+        // starting j=1 because 1st line is unwanted
         jAdjusted++;
         // skips empty spaces and last total conclusion paragraph
         if (day[j].length < 3 || day[j].includes("Total")) {
@@ -220,11 +222,16 @@ function parseAI(res) {
 
       // assign the day key as today's date + i
       const today = new Date();
-      const pstOptions = { timeZone: 'America/Los_Angeles'};
-      const pstToday = new Date(today.toLocaleString('en-US', pstOptions))
+      const pstOptions = { timeZone: "America/Los_Angeles" };
+      const pstToday = new Date(today.toLocaleString("en-US", pstOptions));
       pstToday.setDate(today.getDate() + i - 1);
-      const dateOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric", };
-      const date = today.toLocaleDateString("en-CA", dateOptions);
+      const dateOptions = {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      };
+      const date = pstToday.toLocaleDateString("en-CA", dateOptions);
       try {
         workoutPlan = Object.assign(workoutPlan, {
           [date]: exercises,

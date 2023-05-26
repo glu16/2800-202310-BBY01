@@ -28,7 +28,9 @@ function Diet() {
   // Use today's variable to determine which day of diet is rendered to display
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
-  today.setDate(today.getDate() + daysToAdd);
+  const pstOptions = { timeZone: "America/Los_Angeles" };
+  const pstToday = new Date(today.toLocaleString("en-US", pstOptions));
+  pstToday.setDate(today.getDate() + daysToAdd);
   // Format the date to a specific format
   const dateOptions = {
     weekday: "long",
@@ -36,7 +38,7 @@ function Diet() {
     month: "long",
     day: "numeric",
   };
-  const date = today.toLocaleDateString("en-CA", dateOptions);
+  const date = pstToday.toLocaleDateString("en-CA", dateOptions);
 
   // Handle click event to show today's diet plan
   const handleToday = () => {
