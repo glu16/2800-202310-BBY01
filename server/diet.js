@@ -155,9 +155,7 @@ function parseAI(res) {
         meals = "Rest day";
       }
       const today = new Date();
-      const pstOptions = { timeZone: "America/Los_Angeles" };
-      const pstToday = new Date(today.toLocaleString("en-US", pstOptions));
-      pstToday.setDate(today.getDate() + i - 1);
+      today.setDate(today.getDate() + i - 1);
       const dateOptions = {
         weekday: "long",
         year: "numeric",
