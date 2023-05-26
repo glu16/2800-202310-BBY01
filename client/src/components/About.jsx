@@ -13,6 +13,14 @@ import gin from "../img/gin.png";
 import felix from "../img/felix.png";
 
 const About = () => {
+  // Visual page animation effects
+  const fadeIn = useSpring({
+    opacity: 1,
+    from: { opacity: 0 },
+    delay: 500,
+  });
+  // End of visual page animation effects
+
   // Visual text animation effects
   const greetings = useSpring({
     opacity: 1,
@@ -23,8 +31,9 @@ const About = () => {
 
   // Renders About.jsx component
   return (
-    <div
+    <animated.div
       className={`d-flex justify-content-center align-items-center h-100 ${styles.aboutBody}`}
+      style={fadeIn}
     >
       <div className={`card-body ${styles.aboutCard}`}>
         <animated.h1 className={styles.aboutHeader} style={greetings}>
@@ -70,7 +79,7 @@ const About = () => {
           </div>
         </div>
       </div>
-    </div>
+    </animated.div>
   );
   // End of About.jsx component
 };
