@@ -54,4 +54,14 @@
     border-radius: 10px;
     text-align: center;
   }
+
+  .workoutEventTitle,
+  .workoutEvent {
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    margin: auto;
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
 }
