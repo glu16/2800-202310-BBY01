@@ -192,7 +192,7 @@ function Workout({ handleOpenModal }) {
   const [daysToAdd, setDaysToAdd] = useState(0);
   const today = new Date();
   const pstOptions = { timeZone: 'America/Los_Angeles'};
-  const pstToday = new Data(today.toLocaleString('en-US', pstOptions))
+  const pstToday = new Date(today.toLocaleString('en-US', pstOptions))
   pstToday.setDate(today.getDate() + daysToAdd);
   const dateOptions = {
     weekday: "long",
